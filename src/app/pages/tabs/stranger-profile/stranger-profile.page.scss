@@ -1,0 +1,112 @@
+.top-container{
+  padding: 26px;
+  height: auto;
+  display: flex;
+  .badge-container{
+    background: #1E90FF;
+    border-radius: 8px;
+    width: 72px;
+    height: 24px;
+    color: #FFFFFF;
+  }
+  .back-button{
+    position: absolute;
+  }
+  .top-tabs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .plus-icon{
+      max-width: unset;
+    }
+    .tab-container{
+      margin-right: 8px;
+      display: flex;
+      align-items: center;
+      border: 1px solid #1E90FF;
+      border-radius: 8px;
+      div{
+        padding: 0.375rem 1rem;
+        border-radius: 7px;
+        white-space: pre;
+        font-size: 18px;
+        line-height: 20px;
+        color: #D5D5D5;
+        &.active{
+          background: #1E90FF;
+          color: #FFFFFF;
+        }
+      }
+    }
+  }
+  .top-avatar{
+    width: 100%;
+    .follower-content{
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+      .text{
+        font-size: 12px;
+        line-height: 13px;
+        color: #D5D5D5;
+      }
+      .number{
+        margin-right: 6px;
+        font-size: 14px;
+        line-height: 16px;
+        color: #6A40D6;
+
+      }
+      .follower{
+        display: flex;
+        align-items: center;
+        margin-right: 1.5rem;
+      }
+      .following{
+        display: flex;
+        align-items: center;
+      }
+    }
+    .avatar-container{
+      height: 96px;
+      width: 96px;
+      margin:0 auto 1rem;
+      border-radius: 100px;
+      background: #FFFFFF;
+      img{
+        width: 100%;
+      }
+    }
+    .name{
+      font-size: 24px;
+      line-height: 27px;
+    }
+  }
+}
+.content{
+  padding: 0 24px 30%;
+  @media (max-width: 320px) {
+    padding: 0 0 30% !important;
+  }
+  .product-amount{
+    font-size: 9px;
+    color: #D5D5D5;
+    margin-bottom: 1rem;
+  }
+  .product-title{
+    margin-bottom: 3px;
+    font-size: 12px;
+  }
+  .card{
+    width: 96px;
+    height: 124px;
+    border: 1px solid #D5D5D5;
+    border-radius: 8px;
+    overflow: hidden;
+    margin:0 auto 4px;
+    img{
+      height: 100%;
+    }
+  }
+}

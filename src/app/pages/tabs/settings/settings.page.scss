@@ -1,0 +1,95 @@
+.main {
+  background: #6A40D6;
+  height: 50%;
+  .top-container {
+    height: auto;
+    padding: 26px;
+
+    .profile-content {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 0.25rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+
+      .person-info {
+        display: flex;
+        align-items: center;
+
+        .name-text {
+          font-size: 18px;
+        }
+
+        .img-container {
+          width: 48px;
+          height: 48px;
+          background: #6A40D6;
+          border-radius: 50px;
+          overflow: hidden;
+          margin-right: 1rem;
+        }
+      }
+    }
+
+    .notification-content {
+      position: absolute;
+
+      .badge-notification {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #1E90FF;
+        color: #FFFFFF;
+        font-size: 9px;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50px;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+      }
+    }
+
+    .page-title {
+      width: 100%;
+      font-size: 24px;
+      line-height: 27px;
+      color: #FFFFFF;
+      margin-bottom: 32px;
+    }
+  }
+}
+
+.main-content {
+  border-top-right-radius: 32px;
+  border-top-left-radius: 32px;
+  background: #FFFFFF;
+  padding: 1rem 1.5rem 38%;
+  .inner-item{
+    padding: 8px 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    .list-item{
+      display: flex;
+      align-items: center;
+      .icon-container{
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
+        overflow: hidden;
+        background: #1E90FF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 8px;
+      }
+      .item{
+        font-size: 18px;
+      }
+    }
+  }
+}

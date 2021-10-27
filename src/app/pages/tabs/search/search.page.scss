@@ -1,0 +1,120 @@
+.top-container {
+  padding: 26px;
+  height: auto;
+  display: flex;
+  margin-bottom: 5px;
+  .search-bar{
+    ion-searchbar{
+      height: 56px;
+      border: 1px solid #6A40D6;
+      border-radius: 16px;
+    }
+     ::ng-deep input{
+        background: #FFFFFF;
+      }
+    ::ng-deep ion-icon{
+      color: #1E90FF;
+    }
+  }
+  .top-avatar {
+    width: 100%;
+
+    .follower-content {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      justify-content: center;
+
+      .text {
+        font-size: 12px;
+        line-height: 13px;
+        color: #D5D5D5;
+      }
+
+      .number {
+        margin-right: 6px;
+        font-size: 14px;
+        line-height: 16px;
+        color: #6A40D6;
+
+      }
+
+      .follower {
+        display: flex;
+        align-items: center;
+        margin-right: 1.5rem;
+      }
+
+      .following {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .avatar-container {
+      height: 96px;
+      width: 96px;
+      margin: 2rem auto 1rem;
+      border-radius: 100px;
+      background: #FFFFFF;
+    }
+
+    .name {
+      font-size: 24px;
+      line-height: 27px;
+    }
+  }
+}
+
+.content {
+  padding: 0 24px 30%;
+  @media (max-width: 320px) {
+    padding: 0 0 38% !important;
+  }
+
+  .profile-list-item {
+    padding: 4px 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.5px solid #D5D5D5;
+    margin-bottom: 8px;
+
+    .follow-info {
+      font-weight: 300;
+      font-size: 9px;
+      background: #1E90FF;
+      color: #ffff;
+      border: 1px solid #1E90FF;
+      border-radius: 8px;
+      width: 72px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &.active{
+        background: #FFFFFF;
+        color: #6A40D6;
+        border: 1px solid #6A40D6;
+      }
+    }
+
+    .person-info {
+      display: flex;
+      align-items: center;
+
+      .name {
+        font-size: 16px;
+      }
+
+      .img-container {
+        height: 40px;
+        margin-right: 8px;
+        width: 40px;
+        border-radius: 50px;
+        overflow: hidden;
+        background: transparent;
+      }
+    }
+  }
+}

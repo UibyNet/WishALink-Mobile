@@ -1,0 +1,25 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { AddProductPage } from './add-product.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: AddProductPage
+  },
+  {
+    path: 'choose-category',
+    loadChildren: () => import('./choose-category/choose-category.module').then( m => m.ChooseCategoryPageModule)
+  },
+  {
+    path: 'add-category',
+    loadChildren: () => import('./add-category/add-category.module').then( m => m.AddCategoryPageModule)
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class AddProductPageRoutingModule {}

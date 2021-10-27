@@ -1,0 +1,7 @@
+{
+  "name": "Wish A Link",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

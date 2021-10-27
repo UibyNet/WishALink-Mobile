@@ -1,0 +1,137 @@
+<ion-content>
+  <div *ngIf="stepper === 1" class="register-container">
+    <div routerLink="/intro" class="back-button">
+      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+    </div>
+    <div class="ion-text-center text-container ion-margin-bottom">
+      Wish a Link’e üye olunuz
+    </div>
+    <div class="ion-margin-bottom sub-text">
+      Sevdiklerimize hediye seçme derdine son
+      <div class="register-horizontal">
+        <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+      </div>
+    </div>
+
+    <div class="bottom-container">
+      <div class="img-container">
+        <img src="../../../assets/svg/register/photo.svg" alt="Icon">
+      </div>
+      <div>
+        <div class="input-container">
+          <ion-input [(ngModel)]="name" (ionChange)="onAutoFormatChangedName()" class="ion-margin-bottom" placeholder="İsim"></ion-input>
+          <ion-input [(ngModel)]="surname" (ionChange)="onAutoFormatChangedSurname()" class="ion-margin-bottom" placeholder="Soyisim"></ion-input>
+          <ion-input class="ion-margin-bottom" placeholder="E-mail"></ion-input>
+          <ion-input class="ion-margin-bottom" placeholder="Adres"></ion-input>
+        </div>
+      </div>
+      <div class="ion-padding-horizontal">
+        <ion-button (click)="stepper=stepper+1">Devam Et</ion-button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="stepper === 2" class="register-container">
+    <div (click)="stepper=stepper-1" class="back-button">
+      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+    </div>
+    <div class="ion-text-center phone-title-container  ion-margin-bottom">
+      Wish a Link’e hoş geldiniz
+      lütfen numarınızı giriniz
+    </div>
+
+    <div class="bottom-container">
+      <div class="absolute-horizontal">
+        <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+      </div>
+      <div>
+        <div class="input-number-container">
+          <form>
+              <ion-intl-tel-input
+                id="phone-number"
+                class="number-input"
+                defaultCountryiso="tr"
+                inputPlaceholder="5xx xxx xx xx"
+                name="phone-number">
+              </ion-intl-tel-input>
+          </form>
+        </div>
+      </div>
+      <div class="ion-padding-horizontal button-container-number">
+        <ion-button (click)="stepper=stepper+1">Devam Et</ion-button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="stepper === 3" class="register-container">
+    <div (click)="stepper=stepper-1" class="back-button">
+      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+    </div>
+    <div class="ion-text-center phone-title-container  ion-margin-bottom">
+      Wish a Link’e hoş geldiniz
+      lütfen ‘’Onay Kodunu’’ giriniz
+    </div>
+
+    <div class="bottom-container">
+      <div>
+        <div class="input-number-container">
+          <code-input class="code-input" [isCodeHidden]="false"
+                      [codeLength]="4"
+                      (codeChanged)="onCodeChanged($event)"
+                      (codeCompleted)="onCodeCompleted($event)">
+          </code-input>
+        </div>
+      </div>
+      <div class="ion-padding-horizontal button-container-number">
+        <ion-button (click)="stepper=stepper+1" >Devam Et</ion-button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="stepper === 4" class="register-container">
+    <div (click)="stepper=stepper-1" class="back-button">
+      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+    </div>
+    <div class="ion-text-center text-container-pass ion-margin-bottom">
+      Şifrenizi oluşturunuz
+    </div>
+    <div class="sub-text-password ion-text-center mx-32">
+      Hesabınızın güvenliğini sağlamak için dört basamaklı bir parola oluşturunuz
+    </div>
+    <div class="bottom-container">
+      <div>
+        <div class="input-number-container">
+          <code-input class="code-input" [isCodeHidden]="true"
+                      [codeLength]="4"
+                      (codeChanged)="onCodeChanged($event)"
+                      (codeCompleted)="onCodeCompleted($event)">
+          </code-input>
+        </div>
+      </div>
+      <div class="ion-padding-horizontal button-container-number">
+        <ion-button (click)="stepper=stepper+1">Devam Et</ion-button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="stepper === 5" class="register-container">
+    <div (click)="stepper=stepper-1" class="back-button">
+      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+    </div>
+    <div class="ion-text-center text-container mb-40 ion-margin-bottom">
+      Sizi daha yakından tanıyabilmemiz için favori ürünlerinizi işaretleyebilirsiniz
+    </div>
+    <div class="bottom-container">
+      <div class="grid-container">
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngFor="let product of categories" class="ion-text-center" size="4">
+              <div [ngClass]="{'active' : selectedProducts.indexOf(product.id)> -1}" (click)="selectProduct(product.id)" class="select-content">
+                {{product.text}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="ion-padding-horizontal">
+        <ion-button routerLink="/tabs">Devam Et</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

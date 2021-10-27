@@ -1,0 +1,57 @@
+.main {
+  background: #6A40D6;
+  height: 50%;
+
+  .top-container {
+    height: auto;
+    padding: 26px;
+
+    .page-title {
+      width: 100%;
+      font-size: 24px;
+      line-height: 27px;
+      color: #FFFFFF;
+      margin-bottom: 24px;
+    }
+  }
+}
+
+.main-content {
+  border-top-right-radius: 32px;
+  border-top-left-radius: 32px;
+  background: #FFFFFF;
+  position: relative;
+  padding-bottom: 38%;
+  .badge{
+    width: 48px;
+    background: #1E90FF;
+    border-radius: 6px;
+    height: 18px;
+    color: #FFFFFF;
+  }
+  button{
+    background: transparent;
+    color :#6A40D6;
+  }
+  .writing-area{
+    border-radius: 1rem;
+    border: 1px solid #6A40D5;
+    padding: 1rem .5rem;
+    min-height: 288px;
+  }
+  .img-container-absolute{
+    position: absolute;
+    top: -50px;
+    width: 80px;
+    height: 96px;
+    overflow: hidden;
+    border-radius: 1rem;
+    right: 0;
+    left: 0;
+    margin: auto;
+    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25))
+  }
+}
+.mt-6{
+  margin-top: 2.4rem;
+}

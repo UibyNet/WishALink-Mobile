@@ -1,0 +1,27 @@
+<ion-router-outlet></ion-router-outlet>
+
+<div class="bottom-nav-container">
+  <div class="nav-inner">
+    <div class="left-inner">
+      <div routerLink="/tabs/calendar" routerDirection="root" [routerLinkActive]="['active']" class="item-container">
+        <img src="../../../assets/svg/tabs/calendar.svg" alt="Icon">
+      </div>
+      <div routerLink="/tabs/suggestion" routerDirection="root" [routerLinkActive]="['active']" class="item-container">
+        <img src="../../../assets/svg/tabs/suggestion.svg" alt="Icon">
+      </div>
+    </div>
+    <div class="round-light">
+      <div routerLink="/tabs/home" routerDirection="root" [routerLinkActive]="['active']" class="round-inner">
+        <img src="../../../assets/svg/tabs/home.svg" alt="Icon">
+      </div>
+    </div>
+    <div class="right-inner">
+      <div routerLink="/tabs/search" routerDirection="root" [routerLinkActive]="['active']" class="item-container">
+        <img src="../../../assets/svg/tabs/search.svg" alt="Icon">
+      </div>
+      <div routerLink="/tabs/settings" routerDirection="root" [routerLinkActive]="['active']" class="item-container">
+        <img src="../../../assets/svg/tabs/settings.svg" alt="Icon">
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+.top-container {
+  padding: 26px 26px 16px;
+  height: auto;
+  display: flex;
+  border-bottom: 0.5px solid #D5D5D5;
+  .back-button {
+    position: absolute;
+  }
+  button{
+    background: transparent;
+    font-size: 9px;
+    line-height: 10px;
+    text-decoration-line: underline;
+    color: #6A40D6;
+  }
+  .top-avatar {
+    width: 100%;
+    .avatar-container {
+      height: 56px;
+      width: 56px;
+      margin: 2rem auto 8px;
+      border-radius: 100px;
+      background: #FFFFFF;
+    }
+    .category-info{
+      font-weight: 300;
+      font-size: 12px;
+      margin-bottom: 6px;
+      color: #D5D5D5;
+
+    }
+    .category-name {
+      font-size: 24px;
+      margin-bottom: 6px;
+      line-height: 27px;
+    }
+  }
+}
+.mb-8{
+  margin-bottom: 8px;
+}
+.product-content{
+  padding: 0 1rem 28%;
+  @media (max-width: 320px) {
+    padding: 0 0 28% !important;
+  }
+  .item-container{
+    border-bottom: 0.5px solid #D5D5D5;
+    padding: 0 32px;
+    &:not(:last-child){
+      margin-bottom: 6px;
+    }
+    .img-bottom::after{
+      position: absolute;
+      content: "";
+      background: white;
+      width: 5rem;
+      height: 1px;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+    .col-custom{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .product-name{
+      font-size: 16px;
+      line-height: 18px;
+      margin-right: 18px;
+    }
+    .badge-container{
+      width: 48px;
+      height: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #1E90FF;
+      border-radius: 6px;
+      font-size: 9px;
+      line-height: 10px;
+      color: #FFFFFF;
+      &:not(:last-child){
+        margin-right: 8px;
+      }
+    }
+    .img-product-container{
+      height: 124px;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+.add-product{
+  width: 48px;
+  height: 48px;
+  background: #1E90FF;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  right: 0;
+  left: 0;
+  margin: auto;
+  bottom: 28px;
+}

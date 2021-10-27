@@ -1,0 +1,55 @@
+.img-avatar {
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+  border-radius: 100px;
+
+  img {
+    width: 100%;
+  }
+}
+
+.round-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50px;
+  background: #1E90FF;
+
+  img {
+    width: 12px;
+  }
+}
+
+::ng-deep table {
+  border: unset !important;
+  td {
+    border: unset !important;
+    font-size: 1rem !important;
+  }
+  th{
+    border: unset !important;
+    font-size: 14px !important;
+    color: #D5D5D5 !important;
+    letter-spacing: 0.38px !important;
+  }
+}
+::ng-deep .event-detail-container{
+  border: unset !important;
+}
+::ng-deep .monthview-selected{
+  background-color: transparent !important;
+  color: #1E90FF !important;
+}
+::ng-deep .monthview-current{
+  background-color: transparent !important;
+}
+.month-today-button{
+  background: transparent!important;
+  color: #6A40D6;
+}
+.date-info{
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 0.38px;
+  color: #6A40D6;
+}

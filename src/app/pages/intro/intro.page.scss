@@ -1,0 +1,105 @@
+.main-container {
+  background: #6A40D6;
+  height: 100%;
+
+  .logo-container {
+    text-align: center;
+    padding-top: 12rem;
+
+    img {
+      width: 300px;
+    }
+  }
+
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    margin-top: 5rem;
+
+    .rounded-icon-content {
+      width: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 48px;
+      background: #1E90FF;
+      box-shadow: 16px 0px 32px rgba(0, 0, 0, 0.24);
+      border-radius: 50px;
+    }
+
+    .dot-container {
+      position: absolute;
+      right: 18%;
+
+    }
+  }
+
+}
+
+::ng-deep .action-sheet-group.sc-ion-action-sheet-md:first-child {
+  border-top-right-radius: 16px;
+  border-top-left-radius: 16px;
+  overflow: unset;
+  height: 300px;
+  button:first-child{
+    margin-bottom: 32px;
+  }
+}
+
+::ng-deep .action-sheet-title.sc-ion-action-sheet-md::after {
+  position: absolute;
+  content: "";
+  width: 48px;
+  height: 48px;
+  border-radius: 50px;
+  right: 0;
+  background: #1E90FF;
+  background-repeat: no-repeat;
+  background-position: center;
+  left: 0;
+  box-shadow: 16px 0px 32px rgb(0 0 0 / 24%);
+  margin: auto;
+  top: -19px;
+  background-image: url("../../../assets/svg/intro/arrow-up.svg");
+}
+
+::ng-deep .action-sheet-title.sc-ion-action-sheet-md {
+  position: relative;
+}
+
+::ng-deep .action-sheet-group.sc-ion-action-sheet-md::after {
+  width: 135px;
+  height: 5px;
+  border-radius: 2.5px;
+  background: black;
+  right: 0;
+  left: 0;
+  margin: auto;
+  bottom: 8px;
+  position: absolute;
+  content: '';
+}
+::ng-deep .login{
+  margin-bottom: 32px;
+  height: 56px;
+  padding: 0 1.5rem !important;
+  span{
+    justify-content: center !important;
+    border: 1px solid #6A40D6;
+    border-radius: 16px;
+    color: #6A40D6;
+    font-size: 20px;
+  }
+}
+::ng-deep .register{
+  height: 56px;
+  padding: 0 1.5rem !important;
+  span{
+    justify-content: center !important;
+    background: #1E90FF;
+    border-radius: 16px;
+    color: white;
+    font-size: 20px;
+  }
+}
