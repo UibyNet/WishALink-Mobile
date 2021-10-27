@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { AlertController, LoadingController, ToastController } from "@ionic/angular";
 import jwt_decode from 'jwt-decode';
 import { LocalUser } from "../models/localuser";
+import { ErrorDto } from "./api.service";
 
 @Injectable({
 	providedIn: "root",
@@ -105,6 +106,11 @@ export class AppService {
 	}
 
 	async showErrorAlert(message: any) {
+		if(Array.isArray(message)) {
+			const errorDtos:ErrorDto[] = message;
+			message = errorDtos.map(x => x.message).join(' ');
+		}
+
 		await this.showAlert(message);
 	}
 

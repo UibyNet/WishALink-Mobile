@@ -17,6 +17,7 @@
     "nswag-gen": "nswag openapi2tsclient /input:https://panel.wishalink.com/apidoc/v1/api.json?key=wishalink /output:src/app/services/api.service.ts /Template:Angular /InjectionTokenType:InjectionToken /OperationGenerationMode:MultipleClientsFromPathSegments /ClassName:{controller}ApiService /DateTimeType:MomentJS"
   },
   "dependencies": {
+    "@angular/animations": "~12.1.1",
     "@angular/common": "~12.1.1",
     "@angular/core": "~12.1.1",
     "@angular/forms": "~12.1.1",

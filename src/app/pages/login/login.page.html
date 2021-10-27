@@ -14,17 +14,18 @@
       <div>
         <div class="input-container">
           <ion-intl-tel-input
+            [(ngModel)] = "intPhoneNumber"
             id="phone-numberlogin"
             class="number-input ion-margin-bottom"
             defaultCountryiso="tr"
             inputPlaceholder="5xx xxx xx xx"
             name="phone-number">
           </ion-intl-tel-input>
-          <ion-input type="password" placeholder="Şifre"></ion-input>
+          <ion-input [(ngModel)]="password" type="password" placeholder="Şifre"></ion-input>
         </div>
       </div>
       <div class="ion-padding-horizontal">
-        <ion-button (click)="stepper=stepper+1">Giriş Yap</ion-button>
+        <ion-button (click)="login()">Giriş Yap</ion-button>
       </div>
     </div>
   </div>
@@ -80,7 +81,7 @@
         </div>
       </div>
       <div class="ion-padding-horizontal">
-        <ion-button routerLink="/tabs">Devam Et</ion-button>
+        <ion-button (click)="verify()">Devam Et</ion-button>
       </div>
     </div>
   </div>

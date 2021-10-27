@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -9,7 +10,7 @@ import { IonIntlTelInputModule } from 'ion-intl-tel-input';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppPipesModule } from './pipes/pipes.module';
-import { ApiService, API_BASE_URL } from './services/api.service';
+import { AuthApiService, API_BASE_URL } from './services/api.service';
 import { TokenInterceptor } from './helpers/token.interceptor';
 import { AppService } from './services/app.service';
 
@@ -18,16 +19,16 @@ import { AppService } from './services/app.service';
   entryComponents: [],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     IonIntlTelInputModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AppPipesModule,
-    AppService,
-    ApiService,
+    AppPipesModule
   ],
-
   providers: [
+    AppService,
+    AuthApiService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: API_BASE_URL, useValue: "https://panel.wishalink.com" },
