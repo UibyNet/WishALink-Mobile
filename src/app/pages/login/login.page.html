@@ -25,40 +25,10 @@
         </div>
       </div>
       <div class="ion-padding-horizontal">
-        <ion-button (click)="login()">Giriş Yap</ion-button>
+        <ion-button (click)="login()" [disabled]="isLoading">{{ isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap' }}</ion-button>
       </div>
     </div>
   </div>
-<!--  <div *ngIf="stepper===2" class="login-container">-->
-<!--    <div (click)="stepper=stepper-1" class="back-button">-->
-<!--      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">-->
-<!--    </div>-->
-<!--    <div class="ion-text-center text-container">-->
-<!--      Wish a Link’e hoş geldiniz-->
-<!--      lütfen numarınızı giriniz-->
-<!--      <div class="horizontal-dots">-->
-<!--        <img src="../../../assets/svg/login/horizontal-dots.svg" alt="Icon">-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="bottom-container">-->
-<!--      <div>-->
-<!--        <div class="input-container">-->
-<!--          <form>-->
-<!--            <ion-intl-tel-input-->
-<!--              id="phone-number"-->
-<!--              class="number-input"-->
-<!--              defaultCountryiso="tr"-->
-<!--              inputPlaceholder="5xx xxx xx xx"-->
-<!--              name="phone-number">-->
-<!--            </ion-intl-tel-input>-->
-<!--          </form>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="ion-padding-horizontal">-->
-<!--        <ion-button (click)="stepper=stepper+1">Devam Et</ion-button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
   <div *ngIf="stepper===2" class="login-container">
     <div (click)="stepper=stepper-1" class="back-button">
       <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
@@ -81,7 +51,7 @@
         </div>
       </div>
       <div class="ion-padding-horizontal">
-        <ion-button (click)="verify()">Devam Et</ion-button>
+        <ion-button (click)="verify()" [disabled]="isLoading">{{ isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap'}}</ion-button>
       </div>
     </div>
   </div>

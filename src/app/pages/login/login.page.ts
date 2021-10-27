@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
   intPhoneNumber: any;
   password: string;
   otp: string;
+  isLoading: boolean = false;
 
   get phoneNumber(): string {
     return this.intPhoneNumber?.internationalNumber.match(/\d/g)?.join('');
@@ -47,6 +48,7 @@ export class LoginPage implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     const model = new LoginModel();
     model.phoneNumber = this.phoneNumber;
     model.password = this.password;
@@ -59,6 +61,8 @@ export class LoginPage implements OnInit {
   }
 
   onLogin(v: TokenModel): void {
+    this.isLoading = false;
+
     if (v.isNeedVerify) {
       this.stepper++;
     }
@@ -69,10 +73,14 @@ export class LoginPage implements OnInit {
   }
 
   onError(e: any): void {
+    this.isLoading = false;
+
     this.appService.showErrorAlert(e);
   }
 
   verify() {
+    this.isLoading = false;
+
     const model = new VerifyModel();
     model.phoneNumber = this.phoneNumber;
     model.otp = this.otp;
