@@ -11,6 +11,7 @@
     "build": "ionic build --prod",
     "sync": "ionic capacitor sync && node ./api/version.js",
     "resources": "cordova-res ios && cordova-res android && node ./api/resources.js",
+    "ios-run-l": "ionic capacitor run ios -l --external",
     "android-run-l": "ionic capacitor run android -l --external",
     "android-open": "ionic capacitor update android && npx cap open android",
     "ios-open": "ionic capacitor update ios && npx cap open ios",
