@@ -9,6 +9,9 @@
     <div class="top-avatar ion-text-center">
       <div class="avatar-container">
         <img src="../../../../assets/svg/home/avatar.png" alt="Avatar">
+        <div (click)="presentActionSheet()" class="avatar-options">
+          <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+        </div>
       </div>
       <div class="ion-margin-bottom name">
         <span *ngIf="userData">{{userData?.firstName}} {{userData?.lastName}}</span>

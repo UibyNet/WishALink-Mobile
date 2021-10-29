@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProfileApiService, User} from "../../../services/api.service";
 import {AppService} from "../../../services/app.service";
 import {ActivatedRoute} from "@angular/router";
+import {ActionSheetController} from "@ionic/angular";
 
 @Component({
     selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomePage implements OnInit {
     constructor(
         private apiService: ProfileApiService,
         private appService: AppService,
-        private activatedRoute:ActivatedRoute
+        private activatedRoute:ActivatedRoute,
+        private actionSheetController:ActionSheetController
     ) {
     }
 
@@ -34,14 +36,39 @@ export class HomePage implements OnInit {
     }
     private userInfo(v: User) {
         this.userData=v
+        console.log(this.userData)
         this.appService.toggleLoader(false)
     }
 
-    // private userInfo(res: User) {
-    //     this.userData = res
-    //     console.log(this.userData)
-    //     this.appService.toggleLoader(false)
-    // }
+    async presentActionSheet() {
+        const actionSheet = await this.actionSheetController.create({
+            header: '',
+            mode: 'md',
+            cssClass: 'my-custom-class',
+            buttons: [
+                {
+                    text: 'Profil resmini değiştir',
+                    cssClass: 'changeProfilePicture',
+                    icon:'image',
+                    handler: () => {
+                        // this.router.navigate(['login']);
+                    }
+                },
+                {
+                    text: 'Profil resmini kaldır',
+                    cssClass: 'changeProfilePicture',
+                    icon:'trash',
+                    handler: () => {
+                        // this.router.navigate(['register']);
+                    }
+                },
+            ]
+        });
+        await actionSheet.present();
+
+        const {role} = await actionSheet.onDidDismiss();
+        console.log('onDidDismiss resolved with role', role);
+    }
 
 
     private onError(error: any) {
