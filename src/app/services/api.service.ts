@@ -17,6 +17,301 @@ import * as moment from 'moment';
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 @Injectable()
+export class ActivityApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param userId (optional) 
+     * @return Success
+     */
+    list(userId: number | undefined): Observable<ActivityListModel[]> {
+        let url_ = this.baseUrl + "/api/activity/list?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processList(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityListModel[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityListModel[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processList(response: HttpResponseBase): Observable<ActivityListModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityListModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityListModel[]>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: ActivityEditModel | undefined): Observable<ActivityListModel> {
+        let url_ = this.baseUrl + "/api/activity/create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityListModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityListModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<ActivityListModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ActivityListModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityListModel>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    update(body: ActivityEditModel | undefined): Observable<ActivityListModel> {
+        let url_ = this.baseUrl + "/api/activity/update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityListModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityListModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<ActivityListModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ActivityListModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityListModel>(<any>null);
+    }
+
+    /**
+     * @param activityId (optional) 
+     * @return Success
+     */
+    delete(activityId: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/activity/delete?";
+        if (activityId === null)
+            throw new Error("The parameter 'activityId' cannot be null.");
+        else if (activityId !== undefined)
+            url_ += "activityId=" + encodeURIComponent("" + activityId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class AppsettingApiService {
     private http: HttpClient;
     private baseUrl: string;
@@ -1639,10 +1934,15 @@ export class ProfileApiService {
     }
 
     /**
+     * @param userId (optional) 
      * @return Success
      */
-    info(): Observable<User> {
-        let url_ = this.baseUrl + "/api/profile/info";
+    info(userId: number | undefined): Observable<SocialUserListModel> {
+        let url_ = this.baseUrl + "/api/profile/info?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1660,14 +1960,14 @@ export class ProfileApiService {
                 try {
                     return this.processInfo(<any>response_);
                 } catch (e) {
-                    return <Observable<User>><any>_observableThrow(e);
+                    return <Observable<SocialUserListModel>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<User>><any>_observableThrow(response_);
+                return <Observable<SocialUserListModel>><any>_observableThrow(response_);
         }));
     }
 
-    protected processInfo(response: HttpResponseBase): Observable<User> {
+    protected processInfo(response: HttpResponseBase): Observable<SocialUserListModel> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1678,7 +1978,7 @@ export class ProfileApiService {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = User.fromJS(resultData200);
+            result200 = SocialUserListModel.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -1700,7 +2000,7 @@ export class ProfileApiService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<User>(<any>null);
+        return _observableOf<SocialUserListModel>(<any>null);
     }
 
     /**
@@ -2193,320 +2493,11 @@ export class SocialApiService {
     }
 }
 
-@Injectable()
-export class SpecialdayApiService {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    /**
-     * @param userId (optional) 
-     * @return Success
-     */
-    list(userId: number | undefined): Observable<SpecialDayListModel[]> {
-        let url_ = this.baseUrl + "/api/specialday/list?";
-        if (userId === null)
-            throw new Error("The parameter 'userId' cannot be null.");
-        else if (userId !== undefined)
-            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processList(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processList(<any>response_);
-                } catch (e) {
-                    return <Observable<SpecialDayListModel[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<SpecialDayListModel[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processList(response: HttpResponseBase): Observable<SpecialDayListModel[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(SpecialDayListModel.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData400)) {
-                result400 = [] as any;
-                for (let item of resultData400)
-                    result400!.push(ErrorDto.fromJS(item));
-            }
-            else {
-                result400 = <any>null;
-            }
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SpecialDayListModel[]>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    create(body: SpecialDayEditModel | undefined): Observable<SpecialDayListModel> {
-        let url_ = this.baseUrl + "/api/specialday/create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(<any>response_);
-                } catch (e) {
-                    return <Observable<SpecialDayListModel>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<SpecialDayListModel>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<SpecialDayListModel> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = SpecialDayListModel.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData400)) {
-                result400 = [] as any;
-                for (let item of resultData400)
-                    result400!.push(ErrorDto.fromJS(item));
-            }
-            else {
-                result400 = <any>null;
-            }
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SpecialDayListModel>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    update(body: SpecialDayEditModel | undefined): Observable<SpecialDayListModel> {
-        let url_ = this.baseUrl + "/api/specialday/update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdate(<any>response_);
-                } catch (e) {
-                    return <Observable<SpecialDayListModel>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<SpecialDayListModel>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processUpdate(response: HttpResponseBase): Observable<SpecialDayListModel> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = SpecialDayListModel.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData400)) {
-                result400 = [] as any;
-                for (let item of resultData400)
-                    result400!.push(ErrorDto.fromJS(item));
-            }
-            else {
-                result400 = <any>null;
-            }
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<SpecialDayListModel>(<any>null);
-    }
-
-    /**
-     * @param specialDayId (optional) 
-     * @return Success
-     */
-    delete(specialDayId: number | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/specialday/delete?";
-        if (specialDayId === null)
-            throw new Error("The parameter 'specialDayId' cannot be null.");
-        else if (specialDayId !== undefined)
-            url_ += "specialDayId=" + encodeURIComponent("" + specialDayId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result400: any = null;
-            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData400)) {
-                result400 = [] as any;
-                for (let item of resultData400)
-                    result400!.push(ErrorDto.fromJS(item));
-            }
-            else {
-                result400 = <any>null;
-            }
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-}
-
-export class Address implements IAddress {
+export class ActivityEditModel implements IActivityEditModel {
     id?: number;
     name?: string | undefined;
-    contactName?: string | undefined;
-    phone?: string | undefined;
-    addressLine?: string | undefined;
-    directions?: string | undefined;
-    latitude?: number;
-    longitude?: number;
-    neighborhoodId?: number | undefined;
-    neighborhood?: Neighborhood;
-    districtId?: number | undefined;
-    district?: District;
-    provinceId?: number;
-    province?: Province;
-    countryId?: string | undefined;
-    country?: Country;
 
-    constructor(data?: IAddress) {
+    constructor(data?: IActivityEditModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2519,26 +2510,12 @@ export class Address implements IAddress {
         if (_data) {
             this.id = _data["Id"];
             this.name = _data["Name"];
-            this.contactName = _data["ContactName"];
-            this.phone = _data["Phone"];
-            this.addressLine = _data["AddressLine"];
-            this.directions = _data["Directions"];
-            this.latitude = _data["Latitude"];
-            this.longitude = _data["Longitude"];
-            this.neighborhoodId = _data["NeighborhoodId"];
-            this.neighborhood = _data["Neighborhood"] ? Neighborhood.fromJS(_data["Neighborhood"]) : <any>undefined;
-            this.districtId = _data["DistrictId"];
-            this.district = _data["District"] ? District.fromJS(_data["District"]) : <any>undefined;
-            this.provinceId = _data["ProvinceId"];
-            this.province = _data["Province"] ? Province.fromJS(_data["Province"]) : <any>undefined;
-            this.countryId = _data["CountryId"];
-            this.country = _data["Country"] ? Country.fromJS(_data["Country"]) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): Address {
+    static fromJS(data: any): ActivityEditModel {
         data = typeof data === 'object' ? data : {};
-        let result = new Address();
+        let result = new ActivityEditModel();
         result.init(data);
         return result;
     }
@@ -2547,45 +2524,60 @@ export class Address implements IAddress {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
         data["Name"] = this.name;
-        data["ContactName"] = this.contactName;
-        data["Phone"] = this.phone;
-        data["AddressLine"] = this.addressLine;
-        data["Directions"] = this.directions;
-        data["Latitude"] = this.latitude;
-        data["Longitude"] = this.longitude;
-        data["NeighborhoodId"] = this.neighborhoodId;
-        data["Neighborhood"] = this.neighborhood ? this.neighborhood.toJSON() : <any>undefined;
-        data["DistrictId"] = this.districtId;
-        data["District"] = this.district ? this.district.toJSON() : <any>undefined;
-        data["ProvinceId"] = this.provinceId;
-        data["Province"] = this.province ? this.province.toJSON() : <any>undefined;
-        data["CountryId"] = this.countryId;
-        data["Country"] = this.country ? this.country.toJSON() : <any>undefined;
         return data; 
     }
 }
 
-export interface IAddress {
+export interface IActivityEditModel {
     id?: number;
     name?: string | undefined;
-    contactName?: string | undefined;
-    phone?: string | undefined;
-    addressLine?: string | undefined;
-    directions?: string | undefined;
-    latitude?: number;
-    longitude?: number;
-    neighborhoodId?: number | undefined;
-    neighborhood?: Neighborhood;
-    districtId?: number | undefined;
-    district?: District;
-    provinceId?: number;
-    province?: Province;
-    countryId?: string | undefined;
-    country?: Country;
+}
+
+export class ActivityListModel implements IActivityListModel {
+    id?: number;
+    name?: string | undefined;
+
+    constructor(data?: IActivityListModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.name = _data["Name"];
+        }
+    }
+
+    static fromJS(data: any): ActivityListModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityListModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["Name"] = this.name;
+        return data; 
+    }
+}
+
+export interface IActivityListModel {
+    id?: number;
+    name?: string | undefined;
 }
 
 export class CategoryEditModel implements ICategoryEditModel {
     id?: number;
+    name?: string | undefined;
+    order?: number;
+    visual?: string | undefined;
 
     constructor(data?: ICategoryEditModel) {
         if (data) {
@@ -2599,6 +2591,9 @@ export class CategoryEditModel implements ICategoryEditModel {
     init(_data?: any) {
         if (_data) {
             this.id = _data["Id"];
+            this.name = _data["Name"];
+            this.order = _data["Order"];
+            this.visual = _data["Visual"];
         }
     }
 
@@ -2612,15 +2607,26 @@ export class CategoryEditModel implements ICategoryEditModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
+        data["Name"] = this.name;
+        data["Order"] = this.order;
+        data["Visual"] = this.visual;
         return data; 
     }
 }
 
 export interface ICategoryEditModel {
     id?: number;
+    name?: string | undefined;
+    order?: number;
+    visual?: string | undefined;
 }
 
 export class CategoryListModel implements ICategoryListModel {
+    id?: number;
+    name?: string | undefined;
+    order?: number;
+    isPredefined?: boolean;
+    visualUrl?: string | undefined;
 
     constructor(data?: ICategoryListModel) {
         if (data) {
@@ -2632,6 +2638,13 @@ export class CategoryListModel implements ICategoryListModel {
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.name = _data["Name"];
+            this.order = _data["Order"];
+            this.isPredefined = _data["IsPredefined"];
+            this.visualUrl = _data["VisualUrl"];
+        }
     }
 
     static fromJS(data: any): CategoryListModel {
@@ -2643,11 +2656,21 @@ export class CategoryListModel implements ICategoryListModel {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["Name"] = this.name;
+        data["Order"] = this.order;
+        data["IsPredefined"] = this.isPredefined;
+        data["VisualUrl"] = this.visualUrl;
         return data; 
     }
 }
 
 export interface ICategoryListModel {
+    id?: number;
+    name?: string | undefined;
+    order?: number;
+    isPredefined?: boolean;
+    visualUrl?: string | undefined;
 }
 
 export class Contact implements IContact {
@@ -2926,54 +2949,6 @@ export interface IForgotModel {
     phoneNumber?: string | undefined;
 }
 
-export class Group implements IGroup {
-    id?: number;
-    name!: string;
-    description?: string | undefined;
-    isDeleted?: boolean;
-
-    constructor(data?: IGroup) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.name = _data["Name"];
-            this.description = _data["Description"];
-            this.isDeleted = _data["IsDeleted"];
-        }
-    }
-
-    static fromJS(data: any): Group {
-        data = typeof data === 'object' ? data : {};
-        let result = new Group();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["Name"] = this.name;
-        data["Description"] = this.description;
-        data["IsDeleted"] = this.isDeleted;
-        return data; 
-    }
-}
-
-export interface IGroup {
-    id?: number;
-    name: string;
-    description?: string | undefined;
-    isDeleted?: boolean;
-}
-
 export class LoginModel implements ILoginModel {
     phoneNumber?: string | undefined;
     password?: string | undefined;
@@ -3130,6 +3105,13 @@ export interface INeighborhood {
 
 export class PostEditModel implements IPostEditModel {
     id?: number;
+    name?: string | undefined;
+    url?: string | undefined;
+    brand?: string | undefined;
+    model?: string | undefined;
+    color?: string | undefined;
+    size?: string | undefined;
+    description?: string | undefined;
 
     constructor(data?: IPostEditModel) {
         if (data) {
@@ -3143,6 +3125,13 @@ export class PostEditModel implements IPostEditModel {
     init(_data?: any) {
         if (_data) {
             this.id = _data["Id"];
+            this.name = _data["Name"];
+            this.url = _data["Url"];
+            this.brand = _data["Brand"];
+            this.model = _data["Model"];
+            this.color = _data["Color"];
+            this.size = _data["Size"];
+            this.description = _data["Description"];
         }
     }
 
@@ -3156,15 +3145,37 @@ export class PostEditModel implements IPostEditModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
+        data["Name"] = this.name;
+        data["Url"] = this.url;
+        data["Brand"] = this.brand;
+        data["Model"] = this.model;
+        data["Color"] = this.color;
+        data["Size"] = this.size;
+        data["Description"] = this.description;
         return data; 
     }
 }
 
 export interface IPostEditModel {
     id?: number;
+    name?: string | undefined;
+    url?: string | undefined;
+    brand?: string | undefined;
+    model?: string | undefined;
+    color?: string | undefined;
+    size?: string | undefined;
+    description?: string | undefined;
 }
 
 export class PostListModel implements IPostListModel {
+    id?: number;
+    name?: string | undefined;
+    url?: string | undefined;
+    brand?: string | undefined;
+    model?: string | undefined;
+    color?: string | undefined;
+    size?: string | undefined;
+    description?: string | undefined;
 
     constructor(data?: IPostListModel) {
         if (data) {
@@ -3176,6 +3187,16 @@ export class PostListModel implements IPostListModel {
     }
 
     init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.name = _data["Name"];
+            this.url = _data["Url"];
+            this.brand = _data["Brand"];
+            this.model = _data["Model"];
+            this.color = _data["Color"];
+            this.size = _data["Size"];
+            this.description = _data["Description"];
+        }
     }
 
     static fromJS(data: any): PostListModel {
@@ -3187,11 +3208,27 @@ export class PostListModel implements IPostListModel {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["Name"] = this.name;
+        data["Url"] = this.url;
+        data["Brand"] = this.brand;
+        data["Model"] = this.model;
+        data["Color"] = this.color;
+        data["Size"] = this.size;
+        data["Description"] = this.description;
         return data; 
     }
 }
 
 export interface IPostListModel {
+    id?: number;
+    name?: string | undefined;
+    url?: string | undefined;
+    brand?: string | undefined;
+    model?: string | undefined;
+    color?: string | undefined;
+    size?: string | undefined;
+    description?: string | undefined;
 }
 
 export class Province implements IProvince {
@@ -3294,74 +3331,6 @@ export interface IRegion {
     name: string;
 }
 
-export class Role implements IRole {
-    id?: number;
-    name?: string | undefined;
-    normalizedName?: string | undefined;
-    concurrencyStamp?: string | undefined;
-    description?: string | undefined;
-    isDeleted?: boolean;
-    userRoles?: UserRole[] | undefined;
-
-    constructor(data?: IRole) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.name = _data["Name"];
-            this.normalizedName = _data["NormalizedName"];
-            this.concurrencyStamp = _data["ConcurrencyStamp"];
-            this.description = _data["Description"];
-            this.isDeleted = _data["IsDeleted"];
-            if (Array.isArray(_data["UserRoles"])) {
-                this.userRoles = [] as any;
-                for (let item of _data["UserRoles"])
-                    this.userRoles!.push(UserRole.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): Role {
-        data = typeof data === 'object' ? data : {};
-        let result = new Role();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["Name"] = this.name;
-        data["NormalizedName"] = this.normalizedName;
-        data["ConcurrencyStamp"] = this.concurrencyStamp;
-        data["Description"] = this.description;
-        data["IsDeleted"] = this.isDeleted;
-        if (Array.isArray(this.userRoles)) {
-            data["UserRoles"] = [];
-            for (let item of this.userRoles)
-                data["UserRoles"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IRole {
-    id?: number;
-    name?: string | undefined;
-    normalizedName?: string | undefined;
-    concurrencyStamp?: string | undefined;
-    description?: string | undefined;
-    isDeleted?: boolean;
-    userRoles?: UserRole[] | undefined;
-}
-
 export class Setting implements ISetting {
     id?: number;
     key?: string | undefined;
@@ -3406,10 +3375,15 @@ export interface ISetting {
     value?: string | undefined;
 }
 
-export class SpecialDayEditModel implements ISpecialDayEditModel {
+export class SocialUserListModel implements ISocialUserListModel {
     id?: number;
+    fullName?: string | undefined;
+    profilePictureUrl?: string | undefined;
+    isFollowing?: boolean;
+    followersCount?: number;
+    followingsCount?: number;
 
-    constructor(data?: ISpecialDayEditModel) {
+    constructor(data?: ISocialUserListModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -3421,12 +3395,17 @@ export class SpecialDayEditModel implements ISpecialDayEditModel {
     init(_data?: any) {
         if (_data) {
             this.id = _data["Id"];
+            this.fullName = _data["FullName"];
+            this.profilePictureUrl = _data["ProfilePictureUrl"];
+            this.isFollowing = _data["IsFollowing"];
+            this.followersCount = _data["FollowersCount"];
+            this.followingsCount = _data["FollowingsCount"];
         }
     }
 
-    static fromJS(data: any): SpecialDayEditModel {
+    static fromJS(data: any): SocialUserListModel {
         data = typeof data === 'object' ? data : {};
-        let result = new SpecialDayEditModel();
+        let result = new SocialUserListModel();
         result.init(data);
         return result;
     }
@@ -3434,42 +3413,22 @@ export class SpecialDayEditModel implements ISpecialDayEditModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
+        data["FullName"] = this.fullName;
+        data["ProfilePictureUrl"] = this.profilePictureUrl;
+        data["IsFollowing"] = this.isFollowing;
+        data["FollowersCount"] = this.followersCount;
+        data["FollowingsCount"] = this.followingsCount;
         return data; 
     }
 }
 
-export interface ISpecialDayEditModel {
+export interface ISocialUserListModel {
     id?: number;
-}
-
-export class SpecialDayListModel implements ISpecialDayListModel {
-
-    constructor(data?: ISpecialDayListModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-    }
-
-    static fromJS(data: any): SpecialDayListModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new SpecialDayListModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        return data; 
-    }
-}
-
-export interface ISpecialDayListModel {
+    fullName?: string | undefined;
+    profilePictureUrl?: string | undefined;
+    isFollowing?: boolean;
+    followersCount?: number;
+    followingsCount?: number;
 }
 
 export class TokenModel implements ITokenModel {
@@ -3510,386 +3469,6 @@ export class TokenModel implements ITokenModel {
 export interface ITokenModel {
     isNeedVerify?: boolean;
     token?: string | undefined;
-}
-
-export class User implements IUser {
-    id?: number;
-    userName?: string | undefined;
-    normalizedUserName?: string | undefined;
-    email?: string | undefined;
-    normalizedEmail?: string | undefined;
-    emailConfirmed?: boolean;
-    passwordHash?: string | undefined;
-    securityStamp?: string | undefined;
-    concurrencyStamp?: string | undefined;
-    phoneNumber?: string | undefined;
-    phoneNumberConfirmed?: boolean;
-    twoFactorEnabled?: boolean;
-    lockoutEnd?: moment.Moment | undefined;
-    lockoutEnabled?: boolean;
-    accessFailedCount?: number;
-    userGuid?: string | undefined;
-    version?: number;
-    isActive?: boolean;
-    isDeleted?: boolean;
-    groupId?: number | undefined;
-    group?: Group;
-    firstName?: string | undefined;
-    normalizedFirstName?: string | undefined;
-    lastName?: string | undefined;
-    normalizedLastName?: string | undefined;
-    normalizedFullName?: string | undefined;
-    notes?: string | undefined;
-    fcmToken?: string | undefined;
-    otp?: string | undefined;
-    address?: string | undefined;
-    profilePicture?: Media;
-    profilePictureId?: number | undefined;
-    addresses?: UserAddress[] | undefined;
-    roles?: UserRole[] | undefined;
-    followings?: UserFollow[] | undefined;
-    followers?: UserFollow[] | undefined;
-    blockedUsers?: UserBlock[] | undefined;
-
-    constructor(data?: IUser) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.userName = _data["UserName"];
-            this.normalizedUserName = _data["NormalizedUserName"];
-            this.email = _data["Email"];
-            this.normalizedEmail = _data["NormalizedEmail"];
-            this.emailConfirmed = _data["EmailConfirmed"];
-            this.passwordHash = _data["PasswordHash"];
-            this.securityStamp = _data["SecurityStamp"];
-            this.concurrencyStamp = _data["ConcurrencyStamp"];
-            this.phoneNumber = _data["PhoneNumber"];
-            this.phoneNumberConfirmed = _data["PhoneNumberConfirmed"];
-            this.twoFactorEnabled = _data["TwoFactorEnabled"];
-            this.lockoutEnd = _data["LockoutEnd"] ? moment(_data["LockoutEnd"].toString()) : <any>undefined;
-            this.lockoutEnabled = _data["LockoutEnabled"];
-            this.accessFailedCount = _data["AccessFailedCount"];
-            this.userGuid = _data["UserGuid"];
-            this.version = _data["Version"];
-            this.isActive = _data["IsActive"];
-            this.isDeleted = _data["IsDeleted"];
-            this.groupId = _data["GroupId"];
-            this.group = _data["Group"] ? Group.fromJS(_data["Group"]) : <any>undefined;
-            this.firstName = _data["FirstName"];
-            this.normalizedFirstName = _data["NormalizedFirstName"];
-            this.lastName = _data["LastName"];
-            this.normalizedLastName = _data["NormalizedLastName"];
-            this.normalizedFullName = _data["NormalizedFullName"];
-            this.notes = _data["Notes"];
-            this.fcmToken = _data["FcmToken"];
-            this.otp = _data["Otp"];
-            this.address = _data["Address"];
-            this.profilePicture = _data["ProfilePicture"] ? Media.fromJS(_data["ProfilePicture"]) : <any>undefined;
-            this.profilePictureId = _data["ProfilePictureId"];
-            if (Array.isArray(_data["Addresses"])) {
-                this.addresses = [] as any;
-                for (let item of _data["Addresses"])
-                    this.addresses!.push(UserAddress.fromJS(item));
-            }
-            if (Array.isArray(_data["Roles"])) {
-                this.roles = [] as any;
-                for (let item of _data["Roles"])
-                    this.roles!.push(UserRole.fromJS(item));
-            }
-            if (Array.isArray(_data["Followings"])) {
-                this.followings = [] as any;
-                for (let item of _data["Followings"])
-                    this.followings!.push(UserFollow.fromJS(item));
-            }
-            if (Array.isArray(_data["Followers"])) {
-                this.followers = [] as any;
-                for (let item of _data["Followers"])
-                    this.followers!.push(UserFollow.fromJS(item));
-            }
-            if (Array.isArray(_data["BlockedUsers"])) {
-                this.blockedUsers = [] as any;
-                for (let item of _data["BlockedUsers"])
-                    this.blockedUsers!.push(UserBlock.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): User {
-        data = typeof data === 'object' ? data : {};
-        let result = new User();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["UserName"] = this.userName;
-        data["NormalizedUserName"] = this.normalizedUserName;
-        data["Email"] = this.email;
-        data["NormalizedEmail"] = this.normalizedEmail;
-        data["EmailConfirmed"] = this.emailConfirmed;
-        data["PasswordHash"] = this.passwordHash;
-        data["SecurityStamp"] = this.securityStamp;
-        data["ConcurrencyStamp"] = this.concurrencyStamp;
-        data["PhoneNumber"] = this.phoneNumber;
-        data["PhoneNumberConfirmed"] = this.phoneNumberConfirmed;
-        data["TwoFactorEnabled"] = this.twoFactorEnabled;
-        data["LockoutEnd"] = this.lockoutEnd ? this.lockoutEnd.toISOString() : <any>undefined;
-        data["LockoutEnabled"] = this.lockoutEnabled;
-        data["AccessFailedCount"] = this.accessFailedCount;
-        data["UserGuid"] = this.userGuid;
-        data["Version"] = this.version;
-        data["IsActive"] = this.isActive;
-        data["IsDeleted"] = this.isDeleted;
-        data["GroupId"] = this.groupId;
-        data["Group"] = this.group ? this.group.toJSON() : <any>undefined;
-        data["FirstName"] = this.firstName;
-        data["NormalizedFirstName"] = this.normalizedFirstName;
-        data["LastName"] = this.lastName;
-        data["NormalizedLastName"] = this.normalizedLastName;
-        data["NormalizedFullName"] = this.normalizedFullName;
-        data["Notes"] = this.notes;
-        data["FcmToken"] = this.fcmToken;
-        data["Otp"] = this.otp;
-        data["Address"] = this.address;
-        data["ProfilePicture"] = this.profilePicture ? this.profilePicture.toJSON() : <any>undefined;
-        data["ProfilePictureId"] = this.profilePictureId;
-        if (Array.isArray(this.addresses)) {
-            data["Addresses"] = [];
-            for (let item of this.addresses)
-                data["Addresses"].push(item.toJSON());
-        }
-        if (Array.isArray(this.roles)) {
-            data["Roles"] = [];
-            for (let item of this.roles)
-                data["Roles"].push(item.toJSON());
-        }
-        if (Array.isArray(this.followings)) {
-            data["Followings"] = [];
-            for (let item of this.followings)
-                data["Followings"].push(item.toJSON());
-        }
-        if (Array.isArray(this.followers)) {
-            data["Followers"] = [];
-            for (let item of this.followers)
-                data["Followers"].push(item.toJSON());
-        }
-        if (Array.isArray(this.blockedUsers)) {
-            data["BlockedUsers"] = [];
-            for (let item of this.blockedUsers)
-                data["BlockedUsers"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IUser {
-    id?: number;
-    userName?: string | undefined;
-    normalizedUserName?: string | undefined;
-    email?: string | undefined;
-    normalizedEmail?: string | undefined;
-    emailConfirmed?: boolean;
-    passwordHash?: string | undefined;
-    securityStamp?: string | undefined;
-    concurrencyStamp?: string | undefined;
-    phoneNumber?: string | undefined;
-    phoneNumberConfirmed?: boolean;
-    twoFactorEnabled?: boolean;
-    lockoutEnd?: moment.Moment | undefined;
-    lockoutEnabled?: boolean;
-    accessFailedCount?: number;
-    userGuid?: string | undefined;
-    version?: number;
-    isActive?: boolean;
-    isDeleted?: boolean;
-    groupId?: number | undefined;
-    group?: Group;
-    firstName?: string | undefined;
-    normalizedFirstName?: string | undefined;
-    lastName?: string | undefined;
-    normalizedLastName?: string | undefined;
-    normalizedFullName?: string | undefined;
-    notes?: string | undefined;
-    fcmToken?: string | undefined;
-    otp?: string | undefined;
-    address?: string | undefined;
-    profilePicture?: Media;
-    profilePictureId?: number | undefined;
-    addresses?: UserAddress[] | undefined;
-    roles?: UserRole[] | undefined;
-    followings?: UserFollow[] | undefined;
-    followers?: UserFollow[] | undefined;
-    blockedUsers?: UserBlock[] | undefined;
-}
-
-export class UserAddress implements IUserAddress {
-    id?: number;
-    userId?: number;
-    user?: User;
-    addressId?: number;
-    address?: Address;
-    isPrimary?: boolean;
-
-    constructor(data?: IUserAddress) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.userId = _data["UserId"];
-            this.user = _data["User"] ? User.fromJS(_data["User"]) : <any>undefined;
-            this.addressId = _data["AddressId"];
-            this.address = _data["Address"] ? Address.fromJS(_data["Address"]) : <any>undefined;
-            this.isPrimary = _data["IsPrimary"];
-        }
-    }
-
-    static fromJS(data: any): UserAddress {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserAddress();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["UserId"] = this.userId;
-        data["User"] = this.user ? this.user.toJSON() : <any>undefined;
-        data["AddressId"] = this.addressId;
-        data["Address"] = this.address ? this.address.toJSON() : <any>undefined;
-        data["IsPrimary"] = this.isPrimary;
-        return data; 
-    }
-}
-
-export interface IUserAddress {
-    id?: number;
-    userId?: number;
-    user?: User;
-    addressId?: number;
-    address?: Address;
-    isPrimary?: boolean;
-}
-
-export class UserBlock implements IUserBlock {
-    id?: number;
-    sourceUser?: User;
-    sourceUserId?: number;
-    blockedUser?: User;
-    blockedUserId?: number;
-
-    constructor(data?: IUserBlock) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.sourceUser = _data["SourceUser"] ? User.fromJS(_data["SourceUser"]) : <any>undefined;
-            this.sourceUserId = _data["SourceUserId"];
-            this.blockedUser = _data["BlockedUser"] ? User.fromJS(_data["BlockedUser"]) : <any>undefined;
-            this.blockedUserId = _data["BlockedUserId"];
-        }
-    }
-
-    static fromJS(data: any): UserBlock {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserBlock();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["SourceUser"] = this.sourceUser ? this.sourceUser.toJSON() : <any>undefined;
-        data["SourceUserId"] = this.sourceUserId;
-        data["BlockedUser"] = this.blockedUser ? this.blockedUser.toJSON() : <any>undefined;
-        data["BlockedUserId"] = this.blockedUserId;
-        return data; 
-    }
-}
-
-export interface IUserBlock {
-    id?: number;
-    sourceUser?: User;
-    sourceUserId?: number;
-    blockedUser?: User;
-    blockedUserId?: number;
-}
-
-export class UserFollow implements IUserFollow {
-    id?: number;
-    sourceUser?: User;
-    sourceUserId?: number;
-    followedUser?: User;
-    followedUserId?: number;
-
-    constructor(data?: IUserFollow) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.sourceUser = _data["SourceUser"] ? User.fromJS(_data["SourceUser"]) : <any>undefined;
-            this.sourceUserId = _data["SourceUserId"];
-            this.followedUser = _data["FollowedUser"] ? User.fromJS(_data["FollowedUser"]) : <any>undefined;
-            this.followedUserId = _data["FollowedUserId"];
-        }
-    }
-
-    static fromJS(data: any): UserFollow {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserFollow();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["SourceUser"] = this.sourceUser ? this.sourceUser.toJSON() : <any>undefined;
-        data["SourceUserId"] = this.sourceUserId;
-        data["FollowedUser"] = this.followedUser ? this.followedUser.toJSON() : <any>undefined;
-        data["FollowedUserId"] = this.followedUserId;
-        return data; 
-    }
-}
-
-export interface IUserFollow {
-    id?: number;
-    sourceUser?: User;
-    sourceUserId?: number;
-    followedUser?: User;
-    followedUserId?: number;
 }
 
 export class UserModel implements IUserModel {
@@ -3946,54 +3525,6 @@ export interface IUserModel {
     email?: string | undefined;
     phoneNumber?: string | undefined;
     fcmToken?: string | undefined;
-}
-
-export class UserRole implements IUserRole {
-    userId?: number;
-    user?: User;
-    roleId?: number;
-    role?: Role;
-
-    constructor(data?: IUserRole) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.userId = _data["UserId"];
-            this.user = _data["User"] ? User.fromJS(_data["User"]) : <any>undefined;
-            this.roleId = _data["RoleId"];
-            this.role = _data["Role"] ? Role.fromJS(_data["Role"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): UserRole {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserRole();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["UserId"] = this.userId;
-        data["User"] = this.user ? this.user.toJSON() : <any>undefined;
-        data["RoleId"] = this.roleId;
-        data["Role"] = this.role ? this.role.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IUserRole {
-    userId?: number;
-    user?: User;
-    roleId?: number;
-    role?: Role;
 }
 
 export class VerifyModel implements IVerifyModel {
