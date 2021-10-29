@@ -36,6 +36,10 @@ const routes: Routes = [
   {
     path: 'profile-settings',
     loadChildren: () => import('./pages/profile-settings/profile-settings.module').then( m => m.ProfileSettingsPageModule)
+  },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./pages/change-password/change-password.module').then( m => m.ChangePasswordPageModule)
   }
 ];
 

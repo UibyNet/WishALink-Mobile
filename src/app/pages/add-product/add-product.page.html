@@ -1,4 +1,5 @@
 <ion-content>
+  <div *ngIf="isOpenCalendar" class="calendar-background"></div>
   <div class="main">
     <div class="top-container">
       <div class="page-title ion-margin-top ion-text-center">
@@ -25,7 +26,14 @@
         <ion-input placeholder="Beden veya Kapasite"></ion-input>
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="Takvim"></ion-input>
+        <p-calendar placeholder="Takvim" (onShow)="calendarOpen()" (onClose)="calendarClose()" [(ngModel)]="value">
+          <ng-template pTemplate="footer">
+            <div class="calendar-input-container d-flex ion-align-items-center">
+              <input [(ngModel)]="eventText" [value]="eventText" class="ion-margin-end" type="text" pInputText />
+              <div class="d-flex"><img src="../../../assets/svg/home/file.svg" alt="Icon"></div>
+            </div>
+          </ng-template>
+        </p-calendar>
       </div>
       <div class="mb-32">
         <ion-input placeholder="Açıklama"></ion-input>

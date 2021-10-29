@@ -11,7 +11,8 @@
         <img src="../../../../assets/svg/home/avatar.png" alt="Avatar">
       </div>
       <div class="ion-margin-bottom name">
-        Ayla Cihan
+        <span *ngIf="userData">{{userData?.firstName}} {{userData?.lastName}}</span>
+        <span *ngIf="userData==null">&nbsp;</span>
       </div>
       <div routerLink="community" class="follower-content">
         <div class="follower">

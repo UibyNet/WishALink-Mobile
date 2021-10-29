@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
 import {TabsPage} from './tabs.page';
+import {UserResolverService} from "../../services/resolve.service";
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
+            resolve:{user:UserResolverService},
             loadChildren: () => import('../../pages/tabs/home/home.module').then(m => m.HomePageModule)
           },
           {
