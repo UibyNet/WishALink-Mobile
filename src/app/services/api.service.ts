@@ -829,18 +829,18 @@ export class CategoryApiService {
      * @param body (optional) 
      * @return Success
      */
-    create(body: CategoryEditModel | undefined): Observable<CategoryListModel> {
+    create(body: Blob | undefined): Observable<CategoryListModel> {
         let url_ = this.baseUrl + "/api/category/create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = body;
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "multipart/form-data",
                 "Accept": "text/plain"
             })
         };
@@ -899,18 +899,18 @@ export class CategoryApiService {
      * @param body (optional) 
      * @return Success
      */
-    update(body: CategoryEditModel | undefined): Observable<CategoryListModel> {
+    update(body: Blob | undefined): Observable<CategoryListModel> {
         let url_ = this.baseUrl + "/api/category/update";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = body;
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
+                "Content-Type": "multipart/form-data",
                 "Accept": "text/plain"
             })
         };
@@ -2577,7 +2577,7 @@ export class CategoryEditModel implements ICategoryEditModel {
     id?: number;
     name?: string | undefined;
     order?: number;
-    visual?: string | undefined;
+    isHidden?: boolean;
 
     constructor(data?: ICategoryEditModel) {
         if (data) {
@@ -2593,7 +2593,7 @@ export class CategoryEditModel implements ICategoryEditModel {
             this.id = _data["Id"];
             this.name = _data["Name"];
             this.order = _data["Order"];
-            this.visual = _data["Visual"];
+            this.isHidden = _data["IsHidden"];
         }
     }
 
@@ -2609,7 +2609,7 @@ export class CategoryEditModel implements ICategoryEditModel {
         data["Id"] = this.id;
         data["Name"] = this.name;
         data["Order"] = this.order;
-        data["Visual"] = this.visual;
+        data["IsHidden"] = this.isHidden;
         return data; 
     }
 }
@@ -2618,7 +2618,7 @@ export interface ICategoryEditModel {
     id?: number;
     name?: string | undefined;
     order?: number;
-    visual?: string | undefined;
+    isHidden?: boolean;
 }
 
 export class CategoryListModel implements ICategoryListModel {
@@ -2626,6 +2626,7 @@ export class CategoryListModel implements ICategoryListModel {
     name?: string | undefined;
     order?: number;
     isPredefined?: boolean;
+    isHidden?: boolean;
     visualUrl?: string | undefined;
 
     constructor(data?: ICategoryListModel) {
@@ -2643,6 +2644,7 @@ export class CategoryListModel implements ICategoryListModel {
             this.name = _data["Name"];
             this.order = _data["Order"];
             this.isPredefined = _data["IsPredefined"];
+            this.isHidden = _data["IsHidden"];
             this.visualUrl = _data["VisualUrl"];
         }
     }
@@ -2660,6 +2662,7 @@ export class CategoryListModel implements ICategoryListModel {
         data["Name"] = this.name;
         data["Order"] = this.order;
         data["IsPredefined"] = this.isPredefined;
+        data["IsHidden"] = this.isHidden;
         data["VisualUrl"] = this.visualUrl;
         return data; 
     }
@@ -2670,6 +2673,7 @@ export interface ICategoryListModel {
     name?: string | undefined;
     order?: number;
     isPredefined?: boolean;
+    isHidden?: boolean;
     visualUrl?: string | undefined;
 }
 
