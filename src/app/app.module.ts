@@ -10,7 +10,7 @@ import { IonIntlTelInputModule } from 'ion-intl-tel-input';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppPipesModule } from './pipes/pipes.module';
-import {AuthApiService, API_BASE_URL, ProfileApiService, SocialApiService} from './services/api.service';
+import {AuthApiService, API_BASE_URL, ProfileApiService, SocialApiService, CategoryApiService, PostApiService, ActivityApiService} from './services/api.service';
 import { TokenInterceptor } from './helpers/token.interceptor';
 import { AppService } from './services/app.service';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
@@ -32,6 +32,9 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
     AuthApiService,
     ProfileApiService,
     SocialApiService,
+    CategoryApiService,
+    PostApiService,
+    ActivityApiService,
     ImagePicker,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
