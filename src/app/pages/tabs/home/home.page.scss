@@ -97,6 +97,13 @@
         border-radius: 100px;
         background: #ffffff;
         overflow: hidden;
+        height: 100%;
+        width: 100%;
+        
+        img {
+          height: 100%;
+          width: 100%;
+        }
       }
 
       .avatar-options {

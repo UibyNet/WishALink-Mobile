@@ -826,21 +826,44 @@ export class CategoryApiService {
     }
 
     /**
-     * @param body (optional) 
+     * @param id (optional) 
+     * @param name (optional) 
+     * @param order (optional) 
+     * @param isHidden (optional) 
+     * @param visual (optional) 
      * @return Success
      */
-    create(body: Blob | undefined): Observable<CategoryListModel> {
+    create(id: number | undefined, name: string | undefined, order: number | undefined, isHidden: boolean | undefined, visual: FileParameter | undefined): Observable<CategoryListModel> {
         let url_ = this.baseUrl + "/api/category/create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = body;
+        const content_ = new FormData();
+        if (id === null || id === undefined)
+            throw new Error("The parameter 'id' cannot be null.");
+        else
+            content_.append("Id", id.toString());
+        if (name === null || name === undefined)
+            throw new Error("The parameter 'name' cannot be null.");
+        else
+            content_.append("Name", name.toString());
+        if (order === null || order === undefined)
+            throw new Error("The parameter 'order' cannot be null.");
+        else
+            content_.append("Order", order.toString());
+        if (isHidden === null || isHidden === undefined)
+            throw new Error("The parameter 'isHidden' cannot be null.");
+        else
+            content_.append("IsHidden", isHidden.toString());
+        if (visual === null || visual === undefined)
+            throw new Error("The parameter 'visual' cannot be null.");
+        else
+            content_.append("Visual", visual.data, visual.fileName ? visual.fileName : "Visual");
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "multipart/form-data",
                 "Accept": "text/plain"
             })
         };
@@ -896,21 +919,44 @@ export class CategoryApiService {
     }
 
     /**
-     * @param body (optional) 
+     * @param id (optional) 
+     * @param name (optional) 
+     * @param order (optional) 
+     * @param isHidden (optional) 
+     * @param visual (optional) 
      * @return Success
      */
-    update(body: Blob | undefined): Observable<CategoryListModel> {
+    update(id: number | undefined, name: string | undefined, order: number | undefined, isHidden: boolean | undefined, visual: FileParameter | undefined): Observable<CategoryListModel> {
         let url_ = this.baseUrl + "/api/category/update";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = body;
+        const content_ = new FormData();
+        if (id === null || id === undefined)
+            throw new Error("The parameter 'id' cannot be null.");
+        else
+            content_.append("Id", id.toString());
+        if (name === null || name === undefined)
+            throw new Error("The parameter 'name' cannot be null.");
+        else
+            content_.append("Name", name.toString());
+        if (order === null || order === undefined)
+            throw new Error("The parameter 'order' cannot be null.");
+        else
+            content_.append("Order", order.toString());
+        if (isHidden === null || isHidden === undefined)
+            throw new Error("The parameter 'isHidden' cannot be null.");
+        else
+            content_.append("IsHidden", isHidden.toString());
+        if (visual === null || visual === undefined)
+            throw new Error("The parameter 'visual' cannot be null.");
+        else
+            content_.append("Visual", visual.data, visual.fileName ? visual.fileName : "Visual");
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "multipart/form-data",
                 "Accept": "text/plain"
             })
         };
@@ -2144,7 +2190,7 @@ export class ProfileApiService {
      * @param file (optional) 
      * @return Success
      */
-    changeprofilepicture(file: FileParameter | undefined): Observable<Media> {
+    changeprofilepicture(file: FileParameter | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/profile/changeprofilepicture";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2170,14 +2216,14 @@ export class ProfileApiService {
                 try {
                     return this.processChangeprofilepicture(<any>response_);
                 } catch (e) {
-                    return <Observable<Media>><any>_observableThrow(e);
+                    return <Observable<string>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<Media>><any>_observableThrow(response_);
+                return <Observable<string>><any>_observableThrow(response_);
         }));
     }
 
-    protected processChangeprofilepicture(response: HttpResponseBase): Observable<Media> {
+    protected processChangeprofilepicture(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2188,7 +2234,7 @@ export class ProfileApiService {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = Media.fromJS(resultData200);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -2210,7 +2256,7 @@ export class ProfileApiService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<Media>(<any>null);
+        return _observableOf<string>(<any>null);
     }
 
     /**
@@ -2427,39 +2473,40 @@ export class SocialApiService {
     }
 
     /**
-     * @param value (optional) 
+     * @param userId (optional) 
      * @return Success
      */
-    searchusers(value: string | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/social/searchusers?";
-        if (value === null)
-            throw new Error("The parameter 'value' cannot be null.");
-        else if (value !== undefined)
-            url_ += "value=" + encodeURIComponent("" + value) + "&";
+    followings(userId: number | undefined): Observable<SocialUserListModel[]> {
+        let url_ = this.baseUrl + "/api/social/followings?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "text/plain"
             })
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processSearchusers(response_);
+            return this.processFollowings(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processSearchusers(<any>response_);
+                    return this.processFollowings(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<SocialUserListModel[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<SocialUserListModel[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processSearchusers(response: HttpResponseBase): Observable<void> {
+    protected processFollowings(response: HttpResponseBase): Observable<SocialUserListModel[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2468,7 +2515,17 @@ export class SocialApiService {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SocialUserListModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
             }));
         } else if (status === 400) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
@@ -2489,7 +2546,161 @@ export class SocialApiService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<SocialUserListModel[]>(<any>null);
+    }
+
+    /**
+     * @param userId (optional) 
+     * @return Success
+     */
+    followers(userId: number | undefined): Observable<SocialUserListModel[]> {
+        let url_ = this.baseUrl + "/api/social/followers?";
+        if (userId === null)
+            throw new Error("The parameter 'userId' cannot be null.");
+        else if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFollowers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFollowers(<any>response_);
+                } catch (e) {
+                    return <Observable<SocialUserListModel[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SocialUserListModel[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processFollowers(response: HttpResponseBase): Observable<SocialUserListModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SocialUserListModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SocialUserListModel[]>(<any>null);
+    }
+
+    /**
+     * @param value (optional) 
+     * @return Success
+     */
+    searchusers(value: string | undefined): Observable<SocialUserListModel[]> {
+        let url_ = this.baseUrl + "/api/social/searchusers?";
+        if (value === null)
+            throw new Error("The parameter 'value' cannot be null.");
+        else if (value !== undefined)
+            url_ += "value=" + encodeURIComponent("" + value) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchusers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchusers(<any>response_);
+                } catch (e) {
+                    return <Observable<SocialUserListModel[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SocialUserListModel[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchusers(response: HttpResponseBase): Observable<SocialUserListModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SocialUserListModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SocialUserListModel[]>(<any>null);
     }
 }
 
@@ -2571,54 +2782,6 @@ export class ActivityListModel implements IActivityListModel {
 export interface IActivityListModel {
     id?: number;
     name?: string | undefined;
-}
-
-export class CategoryEditModel implements ICategoryEditModel {
-    id?: number;
-    name?: string | undefined;
-    order?: number;
-    isHidden?: boolean;
-
-    constructor(data?: ICategoryEditModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.name = _data["Name"];
-            this.order = _data["Order"];
-            this.isHidden = _data["IsHidden"];
-        }
-    }
-
-    static fromJS(data: any): CategoryEditModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new CategoryEditModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["Name"] = this.name;
-        data["Order"] = this.order;
-        data["IsHidden"] = this.isHidden;
-        return data; 
-    }
-}
-
-export interface ICategoryEditModel {
-    id?: number;
-    name?: string | undefined;
-    order?: number;
-    isHidden?: boolean;
 }
 
 export class CategoryListModel implements ICategoryListModel {
