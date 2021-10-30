@@ -20,7 +20,7 @@
   border-top-right-radius: 32px;
   border-top-left-radius: 32px;
   background: #FFFFFF;
-  padding: 48px 1.5rem;
+  padding: 48px 1.5rem 160px;
   position: relative;
   button{
     width: 100%;
@@ -31,6 +31,13 @@
     font-size: 20px;
     color: #6A40D6;
   }
+  ion-datetime {
+    border: 1px solid #6A40D6;
+    border-radius: 16px;
+    height: 56px;
+    padding:1em 1rem !important;
+  }
+
   ion-input {
     border: 1px solid #6A40D6;
     border-radius: 16px;

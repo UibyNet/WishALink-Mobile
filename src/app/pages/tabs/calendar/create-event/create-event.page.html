@@ -10,28 +10,28 @@
         <img src="../../../assets/svg/abstract/exit.svg" alt="Icon">
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="Başlık"></ion-input>
+        <ion-input [(ngModel)]="name" placeholder="Başlık"></ion-input>
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="İlgili kategori"></ion-input>
+        <ion-input [(ngModel)]="categoryId" placeholder="İlgili kategori"></ion-input>
       </div>
       <div class="ion-margin-bottom toogle-container">
-        <div>Bu panayo gizle</div>
+        <div>Bu panoda gizle</div>
         <div>
-          <ion-toggle color="primary"></ion-toggle>
+          <ion-toggle [(ngModel)]="isHidden" color="primary"></ion-toggle>
         </div>
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="Başlangıç"></ion-input>
+        <ion-datetime [(ngModel)]="startDate" doneText="Tamam" cancelText="İptal" displayFormat="DD.MM.YYYY" placeholder="Başlangıç"></ion-datetime>
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="Bitiş"></ion-input>
+        <ion-datetime [(ngModel)]="endDate" doneText="Tamam" cancelText="İptal" displayFormat="DD.MM.YYYY" placeholder="Başlangıç"></ion-datetime>
       </div>
       <div class="mb-32">
-        <ion-input placeholder="Açıklama"></ion-input>
+        <ion-input [(ngModel)]="description" placeholder="Açıklama"></ion-input>
       </div>
       <div>
-        <button routerLink="choose-category">Oluştur</button>
+        <button (click)="saveActivity()">Oluştur</button>
       </div>
     </div>
   </div>

@@ -830,10 +830,10 @@ export class CategoryApiService {
      * @param name (optional) 
      * @param order (optional) 
      * @param isHidden (optional) 
-     * @param visual (optional) 
+     * @param media (optional) 
      * @return Success
      */
-    create(id: number | undefined, name: string | undefined, order: number | undefined, isHidden: boolean | undefined, visual: FileParameter | undefined): Observable<CategoryListModel> {
+    create(id: number | undefined, name: string | undefined, order: number | undefined, isHidden: boolean | undefined, media: FileParameter | undefined): Observable<CategoryListModel> {
         let url_ = this.baseUrl + "/api/category/create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -854,10 +854,10 @@ export class CategoryApiService {
             throw new Error("The parameter 'isHidden' cannot be null.");
         else
             content_.append("IsHidden", isHidden.toString());
-        if (visual === null || visual === undefined)
-            throw new Error("The parameter 'visual' cannot be null.");
+        if (media === null || media === undefined)
+            throw new Error("The parameter 'media' cannot be null.");
         else
-            content_.append("Visual", visual.data, visual.fileName ? visual.fileName : "Visual");
+            content_.append("Media", media.data, media.fileName ? media.fileName : "Media");
 
         let options_ : any = {
             body: content_,
@@ -923,10 +923,10 @@ export class CategoryApiService {
      * @param name (optional) 
      * @param order (optional) 
      * @param isHidden (optional) 
-     * @param visual (optional) 
+     * @param media (optional) 
      * @return Success
      */
-    update(id: number | undefined, name: string | undefined, order: number | undefined, isHidden: boolean | undefined, visual: FileParameter | undefined): Observable<CategoryListModel> {
+    update(id: number | undefined, name: string | undefined, order: number | undefined, isHidden: boolean | undefined, media: FileParameter | undefined): Observable<CategoryListModel> {
         let url_ = this.baseUrl + "/api/category/update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -947,10 +947,10 @@ export class CategoryApiService {
             throw new Error("The parameter 'isHidden' cannot be null.");
         else
             content_.append("IsHidden", isHidden.toString());
-        if (visual === null || visual === undefined)
-            throw new Error("The parameter 'visual' cannot be null.");
+        if (media === null || media === undefined)
+            throw new Error("The parameter 'media' cannot be null.");
         else
-            content_.append("Visual", visual.data, visual.fileName ? visual.fileName : "Visual");
+            content_.append("Media", media.data, media.fileName ? media.fileName : "Media");
 
         let options_ : any = {
             body: content_,
@@ -1966,6 +1966,76 @@ export class PostApiService {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param url (optional) 
+     * @return Success
+     */
+    fetch(url: string | undefined): Observable<MetaInfoModel> {
+        let url_ = this.baseUrl + "/api/post/fetch?";
+        if (url === null)
+            throw new Error("The parameter 'url' cannot be null.");
+        else if (url !== undefined)
+            url_ += "url=" + encodeURIComponent("" + url) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFetch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFetch(<any>response_);
+                } catch (e) {
+                    return <Observable<MetaInfoModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MetaInfoModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processFetch(response: HttpResponseBase): Observable<MetaInfoModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = MetaInfoModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MetaInfoModel>(<any>null);
+    }
 }
 
 @Injectable()
@@ -2707,6 +2777,11 @@ export class SocialApiService {
 export class ActivityEditModel implements IActivityEditModel {
     id?: number;
     name?: string | undefined;
+    description?: string | undefined;
+    startDate?: string | undefined;
+    endDate?: string | undefined;
+    hasReminder?: boolean;
+    isHidden?: boolean;
 
     constructor(data?: IActivityEditModel) {
         if (data) {
@@ -2721,6 +2796,11 @@ export class ActivityEditModel implements IActivityEditModel {
         if (_data) {
             this.id = _data["Id"];
             this.name = _data["Name"];
+            this.description = _data["Description"];
+            this.startDate = _data["StartDate"];
+            this.endDate = _data["EndDate"];
+            this.hasReminder = _data["HasReminder"];
+            this.isHidden = _data["IsHidden"];
         }
     }
 
@@ -2735,6 +2815,11 @@ export class ActivityEditModel implements IActivityEditModel {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
         data["Name"] = this.name;
+        data["Description"] = this.description;
+        data["StartDate"] = this.startDate;
+        data["EndDate"] = this.endDate;
+        data["HasReminder"] = this.hasReminder;
+        data["IsHidden"] = this.isHidden;
         return data; 
     }
 }
@@ -2742,11 +2827,21 @@ export class ActivityEditModel implements IActivityEditModel {
 export interface IActivityEditModel {
     id?: number;
     name?: string | undefined;
+    description?: string | undefined;
+    startDate?: string | undefined;
+    endDate?: string | undefined;
+    hasReminder?: boolean;
+    isHidden?: boolean;
 }
 
 export class ActivityListModel implements IActivityListModel {
     id?: number;
     name?: string | undefined;
+    description?: string | undefined;
+    hasReminder?: boolean;
+    isHidden?: boolean;
+    startDate?: string | undefined;
+    endDate?: string | undefined;
 
     constructor(data?: IActivityListModel) {
         if (data) {
@@ -2761,6 +2856,11 @@ export class ActivityListModel implements IActivityListModel {
         if (_data) {
             this.id = _data["Id"];
             this.name = _data["Name"];
+            this.description = _data["Description"];
+            this.hasReminder = _data["HasReminder"];
+            this.isHidden = _data["IsHidden"];
+            this.startDate = _data["StartDate"];
+            this.endDate = _data["EndDate"];
         }
     }
 
@@ -2775,6 +2875,11 @@ export class ActivityListModel implements IActivityListModel {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
         data["Name"] = this.name;
+        data["Description"] = this.description;
+        data["HasReminder"] = this.hasReminder;
+        data["IsHidden"] = this.isHidden;
+        data["StartDate"] = this.startDate;
+        data["EndDate"] = this.endDate;
         return data; 
     }
 }
@@ -2782,6 +2887,11 @@ export class ActivityListModel implements IActivityListModel {
 export interface IActivityListModel {
     id?: number;
     name?: string | undefined;
+    description?: string | undefined;
+    hasReminder?: boolean;
+    isHidden?: boolean;
+    startDate?: string | undefined;
+    endDate?: string | undefined;
 }
 
 export class CategoryListModel implements ICategoryListModel {
@@ -2790,7 +2900,7 @@ export class CategoryListModel implements ICategoryListModel {
     order?: number;
     isPredefined?: boolean;
     isHidden?: boolean;
-    visualUrl?: string | undefined;
+    mediaUrl?: string | undefined;
 
     constructor(data?: ICategoryListModel) {
         if (data) {
@@ -2808,7 +2918,7 @@ export class CategoryListModel implements ICategoryListModel {
             this.order = _data["Order"];
             this.isPredefined = _data["IsPredefined"];
             this.isHidden = _data["IsHidden"];
-            this.visualUrl = _data["VisualUrl"];
+            this.mediaUrl = _data["MediaUrl"];
         }
     }
 
@@ -2826,7 +2936,7 @@ export class CategoryListModel implements ICategoryListModel {
         data["Order"] = this.order;
         data["IsPredefined"] = this.isPredefined;
         data["IsHidden"] = this.isHidden;
-        data["VisualUrl"] = this.visualUrl;
+        data["MediaUrl"] = this.mediaUrl;
         return data; 
     }
 }
@@ -2837,7 +2947,7 @@ export interface ICategoryListModel {
     order?: number;
     isPredefined?: boolean;
     isHidden?: boolean;
-    visualUrl?: string | undefined;
+    mediaUrl?: string | undefined;
 }
 
 export class Contact implements IContact {
@@ -3218,6 +3328,66 @@ export enum MediaType {
     _2 = 2,
 }
 
+export class MetaInfoModel implements IMetaInfoModel {
+    hasData?: boolean;
+    url?: string | undefined;
+    title?: string | undefined;
+    description?: string | undefined;
+    keywords?: string | undefined;
+    mediaUrl?: string | undefined;
+    mediaId?: number;
+
+    constructor(data?: IMetaInfoModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.hasData = _data["HasData"];
+            this.url = _data["Url"];
+            this.title = _data["Title"];
+            this.description = _data["Description"];
+            this.keywords = _data["Keywords"];
+            this.mediaUrl = _data["MediaUrl"];
+            this.mediaId = _data["MediaId"];
+        }
+    }
+
+    static fromJS(data: any): MetaInfoModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new MetaInfoModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["HasData"] = this.hasData;
+        data["Url"] = this.url;
+        data["Title"] = this.title;
+        data["Description"] = this.description;
+        data["Keywords"] = this.keywords;
+        data["MediaUrl"] = this.mediaUrl;
+        data["MediaId"] = this.mediaId;
+        return data; 
+    }
+}
+
+export interface IMetaInfoModel {
+    hasData?: boolean;
+    url?: string | undefined;
+    title?: string | undefined;
+    description?: string | undefined;
+    keywords?: string | undefined;
+    mediaUrl?: string | undefined;
+    mediaId?: number;
+}
+
 export class Neighborhood implements INeighborhood {
     id?: number;
     districtId?: number;
@@ -3272,6 +3442,8 @@ export interface INeighborhood {
 
 export class PostEditModel implements IPostEditModel {
     id?: number;
+    mediaId?: number | undefined;
+    activityId?: number | undefined;
     name?: string | undefined;
     url?: string | undefined;
     brand?: string | undefined;
@@ -3279,6 +3451,7 @@ export class PostEditModel implements IPostEditModel {
     color?: string | undefined;
     size?: string | undefined;
     description?: string | undefined;
+    tags?: string | undefined;
 
     constructor(data?: IPostEditModel) {
         if (data) {
@@ -3292,6 +3465,8 @@ export class PostEditModel implements IPostEditModel {
     init(_data?: any) {
         if (_data) {
             this.id = _data["Id"];
+            this.mediaId = _data["MediaId"];
+            this.activityId = _data["ActivityId"];
             this.name = _data["Name"];
             this.url = _data["Url"];
             this.brand = _data["Brand"];
@@ -3299,6 +3474,7 @@ export class PostEditModel implements IPostEditModel {
             this.color = _data["Color"];
             this.size = _data["Size"];
             this.description = _data["Description"];
+            this.tags = _data["Tags"];
         }
     }
 
@@ -3312,6 +3488,8 @@ export class PostEditModel implements IPostEditModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
+        data["MediaId"] = this.mediaId;
+        data["ActivityId"] = this.activityId;
         data["Name"] = this.name;
         data["Url"] = this.url;
         data["Brand"] = this.brand;
@@ -3319,12 +3497,15 @@ export class PostEditModel implements IPostEditModel {
         data["Color"] = this.color;
         data["Size"] = this.size;
         data["Description"] = this.description;
+        data["Tags"] = this.tags;
         return data; 
     }
 }
 
 export interface IPostEditModel {
     id?: number;
+    mediaId?: number | undefined;
+    activityId?: number | undefined;
     name?: string | undefined;
     url?: string | undefined;
     brand?: string | undefined;
@@ -3332,6 +3513,7 @@ export interface IPostEditModel {
     color?: string | undefined;
     size?: string | undefined;
     description?: string | undefined;
+    tags?: string | undefined;
 }
 
 export class PostListModel implements IPostListModel {
@@ -3343,6 +3525,9 @@ export class PostListModel implements IPostListModel {
     color?: string | undefined;
     size?: string | undefined;
     description?: string | undefined;
+    keywords?: string | undefined;
+    mediaUrl?: string | undefined;
+    activity?: ActivityListModel;
 
     constructor(data?: IPostListModel) {
         if (data) {
@@ -3363,6 +3548,9 @@ export class PostListModel implements IPostListModel {
             this.color = _data["Color"];
             this.size = _data["Size"];
             this.description = _data["Description"];
+            this.keywords = _data["Keywords"];
+            this.mediaUrl = _data["MediaUrl"];
+            this.activity = _data["Activity"] ? ActivityListModel.fromJS(_data["Activity"]) : <any>undefined;
         }
     }
 
@@ -3383,6 +3571,9 @@ export class PostListModel implements IPostListModel {
         data["Color"] = this.color;
         data["Size"] = this.size;
         data["Description"] = this.description;
+        data["Keywords"] = this.keywords;
+        data["MediaUrl"] = this.mediaUrl;
+        data["Activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -3396,6 +3587,9 @@ export interface IPostListModel {
     color?: string | undefined;
     size?: string | undefined;
     description?: string | undefined;
+    keywords?: string | undefined;
+    mediaUrl?: string | undefined;
+    activity?: ActivityListModel;
 }
 
 export class Province implements IProvince {

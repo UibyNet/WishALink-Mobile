@@ -11,35 +11,43 @@
         <img src="../../../assets/svg/abstract/exit.svg" alt="Icon">
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="Ürün linki"></ion-input>
+        <ion-input [(ngModel)]="url" (ionChange)="onLinkChange()" placeholder="Ürün linki"></ion-input>
+      </div>
+      <div *ngIf="mediaUrl != undefined && mediaUrl.length>0" class="ion-margin-bottom product-image">
+        <img [src]="mediaUrl" alt="">
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="Marka"></ion-input>
+        <ion-input [(ngModel)]="brand" placeholder="Marka"></ion-input>
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="Model"></ion-input>
+        <ion-input [(ngModel)]="model" placeholder="Model"></ion-input>
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="Renk"></ion-input>
+        <ion-input [(ngModel)]="color" placeholder="Renk"></ion-input>
       </div>
       <div class="ion-margin-bottom">
-        <ion-input placeholder="Beden veya Kapasite"></ion-input>
+        <ion-input [(ngModel)]="size" placeholder="Beden veya Kapasite"></ion-input>
       </div>
       <div class="ion-margin-bottom">
-        <p-calendar placeholder="Takvim" (onShow)="calendarOpen()" (onClose)="calendarClose()" [(ngModel)]="value">
+        <ion-select [(ngModel)]="activityId" placeholder="Etkinlik" okText="Tamam" cancelText="İptal">
+          <ion-select-option *ngFor="let activity of activities" [value]="activity.id">{{ activity.name }}</ion-select-option>
+        </ion-select>
+      </div>
+      <div class="ion-margin-bottom" hidden>
+        <p-calendar placeholder="Takvim" (onShow)="calendarOpen()" (onClose)="calendarClose()" [(ngModel)]="date">
           <ng-template pTemplate="footer">
             <div class="calendar-input-container d-flex ion-align-items-center">
-              <input [(ngModel)]="eventText" [value]="eventText" class="ion-margin-end" type="text" pInputText />
+              <input [(ngModel)]="activity" class="ion-margin-end" type="text" pInputText />
               <div class="d-flex"><img src="../../../assets/svg/home/file.svg" alt="Icon"></div>
             </div>
           </ng-template>
         </p-calendar>
       </div>
       <div class="mb-32">
-        <ion-input placeholder="Açıklama"></ion-input>
+        <ion-input [(ngModel)]="description" placeholder="Açıklama"></ion-input>
       </div>
       <div>
-        <button routerLink="choose-category">Devam Et</button>
+        <button (click)="savePost()">Devam Et</button>
       </div>
     </div>
   </div>

@@ -1,7 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {CalendarMode, Step} from 'ionic2-calendar/calendar';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CalendarComponent } from "ionic2-calendar";
+import { CalendarMode, Step } from 'ionic2-calendar/calendar';
 import { registerLocaleData } from '@angular/common';
 import localeZh from '@angular/common/locales/tr';
+import { ActivityApiService, ActivityListModel } from 'src/app/services/api.service';
+import { AppService } from 'src/app/services/app.service';
+import * as moment from 'moment';
 registerLocaleData(localeZh);
 
 
@@ -11,7 +15,10 @@ registerLocaleData(localeZh);
   styleUrls: ['./calendar.page.scss'],
 })
 export class CalendarPage implements OnInit {
-  eventSource;
+
+  @ViewChild(CalendarComponent, null) calendarComponent: CalendarComponent;
+
+  eventSource = [];
   viewTitle;
   isToday: boolean;
   calendar = {
@@ -46,14 +53,39 @@ export class CalendarPage implements OnInit {
     }
   };
 
-  constructor() {
+  constructor(
+    private appService: AppService,
+    private activityApiService: ActivityApiService
+  ) {
   }
 
   ngOnInit() {
+    this.loadEvents();
   }
 
   loadEvents() {
-    this.eventSource = this.createRandomEvents();
+    this.activityApiService.list(this.appService.user.id)
+      .subscribe(
+        v => this.onActivitiesLoad(v),
+        e => this.onError(e)
+      )
+  }
+  onActivitiesLoad(v: ActivityListModel[]): void {
+    if (v != undefined && v.length > 0) {
+      for (const activity of v) {
+        this.eventSource.push({
+          title: activity.name,
+          startTime: moment(activity.startDate, 'DD.MM.YYYY HH:mm').toDate(),
+          endTime: moment(activity.endDate, 'DD.MM.YYYY HH:mm').toDate(),
+          allDay: true
+        });
+      }
+      this.calendarComponent.loadEvents();
+    }
+  }
+
+  onError(e: any): void {
+    this.appService.showErrorAlert(e);
   }
 
   onViewTitleChanged(title) {
