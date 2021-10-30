@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {filter, pairwise} from 'rxjs/operators';
-import {NavigationEnd, Router, RoutesRecognized} from "@angular/router";
 
 @Component({
     selector: 'app-add-category',
@@ -11,15 +9,7 @@ export class AddCategoryPage implements OnInit {
     categoryName: string;
     previousUrl: string
 
-    constructor(
-        private router: Router
-    ) {
-        router.events
-            .pipe(filter(event => event instanceof NavigationEnd))
-            .subscribe((event: NavigationEnd) => {
-                console.log('prev:', event.url);
-                this.previousUrl = event.url;
-            });
+    constructor() {
     }
 
     private setFirstLetterToUppercase(val: string): string {
@@ -31,15 +21,5 @@ export class AddCategoryPage implements OnInit {
     }
 
     ngOnInit() {
-    }
-
-    prevPage() {
-        if (this.previousUrl === '/add-product/add-category') {
-            console.log(this.previousUrl)
-            this.router.navigateByUrl('/add-product/add-category')
-        } else {
-
-            this.router.navigateByUrl('/tabs')
-        }
     }
 }

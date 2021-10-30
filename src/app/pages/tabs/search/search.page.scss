@@ -54,6 +54,7 @@
     .avatar-container {
       height: 96px;
       width: 96px;
+      overflow: hidden;
       margin: 2rem auto 1rem;
       border-radius: 100px;
       background: #FFFFFF;
@@ -73,7 +74,7 @@
   }
 
   .profile-list-item {
-    padding: 4px 1rem;
+    padding: 4px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -83,9 +84,9 @@
     .follow-info {
       font-weight: 300;
       font-size: 9px;
-      background: #1E90FF;
-      color: #ffff;
-      border: 1px solid #1E90FF;
+      background: #FFFFFF;
+      color: #6A40D6;
+      border: 1px solid #6A40D6;
       border-radius: 8px;
       width: 72px;
       height: 24px;
@@ -93,9 +94,9 @@
       justify-content: center;
       align-items: center;
       &.active{
-        background: #FFFFFF;
-        color: #6A40D6;
-        border: 1px solid #6A40D6;
+        background: #1E90FF;
+        color: #ffff;
+        border: 1px solid #1E90FF;
       }
     }
 
