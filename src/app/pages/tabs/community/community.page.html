@@ -5,18 +5,18 @@
     </span>
     <div class="top-avatar ion-text-center">
       <div class="avatar-container">
-        <img src="../../../../assets/svg/home/avatar.png" alt="Avatar">
+        <img [src]="userData?.profilePictureUrl" alt="Avatar">
       </div>
       <div class="ion-margin-bottom name">
-        Ayla Cihan
+        {{userData?.fullName}}
       </div>
       <div class="follower-content">
         <div class="follower">
-          <div class="number">56</div>
+          <div class="number">{{userData?.followersCount}}</div>
           <div class="text">Takipçi</div>
         </div>
         <div class="following">
-          <div class="number">100</div>
+          <div class="number">{{userData?.followingsCount}}</div>
           <div class="text">Takip</div>
         </div>
       </div>

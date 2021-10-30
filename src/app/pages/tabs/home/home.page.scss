@@ -88,13 +88,16 @@
       }
     }
 
-    .avatar-container {
+    .avatar-main {
+      position: relative;
       height: 96px;
       width: 96px;
       margin: 0 auto 1rem;
-      border-radius: 100px;
-      background: #ffffff;
-      position: relative;
+      .avatar-container {
+        border-radius: 100px;
+        background: #ffffff;
+        overflow: hidden;
+      }
 
       .avatar-options {
         position: absolute;
@@ -110,6 +113,7 @@
         right: 3%;
       }
     }
+
 
     .name {
       font-size: 24px;
@@ -148,12 +152,14 @@
     }
   }
 }
+
 ::ng-deep .action-sheet-group.sc-ion-action-sheet-md:first-child {
   border-top-right-radius: 16px;
   border-top-left-radius: 16px;
   overflow: unset;
   height: 300px;
-  button:first-child{
+
+  button:first-child {
     margin-bottom: 32px;
   }
 }
@@ -191,6 +197,7 @@
   position: absolute;
   content: '';
 }
+
 //::ng-deep .changeProfilePicture{
 //  margin-bottom: 32px;
 //  height: 56px;
@@ -203,11 +210,12 @@
 //    font-size: 20px;
 //  }
 //}
-::ng-deep .changeProfilePicture{
+::ng-deep .changeProfilePicture {
   height: 56px;
   margin-bottom: 1rem;
   padding: 0 1.5rem !important;
-  span{
+
+  span {
     justify-content: flex-start !important;
     background: #1E90FF;
     padding-left: 1rem;
@@ -216,6 +224,7 @@
     font-size: 20px;
   }
 }
-::ng-deep .action-sheet-icon.sc-ion-action-sheet-md{
+
+::ng-deep .action-sheet-icon.sc-ion-action-sheet-md {
   color: #FFFFFF;
 }
