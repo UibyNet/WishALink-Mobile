@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProfileApiService} from "../../services/api.service";
+import {ProfileApiService, SocialUserListModel} from "../../services/api.service";
 import {AppService} from "../../services/app.service";
 import {Router} from "@angular/router";
 
@@ -19,10 +19,12 @@ export class ChangePasswordPage implements OnInit {
 
     oldPassword: string
     newPassword: string
-    repeatPassword:string
+    repeatPassword: string
     isLoading: boolean = false;
+    userData: SocialUserListModel
 
     ngOnInit() {
+        this.userData = this.appService.userInfo
     }
 
     changePassword() {
@@ -37,7 +39,7 @@ export class ChangePasswordPage implements OnInit {
             return;
         }
 
-        if(this.newPassword != this.repeatPassword){
+        if (this.newPassword != this.repeatPassword) {
             this.appService.showAlert('Lütfen şifre eşleşmesini kontrol edin', 'Uyarı!');
             return;
         }
@@ -52,7 +54,7 @@ export class ChangePasswordPage implements OnInit {
     onPasswordChange() {
         this.isLoading = false;
         this.appService.showToast('Şifreniz başarıyla değiştirildi.')
-        this.router.navigate(['tabs','settings'])
+        this.router.navigate(['tabs', 'settings'])
     }
 
     onError(e: any) {
