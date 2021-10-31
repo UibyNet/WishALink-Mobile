@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {NavController} from '@ionic/angular';
-import {AppService} from 'src/app/services/app.service';
-import {SocialUserListModel} from "../../../services/api.service";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { AppService } from 'src/app/services/app.service';
+import { SocialUserListModel } from "../../../services/api.service";
 
 @Component({
     selector: 'app-settings',
@@ -14,7 +14,7 @@ export class SettingsPage implements OnInit {
     constructor(
         private navController: NavController,
         private appService: AppService
-    ) {}
+    ) { }
 
     userData: SocialUserListModel
 
@@ -24,6 +24,8 @@ export class SettingsPage implements OnInit {
 
     logout() {
         this.appService.logout();
-        this.navController.navigateRoot('/login');
+        setTimeout(() => {
+            this.navController.navigateRoot('/login');
+        }, 200);
     }
 }

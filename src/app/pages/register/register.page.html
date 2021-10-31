@@ -17,7 +17,29 @@
       <div class="img-container">
         <img src="../../../assets/svg/register/photo.svg" alt="Icon">
       </div>
-      <div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+        <ion-item>
+          <input pInputText formControlName="firstName" type="text" (keyup)="autoCapitalize('firstName')"
+            placeholder="İsim">
+        </ion-item>
+        <ion-item>
+          <input pInputText formControlName="lastName" type="text" (keyup)="autoCapitalize('lastName')"
+            placeholder="Soyisim">
+        </ion-item>
+        <ion-item>
+          <input pInputText formControlName="email" type="email" placeholder="E-mail">
+        </ion-item>
+        <ion-item>
+          <div class="p-inputgroup">
+            <button (click)="showCountrySelector()" class="p-button-outlined" type="button" pButton pRipple icon="flag-icon flag-icon-{{selectedCountry.isoCode}}"  label="+{{selectedCountry.dialCode}}"></button>
+            <p-inputMask formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask" placeholder="Telefon"></p-inputMask>
+          </div>
+        </ion-item>
+      </form>
+
+
+      <div hidden>
         <div class="input-container">
           <ion-input [(ngModel)]="firstName" (ionChange)="autoCapitalize('firstName')" class="ion-margin-bottom"
             placeholder="İsim"></ion-input>
@@ -30,7 +52,8 @@
         </div>
       </div>
       <div class="ion-padding-horizontal">
-        <ion-button (click)="register()" [disabled]="isLoading">{{ isLoading ? 'Lütfen bekleyiniz...' : 'Devam Et'}}</ion-button>
+        <ion-button (click)="register()" [disabled]="isLoading">{{ isLoading ? 'Lütfen bekleyiniz...' : 'Devam Et'}}
+        </ion-button>
       </div>
     </div>
   </div>
@@ -52,7 +75,8 @@
         </div>
       </div>
       <div class="ion-padding-horizontal button-container-number">
-        <ion-button (click)="verify()" [disabled]="isLoading">{{ isLoading ? 'Lütfen bekleyiniz...' : 'Devam Et'}}</ion-button>
+        <ion-button (click)="verify()" [disabled]="isLoading">{{ isLoading ? 'Lütfen bekleyiniz...' : 'Devam Et'}}
+        </ion-button>
       </div>
     </div>
   </div>

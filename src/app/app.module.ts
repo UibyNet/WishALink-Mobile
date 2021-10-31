@@ -17,6 +17,7 @@ import { AppPipesModule } from './pipes/pipes.module';
 import { TokenInterceptor } from './helpers/token.interceptor';
 import { AppService } from './services/app.service';
 import { AuthApiService, API_BASE_URL, ProfileApiService, SocialApiService, CategoryApiService, PostApiService, ActivityApiService } from './services/api.service';
+import { SharedComponentsModule } from './components/shared-components.module';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { AuthApiService, API_BASE_URL, ProfileApiService, SocialApiService, Cate
     IonIntlTelInputModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AppPipesModule
+    AppPipesModule,
+    SharedComponentsModule
   ],
   providers: [
     AppService,

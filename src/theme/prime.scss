@@ -1,0 +1,65 @@
+::placeholder {
+  font-family: var(--ion-font-family);
+}
+
+.p-button {
+  font-family: var(--ion-font-family);
+  &:focus {
+    box-shadow: none;
+  }
+
+  .p-button-icon-left {
+    width: 20px;
+  }
+
+  .p-button-label {
+      white-space: nowrap;
+  }
+}
+
+.p-inputtext {
+  font-family: var(--ion-font-family);
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  padding: 16px;
+  width: 100%;
+  height: 52px;
+  border-color: var(--ion-color-primary);
+  border-radius: 16px;
+
+  &:enabled:hover:not(.ng-dirty) {
+    border-color: var(--ion-color-primary);
+  }
+
+  &:enabled:focus {
+    box-shadow: none;
+    box-shadow: inset 0 0 0 0.05rem rgb(106 64 214 / 100%);
+  }
+
+  &.ng-dirty.ng-invalid:focus {
+    box-shadow: inset 0 0 0 0.05rem rgb(244 67 54 / 100%);
+  }
+}
+
+.p-inputgroup {
+  .p-button {
+    width: 120px;
+  }
+  p-inputmask {
+    width: 100%;
+
+    .p-inputtext {
+      width: 100% !important;
+      border-radius: 0 16px 16px 0;
+    }
+  }
+
+  .p-button {
+    border-top-left-radius: 16px !important;
+    border-bottom-left-radius: 16px !important;
+    border-right-width: 0 !important;
+  }
+}

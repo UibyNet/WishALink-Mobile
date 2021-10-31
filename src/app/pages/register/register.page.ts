@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IonIntlTelInputModel } from 'ion-intl-tel-input';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthApiService, ProfileApiService, TokenModel, UserModel, VerifyModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
+import { ModalController } from '@ionic/angular';
+import { CountrySelectorComponent } from 'src/app/components/country-selector/country-selector.component';
 
 @Component({
   selector: 'app-register',
@@ -62,13 +63,17 @@ export class RegisterPage implements OnInit {
   ];
   selectedProducts = [];
 
+  selectedCountry = {dialCode: '90', isoCode: 'tr', phoneMask: '999 999 99 99'};
+
   isLoading: boolean = false;
   firstName: string;
   lastName: string;
   email: string;
   otp: string;
-  intPhoneNumber: IonIntlTelInputModel;
+  intPhoneNumber: any;
   oldPassword: string;
+
+  registerForm: FormGroup
 
   get phoneNumber(): string {
     return this.intPhoneNumber?.internationalNumber.match(/\d/g)?.join('');
@@ -77,22 +82,25 @@ export class RegisterPage implements OnInit {
   constructor(
     private appService: AppService,
     private authService: AuthApiService,
-    private profileService: ProfileApiService
+    private profileService: ProfileApiService,
+    private formBuilder: FormBuilder,
+    private modalController: ModalController
   ) {
   }
 
   ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      firstName: ['', [Validators.required, Validators.minLength(1)]],
+      lastName: ['', [Validators.required, Validators.minLength(1)]],
+      intPhoneNumber: ['', [Validators.required, Validators.minLength(1)]],
+      email: ['', [Validators.required, Validators.minLength(1)]],
+   })
   }
 
   autoCapitalize(input: string) {
-    let currentValue = '';
-    if (input == 'firstName') currentValue = this.firstName;
-    if (input == 'lastName') currentValue = this.lastName;
-
+    let currentValue = this.registerForm.get(input).value;
     currentValue = currentValue.split(' ').map(x => x.substring(0, 1).toUpperCase() + x.substring(1).toLowerCase()).join(' ');
-
-    if (input == 'firstName') this.firstName = currentValue;
-    if (input == 'lastName') this.lastName = currentValue;
+    this.registerForm.get(input).setValue(currentValue);
   }
 
   selectProduct(id) {
@@ -113,10 +121,13 @@ export class RegisterPage implements OnInit {
 
   register() {
     const model = new UserModel();
-    model.firstName = this.firstName.trim();
-    model.lastName = this.lastName.trim();
-    model.phoneNumber = this.phoneNumber;
-    model.email = this.email;
+    model.firstName = this.registerForm.get('firstName').value.trim();
+    model.lastName = this.registerForm.get('lastName').value.trim();
+    model.phoneNumber = this.registerForm.get('phoneNumber').value.trim();
+    model.email = this.registerForm.get('email').value.trim();
+
+    debugger;
+    return;
 
     this.isLoading = true;
     this.authService.register(model)
@@ -176,5 +187,18 @@ export class RegisterPage implements OnInit {
   onError(e: any): void {
     this.isLoading = false;
     this.appService.showErrorAlert(e);
+  }
+
+  async showCountrySelector() {
+    const modal = await this.modalController.create({
+      component: CountrySelectorComponent,
+      cssClass: 'my-custom-class'
+    });
+
+    modal.onDidDismiss().then(v => {
+      this.selectedCountry = v.data;
+    })
+
+    return await modal.present();
   }
 }
