@@ -1,40 +1,40 @@
 <ion-content>
-  <div class="main">
+    <div class="main">
 
-  <div class="pt-4 ion-text-center">
-    <div class="img-avatar ion-margin-bottom mx-auto">
-      <img src="../../../../assets/svg/home/avatar.png" alt="Img">
+        <div class="pt-4 ion-text-center">
+            <div class="img-avatar ion-margin-bottom mx-auto">
+                <img [src]="userData?.profilePictureUrl" alt="">
+            </div>
+            <div class="font-24 mb-4">
+                {{userData?.fullName}}
+            </div>
+            <div class="d-flex mb-5 ion-justify-content-center">
+                <div routerLink="create-event" class="round-badge mr-2 d-flex ion-justify-content-center ion-align-items-center">
+                    <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+                </div>
+                <div class="round-badge ml-2 d-flex ion-justify-content-center ion-align-items-center">
+                    <img src="../../../../assets/svg/abstract/search.svg" alt="Icon">
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="d-flex ion-padding-horizontal ion-align-items-center ion-justify-content-between mb-4 mt-4">
+                <div class="date-info">
+                    {{viewTitle}}
+                </div>
+                <div>
+                    <button class="month-today-button" ion-button [disabled]="isToday" (click)="today()">Today</button>
+                </div>
+            </div>
+            <calendar [eventSource]="eventSource"
+                      [calendarMode]="calendar.mode"
+                      [currentDate]="calendar.currentDate"
+                      (onCurrentDateChanged)="onCurrentDateChanged($event)"
+                      (onEventSelected)="onEventSelected($event)"
+                      (onTitleChanged)="onViewTitleChanged($event)"
+                      (onTimeSelected)="onTimeSelected($event)"
+                      [step]="calendar.step">
+            </calendar>
+        </div>
     </div>
-    <div class="font-24 mb-4">
-      Ayla Cihan
-    </div>
-    <div class="d-flex mb-5 ion-justify-content-center">
-      <div routerLink="create-event" class="round-badge mr-2 d-flex ion-justify-content-center ion-align-items-center">
-        <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
-      </div>
-      <div class="round-badge ml-2 d-flex ion-justify-content-center ion-align-items-center">
-        <img src="../../../../assets/svg/abstract/search.svg" alt="Icon">
-      </div>
-    </div>
-  </div>
-  <div>
-    <div class="d-flex ion-padding-horizontal ion-align-items-center ion-justify-content-between mb-4 mt-4">
-      <div class="date-info">
-        {{viewTitle}}
-      </div>
-      <div>
-        <button class="month-today-button" ion-button [disabled]="isToday" (click)="today()">Today</button>
-      </div>
-    </div>
-    <calendar [eventSource]="eventSource"
-              [calendarMode]="calendar.mode"
-              [currentDate]="calendar.currentDate"
-              (onCurrentDateChanged)="onCurrentDateChanged($event)"
-              (onEventSelected)="onEventSelected($event)"
-              (onTitleChanged)="onViewTitleChanged($event)"
-              (onTimeSelected)="onTimeSelected($event)"
-              [step]="calendar.step">
-    </calendar>
-  </div>
-  </div>
 </ion-content>

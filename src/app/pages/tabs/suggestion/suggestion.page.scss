@@ -3,32 +3,44 @@
   height: auto;
   display: flex;
   border-bottom: 0.5px solid #D5D5D5;
+
   .back-button {
     position: absolute;
   }
-  button{
+
+  button {
     background: transparent;
     font-size: 9px;
     line-height: 10px;
     text-decoration-line: underline;
     color: #6A40D6;
   }
+
   .top-avatar {
     width: 100%;
+
     .avatar-container {
       height: 56px;
       width: 56px;
       margin: 2rem auto 8px;
       border-radius: 100px;
       background: #FFFFFF;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
-    .category-info{
+
+    .category-info {
       font-weight: 300;
       font-size: 12px;
       margin-bottom: 6px;
       color: #D5D5D5;
 
     }
+
     .category-name {
       font-size: 24px;
       margin-bottom: 6px;
@@ -36,21 +48,26 @@
     }
   }
 }
-.mb-8{
+
+.mb-8 {
   margin-bottom: 8px;
 }
-.product-content{
+
+.product-content {
   padding: 0 1rem 28%;
   @media (max-width: 320px) {
     padding: 0 0 28% !important;
   }
-  .item-container{
+
+  .item-container {
     border-bottom: 0.5px solid #D5D5D5;
     padding: 0 32px;
-    &:not(:last-child){
+
+    &:not(:last-child) {
       margin-bottom: 6px;
     }
-    .img-bottom::after{
+
+    .img-bottom::after {
       position: absolute;
       content: "";
       background: white;
@@ -61,17 +78,20 @@
       right: 0;
       margin: auto;
     }
-    .col-custom{
+
+    .col-custom {
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
-    .product-name{
+
+    .product-name {
       font-size: 16px;
       line-height: 18px;
       margin-right: 18px;
     }
-    .badge-container{
+
+    .badge-container {
       width: 48px;
       height: 18px;
       display: flex;
@@ -82,11 +102,13 @@
       font-size: 9px;
       line-height: 10px;
       color: #FFFFFF;
-      &:not(:last-child){
+
+      &:not(:last-child) {
         margin-right: 8px;
       }
     }
-    .img-product-container{
+
+    .img-product-container {
       height: 124px;
       border-radius: 8px;
       overflow: hidden;
@@ -95,7 +117,8 @@
     }
   }
 }
-.add-product{
+
+.add-product {
   width: 48px;
   height: 48px;
   background: #1E90FF;
