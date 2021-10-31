@@ -15,13 +15,14 @@ export class SearchPage implements OnInit {
         private socialApiService: SocialApiService,
         private router: Router
     ) {
-        this.userData = appService.userInfo
     }
 
     userData: SocialUserListModel
     searchResultPeople: SocialUserListModel[]
 
     ngOnInit() {
+        this.userData = this.appService.userInfo
+        this.searchResultPeople = []
     }
 
     yourSearchFunction(event) {
@@ -32,6 +33,8 @@ export class SearchPage implements OnInit {
                     e => this.onError(e)
                 )
             })
+        } else {
+            this.searchResultPeople = []
         }
     }
 

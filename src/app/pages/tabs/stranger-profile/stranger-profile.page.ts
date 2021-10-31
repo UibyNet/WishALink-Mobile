@@ -19,20 +19,28 @@ export class StrangerProfilePage implements OnInit {
     }
 
     strangerUser: SocialUserListModel
+    userId: number
 
     ngOnInit() {
-        const userId = this.route.snapshot.paramMap.get('id');
-        this.getUser(parseInt(userId));
+        const id = this.route.snapshot.paramMap.get('id');
+        this.userId = parseInt(id)
+        this.getUser();
     }
 
-    getUser(userId: number) {
-        this.appService.toggleLoader(true).then(res => {
-            this.profileApiService.info(userId).subscribe(
+    getUser(showLoader: boolean = true) {
+        if (showLoader) {
+            this.appService.toggleLoader(true).then(res => {
+                this.profileApiService.info(this.userId).subscribe(
+                    v => this.onUserInfo(v),
+                    e => this.onError(e)
+                )
+            })
+        } else {
+            this.profileApiService.info(this.userId).subscribe(
                 v => this.onUserInfo(v),
                 e => this.onError(e)
             )
-        })
-
+        }
     }
 
     selectedUser() {
@@ -63,15 +71,16 @@ export class StrangerProfilePage implements OnInit {
     }
 
     onUnfollow(v: number) {
-        console.log(v)
         this.strangerUser.isFollowing = false;
-        this.strangerUser.followersCount = v
+        this.appService.userInfo.followingsCount = v
+        this.getUser(false)
+
     }
 
     onFollow(v: number) {
-        console.log(v)
         this.strangerUser.isFollowing = true;
-        this.strangerUser.followersCount = v
+        this.appService.userInfo.followingsCount = v
+        this.getUser(false)
     }
 
 }

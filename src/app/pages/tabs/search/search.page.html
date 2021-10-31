@@ -2,7 +2,7 @@
     <div class="top-container">
         <div class="top-avatar ion-text-center">
             <div class="avatar-container">
-                <img [src]="userData.profilePictureUrl" alt="Avatar">
+                <img [src]="userData?.profilePictureUrl" alt="Avatar">
             </div>
             <div class="ion-margin-bottom name">
                 {{userData?.fullName}}
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="search-bar">
-                <ion-searchbar debounce="500" (ionChange)="yourSearchFunction($event.target.value)" placeholder="Arama Yap"></ion-searchbar>
+                <ion-searchbar mode="ios" debounce="500" (ionChange)="yourSearchFunction($event.target.value)" placeholder="Arama Yap"></ion-searchbar>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
         <div *ngFor="let user of searchResultPeople" class="profile-list-item">
             <div (click)="selectedUser(user.id)" class="person-info">
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
-                <div class="name">{{user.fullName}}</div>
+                <div class="name">{{user?.fullName}}</div>
             </div>
             <div (click)="followAction(user)" [ngClass]="{'active':!user.isFollowing}" class="follow-info">
                 {{ user.isFollowing ? 'Takibi Bırak' : 'Takip Et'}}
