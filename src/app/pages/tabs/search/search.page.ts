@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AppService} from "../../../services/app.service";
 import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-search',
@@ -11,7 +12,8 @@ export class SearchPage implements OnInit {
 
     constructor(
         private appService: AppService,
-        private socialApiService: SocialApiService
+        private socialApiService: SocialApiService,
+        private router: Router
     ) {
         this.userData = appService.userInfo
     }
@@ -60,6 +62,9 @@ export class SearchPage implements OnInit {
         this.appService.showAlert(e)
     }
 
+    selectedUser(id: number) {
+        this.router.navigate(['/tabs/search/stranger-profile', id])
+    }
 
     onUnfollow(v: number, userId: number) {
         this.searchResultPeople.filter(x => x.id === userId)[0].isFollowing = false;

@@ -1,111 +1,140 @@
-.top-container{
+.top-container {
   padding: 26px;
   height: auto;
   display: flex;
-  .badge-container{
-    background: #1E90FF;
+
+  .badge-container {
     border-radius: 8px;
     width: 72px;
     height: 24px;
-    color: #FFFFFF;
+    background: #FFFFFF;
+    border: 1px solid #6A40D6;
+    color: #6A40D6;
+
+    &.active {
+      background: #1E90FF;
+      color: #FFFFFF;
+      border: 1px solid #1E90FF;
+    }
   }
-  .back-button{
+
+  .back-button {
     position: absolute;
   }
-  .top-tabs{
+
+  .top-tabs {
     display: flex;
     align-items: center;
     justify-content: center;
-    .plus-icon{
+
+    .plus-icon {
       max-width: unset;
     }
-    .tab-container{
+
+    .tab-container {
       margin-right: 8px;
       display: flex;
       align-items: center;
       border: 1px solid #1E90FF;
       border-radius: 8px;
-      div{
+
+      div {
         padding: 0.375rem 1rem;
         border-radius: 7px;
         white-space: pre;
         font-size: 18px;
         line-height: 20px;
         color: #D5D5D5;
-        &.active{
+
+        &.active {
           background: #1E90FF;
           color: #FFFFFF;
         }
       }
     }
   }
-  .top-avatar{
+
+  .top-avatar {
     width: 100%;
-    .follower-content{
+
+    .follower-content {
       display: flex;
       align-items: center;
       margin-bottom: 1.5rem;
       justify-content: center;
-      .text{
+
+      .text {
         font-size: 12px;
         line-height: 13px;
         color: #D5D5D5;
       }
-      .number{
+
+      .number {
         margin-right: 6px;
         font-size: 14px;
         line-height: 16px;
         color: #6A40D6;
 
       }
-      .follower{
+
+      .follower {
         display: flex;
         align-items: center;
         margin-right: 1.5rem;
       }
-      .following{
+
+      .following {
         display: flex;
         align-items: center;
       }
     }
-    .avatar-container{
+
+    .avatar-container {
       height: 96px;
       width: 96px;
-      margin:0 auto 1rem;
+      margin: 0 auto 1rem;
       border-radius: 100px;
       background: #FFFFFF;
-      img{
+      overflow: hidden;
+
+      img {
         width: 100%;
       }
     }
-    .name{
+
+    .name {
       font-size: 24px;
       line-height: 27px;
     }
   }
 }
-.content{
+
+.content {
   padding: 0 24px 30%;
   @media (max-width: 320px) {
     padding: 0 0 30% !important;
   }
-  .product-amount{
+
+  .product-amount {
     font-size: 9px;
     color: #D5D5D5;
     margin-bottom: 1rem;
   }
-  .product-title{
+
+  .product-title {
     margin-bottom: 3px;
     font-size: 12px;
   }
-  .card{
+
+  .card {
     width: 96px;
     height: 124px;
     border: 1px solid #D5D5D5;
     border-radius: 8px;
     overflow: hidden;
-    margin:0 auto 4px;
-    img{
+    margin: 0 auto 4px;
+
+    img {
       height: 100%;
     }
   }
