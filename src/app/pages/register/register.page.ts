@@ -189,7 +189,9 @@ export class RegisterPage implements OnInit {
     });
 
     modal.onDidDismiss().then(v => {
-      this.selectedCountry = v.data;
+      if(v != null && v.data != null) {
+        this.selectedCountry = v.data;
+      }
     })
 
     return await modal.present();

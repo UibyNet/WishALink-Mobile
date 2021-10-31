@@ -13,7 +13,7 @@ form {
 
 .page-container {
   height: 100%;
-  background : #633dca;
+  background: #633dca;
 
   .bottom-container {
     border-top-right-radius: 32px;
@@ -46,12 +46,12 @@ form {
       margin: 0;
       padding: 16px;
     }
-    
+
     h3 {
       font-weight: 300;
       font-size: 14px;
       line-height: 18px;
-      color: #D5D5D5;
+      color: #d5d5d5;
       text-align: center;
       position: relative;
       margin: 0;
@@ -69,10 +69,14 @@ ion-header {
 }
 
 ion-content {
-
 }
-
 
 .ion-page {
   background: #633dca;
+}
+
+.modal-wrapper {
+  ion-header {
+    background-color: #fff;
+  }
 }
