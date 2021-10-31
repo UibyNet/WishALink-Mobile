@@ -15,7 +15,6 @@ export class UserResolverService implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot): Observable<SocialUserListModel> {
-        console.log("user id", this.appService.user.id)
         return this.profileApiService.info(this.appService.user.id)
     }
 }

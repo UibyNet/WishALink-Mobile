@@ -29,13 +29,22 @@ export class HomePage implements OnInit {
     }
 
     async getUserData() {
-        this.appService.toggleLoader(true).then(res => {
+        this.userData = this.appService.userInfo;
+
+        if(this.userData == null) {
+            this.appService.toggleLoader(true).then(res => {
+                this.activatedRoute.data.subscribe(
+                    v => this.userInfo(v.user),
+                    e => this.onError(e)
+                ) 
+            })
+        }
+        else {
             this.activatedRoute.data.subscribe(
                 v => this.userInfo(v.user),
                 e => this.onError(e)
             )
-        })
-
+        }
     }
 
     private userInfo(v: SocialUserListModel) {
@@ -56,7 +65,7 @@ export class HomePage implements OnInit {
                     cssClass: 'changeProfilePicture',
                     icon: 'image',
                     handler: () => {
-                       // this.changePicture();
+                       this.changePicture();
                     }
                 },
                 {

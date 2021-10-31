@@ -5,11 +5,11 @@ import { ActivityApiService, ActivityEditModel, ActivityListModel } from 'src/ap
 import { AppService } from 'src/app/services/app.service';
 
 @Component({
-  selector: 'app-create-event',
-  templateUrl: './create-event.page.html',
-  styleUrls: ['./create-event.page.scss'],
+  selector: 'app-create-activity',
+  templateUrl: './create-activity.page.html',
+  styleUrls: ['./create-activity.page.scss'],
 })
-export class CreateEventPage implements OnInit {
+export class CreateActivityPage implements OnInit {
 
   name: string;
   categoryId: number;

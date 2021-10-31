@@ -3970,7 +3970,7 @@ function blobToText(blob: any): Observable<string> {
             observer.next("");
             observer.complete();
         } else {
-            let reader = new FileReader();
+            let reader = getFileReader();
             reader.onload = event => {
                 observer.next((<any>event.target).result);
                 observer.complete();
@@ -3978,4 +3978,9 @@ function blobToText(blob: any): Observable<string> {
             reader.readAsText(blob);
         }
     });
+}
+export function getFileReader(): FileReader {
+	const fileReader = new FileReader();
+	const zoneOriginalInstance = (fileReader as any)["__zone_symbol__originalInstance"];
+	return zoneOriginalInstance || fileReader;
 }

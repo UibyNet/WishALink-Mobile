@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CalendarPageRoutingModule } from './calendar-routing.module';
+import { ActivityPageRoutingModule } from './activity-routing.module';
 
-import { CalendarPage } from './calendar.page';
+import { ActivityPage } from './activity.page';
 import { NgCalendarModule  } from 'ionic2-calendar';
 @NgModule({
   providers: [
@@ -17,8 +17,8 @@ import { NgCalendarModule  } from 'ionic2-calendar';
     FormsModule,
     IonicModule,
     NgCalendarModule,
-    CalendarPageRoutingModule
+    ActivityPageRoutingModule
   ],
-  declarations: [CalendarPage]
+  declarations: [ActivityPage]
 })
-export class CalendarPageModule {}
+export class ActivityPageModule {}

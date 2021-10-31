@@ -1,23 +1,23 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {CalendarComponent} from "ionic2-calendar";
-import {CalendarMode, Step} from 'ionic2-calendar/calendar';
-import {registerLocaleData} from '@angular/common';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CalendarComponent } from "ionic2-calendar";
+import { CalendarMode, Step } from 'ionic2-calendar/calendar';
+import { registerLocaleData } from '@angular/common';
 import localeZh from '@angular/common/locales/tr';
-import {ActivityApiService, ActivityListModel, SocialUserListModel} from 'src/app/services/api.service';
-import {AppService} from 'src/app/services/app.service';
+import { ActivityApiService, ActivityListModel, SocialUserListModel } from 'src/app/services/api.service';
+import { AppService } from 'src/app/services/app.service';
 import * as moment from 'moment';
 
 registerLocaleData(localeZh);
 
 
 @Component({
-    selector: 'app-calendar',
-    templateUrl: './calendar.page.html',
-    styleUrls: ['./calendar.page.scss'],
+    selector: 'app-activity',
+    templateUrl: './activity.page.html',
+    styleUrls: ['./activity.page.scss'],
 })
-export class CalendarPage implements OnInit {
+export class ActivityPage implements OnInit {
 
-    @ViewChild(CalendarComponent, null) calendarComponent: CalendarComponent;
+    @ViewChild(CalendarComponent, { static: false }) calendarComponent: CalendarComponent;
 
     eventSource = [];
     viewTitle;

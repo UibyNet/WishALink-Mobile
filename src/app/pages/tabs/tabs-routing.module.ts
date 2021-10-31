@@ -59,11 +59,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'calendar',
+        path: 'activity',
         children: [
           {
             path: '',
-            loadChildren: () => import('./calendar/calendar.module').then( m => m.CalendarPageModule)
+            loadChildren: () => import('./activity/activity.module').then( m => m.ActivityPageModule)
           }
         ]
       },

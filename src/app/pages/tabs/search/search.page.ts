@@ -25,10 +25,11 @@ export class SearchPage implements OnInit {
         this.searchResultPeople = []
     }
 
-    yourSearchFunction(event) {
-        if (event != '') {
+    searchUser(event:any) {
+        const value = event.target.value;
+        if (value != '') {
             this.appService.toggleLoader(true).then(res => {
-                this.socialApiService.searchusers(event).subscribe(
+                this.socialApiService.searchusers(value).subscribe(
                     v => this.onSearchResult(v),
                     e => this.onError(e)
                 )

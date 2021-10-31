@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CreateEventPageRoutingModule } from './create-event-routing.module';
+import { CreateActivityPageRoutingModule } from './create-activity-routing.module';
 
-import { CreateEventPage } from './create-event.page';
+import { CreateActivityPage } from './create-activity.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreateEventPageRoutingModule
+    CreateActivityPageRoutingModule
   ],
-  declarations: [CreateEventPage]
+  declarations: [CreateActivityPage]
 })
-export class CreateEventPageModule {}
+export class CreateActivityPageModule {}

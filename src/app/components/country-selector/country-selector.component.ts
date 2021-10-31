@@ -20,7 +20,8 @@ export class CountrySelectorComponent implements OnInit {
     this.countries = countries;
   }
 
-  filterCountries(value: string) {
+  filterCountries(e: any) {
+    let value = e.target.value;
     value = value.trim();
     if(value == '') {
       this.countries = countries;

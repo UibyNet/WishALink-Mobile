@@ -2,7 +2,7 @@
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col>
-        <ion-searchbar mode="ios" placeholder="Ülke ara..." debounce="100" (ionChange)="filterCountries($event.target.value)"></ion-searchbar>
+        <ion-searchbar mode="ios" placeholder="Ülke ara..." debounce="100" (ionChange)="filterCountries($event)"></ion-searchbar>
       </ion-col>
       <ion-col class="ion-text-right" size="auto">
         <ion-button fill="outline" (click)="closeModal()">
