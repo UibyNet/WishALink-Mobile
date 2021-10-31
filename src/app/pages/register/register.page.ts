@@ -66,17 +66,13 @@ export class RegisterPage implements OnInit {
   selectedCountry = {dialCode: '90', isoCode: 'tr', phoneMask: '999 999 99 99'};
 
   isLoading: boolean = false;
-  firstName: string;
-  lastName: string;
-  email: string;
   otp: string;
-  intPhoneNumber: any;
   oldPassword: string;
 
   registerForm: FormGroup
 
   get phoneNumber(): string {
-    return this.intPhoneNumber?.internationalNumber.match(/\d/g)?.join('');
+    return (this.selectedCountry.dialCode + this.registerForm.get('phoneNumberMasked').value.trim()).match(/\d/g)?.join('');
   }
 
   constructor(
@@ -92,8 +88,8 @@ export class RegisterPage implements OnInit {
     this.registerForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.minLength(1)]],
       lastName: ['', [Validators.required, Validators.minLength(1)]],
-      intPhoneNumber: ['', [Validators.required, Validators.minLength(1)]],
-      email: ['', [Validators.required, Validators.minLength(1)]],
+      phoneNumberMasked: ['', [Validators.required, Validators.minLength(1)]],
+      email: ['', [Validators.required, Validators.minLength(1), Validators.email]],
    })
   }
 
@@ -123,11 +119,8 @@ export class RegisterPage implements OnInit {
     const model = new UserModel();
     model.firstName = this.registerForm.get('firstName').value.trim();
     model.lastName = this.registerForm.get('lastName').value.trim();
-    model.phoneNumber = this.registerForm.get('phoneNumber').value.trim();
     model.email = this.registerForm.get('email').value.trim();
-
-    debugger;
-    return;
+    model.phoneNumber = this.phoneNumber;
 
     this.isLoading = true;
     this.authService.register(model)

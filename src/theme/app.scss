@@ -7,6 +7,72 @@ form {
     --padding-bottom: 0;
     --padding-start: 16px;
     --padding-end: 16px;
-
+    --ion-item-background: transparent;
   }
+}
+
+.page-container {
+  height: 100%;
+  background : #633dca;
+
+  .bottom-container {
+    border-top-right-radius: 32px;
+    border-top-left-radius: 32px;
+    background: white;
+    position: relative;
+    height: 100%;
+
+    &.has-padding {
+      padding-top: 80px;
+    }
+
+    .bottom-content {
+      height: 100%;
+      overflow-x: scroll;
+    }
+  }
+
+  .lead {
+    padding: 1em 0 4em;
+    position: relative;
+
+    h2 {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 24px;
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+      margin: 0;
+      padding: 16px;
+    }
+    
+    h3 {
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 18px;
+      color: #D5D5D5;
+      text-align: center;
+      position: relative;
+      margin: 0;
+      padding: 16px;
+    }
+  }
+}
+
+ion-header {
+  height: 60px;
+
+  .back-button {
+    padding: 2.25rem 1.875rem 1rem;
+  }
+}
+
+ion-content {
+
+}
+
+
+.ion-page {
+  background: #633dca;
 }

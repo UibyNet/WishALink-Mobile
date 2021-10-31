@@ -7,7 +7,6 @@ import { RegisterPageRoutingModule } from './register-routing.module';
 import { RegisterPage } from './register.page';
 import { CodeInputModule } from 'angular-code-input';
 
-import { IonIntlTelInputModule } from 'ion-intl-tel-input';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputMaskModule} from 'primeng/inputmask';
 import {ButtonModule} from 'primeng/button';
@@ -18,7 +17,6 @@ import {ButtonModule} from 'primeng/button';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    IonIntlTelInputModule,
     CodeInputModule,
     InputTextModule,
     InputMaskModule,

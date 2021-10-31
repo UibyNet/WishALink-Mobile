@@ -1,3 +1,85 @@
+ion-button {
+  --border-radius: 16px;
+  width: 100%;
+  height: 52px;
+  font-size: 1em;
+}
+
+.img-container {
+  width: 124px;
+  height: 124px;
+  border-radius: 100px;
+  right: 0;
+  left: 0;
+  margin: auto;
+  top: -60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 99;
+  background: #1E90FF;
+}
+
+.register-horizontal {
+  position: absolute;
+  bottom: -75px;
+  right: 17%;
+}
+
+.input-number-container {
+  padding: 72px 1.5rem 0;
+
+  .code-input {
+    justify-content: center !important;
+  }
+
+  ::ng-deep span {
+    padding: 0 !important;
+    margin-right: 8px !important;
+    flex: unset !important;
+
+    input {
+      border: 1px solid #6A40D6 !important;
+      border-radius: 16px !important;
+      width: 56px !important;
+      height: 56px !important;
+    }
+  }
+
+  ion-input {
+    border: 1px solid #6A40D6;
+    border-radius: 16px;
+    height: 56px;
+    padding: 1.125rem 1rem !important;
+  }
+}
+
+.grid-container {
+  padding: 32px 16px;
+  margin-bottom: 12%;
+
+  .select-content {
+    border: 1px solid #6A40D6;
+    border-radius: 16px;
+    display: flex;
+    height: 56px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    font-size: 16px;
+    line-height: 18px;
+    color: #6A40D6;
+
+    &.active {
+      background: #1E90FF;
+      border: 1px solid #1E90FF !important;
+      color: #FEFEFE;
+    }
+
+  }
+}
+
 /*
 .register-container {
     height: 72%;
@@ -75,30 +157,7 @@
         padding: 0.5rem 1rem;
         border-radius: 1rem;
       }
-      .grid-container {
-        padding-top: 72px;
-        margin-bottom: 12%;
-  
-        .select-content {
-          border: 1px solid #6A40D6;
-          border-radius: 16px;
-          display: flex;
-          height: 56px;
-          align-items: center;
-          justify-content: center;
-          padding: 0 12px;
-          font-size: 16px;
-          line-height: 18px;
-          color: #6A40D6;
-  
-          &.active {
-            background: #1E90FF;
-            border: 1px solid #1E90FF !important;
-            color: #FEFEFE;
-          }
-  
-        }
-      }
+     
   
       .absolute-horizontal {
         position: absolute;

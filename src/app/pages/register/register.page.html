@@ -1,130 +1,145 @@
-<ion-content>
-  <div *ngIf="stepper === 1" class="register-container">
-    <div routerLink="/intro" class="back-button">
-      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+<ion-header mode="ios">
+  <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
+    <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+  </div>
+  <div *ngIf="stepper > 1" (click)="stepper=stepper-1" class="back-button">
+    <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+  </div>
+</ion-header>
+
+<ion-content scrollX="false" scrollY="false">
+
+  <div *ngIf="stepper === 1" class="page-container">
+    <div class="lead">
+      <h2>
+        Wish a Link’e üye olun
+      </h2>
+      <h3>
+        Sevdiklerinize hediye seçmek artık çok kolay
+        <div class="register-horizontal">
+          <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+        </div>
+      </h3>
     </div>
-    <div class="ion-text-center text-container ion-margin-bottom">
-      Wish a Link’e üye olunuz
+    <div class="bottom-container pt-6">
+      <div class="bottom-content">
+        <div class="img-container">
+          <img src="../../../assets/svg/register/photo.svg" alt="Icon">
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+          <ion-item>
+            <input pInputText formControlName="firstName" type="text" (keyup)="autoCapitalize('firstName')"
+              placeholder="İsim">
+          </ion-item>
+          <ion-item>
+            <input pInputText formControlName="lastName" type="text" (keyup)="autoCapitalize('lastName')"
+              placeholder="Soyisim">
+          </ion-item>
+          <ion-item>
+            <input pInputText formControlName="email" type="email" placeholder="E-mail">
+          </ion-item>
+          <ion-item>
+            <div class="p-inputgroup">
+              <button (click)="showCountrySelector()" class="p-button-outlined" type="button" pButton pRipple
+                icon="flag-icon flag-icon-{{selectedCountry.isoCode}}" label="+{{selectedCountry.dialCode}}"></button>
+              <p-inputMask formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask" placeholder="Telefon">
+              </p-inputMask>
+            </div>
+          </ion-item>
+          <ion-item>
+            <ion-button expand="block" type="submit" [disabled]="isLoading || !registerForm.valid">{{ isLoading ?
+              'Lütfen bekleyiniz...' : 'Devam Et'}}
+            </ion-button>
+          </ion-item>
+        </form>
+      </div>
     </div>
-    <div class="ion-margin-bottom sub-text">
-      Sevdiklerimize hediye seçme derdine son
-      <div class="register-horizontal">
+  </div>
+  <div *ngIf="stepper === 2" class="page-container">
+    <div class="lead">
+      <h2>
+        Wish a Link’e hoş geldiniz
+      </h2>
+      <h3>
+        Lütfen ‘’Onay Kodunu’’ giriniz
+        <div class="register-horizontal">
+          <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+        </div>
+      </h3>
+    </div>
+
+    <div class="bottom-container">
+      <div class="bottom-content">
+        <div>
+          <div class="input-number-container">
+            <code-input class="code-input" [isCodeHidden]="false" [codeLength]="4" (codeChanged)="onCodeChanged($event)"
+              (codeCompleted)="onCodeCompleted($event)">
+            </code-input>
+          </div>
+        </div>
+        <div class="mt-5 px-3 button-container-number">
+          <ion-button (click)="verify()" [disabled]="isLoading">{{ isLoading ? 'Lütfen bekleyiniz...' : 'Devam Et'}}
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="stepper === 3" class="page-container">
+    <div class="lead">
+      <h2>
+        Şifrenizi oluşturunuz
+      </h2>
+      <h3>
+        Hesabınızın güvenliğini sağlamak için dört basamaklı bir parola oluşturunuz
+        <div class="register-horizontal">
+          <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+        </div>
+      </h3>
+    </div>
+    <div class="bottom-container">
+      <div class="bottom-content">
+        <div>
+          <div class="input-number-container">
+            <code-input class="code-input" [isCodeHidden]="true" [codeLength]="4" (codeChanged)="onCodeChanged($event)"
+              (codeCompleted)="onCodeCompleted($event)">
+            </code-input>
+          </div>
+        </div>
+        <div class="mt-5 px-3 button-container-number">
+          <ion-button (click)="setPassword()">Devam Et</ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="stepper === 4" class="page-container">
+    <div class="lead">
+      <h2>
+        Sizi daha yakından tanıyabilmemiz için favori ürünlerinizi işaretleyebilirsiniz
+      </h2>
+      <div class="register-horizontal" style="bottom: 0;">
         <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
       </div>
     </div>
-
     <div class="bottom-container">
-      <div class="img-container">
-        <img src="../../../assets/svg/register/photo.svg" alt="Icon">
-      </div>
-
-      <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
-        <ion-item>
-          <input pInputText formControlName="firstName" type="text" (keyup)="autoCapitalize('firstName')"
-            placeholder="İsim">
-        </ion-item>
-        <ion-item>
-          <input pInputText formControlName="lastName" type="text" (keyup)="autoCapitalize('lastName')"
-            placeholder="Soyisim">
-        </ion-item>
-        <ion-item>
-          <input pInputText formControlName="email" type="email" placeholder="E-mail">
-        </ion-item>
-        <ion-item>
-          <div class="p-inputgroup">
-            <button (click)="showCountrySelector()" class="p-button-outlined" type="button" pButton pRipple icon="flag-icon flag-icon-{{selectedCountry.isoCode}}"  label="+{{selectedCountry.dialCode}}"></button>
-            <p-inputMask formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask" placeholder="Telefon"></p-inputMask>
-          </div>
-        </ion-item>
-      </form>
-
-
-      <div hidden>
-        <div class="input-container">
-          <ion-input [(ngModel)]="firstName" (ionChange)="autoCapitalize('firstName')" class="ion-margin-bottom"
-            placeholder="İsim"></ion-input>
-          <ion-input [(ngModel)]="lastName" (ionChange)="autoCapitalize('lastName')" class="ion-margin-bottom"
-            placeholder="Soyisim"></ion-input>
-          <ion-intl-tel-input [(ngModel)]="intPhoneNumber" id="phone-number" class="number-input" defaultCountryiso="tr"
-            inputPlaceholder="5xx xxx xx xx" name="phone-number" style="margin-bottom: 16px">
-          </ion-intl-tel-input>
-          <ion-input [(ngModel)]="email" class="ion-margin-bottom" placeholder="E-mail"></ion-input>
+      <div class="bottom-content">
+        <div class="grid-container">
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngFor="let product of categories" class="ion-text-center" size="4">
+                <div [ngClass]="{'active' : selectedProducts.indexOf(product.id)> -1}"
+                  (click)="selectProduct(product.id)" class="select-content">
+                  {{product.text}}
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-button class="mt-3" routerLink="/tabs">Devam Et</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </div>
-      </div>
-      <div class="ion-padding-horizontal">
-        <ion-button (click)="register()" [disabled]="isLoading">{{ isLoading ? 'Lütfen bekleyiniz...' : 'Devam Et'}}
-        </ion-button>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="stepper === 2" class="register-container">
-    <div (click)="stepper=stepper-1" class="back-button">
-      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-    </div>
-    <div class="ion-text-center phone-title-container  ion-margin-bottom">
-      Wish a Link’e hoş geldiniz
-      lütfen ‘’Onay Kodunu’’ giriniz
-    </div>
-
-    <div class="bottom-container">
-      <div>
-        <div class="input-number-container">
-          <code-input class="code-input" [isCodeHidden]="false" [codeLength]="4" (codeChanged)="onCodeChanged($event)"
-            (codeCompleted)="onCodeCompleted($event)">
-          </code-input>
-        </div>
-      </div>
-      <div class="ion-padding-horizontal button-container-number">
-        <ion-button (click)="verify()" [disabled]="isLoading">{{ isLoading ? 'Lütfen bekleyiniz...' : 'Devam Et'}}
-        </ion-button>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="stepper === 3" class="register-container">
-    <div (click)="stepper=stepper-1" class="back-button">
-      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-    </div>
-    <div class="ion-text-center text-container-pass ion-margin-bottom">
-      Şifrenizi oluşturunuz
-    </div>
-    <div class="sub-text-password ion-text-center mx-32">
-      Hesabınızın güvenliğini sağlamak için dört basamaklı bir parola oluşturunuz
-    </div>
-    <div class="bottom-container">
-      <div>
-        <div class="input-number-container">
-          <code-input class="code-input" [isCodeHidden]="true" [codeLength]="4" (codeChanged)="onCodeChanged($event)"
-            (codeCompleted)="onCodeCompleted($event)">
-          </code-input>
-        </div>
-      </div>
-      <div class="ion-padding-horizontal button-container-number">
-        <ion-button (click)="setPassword()">Devam Et</ion-button>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="stepper === 4" class="register-container">
-    <div (click)="stepper=stepper-1" class="back-button">
-      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-    </div>
-    <div class="ion-text-center text-container mb-40 ion-margin-bottom">
-      Sizi daha yakından tanıyabilmemiz için favori ürünlerinizi işaretleyebilirsiniz
-    </div>
-    <div class="bottom-container">
-      <div class="grid-container">
-        <ion-grid>
-          <ion-row>
-            <ion-col *ngFor="let product of categories" class="ion-text-center" size="4">
-              <div [ngClass]="{'active' : selectedProducts.indexOf(product.id)> -1}" (click)="selectProduct(product.id)"
-                class="select-content">
-                {{product.text}}
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
-      <div class="ion-padding-horizontal">
-        <ion-button routerLink="/tabs">Devam Et</ion-button>
       </div>
     </div>
   </div>
