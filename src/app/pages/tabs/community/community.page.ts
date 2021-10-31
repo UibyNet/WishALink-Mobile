@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {AppService} from "../../../services/app.service";
 import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
 
@@ -10,6 +10,7 @@ import {SocialApiService, SocialUserListModel} from "../../../services/api.servi
 export class CommunityPage implements OnInit {
 
     constructor(
+        private zone: NgZone,
         private appService: AppService,
         private socialApiService: SocialApiService
     ) {
@@ -47,8 +48,10 @@ export class CommunityPage implements OnInit {
     }
 
     onFollowing(v: SocialUserListModel[]) {
-        this.followingList = v
-        console.log("following", v)
+        this.zone.run(()=>{
+            this.followingList = v
+        })
+        console.log("following", this.followingList)
     }
 
     onFollowers(v: SocialUserListModel[]) {
