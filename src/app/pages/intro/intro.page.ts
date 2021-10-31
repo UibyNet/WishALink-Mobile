@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActionSheetController} from '@ionic/angular';
 import {Router} from '@angular/router';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-intro',
@@ -9,10 +10,22 @@ import {Router} from '@angular/router';
 })
 export class IntroPage implements OnInit {
 
-  constructor(public actionSheetController: ActionSheetController, private router: Router) {
+  isLoggedIn: boolean = true;
+
+  constructor(
+    private appService: AppService,
+    private router: Router,
+    public actionSheetController: ActionSheetController, 
+  ) { }
+
+  ionViewWillEnter() {
+    if(this.appService.isLoggedIn) {
+      this.router.navigate(['tabs']);
+    }
   }
 
   ngOnInit() {
+    this.isLoggedIn = this.appService.isLoggedIn;
   }
 
   async presentActionSheet() {

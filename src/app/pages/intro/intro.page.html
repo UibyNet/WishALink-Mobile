@@ -4,7 +4,7 @@
       <img src="../../../assets/svg/intro/logo-intro.svg" alt="Logo">
     </div>
     <div class="icon-container">
-      <div (click)="presentActionSheet()" class="rounded-icon-content">
+      <div (click)="presentActionSheet()" class="rounded-icon-content" [hidden]="isLoggedIn">
         <img src="../../../assets/svg/intro/arrow-down.svg" alt="Icon">
       </div>
       <div class="dot-container">
