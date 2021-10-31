@@ -1,101 +1,118 @@
 import {Component, OnInit} from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthApiService, LoginModel, TokenModel, VerifyModel } from 'src/app/services/api.service';
-import { AppService } from 'src/app/services/app.service';
+import {Router} from '@angular/router';
+import {AuthApiService, LoginModel, TokenModel, VerifyModel} from 'src/app/services/api.service';
+import {AppService} from 'src/app/services/app.service';
+import {CountrySelectorComponent} from "../../components/country-selector/country-selector.component";
+import {ModalController} from "@ionic/angular";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+    selector: 'app-login',
+    templateUrl: './login.page.html',
+    styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
 
-  stepper = 1;
-  intPhoneNumber: any;
-  password: string;
-  otp: string;
-  isLoading: boolean = false;
+    selectedCountry = {dialCode: '90', isoCode: 'tr', phoneMask: '999 999 99 99'};
+    stepper = 1;
+    intPhoneNumber: any;
+    password: string;
+    otp: string;
+    isLoading: boolean = false;
+    loginForm: FormGroup
 
-  get phoneNumber(): string {
-    return this.intPhoneNumber?.internationalNumber.match(/\d/g)?.join('');
-  }
-
-  constructor(
-    private router: Router,
-    private appService: AppService,
-    private authService: AuthApiService
-  ) {
-  }
-
-  ionViewWillEnter() {
-    if(this.appService.isLoggedIn) {
-         this.router.navigate(['tabs']);
-    }
-  }
-
-  ngOnInit() {
-  }
-
-  onCodeChanged(code: string) {
-  }
-
-  onCodeCompleted(code: string) {
-    this.otp = code;
-  }
-
-  login() {
-    if(this.phoneNumber == undefined || this.phoneNumber.length < 10) {
-      this.appService.showAlert('Lütfen geçerli bir telefon numarası girin', 'Uyarı!');
-      return;
+    get phoneNumber(): string {
+        return (this.selectedCountry.dialCode + this.loginForm.get('phoneNumberMasked').value.trim()).match(/\d/g)?.join('');
     }
 
-    if(this.password == undefined || this.password.length < 4) {
-      this.appService.showAlert('Lütfen geçerli bir şifre girin', 'Uyarı!');
-      return;
+    constructor(
+        private router: Router,
+        private appService: AppService,
+        private authService: AuthApiService,
+        private formBuilder: FormBuilder,
+        private modalController: ModalController
+    ) {
     }
 
-    this.isLoading = true;
-    const model = new LoginModel();
-    model.phoneNumber = this.phoneNumber;
-    model.password = this.password;
+    // ionViewWillEnter() {
+    //     if (this.appService.isLoggedIn) {
+    //         this.router.navigate(['tabs']);
+    //     }
+    // }
 
-    this.authService.login(model)
-      .subscribe(
-        v => this.onLogin(v),
-        e => this.onError(e)
-      )
-  }
-
-  onLogin(v: TokenModel): void {
-    this.isLoading = false;
-
-    if (v.isNeedVerify) {
-      this.stepper++;
+    ngOnInit() {
+        this.loginForm = this.formBuilder.group({
+            phoneNumberMasked: ['', [Validators.required, Validators.minLength(1)]],
+            password: ['', [Validators.required, Validators.minLength(1)]],
+        })
     }
-    else if(v.token != null && v.token.length > 0) {
-      this.appService.accessToken = v.token;
-      this.router.navigate(['tabs']);
+
+    onCodeChanged(code: string) {
     }
-  }
 
-  onError(e: any): void {
-    this.isLoading = false;
+    onCodeCompleted(code: string) {
+        this.otp = code;
+    }
 
-    this.appService.showErrorAlert(e);
-  }
+    login() {
 
-  verify() {
-    this.isLoading = false;
 
-    const model = new VerifyModel();
-    model.phoneNumber = this.phoneNumber;
-    model.otp = this.otp;
+        const model = new LoginModel();
+        model.phoneNumber = this.phoneNumber;
+        model.password = this.loginForm.get('password').value.trim();
 
-    this.authService.verify(model)
-      .subscribe(
-        v => this.onLogin(v),
-        e => this.onError(e)
-      )
-  }
+        this.isLoading = true;
+        this.authService.login(model)
+            .subscribe(
+                v => this.onLogin(v),
+                e => this.onError(e)
+            )
+    }
+
+    onLogin(v: TokenModel): void {
+        this.isLoading = false;
+
+        if (v.isNeedVerify) {
+            this.stepper++;
+        } else if (v.token != null && v.token.length > 0) {
+            this.appService.accessToken = v.token;
+            this.router.navigate(['tabs']);
+        }
+    }
+
+    onError(e: any): void {
+        this.isLoading = false;
+
+        this.appService.showErrorAlert(e);
+    }
+
+    verify() {
+        this.isLoading = false;
+
+        const model = new VerifyModel();
+        model.phoneNumber = this.phoneNumber;
+        model.otp = this.otp;
+
+        this.authService.verify(model)
+            .subscribe(
+                v => this.onLogin(v),
+                e => this.onError(e)
+            )
+    }
+
+    async showCountrySelector() {
+        const modal = await this.modalController.create({
+            component: CountrySelectorComponent,
+            cssClass: 'my-custom-class'
+        });
+
+        modal.onDidDismiss().then(v => {
+            if (v != null && v.data != null) {
+                this.selectedCountry = v.data;
+            }
+        })
+
+        return await modal.present();
+    }
 
 }

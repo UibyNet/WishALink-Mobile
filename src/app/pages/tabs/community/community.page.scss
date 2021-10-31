@@ -82,6 +82,10 @@
       margin: 2rem auto 1rem;
       border-radius: 100px;
       background: #FFFFFF;
+      img{
+        height: 100%;
+        width: 100%;
+      }
     }
 
     .name {
@@ -139,6 +143,10 @@
         border-radius: 50px;
         overflow: hidden;
         background: transparent;
+        img{
+          height: 100%;
+          width: 100%;
+        }
       }
     }
   }

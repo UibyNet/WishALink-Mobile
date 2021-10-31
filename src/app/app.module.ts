@@ -9,7 +9,7 @@ import { Crop } from '@ionic-native/crop/ngx';
 import { File } from '@ionic-native/file/ngx';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { IonIntlTelInputModule } from 'ion-intl-tel-input';
+// import { IonIntlTelInputModule } from 'ion-intl-tel-input';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,7 +27,6 @@ import { SharedComponentsModule } from './components/shared-components.module';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    IonIntlTelInputModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     AppPipesModule,
