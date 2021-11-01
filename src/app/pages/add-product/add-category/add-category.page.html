@@ -20,14 +20,14 @@
           <ion-input [(ngModel)]="categoryName" (ionChange)="onAutoFormatChangedCategoryName()" placeholder="Kategori ismi"></ion-input>
         </div>
         <div class="toogle-container">
-          <div>Bu panayo gizle</div>
+          <div>Bu kategoriyi panoda gizle</div>
           <div>
-            <ion-toggle color="primary"></ion-toggle>
+            <ion-toggle [(ngModel)]="isHidden" color="primary"></ion-toggle>
           </div>
         </div>
       </div>
       <div>
-        <button>Oluştur</button>
+        <button (click)="save()">Oluştur</button>
       </div>
     </div>
   </div>

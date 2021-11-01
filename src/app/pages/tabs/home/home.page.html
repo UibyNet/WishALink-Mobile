@@ -51,110 +51,12 @@
     <div class="content">
         <ion-grid>
             <ion-row>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                <ion-col *ngFor="let category of categories" routerLink="/category-detail/{{category.id}}" class="ion-text-center" size="4">
                     <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                        <img [src]="category.mediaUrl" alt="">
                     </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
+                    <div class="product-title">{{ category.name }}</div>
+                    <div class="product-amount">{{ category.postCount }} ürün</div>
                 </ion-col>
             </ion-row>
         </ion-grid>

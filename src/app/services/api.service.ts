@@ -1674,6 +1674,90 @@ export class LocationApiService {
 }
 
 @Injectable()
+export class NotificationApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    list(): Observable<Notification[]> {
+        let url_ = this.baseUrl + "/api/notification/list";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processList(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processList(<any>response_);
+                } catch (e) {
+                    return <Observable<Notification[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Notification[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processList(response: HttpResponseBase): Observable<Notification[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Notification.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Notification[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class PostApiService {
     private http: HttpClient;
     private baseUrl: string;
@@ -2894,6 +2978,102 @@ export interface IActivityListModel {
     endDate?: string | undefined;
 }
 
+export class Address implements IAddress {
+    id?: number;
+    name?: string | undefined;
+    contactName?: string | undefined;
+    phone?: string | undefined;
+    addressLine?: string | undefined;
+    directions?: string | undefined;
+    latitude?: number;
+    longitude?: number;
+    neighborhoodId?: number | undefined;
+    neighborhood?: Neighborhood;
+    districtId?: number | undefined;
+    district?: District;
+    provinceId?: number;
+    province?: Province;
+    countryId?: string | undefined;
+    country?: Country;
+
+    constructor(data?: IAddress) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.name = _data["Name"];
+            this.contactName = _data["ContactName"];
+            this.phone = _data["Phone"];
+            this.addressLine = _data["AddressLine"];
+            this.directions = _data["Directions"];
+            this.latitude = _data["Latitude"];
+            this.longitude = _data["Longitude"];
+            this.neighborhoodId = _data["NeighborhoodId"];
+            this.neighborhood = _data["Neighborhood"] ? Neighborhood.fromJS(_data["Neighborhood"]) : <any>undefined;
+            this.districtId = _data["DistrictId"];
+            this.district = _data["District"] ? District.fromJS(_data["District"]) : <any>undefined;
+            this.provinceId = _data["ProvinceId"];
+            this.province = _data["Province"] ? Province.fromJS(_data["Province"]) : <any>undefined;
+            this.countryId = _data["CountryId"];
+            this.country = _data["Country"] ? Country.fromJS(_data["Country"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): Address {
+        data = typeof data === 'object' ? data : {};
+        let result = new Address();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["Name"] = this.name;
+        data["ContactName"] = this.contactName;
+        data["Phone"] = this.phone;
+        data["AddressLine"] = this.addressLine;
+        data["Directions"] = this.directions;
+        data["Latitude"] = this.latitude;
+        data["Longitude"] = this.longitude;
+        data["NeighborhoodId"] = this.neighborhoodId;
+        data["Neighborhood"] = this.neighborhood ? this.neighborhood.toJSON() : <any>undefined;
+        data["DistrictId"] = this.districtId;
+        data["District"] = this.district ? this.district.toJSON() : <any>undefined;
+        data["ProvinceId"] = this.provinceId;
+        data["Province"] = this.province ? this.province.toJSON() : <any>undefined;
+        data["CountryId"] = this.countryId;
+        data["Country"] = this.country ? this.country.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IAddress {
+    id?: number;
+    name?: string | undefined;
+    contactName?: string | undefined;
+    phone?: string | undefined;
+    addressLine?: string | undefined;
+    directions?: string | undefined;
+    latitude?: number;
+    longitude?: number;
+    neighborhoodId?: number | undefined;
+    neighborhood?: Neighborhood;
+    districtId?: number | undefined;
+    district?: District;
+    provinceId?: number;
+    province?: Province;
+    countryId?: string | undefined;
+    country?: Country;
+}
+
 export class CategoryListModel implements ICategoryListModel {
     id?: number;
     name?: string | undefined;
@@ -2901,6 +3081,7 @@ export class CategoryListModel implements ICategoryListModel {
     isPredefined?: boolean;
     isHidden?: boolean;
     mediaUrl?: string | undefined;
+    postCount?: number;
 
     constructor(data?: ICategoryListModel) {
         if (data) {
@@ -2919,6 +3100,7 @@ export class CategoryListModel implements ICategoryListModel {
             this.isPredefined = _data["IsPredefined"];
             this.isHidden = _data["IsHidden"];
             this.mediaUrl = _data["MediaUrl"];
+            this.postCount = _data["PostCount"];
         }
     }
 
@@ -2937,6 +3119,7 @@ export class CategoryListModel implements ICategoryListModel {
         data["IsPredefined"] = this.isPredefined;
         data["IsHidden"] = this.isHidden;
         data["MediaUrl"] = this.mediaUrl;
+        data["PostCount"] = this.postCount;
         return data; 
     }
 }
@@ -2948,6 +3131,7 @@ export interface ICategoryListModel {
     isPredefined?: boolean;
     isHidden?: boolean;
     mediaUrl?: string | undefined;
+    postCount?: number;
 }
 
 export class Contact implements IContact {
@@ -3226,6 +3410,54 @@ export interface IForgotModel {
     phoneNumber?: string | undefined;
 }
 
+export class Group implements IGroup {
+    id?: number;
+    name!: string;
+    description?: string | undefined;
+    isDeleted?: boolean;
+
+    constructor(data?: IGroup) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.name = _data["Name"];
+            this.description = _data["Description"];
+            this.isDeleted = _data["IsDeleted"];
+        }
+    }
+
+    static fromJS(data: any): Group {
+        data = typeof data === 'object' ? data : {};
+        let result = new Group();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["Name"] = this.name;
+        data["Description"] = this.description;
+        data["IsDeleted"] = this.isDeleted;
+        return data; 
+    }
+}
+
+export interface IGroup {
+    id?: number;
+    name: string;
+    description?: string | undefined;
+    isDeleted?: boolean;
+}
+
 export class LoginModel implements ILoginModel {
     phoneNumber?: string | undefined;
     password?: string | undefined;
@@ -3438,6 +3670,95 @@ export interface INeighborhood {
     district?: District;
     name?: string | undefined;
     zipCode?: string | undefined;
+}
+
+export class Notification implements INotification {
+    id?: number;
+    title?: string | undefined;
+    body?: string | undefined;
+    data?: string | undefined;
+    groupId?: number | undefined;
+    group?: Group;
+    userId?: number | undefined;
+    user?: User;
+    sendDate?: moment.Moment;
+    type?: NotificationType;
+    isSent?: boolean;
+    isRead?: boolean;
+    isDeleted?: boolean;
+
+    constructor(data?: INotification) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.title = _data["Title"];
+            this.body = _data["Body"];
+            this.data = _data["Data"];
+            this.groupId = _data["GroupId"];
+            this.group = _data["Group"] ? Group.fromJS(_data["Group"]) : <any>undefined;
+            this.userId = _data["UserId"];
+            this.user = _data["User"] ? User.fromJS(_data["User"]) : <any>undefined;
+            this.sendDate = _data["SendDate"] ? moment(_data["SendDate"].toString()) : <any>undefined;
+            this.type = _data["Type"];
+            this.isSent = _data["IsSent"];
+            this.isRead = _data["IsRead"];
+            this.isDeleted = _data["IsDeleted"];
+        }
+    }
+
+    static fromJS(data: any): Notification {
+        data = typeof data === 'object' ? data : {};
+        let result = new Notification();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["Title"] = this.title;
+        data["Body"] = this.body;
+        data["Data"] = this.data;
+        data["GroupId"] = this.groupId;
+        data["Group"] = this.group ? this.group.toJSON() : <any>undefined;
+        data["UserId"] = this.userId;
+        data["User"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["SendDate"] = this.sendDate ? this.sendDate.toISOString() : <any>undefined;
+        data["Type"] = this.type;
+        data["IsSent"] = this.isSent;
+        data["IsRead"] = this.isRead;
+        data["IsDeleted"] = this.isDeleted;
+        return data; 
+    }
+}
+
+export interface INotification {
+    id?: number;
+    title?: string | undefined;
+    body?: string | undefined;
+    data?: string | undefined;
+    groupId?: number | undefined;
+    group?: Group;
+    userId?: number | undefined;
+    user?: User;
+    sendDate?: moment.Moment;
+    type?: NotificationType;
+    isSent?: boolean;
+    isRead?: boolean;
+    isDeleted?: boolean;
+}
+
+export enum NotificationType {
+    _1 = 1,
+    _2 = 2,
 }
 
 export class PostEditModel implements IPostEditModel {
@@ -3692,6 +4013,74 @@ export interface IRegion {
     name: string;
 }
 
+export class Role implements IRole {
+    id?: number;
+    name?: string | undefined;
+    normalizedName?: string | undefined;
+    concurrencyStamp?: string | undefined;
+    description?: string | undefined;
+    isDeleted?: boolean;
+    userRoles?: UserRole[] | undefined;
+
+    constructor(data?: IRole) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.name = _data["Name"];
+            this.normalizedName = _data["NormalizedName"];
+            this.concurrencyStamp = _data["ConcurrencyStamp"];
+            this.description = _data["Description"];
+            this.isDeleted = _data["IsDeleted"];
+            if (Array.isArray(_data["UserRoles"])) {
+                this.userRoles = [] as any;
+                for (let item of _data["UserRoles"])
+                    this.userRoles!.push(UserRole.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): Role {
+        data = typeof data === 'object' ? data : {};
+        let result = new Role();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["Name"] = this.name;
+        data["NormalizedName"] = this.normalizedName;
+        data["ConcurrencyStamp"] = this.concurrencyStamp;
+        data["Description"] = this.description;
+        data["IsDeleted"] = this.isDeleted;
+        if (Array.isArray(this.userRoles)) {
+            data["UserRoles"] = [];
+            for (let item of this.userRoles)
+                data["UserRoles"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IRole {
+    id?: number;
+    name?: string | undefined;
+    normalizedName?: string | undefined;
+    concurrencyStamp?: string | undefined;
+    description?: string | undefined;
+    isDeleted?: boolean;
+    userRoles?: UserRole[] | undefined;
+}
+
 export class Setting implements ISetting {
     id?: number;
     key?: string | undefined;
@@ -3743,6 +4132,7 @@ export class SocialUserListModel implements ISocialUserListModel {
     isFollowing?: boolean;
     followersCount?: number;
     followingsCount?: number;
+    notificationCount?: number;
 
     constructor(data?: ISocialUserListModel) {
         if (data) {
@@ -3761,6 +4151,7 @@ export class SocialUserListModel implements ISocialUserListModel {
             this.isFollowing = _data["IsFollowing"];
             this.followersCount = _data["FollowersCount"];
             this.followingsCount = _data["FollowingsCount"];
+            this.notificationCount = _data["NotificationCount"];
         }
     }
 
@@ -3779,6 +4170,7 @@ export class SocialUserListModel implements ISocialUserListModel {
         data["IsFollowing"] = this.isFollowing;
         data["FollowersCount"] = this.followersCount;
         data["FollowingsCount"] = this.followingsCount;
+        data["NotificationCount"] = this.notificationCount;
         return data; 
     }
 }
@@ -3790,6 +4182,7 @@ export interface ISocialUserListModel {
     isFollowing?: boolean;
     followersCount?: number;
     followingsCount?: number;
+    notificationCount?: number;
 }
 
 export class TokenModel implements ITokenModel {
@@ -3830,6 +4223,386 @@ export class TokenModel implements ITokenModel {
 export interface ITokenModel {
     isNeedVerify?: boolean;
     token?: string | undefined;
+}
+
+export class User implements IUser {
+    id?: number;
+    userName?: string | undefined;
+    normalizedUserName?: string | undefined;
+    email?: string | undefined;
+    normalizedEmail?: string | undefined;
+    emailConfirmed?: boolean;
+    passwordHash?: string | undefined;
+    securityStamp?: string | undefined;
+    concurrencyStamp?: string | undefined;
+    phoneNumber?: string | undefined;
+    phoneNumberConfirmed?: boolean;
+    twoFactorEnabled?: boolean;
+    lockoutEnd?: moment.Moment | undefined;
+    lockoutEnabled?: boolean;
+    accessFailedCount?: number;
+    userGuid?: string | undefined;
+    version?: number;
+    isActive?: boolean;
+    isDeleted?: boolean;
+    groupId?: number | undefined;
+    group?: Group;
+    firstName?: string | undefined;
+    normalizedFirstName?: string | undefined;
+    lastName?: string | undefined;
+    normalizedLastName?: string | undefined;
+    normalizedFullName?: string | undefined;
+    notes?: string | undefined;
+    fcmToken?: string | undefined;
+    otp?: string | undefined;
+    address?: string | undefined;
+    profilePicture?: Media;
+    profilePictureId?: number | undefined;
+    addresses?: UserAddress[] | undefined;
+    roles?: UserRole[] | undefined;
+    followings?: UserFollow[] | undefined;
+    followers?: UserFollow[] | undefined;
+    blockedUsers?: UserBlock[] | undefined;
+
+    constructor(data?: IUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.userName = _data["UserName"];
+            this.normalizedUserName = _data["NormalizedUserName"];
+            this.email = _data["Email"];
+            this.normalizedEmail = _data["NormalizedEmail"];
+            this.emailConfirmed = _data["EmailConfirmed"];
+            this.passwordHash = _data["PasswordHash"];
+            this.securityStamp = _data["SecurityStamp"];
+            this.concurrencyStamp = _data["ConcurrencyStamp"];
+            this.phoneNumber = _data["PhoneNumber"];
+            this.phoneNumberConfirmed = _data["PhoneNumberConfirmed"];
+            this.twoFactorEnabled = _data["TwoFactorEnabled"];
+            this.lockoutEnd = _data["LockoutEnd"] ? moment(_data["LockoutEnd"].toString()) : <any>undefined;
+            this.lockoutEnabled = _data["LockoutEnabled"];
+            this.accessFailedCount = _data["AccessFailedCount"];
+            this.userGuid = _data["UserGuid"];
+            this.version = _data["Version"];
+            this.isActive = _data["IsActive"];
+            this.isDeleted = _data["IsDeleted"];
+            this.groupId = _data["GroupId"];
+            this.group = _data["Group"] ? Group.fromJS(_data["Group"]) : <any>undefined;
+            this.firstName = _data["FirstName"];
+            this.normalizedFirstName = _data["NormalizedFirstName"];
+            this.lastName = _data["LastName"];
+            this.normalizedLastName = _data["NormalizedLastName"];
+            this.normalizedFullName = _data["NormalizedFullName"];
+            this.notes = _data["Notes"];
+            this.fcmToken = _data["FcmToken"];
+            this.otp = _data["Otp"];
+            this.address = _data["Address"];
+            this.profilePicture = _data["ProfilePicture"] ? Media.fromJS(_data["ProfilePicture"]) : <any>undefined;
+            this.profilePictureId = _data["ProfilePictureId"];
+            if (Array.isArray(_data["Addresses"])) {
+                this.addresses = [] as any;
+                for (let item of _data["Addresses"])
+                    this.addresses!.push(UserAddress.fromJS(item));
+            }
+            if (Array.isArray(_data["Roles"])) {
+                this.roles = [] as any;
+                for (let item of _data["Roles"])
+                    this.roles!.push(UserRole.fromJS(item));
+            }
+            if (Array.isArray(_data["Followings"])) {
+                this.followings = [] as any;
+                for (let item of _data["Followings"])
+                    this.followings!.push(UserFollow.fromJS(item));
+            }
+            if (Array.isArray(_data["Followers"])) {
+                this.followers = [] as any;
+                for (let item of _data["Followers"])
+                    this.followers!.push(UserFollow.fromJS(item));
+            }
+            if (Array.isArray(_data["BlockedUsers"])) {
+                this.blockedUsers = [] as any;
+                for (let item of _data["BlockedUsers"])
+                    this.blockedUsers!.push(UserBlock.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): User {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["UserName"] = this.userName;
+        data["NormalizedUserName"] = this.normalizedUserName;
+        data["Email"] = this.email;
+        data["NormalizedEmail"] = this.normalizedEmail;
+        data["EmailConfirmed"] = this.emailConfirmed;
+        data["PasswordHash"] = this.passwordHash;
+        data["SecurityStamp"] = this.securityStamp;
+        data["ConcurrencyStamp"] = this.concurrencyStamp;
+        data["PhoneNumber"] = this.phoneNumber;
+        data["PhoneNumberConfirmed"] = this.phoneNumberConfirmed;
+        data["TwoFactorEnabled"] = this.twoFactorEnabled;
+        data["LockoutEnd"] = this.lockoutEnd ? this.lockoutEnd.toISOString() : <any>undefined;
+        data["LockoutEnabled"] = this.lockoutEnabled;
+        data["AccessFailedCount"] = this.accessFailedCount;
+        data["UserGuid"] = this.userGuid;
+        data["Version"] = this.version;
+        data["IsActive"] = this.isActive;
+        data["IsDeleted"] = this.isDeleted;
+        data["GroupId"] = this.groupId;
+        data["Group"] = this.group ? this.group.toJSON() : <any>undefined;
+        data["FirstName"] = this.firstName;
+        data["NormalizedFirstName"] = this.normalizedFirstName;
+        data["LastName"] = this.lastName;
+        data["NormalizedLastName"] = this.normalizedLastName;
+        data["NormalizedFullName"] = this.normalizedFullName;
+        data["Notes"] = this.notes;
+        data["FcmToken"] = this.fcmToken;
+        data["Otp"] = this.otp;
+        data["Address"] = this.address;
+        data["ProfilePicture"] = this.profilePicture ? this.profilePicture.toJSON() : <any>undefined;
+        data["ProfilePictureId"] = this.profilePictureId;
+        if (Array.isArray(this.addresses)) {
+            data["Addresses"] = [];
+            for (let item of this.addresses)
+                data["Addresses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.roles)) {
+            data["Roles"] = [];
+            for (let item of this.roles)
+                data["Roles"].push(item.toJSON());
+        }
+        if (Array.isArray(this.followings)) {
+            data["Followings"] = [];
+            for (let item of this.followings)
+                data["Followings"].push(item.toJSON());
+        }
+        if (Array.isArray(this.followers)) {
+            data["Followers"] = [];
+            for (let item of this.followers)
+                data["Followers"].push(item.toJSON());
+        }
+        if (Array.isArray(this.blockedUsers)) {
+            data["BlockedUsers"] = [];
+            for (let item of this.blockedUsers)
+                data["BlockedUsers"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IUser {
+    id?: number;
+    userName?: string | undefined;
+    normalizedUserName?: string | undefined;
+    email?: string | undefined;
+    normalizedEmail?: string | undefined;
+    emailConfirmed?: boolean;
+    passwordHash?: string | undefined;
+    securityStamp?: string | undefined;
+    concurrencyStamp?: string | undefined;
+    phoneNumber?: string | undefined;
+    phoneNumberConfirmed?: boolean;
+    twoFactorEnabled?: boolean;
+    lockoutEnd?: moment.Moment | undefined;
+    lockoutEnabled?: boolean;
+    accessFailedCount?: number;
+    userGuid?: string | undefined;
+    version?: number;
+    isActive?: boolean;
+    isDeleted?: boolean;
+    groupId?: number | undefined;
+    group?: Group;
+    firstName?: string | undefined;
+    normalizedFirstName?: string | undefined;
+    lastName?: string | undefined;
+    normalizedLastName?: string | undefined;
+    normalizedFullName?: string | undefined;
+    notes?: string | undefined;
+    fcmToken?: string | undefined;
+    otp?: string | undefined;
+    address?: string | undefined;
+    profilePicture?: Media;
+    profilePictureId?: number | undefined;
+    addresses?: UserAddress[] | undefined;
+    roles?: UserRole[] | undefined;
+    followings?: UserFollow[] | undefined;
+    followers?: UserFollow[] | undefined;
+    blockedUsers?: UserBlock[] | undefined;
+}
+
+export class UserAddress implements IUserAddress {
+    id?: number;
+    userId?: number;
+    user?: User;
+    addressId?: number;
+    address?: Address;
+    isPrimary?: boolean;
+
+    constructor(data?: IUserAddress) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.userId = _data["UserId"];
+            this.user = _data["User"] ? User.fromJS(_data["User"]) : <any>undefined;
+            this.addressId = _data["AddressId"];
+            this.address = _data["Address"] ? Address.fromJS(_data["Address"]) : <any>undefined;
+            this.isPrimary = _data["IsPrimary"];
+        }
+    }
+
+    static fromJS(data: any): UserAddress {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserAddress();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["UserId"] = this.userId;
+        data["User"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["AddressId"] = this.addressId;
+        data["Address"] = this.address ? this.address.toJSON() : <any>undefined;
+        data["IsPrimary"] = this.isPrimary;
+        return data; 
+    }
+}
+
+export interface IUserAddress {
+    id?: number;
+    userId?: number;
+    user?: User;
+    addressId?: number;
+    address?: Address;
+    isPrimary?: boolean;
+}
+
+export class UserBlock implements IUserBlock {
+    id?: number;
+    sourceUser?: User;
+    sourceUserId?: number;
+    blockedUser?: User;
+    blockedUserId?: number;
+
+    constructor(data?: IUserBlock) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.sourceUser = _data["SourceUser"] ? User.fromJS(_data["SourceUser"]) : <any>undefined;
+            this.sourceUserId = _data["SourceUserId"];
+            this.blockedUser = _data["BlockedUser"] ? User.fromJS(_data["BlockedUser"]) : <any>undefined;
+            this.blockedUserId = _data["BlockedUserId"];
+        }
+    }
+
+    static fromJS(data: any): UserBlock {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserBlock();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["SourceUser"] = this.sourceUser ? this.sourceUser.toJSON() : <any>undefined;
+        data["SourceUserId"] = this.sourceUserId;
+        data["BlockedUser"] = this.blockedUser ? this.blockedUser.toJSON() : <any>undefined;
+        data["BlockedUserId"] = this.blockedUserId;
+        return data; 
+    }
+}
+
+export interface IUserBlock {
+    id?: number;
+    sourceUser?: User;
+    sourceUserId?: number;
+    blockedUser?: User;
+    blockedUserId?: number;
+}
+
+export class UserFollow implements IUserFollow {
+    id?: number;
+    sourceUser?: User;
+    sourceUserId?: number;
+    followedUser?: User;
+    followedUserId?: number;
+
+    constructor(data?: IUserFollow) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.sourceUser = _data["SourceUser"] ? User.fromJS(_data["SourceUser"]) : <any>undefined;
+            this.sourceUserId = _data["SourceUserId"];
+            this.followedUser = _data["FollowedUser"] ? User.fromJS(_data["FollowedUser"]) : <any>undefined;
+            this.followedUserId = _data["FollowedUserId"];
+        }
+    }
+
+    static fromJS(data: any): UserFollow {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserFollow();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["SourceUser"] = this.sourceUser ? this.sourceUser.toJSON() : <any>undefined;
+        data["SourceUserId"] = this.sourceUserId;
+        data["FollowedUser"] = this.followedUser ? this.followedUser.toJSON() : <any>undefined;
+        data["FollowedUserId"] = this.followedUserId;
+        return data; 
+    }
+}
+
+export interface IUserFollow {
+    id?: number;
+    sourceUser?: User;
+    sourceUserId?: number;
+    followedUser?: User;
+    followedUserId?: number;
 }
 
 export class UserModel implements IUserModel {
@@ -3886,6 +4659,54 @@ export interface IUserModel {
     email?: string | undefined;
     phoneNumber?: string | undefined;
     fcmToken?: string | undefined;
+}
+
+export class UserRole implements IUserRole {
+    userId?: number;
+    user?: User;
+    roleId?: number;
+    role?: Role;
+
+    constructor(data?: IUserRole) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userId = _data["UserId"];
+            this.user = _data["User"] ? User.fromJS(_data["User"]) : <any>undefined;
+            this.roleId = _data["RoleId"];
+            this.role = _data["Role"] ? Role.fromJS(_data["Role"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserRole {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRole();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["UserId"] = this.userId;
+        data["User"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["RoleId"] = this.roleId;
+        data["Role"] = this.role ? this.role.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUserRole {
+    userId?: number;
+    user?: User;
+    roleId?: number;
+    role?: Role;
 }
 
 export class VerifyModel implements IVerifyModel {

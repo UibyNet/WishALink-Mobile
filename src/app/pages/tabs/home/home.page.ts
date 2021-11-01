@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Media, ProfileApiService, SocialUserListModel } from "../../../services/api.service";
+import { CategoryApiService, CategoryListModel, Media, ProfileApiService, SocialApiService, SocialUserListModel } from "../../../services/api.service";
 import { AppService } from "../../../services/app.service";
 import { ActivatedRoute } from "@angular/router";
 import { ActionSheetController } from "@ionic/angular";
@@ -13,10 +13,12 @@ import { File } from '@ionic-native/file/ngx';
     styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+    categories: CategoryListModel[];
 
     constructor(
         private appService: AppService,
         private profileApiService: ProfileApiService,
+        private categoryApiService: CategoryApiService,
         private activatedRoute: ActivatedRoute,
         private actionSheetController: ActionSheetController,
     ) {
@@ -25,10 +27,11 @@ export class HomePage implements OnInit {
     userData: SocialUserListModel
 
     ngOnInit() {
-        this.getUserData()
+        this.getUserData();
+        this.loadCategories();
     }
 
-    async getUserData() {
+    getUserData() {
         this.userData = this.appService.userInfo;
 
         if(this.userData == null) {
@@ -45,6 +48,17 @@ export class HomePage implements OnInit {
                 e => this.onError(e)
             )
         }
+    }
+
+    loadCategories() {
+        this.categoryApiService.list(this.appService.user.id) 
+            .subscribe(
+                v => this.onCategoriesLoad(v),
+                e => this.onError(e)
+            ) 
+    }
+    onCategoriesLoad(v: CategoryListModel[]): void {
+        this.categories = v;
     }
 
     private userInfo(v: SocialUserListModel) {
