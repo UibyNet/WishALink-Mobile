@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public router: Router,
+    private zone: NgZone,
+    private navController: NavController
+  ) { }
 
   ngOnInit() {
+  }
+
+  openPage(page: string) {
+    this.zone.run(()=>{
+      this.navController.navigateRoot(page);
+    });
   }
 
 }
