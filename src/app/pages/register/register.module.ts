@@ -10,7 +10,7 @@ import { CodeInputModule } from 'angular-code-input';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputMaskModule} from 'primeng/inputmask';
 import {ButtonModule} from 'primeng/button';
-import { ParallaxHeaderDirective } from 'src/app/directives/parallax-header.directive';
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 
 @NgModule({
   imports: [
@@ -22,8 +22,9 @@ import { ParallaxHeaderDirective } from 'src/app/directives/parallax-header.dire
     InputTextModule,
     InputMaskModule,
     ButtonModule,
-    RegisterPageRoutingModule
+    RegisterPageRoutingModule,
+    SharedDirectivesModule
   ],
-  declarations: [RegisterPage, ParallaxHeaderDirective]
+  declarations: [RegisterPage]
 })
 export class RegisterPageModule {}

@@ -10,7 +10,7 @@
         <div routerLink="/tabs" routerDirection="back" class="exit-container">
           <img src="../../../assets/svg/abstract/exit.svg" alt="Icon">
         </div>
-        <div class="top-tabs">
+        <div class="top-tabs" hidden>
           <div class="tab-container">
             <div class="active">Kategoriler</div>
             <div>Evcil Hayvanım</div>
@@ -19,8 +19,17 @@
         <div class="ion-margin-bottom">
           <ion-input [(ngModel)]="categoryName" (ionChange)="onAutoFormatChangedCategoryName()" placeholder="Kategori ismi"></ion-input>
         </div>
-        <div class="toogle-container">
-          <div>Bu kategoriyi panoda gizle</div>
+        <ion-button (click)="selectImage()" fill="outline" class="image-container ion-margin-bottom">
+          <div  *ngIf="catImage == null" class="select-image">
+            <div><ion-icon name="image-outline"></ion-icon></div>
+            <div>Kategori görseli seçin</div>
+          </div>
+          <div class="image" *ngIf="catImage">
+            <img [src]="catImage" alt="">
+          </div>
+        </ion-button>
+        <div class="toogle-container ion-margin-bottom">
+          <div>Kategoriyi panoda gizle</div>
           <div>
             <ion-toggle [(ngModel)]="isHidden" color="primary"></ion-toggle>
           </div>

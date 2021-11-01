@@ -43,8 +43,8 @@ export class LoginPage implements OnInit {
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
-            phoneNumberMasked: ['', [Validators.required, Validators.minLength(1)]],
-            password: ['', [Validators.required, Validators.minLength(1)]],
+            phoneNumberMasked: ['5331234567', [Validators.required, Validators.minLength(1)]],
+            password: ['1qazZAQ!', [Validators.required, Validators.minLength(1)]],
         })
     }
 

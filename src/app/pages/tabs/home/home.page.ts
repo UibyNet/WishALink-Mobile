@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import {
     CategoryApiService,
     CategoryListModel,
@@ -7,13 +7,10 @@ import {
     SocialApiService,
     SocialUserListModel
 } from "../../../services/api.service";
-import {AppService} from "../../../services/app.service";
-import {ActivatedRoute} from "@angular/router";
-import {ActionSheetController, ModalController} from "@ionic/angular";
-import {ImagePicker, ImagePickerOptions} from '@ionic-native/image-picker/ngx';
-import {Crop} from '@ionic-native/crop/ngx';
-import {File} from '@ionic-native/file/ngx';
-import {NotificationComponent} from "../../../components/notification/notification.component";
+import { AppService } from "../../../services/app.service";
+import { ActivatedRoute } from "@angular/router";
+import { ActionSheetController, ModalController } from "@ionic/angular";
+import { NotificationComponent } from "../../../components/notification/notification.component";
 
 @Component({
     selector: 'app-home',
@@ -71,7 +68,9 @@ export class HomePage implements OnInit {
     }
 
     onCategoriesLoad(v: CategoryListModel[]): void {
+       this.zone.run(()=>{
         this.categories = v;
+       })
     }
 
     private userInfo(v: SocialUserListModel) {
@@ -104,7 +103,7 @@ export class HomePage implements OnInit {
                     handler: () => {
                         this.profileApiService.removeprofilepicture()
                             .subscribe(
-                                v => this.onProfilePictureChanged(),
+                                v => this.onProfilePictureChanged(null),
                                 e => this.onError(e)
                             )
                     }
@@ -113,21 +112,20 @@ export class HomePage implements OnInit {
         });
         await actionSheet.present();
 
-        const {role} = await actionSheet.onDidDismiss();
+        const { role } = await actionSheet.onDidDismiss();
         console.log('onDidDismiss resolved with role', role);
     }
 
-    onProfilePictureChanged(v: string = '') {
-        if (v == null || v == '') {
-            this.profileApiService.info(this.appService.user.id)
-                .subscribe(
-                    v => this.userInfo(v),
-                    e => this.onError(e)
-                )
-        } else {
-            this.appService.userInfo.profilePictureUrl = v;
-            this.userData.profilePictureUrl = v;
-        }
+    onProfilePictureChanged(v: SocialUserListModel) {
+        this.zone.run(()=>{
+            if (v != null) {
+                this.appService.userInfo = v;
+                this.userData = v;
+            } else {
+                this.userData.profilePictureUrl = '';
+                this.appService.userInfo.profilePictureUrl = '';
+            }
+        })
     }
 
 
@@ -150,7 +148,8 @@ export class HomePage implements OnInit {
         this.appService.getImage()
             .then(
                 (imgData) => {
-                    this.profileApiService.changeprofilepicture({fileName: 'avatar.jpg', data: imgData})
+                    this.userData.profilePictureUrl = `data:image/jpeg;base64,${imgData.photo.base64String}`;
+                    this.profileApiService.changeprofilepicture({ fileName: 'avatar.jpg', data: imgData.blob })
                         .subscribe(
                             v => this.onProfilePictureChanged(v),
                             e => this.onError(e)

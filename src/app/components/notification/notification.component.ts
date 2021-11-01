@@ -9,6 +9,8 @@ import {ModalController} from "@ionic/angular";
     styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit {
+    
+    notifications: Notification[];
 
     constructor(
         private notificationApiService: NotificationApiService,
@@ -16,8 +18,6 @@ export class NotificationComponent implements OnInit {
         private modalController: ModalController
     ) {
     }
-
-    notifications: Notification[]
 
     ngOnInit() {
         this.getNotifications()

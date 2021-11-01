@@ -52,8 +52,7 @@
         <ion-grid>
             <ion-row>
                 <ion-col *ngFor="let category of categories" routerLink="/category-detail/{{category.id}}" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img [src]="category.mediaUrl" alt="">
+                    <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}" >
                     </div>
                     <div class="product-title">{{ category.name }}</div>
                     <div class="product-amount">{{ category.postCount }} ürün</div>

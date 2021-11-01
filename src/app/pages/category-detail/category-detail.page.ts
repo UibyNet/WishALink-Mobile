@@ -38,4 +38,8 @@ export class CategoryDetailPage implements OnInit {
     this.appService.showErrorAlert(e);
   }
 
+  redirectToUrl(url: string) {
+    
+  }
+
 }

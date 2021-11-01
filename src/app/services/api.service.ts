@@ -2493,7 +2493,7 @@ export class ProfileApiService {
      * @param file (optional) 
      * @return Success
      */
-    changeprofilepicture(file: FileParameter | undefined): Observable<string> {
+    changeprofilepicture(file: FileParameter | undefined): Observable<SocialUserListModel> {
         let url_ = this.baseUrl + "/api/profile/changeprofilepicture";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2519,14 +2519,14 @@ export class ProfileApiService {
                 try {
                     return this.processChangeprofilepicture(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<SocialUserListModel>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<SocialUserListModel>><any>_observableThrow(response_);
         }));
     }
 
-    protected processChangeprofilepicture(response: HttpResponseBase): Observable<string> {
+    protected processChangeprofilepicture(response: HttpResponseBase): Observable<SocialUserListModel> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2537,7 +2537,7 @@ export class ProfileApiService {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = SocialUserListModel.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -2559,7 +2559,7 @@ export class ProfileApiService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<SocialUserListModel>(<any>null);
     }
 
     /**

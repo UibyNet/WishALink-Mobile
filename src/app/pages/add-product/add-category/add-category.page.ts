@@ -12,6 +12,9 @@ export class AddCategoryPage implements OnInit {
     categoryName: string;
     isHidden: boolean = false;
     previousUrl: string
+    imgData: ArrayBuffer;
+    catImage: string;
+    catImageBlob: Blob;
 
     constructor(
         private appService: AppService,
@@ -33,7 +36,7 @@ export class AddCategoryPage implements OnInit {
 
     save() {
         this.appService.toggleLoader(true).then(()=>{
-            this.categoryApiService.create(0, this.categoryName, 0, this.isHidden, {fileName: '', data: new Blob([])})
+            this.categoryApiService.create(0, this.categoryName, 0, this.isHidden, {fileName: '', data:  this.catImageBlob})
             .subscribe(
                 v => this.onSave(v),
                 e => this.onError(e)
@@ -51,5 +54,15 @@ export class AddCategoryPage implements OnInit {
     onError(e: any): void {
         this.appService.toggleLoader(false);
         this.appService.showErrorAlert(e);
+    }
+
+    selectImage() {
+        this.appService.getImage()
+            .then(
+                (imgData) => {
+                    this.catImageBlob = imgData.blob;
+                    this.catImage = `data:image/jpeg;base64,${imgData.photo.base64String}`;
+                }
+            );
     }
 }
