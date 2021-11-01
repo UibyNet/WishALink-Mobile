@@ -1,22 +1,38 @@
-<ion-content>
-    <div class="main">
-
-        <div class="pt-4 ion-text-center">
-            <div class="img-avatar ion-margin-bottom mx-auto">
-                <img [src]="userData?.profilePictureUrl" alt="">
+<ion-content [scrollEvents]="true" parallax-page>
+    <div class="profile-header scrollable">
+        <span class="notification-content">
+            <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+            <div class="badge-notification">
+                6
             </div>
-            <div class="font-24 mb-4">
-                {{userData?.fullName}}
-            </div>
-            <div class="d-flex mb-5 ion-justify-content-center">
-                <div routerLink="create" class="round-badge mr-2 d-flex ion-justify-content-center ion-align-items-center">
-                    <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+        </span>
+        <div class="profile-container ion-text-center">
+            <div class="profile-inner">
+                <div class="avatar">
+                    <div class="avatar-image">
+                        <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
+                            alt="">
+                    </div>
                 </div>
-                <div class="round-badge ml-2 d-flex ion-justify-content-center ion-align-items-center">
-                    <img src="../../../../assets/svg/abstract/search.svg" alt="Icon">
+                <div class="profile-info">
+                    <div class="ion-margin-bottom profile-name">
+                        <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
+                    </div>
+                    <div class="d-flex ion-justify-content-center">
+                        <div routerLink="create"
+                            class="round-badge mr-2 d-flex ion-justify-content-center ion-align-items-center">
+                            <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+                        </div>
+                        <div class="round-badge ml-2 d-flex ion-justify-content-center ion-align-items-center">
+                            <img src="../../../../assets/svg/abstract/search.svg" alt="Icon">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="main">
+
         <div>
             <div class="d-flex ion-padding-horizontal ion-align-items-center ion-justify-content-between mb-4 mt-4">
                 <div class="date-info">
@@ -26,15 +42,37 @@
                     <button class="month-today-button" ion-button [disabled]="isToday" (click)="today()">Today</button>
                 </div>
             </div>
-            <calendar [eventSource]="eventSource"
-                      [calendarMode]="calendar.mode"
-                      [currentDate]="calendar.currentDate"
-                      (onCurrentDateChanged)="onCurrentDateChanged($event)"
-                      (onEventSelected)="onEventSelected($event)"
-                      (onTitleChanged)="onViewTitleChanged($event)"
-                      (onTimeSelected)="onTimeSelected($event)"
-                      [step]="calendar.step">
+            <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+                (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)"
+                (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)"
+                [step]="calendar.step">
             </calendar>
+        </div>
+
+        <div>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
+            <p>asdasd</p>
         </div>
     </div>
 </ion-content>

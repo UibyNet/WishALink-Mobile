@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthApiService, LoginModel, TokenModel, VerifyModel} from 'src/app/services/api.service';
-import {AppService} from 'src/app/services/app.service';
-import {CountrySelectorComponent} from "../../components/country-selector/country-selector.component";
-import {ModalController} from "@ionic/angular";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthApiService, LoginModel, TokenModel, VerifyModel } from 'src/app/services/api.service';
+import { AppService } from 'src/app/services/app.service';
+import { CountrySelectorComponent } from "../../components/country-selector/country-selector.component";
+import { ModalController } from "@ionic/angular";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
     selector: 'app-login',
@@ -13,7 +13,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class LoginPage implements OnInit {
 
-    selectedCountry = {dialCode: '90', isoCode: 'tr', phoneMask: '999 999 99 99'};
+    selectedCountry = { dialCode: '90', isoCode: 'tr', phoneMask: '999 999 99 99' };
     stepper = 1;
     intPhoneNumber: any;
     password: string;

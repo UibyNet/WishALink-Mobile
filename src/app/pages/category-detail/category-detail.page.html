@@ -25,162 +25,25 @@
     </div>
   </div>
   <div class="content product-content">
-    <div class="item-container">
-      <ion-grid class="ion-no-padding">
+    <div ngFor="let post of posts" class="item-container">
+      <ion-grid *ngIf="post != null" class="ion-no-padding">
         <ion-row>
           <ion-col class="ion-text-center img-bottom" size="4">
             <div class="img-product-container">
-              <img src="../../../assets/svg/abstract/product.png" alt="Img">
+              <img [src]="post.mediaUrl" alt="Img">
             </div>
           </ion-col>
           <ion-col class="ion-text-center col-custom ion-padding-start" size="8">
             <div class="d-flex mb-8">
-              <div class="product-name">Iphone 11</div>
-              <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
+              <div class="product-name">{{post.name}}</div>
+              <div (click)="redirectToUrl(post.url)">
+                <img src="../../../assets/svg/abstract/edit.svg" alt="Icon">
+              </div>
             </div>
             <div class="d-flex">
-              <div class="badge-container">Apple</div>
-              <div class="badge-container">128 GB</div>
-              <div class="badge-container">Siyah</div>
+              <div class="badge-container">{{ post.keywords }}</div>
             </div>
           </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-    <div class="item-container">
-      <ion-grid class="ion-no-padding">
-        <ion-row>
-          <ion-col class="ion-text-center col-custom" size="8">
-            <div class="d-flex mb-8">
-              <div class="product-name">Airpods 2</div>
-              <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-            </div>
-            <div class="d-flex">
-              <div class="badge-container">Apple</div>
-              <div class="badge-container">Airpods 2</div>
-              <div class="badge-container">Beyaz</div>
-            </div>
-          </ion-col>
-          <ion-col class="ion-text-center img-bottom" size="4">
-            <div class="img-product-container">
-              <img src="../../../assets/svg/abstract/ipod.png" alt="Img">
-            </div>
-          </ion-col>
-
-        </ion-row>
-      </ion-grid>
-    </div>
-    <div class="item-container">
-      <ion-grid class="ion-no-padding">
-        <ion-row>
-          <ion-col class="ion-text-center img-bottom" size="4">
-            <div class="img-product-container">
-              <img src="../../../assets/svg/abstract/jbl.png" alt="Img">
-            </div>
-          </ion-col>
-          <ion-col class="ion-text-center col-custom ion-padding-start" size="8">
-            <div class="d-flex mb-8">
-              <div class="product-name">Hoparlör</div>
-              <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-            </div>
-            <div class="d-flex">
-              <div class="badge-container">JBL</div>
-              <div class="badge-container">Clip3</div>
-              <div class="badge-container">Mavi</div>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
-    <div class="item-container">
-      <ion-grid class="ion-no-padding">
-        <ion-row>
-          <ion-col class="ion-text-center col-custom" size="8">
-            <div class="d-flex mb-8">
-              <div class="product-name">Kahve Makinesi</div>
-              <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-            </div>
-            <div class="d-flex">
-              <div class="badge-container">Fakir</div>
-              <div class="badge-container">Babila</div>
-              <div class="badge-container">Siyah/Gri</div>
-            </div>
-          </ion-col>
-          <ion-col class="ion-text-center img-bottom" size="4">
-            <div class="img-product-container">
-              <img src="../../../assets/svg/abstract/coffee.png" alt="Img">
-            </div>
-          </ion-col>
-
-        </ion-row>
-      </ion-grid>
-    </div>
-    <div class="item-container">
-      <ion-grid class="ion-no-padding">
-        <ion-row>
-          <ion-col class="ion-text-center col-custom" size="8">
-            <div class="d-flex mb-8">
-              <div class="product-name">Kahve Makinesi</div>
-              <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-            </div>
-            <div class="d-flex">
-              <div class="badge-container">Fakir</div>
-              <div class="badge-container">Babila</div>
-              <div class="badge-container">Siyah/Gri</div>
-            </div>
-          </ion-col>
-          <ion-col class="ion-text-center img-bottom" size="4">
-            <div class="img-product-container">
-              <img src="../../../assets/svg/abstract/coffee.png" alt="Img">
-            </div>
-          </ion-col>
-
-        </ion-row>
-      </ion-grid>
-    </div>
-    <div class="item-container">
-      <ion-grid class="ion-no-padding">
-        <ion-row>
-          <ion-col class="ion-text-center col-custom" size="8">
-            <div class="d-flex mb-8">
-              <div class="product-name">Kahve Makinesi</div>
-              <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-            </div>
-            <div class="d-flex">
-              <div class="badge-container">Fakir</div>
-              <div class="badge-container">Babila</div>
-              <div class="badge-container">Siyah/Gri</div>
-            </div>
-          </ion-col>
-          <ion-col class="ion-text-center img-bottom" size="4">
-            <div class="img-product-container">
-              <img src="../../../assets/svg/abstract/coffee.png" alt="Img">
-            </div>
-          </ion-col>
-
-        </ion-row>
-      </ion-grid>
-    </div>
-    <div class="item-container">
-      <ion-grid class="ion-no-padding">
-        <ion-row>
-          <ion-col class="ion-text-center col-custom" size="8">
-            <div class="d-flex mb-8">
-              <div class="product-name">Kahve Makinesi</div>
-              <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-            </div>
-            <div class="d-flex">
-              <div class="badge-container">Fakir</div>
-              <div class="badge-container">Babila</div>
-              <div class="badge-container">Siyah/Gri</div>
-            </div>
-          </ion-col>
-          <ion-col class="ion-text-center img-bottom" size="4">
-            <div class="img-product-container">
-              <img src="../../../assets/svg/abstract/coffee.png" alt="Img">
-            </div>
-          </ion-col>
-
         </ion-row>
       </ion-grid>
     </div>

@@ -28,18 +28,21 @@ export class HomePage implements OnInit {
 
     ngOnInit() {
         this.getUserData();
+    }
+
+    ionViewDidEnter() {
         this.loadCategories();
     }
 
     getUserData() {
         this.userData = this.appService.userInfo;
 
-        if(this.userData == null) {
+        if (this.userData == null) {
             this.appService.toggleLoader(true).then(res => {
                 this.activatedRoute.data.subscribe(
                     v => this.userInfo(v.user),
                     e => this.onError(e)
-                ) 
+                )
             })
         }
         else {
@@ -51,11 +54,11 @@ export class HomePage implements OnInit {
     }
 
     loadCategories() {
-        this.categoryApiService.list(this.appService.user.id) 
+        this.categoryApiService.list(this.appService.user.id)
             .subscribe(
                 v => this.onCategoriesLoad(v),
                 e => this.onError(e)
-            ) 
+            )
     }
     onCategoriesLoad(v: CategoryListModel[]): void {
         this.categories = v;
@@ -79,7 +82,7 @@ export class HomePage implements OnInit {
                     cssClass: 'changeProfilePicture',
                     icon: 'image',
                     handler: () => {
-                       this.changePicture();
+                        this.changePicture();
                     }
                 },
                 {
