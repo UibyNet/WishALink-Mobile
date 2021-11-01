@@ -56,8 +56,6 @@ export class LoginPage implements OnInit {
     }
 
     login() {
-
-
         const model = new LoginModel();
         model.phoneNumber = this.phoneNumber;
         model.password = this.loginForm.get('password').value.trim();

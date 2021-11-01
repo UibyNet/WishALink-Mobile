@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {AppService} from "../../../services/app.service";
 import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
 import {Router} from "@angular/router";
@@ -16,7 +16,8 @@ export class SearchPage implements OnInit {
         private appService: AppService,
         private socialApiService: SocialApiService,
         private router: Router,
-        private modalController:ModalController
+        private modalController: ModalController,
+        private zone: NgZone,
     ) {
     }
 
@@ -28,7 +29,7 @@ export class SearchPage implements OnInit {
         this.searchResultPeople = []
     }
 
-    searchUser(event:any) {
+    searchUser(event: any) {
         const value = event.target.value;
         if (value != '') {
             this.appService.toggleLoader(true).then(res => {
@@ -43,8 +44,11 @@ export class SearchPage implements OnInit {
     }
 
     onSearchResult(v: SocialUserListModel[]) {
-        this.searchResultPeople = v
-        this.appService.toggleLoader(false)
+        this.zone.run(() => {
+            this.searchResultPeople = v
+            this.appService.toggleLoader(false)
+        })
+
     }
 
     followAction(user) {
@@ -65,8 +69,11 @@ export class SearchPage implements OnInit {
     }
 
     onError(e: any) {
-        this.appService.toggleLoader(false)
-        this.appService.showAlert(e)
+        this.zone.run(() => {
+            this.appService.toggleLoader(false)
+            this.appService.showAlert(e)
+        })
+
     }
 
     selectedUser(id: number) {
@@ -74,9 +81,13 @@ export class SearchPage implements OnInit {
     }
 
     onUnfollow(v: number, userId: number) {
-        this.searchResultPeople.filter(x => x.id === userId)[0].isFollowing = false;
-        this.appService.userInfo.followingsCount = v
+        this.zone.run(() => {
+            this.searchResultPeople.filter(x => x.id === userId)[0].isFollowing = false;
+            this.appService.userInfo.followingsCount = v
+        })
+
     }
+
     async openNotification() {
         const modal = await this.modalController.create({
             component: NotificationComponent,
@@ -87,7 +98,10 @@ export class SearchPage implements OnInit {
     }
 
     onFollow(v: number, userId: number) {
-        this.searchResultPeople.filter(x => x.id === userId)[0].isFollowing = true;
-        this.appService.userInfo.followingsCount = v
+        this.zone.run(() => {
+            this.searchResultPeople.filter(x => x.id === userId)[0].isFollowing = true;
+            this.appService.userInfo.followingsCount = v
+        })
+
     }
 }
