@@ -1,29 +1,46 @@
-<ion-content>
-    <div class="top-container">
-        <div class="top-avatar ion-text-center">
-            <div class="avatar-container">
-                <img [src]="userData?.profilePictureUrl" alt="Avatar">
+<ion-content [scrollEvents]="true" parallax-page>
+
+    <div class="profile-header scrollable">
+        <span class="notification-content">
+            <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+            <div class="badge-notification">
+                6
             </div>
-            <div class="ion-margin-bottom name">
-                {{userData?.fullName}}
-            </div>
-            <div class="follower-content">
-                <div class="follower">
-                    <div class="number">{{userData?.followersCount}}</div>
-                    <div class="text">Takipçi</div>
+        </span>
+        <div class="profile-container ion-text-center">
+            <div class="profile-inner">
+                <div class="avatar">
+                    <div class="avatar-image">
+                        <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
+                            alt="">
+                    </div>
                 </div>
-                <div class="following">
-                    <div class="number">{{userData?.followingsCount}}</div>
-                    <div class="text">Takip</div>
+                <div class="profile-info">
+                    <div class="ion-margin-bottom profile-name">
+                        <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
+                    </div>
+                    <div routerLink="community" class="follower-info">
+                        <div class="follower">
+                            <div class="number">{{userData == null ? 0 : userData.followersCount}}</div>
+                            <div class="text">Takipçi</div>
+                        </div>
+                        <div class="following">
+                            <div class="number">{{userData == null ? 0 : userData.followingsCount}}</div>
+                            <div class="text">Takip</div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
             <div class="search-bar">
                 <ion-searchbar mode="ios" debounce="500" (ionChange)="searchUser($event)" placeholder="Arama Yap"></ion-searchbar>
             </div>
         </div>
     </div>
+
+
     <div class="content">
-        <div routerLink="stranger-profile/1" class="profile-list-item">
+        <div routerLink="stranger-profile/1" class="profile-list-item" hidden>
             <div class="person-info">
                 <div class="img-container"><img src="../../../../assets/svg/abstract/avatar.png" alt="Img"></div>
                 <div class="name">Mehmet Zor</div>

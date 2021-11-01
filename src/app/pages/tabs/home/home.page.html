@@ -1,39 +1,44 @@
-<ion-content>
-    <div class="top-container">
-    <span class="notification-content">
-      <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
-      <div class="badge-notification">
-        6
-      </div>
-    </span>
-        <div class="top-avatar ion-text-center">
-            <div class="avatar-main">
-                <div class="avatar-container">
-                    <img [src]="userData?.profilePictureUrl" alt="">
-                </div>
-                <div (click)="presentActionSheet()" class="avatar-options">
-                    <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
-                </div>
+<ion-content [scrollEvents]="true" parallax-page>
+    <div class="profile-header scrollable">
+        <span class="notification-content">
+            <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+            <div class="badge-notification">
+                6
             </div>
-            <div class="ion-margin-bottom name">
-                <span *ngIf="userData">{{userData?.fullName}}</span>
-                <span *ngIf="userData==null">&nbsp;</span>
-            </div>
-            <div routerLink="community" class="follower-content">
-                <div class="follower">
-                    <div class="number">{{userData?.followersCount}}</div>
-                    <div class="text">Takipçi</div>
+        </span>
+        <div class="profile-container ion-text-center">
+            <div class="profile-inner">
+                <div class="avatar">
+                    <div class="avatar-image">
+                        <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
+                            alt="">
+                    </div>
+                    <div (click)="presentActionSheet()" class="avatar-options">
+                        <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+                    </div>
                 </div>
-                <div class="following">
-                    <div class="number">{{userData?.followingsCount}}</div>
-                    <div class="text">Takip</div>
+                <div class="profile-info">
+                    <div class="ion-margin-bottom profile-name">
+                        <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
+                    </div>
+                    <div routerLink="community" class="follower-info">
+                        <div class="follower">
+                            <div class="number">{{userData == null ? 0 : userData.followersCount}}</div>
+                            <div class="text">Takipçi</div>
+                        </div>
+                        <div class="following">
+                            <div class="number">{{userData == null ? 0 : userData.followingsCount}}</div>
+                            <div class="text">Takip</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="top-tabs">
                 <div class="tab-container">
                     <div>Kategoriler</div>
                     <div routerLink="/add-product/add-category" class="active">
-                    <span class="mr-1"> <img style="filter: contrast(3) brightness(0) invert(1);" class="plus-icon" src="../../../../assets/svg/home/plus.svg" alt="Icon"></span>
+                        <span class="mr-1"> <img style="filter: contrast(3) brightness(0) invert(1);" class="plus-icon"
+                                src="../../../../assets/svg/home/plus.svg" alt="Icon"></span>
                         Kategori Ekle
                     </div>
                 </div>
@@ -46,6 +51,83 @@
     <div class="content">
         <ion-grid>
             <ion-row>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
+                <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
+                    <div class="card">
+                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                    </div>
+                    <div class="product-title">Teknoloji</div>
+                    <div class="product-amount">30 ürün</div>
+                </ion-col>
                 <ion-col routerLink="/category-detail/1" class="ion-text-center" size="4">
                     <div class="card">
                         <img src="../../../../assets/svg/abstract/product.png" alt="Img">

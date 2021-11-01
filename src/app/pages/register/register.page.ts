@@ -4,6 +4,7 @@ import { AuthApiService, ProfileApiService, TokenModel, UserModel, VerifyModel }
 import { AppService } from 'src/app/services/app.service';
 import { ModalController } from '@ionic/angular';
 import { CountrySelectorComponent } from 'src/app/components/country-selector/country-selector.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -63,7 +64,7 @@ export class RegisterPage implements OnInit {
   ];
   selectedProducts = [];
 
-  selectedCountry = {dialCode: '90', isoCode: 'tr', phoneMask: '999 999 99 99'};
+  selectedCountry = { dialCode: '90', isoCode: 'tr', phoneMask: '999 999 99 99' };
 
   isLoading: boolean = false;
   otp: string;
@@ -81,6 +82,7 @@ export class RegisterPage implements OnInit {
     private profileService: ProfileApiService,
     private formBuilder: FormBuilder,
     private modalController: ModalController,
+    private router: Router,
     private zone: NgZone
   ) {
   }
@@ -91,7 +93,7 @@ export class RegisterPage implements OnInit {
       lastName: ['', [Validators.required, Validators.minLength(1)]],
       phoneNumberMasked: ['', [Validators.required, Validators.minLength(1)]],
       email: ['', [Validators.required, Validators.minLength(1), Validators.email]],
-   })
+    })
   }
 
   autoCapitalize(input: string) {
@@ -137,7 +139,7 @@ export class RegisterPage implements OnInit {
     const model = new VerifyModel();
     model.phoneNumber = this.phoneNumber;
     model.otp = this.otp;
-    
+
     this.oldPassword = this.otp + '';
 
 
@@ -157,11 +159,13 @@ export class RegisterPage implements OnInit {
   }
 
   onPasswordChange(): void {
-    this.stepper++;
+    this.zone.run(() => {
+      this.stepper++;
+    });
   }
 
   onRegister(v: TokenModel): void {
-    this.zone.run(()=>{
+    this.zone.run(() => {
       this.isLoading = false;
       if (v.isNeedVerify) {
         this.stepper++;
@@ -174,9 +178,11 @@ export class RegisterPage implements OnInit {
   }
 
   onVerify(v: TokenModel): void {
-    this.isLoading = false;
-    this.appService.accessToken = v.token;
-    this.stepper++;
+    this.zone.run(() => {
+      this.isLoading = false;
+      this.appService.accessToken = v.token;
+      this.stepper++;
+    });
   }
 
   onError(e: any): void {
@@ -191,11 +197,17 @@ export class RegisterPage implements OnInit {
     });
 
     modal.onDidDismiss().then(v => {
-      if(v != null && v.data != null) {
+      if (v != null && v.data != null) {
         this.selectedCountry = v.data;
       }
     })
 
     return await modal.present();
+  }
+
+  saveCategories() {
+    this.zone.run(() => {
+      this.router.navigate(['/tabs']);
+  });
   }
 }

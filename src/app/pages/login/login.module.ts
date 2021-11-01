@@ -11,6 +11,7 @@ import {CodeInputModule} from 'angular-code-input';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputMaskModule} from 'primeng/inputmask';
 import {ButtonModule} from 'primeng/button';
+import { ParallaxHeaderDirective } from 'src/app/directives/parallax-header.directive';
 
 @NgModule({
     imports: [
@@ -24,7 +25,7 @@ import {ButtonModule} from 'primeng/button';
         ButtonModule,
         LoginPageRoutingModule
     ],
-    declarations: [LoginPage]
+    declarations: [LoginPage, ParallaxHeaderDirective]
 })
 export class LoginPageModule {
 }

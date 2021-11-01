@@ -1,13 +1,14 @@
-<ion-header mode="ios">
+<ion-header mode="ios" class="dark">
   <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
     <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
   </div>
   <div *ngIf="stepper > 1" (click)="stepper=stepper-1" class="back-button">
     <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
   </div>
+  <ion-title></ion-title>
 </ion-header>
 
-<ion-content scrollX="false" scrollY="false">
+<ion-content [scrollEvents]="true" parallax-header>
 
   <div *ngIf="stepper === 1" class="page-container">
     <div class="lead">
@@ -135,7 +136,7 @@
             </ion-row>
             <ion-row>
               <ion-col>
-                <ion-button class="mt-3" routerLink="/tabs">Devam Et</ion-button>
+                <ion-button class="mt-3" (click)="saveCategories()">Devam Et</ion-button>
               </ion-col>
             </ion-row>
           </ion-grid>

@@ -21,7 +21,9 @@ import { SharedComponentsModule } from './components/shared-components.module';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import { SharedComponentsModule } from './components/shared-components.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     AppPipesModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    
   ],
   providers: [
     AppService,

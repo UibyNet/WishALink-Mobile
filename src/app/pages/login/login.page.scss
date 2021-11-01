@@ -1,6 +1,6 @@
 .login-container {
   height: 72%;
-  background: #633DCA;
+  background: #6A40D6;
 
   .back-button {
     padding: 2.25rem 1.875rem 1rem;
@@ -77,4 +77,17 @@
       }
     }
   }
+}
+
+ion-button {
+  --border-radius: 16px;
+  width: 100%;
+  height: 52px;
+  font-size: 1em;
+}
+
+.vertical-dots {
+  position: absolute;
+  left: 10%;
+  top: 79%;
 }

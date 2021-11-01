@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { SuggestionPageRoutingModule } from './suggestion-routing.module';
 
 import { SuggestionPage } from './suggestion.page';
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SuggestionPageRoutingModule
+    SuggestionPageRoutingModule,
+    SharedDirectivesModule
   ],
   declarations: [SuggestionPage]
 })

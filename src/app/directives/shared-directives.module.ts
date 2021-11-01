@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CountrySelectorComponent } from './country-selector/country-selector.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ParallaxPageDirective } from './parallax-page.directive';
+import { ParallaxHeaderDirective } from './parallax-header.directive';
 
 @NgModule({
   declarations: [
-    CountrySelectorComponent
+    ParallaxPageDirective,
+    ParallaxHeaderDirective
   ],
   imports: [
     FormsModule,
@@ -18,7 +20,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     ScrollingModule
   ],
   exports: [
-    CountrySelectorComponent,
+    ParallaxPageDirective,
+    ParallaxHeaderDirective,
   ]
 })
-export class SharedComponentsModule { }
+export class SharedDirectivesModule { }

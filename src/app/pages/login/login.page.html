@@ -1,32 +1,43 @@
-<ion-content scrollX="false" scrollY="false">
-    <div *ngIf="stepper===1" class="login-container">
-        <div routerLink="/intro" class="back-button">
-            <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+<ion-header mode="ios" class="dark">
+    <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
+        <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+    </div>
+    <ion-title></ion-title>
+</ion-header>
+
+<ion-content [scrollEvents]="true" parallax-header>
+    <div *ngIf="stepper===1" class="page-container">
+        <div class="lead">
+            <h2>
+                Wish a Link’e hoş geldiniz
+                lütfen giriş yapınız
+                <div class="vertical-dots">
+                    <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
+                </div>
+            </h2>
         </div>
-        <div class="ion-text-center text-container">
-            Wish a Link’e hoş geldiniz
-            lütfen giriş yapınız
-            <div class="vertical-dots">
-                <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
+        <div class="bottom-container pt-2">
+            <div class="bottom-content pt-2">
+                <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+                    <ion-item>
+                        <div class="p-inputgroup">
+                            <button (click)="showCountrySelector()" class="p-button-outlined" type="button" pButton
+                                pRipple icon="flag-icon flag-icon-{{selectedCountry.isoCode}}"
+                                label="+{{selectedCountry.dialCode}}"></button>
+                            <p-inputMask formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
+                                placeholder="Telefon">
+                            </p-inputMask>
+                        </div>
+                    </ion-item>
+                    <ion-item>
+                        <input formControlName="password" pInputText type="password" placeholder="Şifre">
+                    </ion-item>
+                    <ion-item>
+                        <ion-button type="submit" [disabled]="isLoading || !loginForm.valid">{{ isLoading ? 'Giriş
+                            yapılıyor...' : 'Giriş Yap' }}</ion-button>
+                    </ion-item>
+                </form>
             </div>
-        </div>
-        <div class="bottom-container">
-            <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
-                <ion-item>
-                    <div class="p-inputgroup">
-                        <button (click)="showCountrySelector()" class="p-button-outlined" type="button" pButton pRipple
-                                icon="flag-icon flag-icon-{{selectedCountry.isoCode}}" label="+{{selectedCountry.dialCode}}"></button>
-                        <p-inputMask formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask" placeholder="Telefon">
-                        </p-inputMask>
-                    </div>
-                </ion-item>
-                <ion-item>
-                    <input formControlName="password" pInputText type="email" placeholder="E-mail">
-                </ion-item>
-                <ion-item>
-                    <ion-button type="submit" [disabled]="isLoading || !loginForm.valid">{{ isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap' }}</ion-button>
-                </ion-item>
-            </form>
         </div>
     </div>
     <!--  <div *ngIf="stepper===2" class="login-container">-->

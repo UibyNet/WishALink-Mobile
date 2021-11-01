@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CategoryDetailPageRoutingModule } from './category-detail-routing.module';
 
 import { CategoryDetailPage } from './category-detail.page';
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CategoryDetailPageRoutingModule
+    CategoryDetailPageRoutingModule,
+    SharedDirectivesModule
   ],
   declarations: [CategoryDetailPage]
 })

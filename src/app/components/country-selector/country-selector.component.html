@@ -2,7 +2,8 @@
   <ion-grid class="ion-no-padding">
     <ion-row>
       <ion-col>
-        <ion-searchbar mode="ios" placeholder="Ülke ara..." debounce="100" (ionChange)="filterCountries($event)"></ion-searchbar>
+        <ion-searchbar mode="ios" placeholder="Ülke ara..." debounce="100" (ionChange)="filterCountries($event)">
+        </ion-searchbar>
       </ion-col>
       <ion-col class="ion-text-right" size="auto">
         <ion-button fill="outline" (click)="closeModal()">
@@ -14,15 +15,22 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-radio-group value="selectedCountry">
-      <ion-item *ngFor="let country of countries" (click)="selectCountry(country)">
-        <ion-label>
-          <span class="mr-2 flag-icon flag-icon-{{country.isoCode}}"></span>
-          <span>{{country.name}}</span>
-        </ion-label>
-        <ion-radio slot="end" [value]="country.dialCode"></ion-radio>
-      </ion-item>
+  <ion-list style="height: 100%;  width: 100%;">
+    <ion-radio-group value="selectedCountry" style="height: 100%;  width: 100%;">
+      <cdk-virtual-scroll-viewport itemSize="15" class="example-viewport" style="height: 100%;  width: 100%;">
+        <ion-item *cdkVirtualFor="let country of countries" (click)="selectCountry(country)">
+          <ion-label style="max-width: 70vw;">
+            <span class="mr-2 flag-icon flag-icon-{{country.isoCode}}"></span>
+            <span>{{country.name}}</span>
+          </ion-label>
+          <ion-radio slot="end" [value]="country.dialCode"></ion-radio>
+        </ion-item>
+      </cdk-virtual-scroll-viewport>
     </ion-radio-group>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" hidden>
+    <ion-infinite-scroll-content loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
