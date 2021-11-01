@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthApiService, LoginModel, TokenModel, VerifyModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
@@ -26,6 +26,7 @@ export class LoginPage implements OnInit {
     }
 
     constructor(
+        private zone: NgZone,
         private router: Router,
         private appService: AppService,
         private authService: AuthApiService,
@@ -70,20 +71,25 @@ export class LoginPage implements OnInit {
     }
 
     onLogin(v: TokenModel): void {
-        this.isLoading = false;
+        this.zone.run(() => {
 
-        if (v.isNeedVerify) {
-            this.stepper++;
-        } else if (v.token != null && v.token.length > 0) {
-            this.appService.accessToken = v.token;
-            this.router.navigate(['tabs']);
-        }
+            this.isLoading = false;
+
+            if (v.isNeedVerify) {
+                this.stepper++;
+            } else if (v.token != null && v.token.length > 0) {
+                this.appService.accessToken = v.token;
+                this.router.navigate(['tabs']);
+            }
+        })
     }
 
     onError(e: any): void {
-        this.isLoading = false;
+        this.zone.run(() => {
+            this.isLoading = false;
 
-        this.appService.showErrorAlert(e);
+            this.appService.showErrorAlert(e);
+        })
     }
 
     verify() {

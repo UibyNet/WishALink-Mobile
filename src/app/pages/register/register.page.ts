@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthApiService, ProfileApiService, TokenModel, UserModel, VerifyModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
@@ -83,6 +83,7 @@ export class RegisterPage implements OnInit {
     private formBuilder: FormBuilder,
     private modalController: ModalController,
     private router: Router,
+    private zone: NgZone
   ) {
   }
 
@@ -158,24 +159,30 @@ export class RegisterPage implements OnInit {
   }
 
   onPasswordChange(): void {
-    this.stepper++;
+    this.zone.run(() => {
+      this.stepper++;
+    });
   }
 
   onRegister(v: TokenModel): void {
-    this.isLoading = false;
-    if (v.isNeedVerify) {
-      this.stepper++;
-    }
-    else {
-      this.appService.accessToken = v.token;
-      this.stepper += 2;
-    }
+    this.zone.run(() => {
+      this.isLoading = false;
+      if (v.isNeedVerify) {
+        this.stepper++;
+      }
+      else {
+        this.appService.accessToken = v.token;
+        this.stepper += 2;
+      }
+    });
   }
 
   onVerify(v: TokenModel): void {
-    this.isLoading = false;
-    this.appService.accessToken = v.token;
-    this.stepper++;
+    this.zone.run(() => {
+      this.isLoading = false;
+      this.appService.accessToken = v.token;
+      this.stepper++;
+    });
   }
 
   onError(e: any): void {
@@ -199,6 +206,8 @@ export class RegisterPage implements OnInit {
   }
 
   saveCategories() {
-    this.router.navigate(['/tabs']);
+    this.zone.run(() => {
+      this.router.navigate(['/tabs']);
+  });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { CategoryApiService, CategoryListModel, Media, ProfileApiService, SocialApiService, SocialUserListModel } from "../../../services/api.service";
 import { AppService } from "../../../services/app.service";
 import { ActivatedRoute } from "@angular/router";
@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
     categories: CategoryListModel[];
 
     constructor(
+        private zone: NgZone,
         private appService: AppService,
         private profileApiService: ProfileApiService,
         private categoryApiService: CategoryApiService,
@@ -65,10 +66,12 @@ export class HomePage implements OnInit {
     }
 
     private userInfo(v: SocialUserListModel) {
-        this.userData = v;
-        this.appService.userInfo = v;
-        console.log(this.userData);
-        this.appService.toggleLoader(false);
+        this.zone.run(()=>{
+            this.userData = v;
+            this.appService.userInfo = v;
+            console.log(this.userData);
+            this.appService.toggleLoader(false);
+        })
     }
 
     async presentActionSheet() {
