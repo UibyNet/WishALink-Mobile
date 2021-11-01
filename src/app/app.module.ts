@@ -48,8 +48,8 @@ import { SharedComponentsModule } from './components/shared-components.module';
     File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: API_BASE_URL, useValue: "https://panel.wishalink.com" },
-    // { provide: API_BASE_URL, useValue: "https://localhost:44301" },
+    // { provide: API_BASE_URL, useValue: "https://panel.wishalink.com" },
+    { provide: API_BASE_URL, useValue: "https://localhost:44301" },
   ],
   bootstrap: [AppComponent],
 })

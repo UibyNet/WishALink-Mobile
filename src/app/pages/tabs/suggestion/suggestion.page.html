@@ -1,188 +1,50 @@
 <ion-content [scrollEvents]="true" parallax-page>
     <div class="profile-header scrollable">
         <span routerLink="/tabs/home" routerDirection="back" class="back-button">
-          <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
+            <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
         </span>
         <div class="profile-container ion-text-center">
-          <div class="profile-inner">
-            <div class="avatar avatar-sm">
-              <div class="avatar-image">
-                <img [src]="userData?.profilePictureUrl" alt="Avatar">
+            <div class="profile-inner">
+                <div class="avatar avatar-sm">
+                    <div class="avatar-image">
+                        <img [src]="userData?.profilePictureUrl" alt="Avatar">
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <div class="category-name">
+                        Önerilerim
+                    </div>
+                    <div class="category-info">
+                        {{ this.suggestions.length }} Ürün
+                    </div>
+                </div>
             </div>
-            </div>
-            <div class="profile-info">
-              <div class="category-name">
-                Önerilerim
-              </div>
-              <div class="category-info">
-                30 Ürün
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
 
     <div class="content product-content">
-        <div class="item-container">
-            <ion-grid class="ion-no-padding">
+        <div class="item-container" *ngFor="let suggestion of suggestions">
+            <ion-grid *ngIf="suggestion != null" class="ion-no-padding">
                 <ion-row routerLink="suggestion-detail/1">
                     <ion-col class="ion-text-center img-bottom" size="4">
                         <div class="img-product-container">
-                            <img src="../../../assets/svg/abstract/product.png" alt="Img">
+                            <img [src]="suggestion.mediaUrl" alt="Img">
                         </div>
                     </ion-col>
                     <ion-col class="ion-text-center col-custom ion-padding-start" size="8">
                         <div class="d-flex mb-8">
-                            <div class="product-name">Iphone 11</div>
+                            <div class="product-name">{{ suggestion.name }}</div>
                             <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
                         </div>
                         <div class="d-flex">
-                            <div class="badge-container">Apple</div>
-                            <div class="badge-container">128 GB</div>
-                            <div class="badge-container">Siyah</div>
+                            <div class="badge-container">{{ suggestion.keywords }}</div>
                         </div>
                     </ion-col>
                 </ion-row>
             </ion-grid>
         </div>
-        <div class="item-container">
-            <ion-grid class="ion-no-padding">
-                <ion-row routerLink="suggestion-detail/1">
-                    <ion-col class="ion-text-center col-custom" size="8">
-                        <div class="d-flex mb-8">
-                            <div class="product-name">Airpods 2</div>
-                            <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="badge-container">Apple</div>
-                            <div class="badge-container">Airpods 2</div>
-                            <div class="badge-container">Beyaz</div>
-                        </div>
-                    </ion-col>
-                    <ion-col class="ion-text-center img-bottom" size="4">
-                        <div class="img-product-container">
-                            <img src="../../../assets/svg/abstract/ipod.png" alt="Img">
-                        </div>
-                    </ion-col>
 
-                </ion-row>
-            </ion-grid>
-        </div>
-        <div class="item-container">
-            <ion-grid class="ion-no-padding">
-                <ion-row routerLink="suggestion-detail/1">
-                    <ion-col class="ion-text-center img-bottom" size="4">
-                        <div class="img-product-container">
-                            <img src="../../../assets/svg/abstract/jbl.png" alt="Img">
-                        </div>
-                    </ion-col>
-                    <ion-col class="ion-text-center col-custom ion-padding-start" size="8">
-                        <div class="d-flex mb-8">
-                            <div class="product-name">Hoparlör</div>
-                            <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="badge-container">JBL</div>
-                            <div class="badge-container">Clip3</div>
-                            <div class="badge-container">Mavi</div>
-                        </div>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </div>
-        <div class="item-container">
-            <ion-grid class="ion-no-padding">
-                <ion-row routerLink="suggestion-detail/1">
-                    <ion-col class="ion-text-center col-custom" size="8">
-                        <div class="d-flex mb-8">
-                            <div class="product-name">Kahve Makinesi</div>
-                            <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="badge-container">Fakir</div>
-                            <div class="badge-container">Babila</div>
-                            <div class="badge-container">Siyah/Gri</div>
-                        </div>
-                    </ion-col>
-                    <ion-col class="ion-text-center img-bottom" size="4">
-                        <div class="img-product-container">
-                            <img src="../../../assets/svg/abstract/coffee.png" alt="Img">
-                        </div>
-                    </ion-col>
-
-                </ion-row>
-            </ion-grid>
-        </div>
-        <div class="item-container">
-            <ion-grid class="ion-no-padding">
-                <ion-row routerLink="suggestion-detail/1">
-                    <ion-col class="ion-text-center col-custom" size="8">
-                        <div class="d-flex mb-8">
-                            <div class="product-name">Kahve Makinesi</div>
-                            <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="badge-container">Fakir</div>
-                            <div class="badge-container">Babila</div>
-                            <div class="badge-container">Siyah/Gri</div>
-                        </div>
-                    </ion-col>
-                    <ion-col class="ion-text-center img-bottom" size="4">
-                        <div class="img-product-container">
-                            <img src="../../../assets/svg/abstract/coffee.png" alt="Img">
-                        </div>
-                    </ion-col>
-
-                </ion-row>
-            </ion-grid>
-        </div>
-        <div class="item-container">
-            <ion-grid class="ion-no-padding">
-                <ion-row routerLink="suggestion-detail/1">
-                    <ion-col class="ion-text-center col-custom" size="8">
-                        <div class="d-flex mb-8">
-                            <div class="product-name">Kahve Makinesi</div>
-                            <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="badge-container">Fakir</div>
-                            <div class="badge-container">Babila</div>
-                            <div class="badge-container">Siyah/Gri</div>
-                        </div>
-                    </ion-col>
-                    <ion-col class="ion-text-center img-bottom" size="4">
-                        <div class="img-product-container">
-                            <img src="../../../assets/svg/abstract/coffee.png" alt="Img">
-                        </div>
-                    </ion-col>
-
-                </ion-row>
-            </ion-grid>
-        </div>
-        <div class="item-container">
-            <ion-grid class="ion-no-padding">
-                <ion-row routerLink="suggestion-detail/1">
-                    <ion-col class="ion-text-center col-custom" size="8">
-                        <div class="d-flex mb-8">
-                            <div class="product-name">Kahve Makinesi</div>
-                            <div><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="badge-container">Fakir</div>
-                            <div class="badge-container">Babila</div>
-                            <div class="badge-container">Siyah/Gri</div>
-                        </div>
-                    </ion-col>
-                    <ion-col class="ion-text-center img-bottom" size="4">
-                        <div class="img-product-container">
-                            <img src="../../../assets/svg/abstract/coffee.png" alt="Img">
-                        </div>
-                    </ion-col>
-
-                </ion-row>
-            </ion-grid>
-        </div>
     </div>
     <div routerLink="/add-product" class="add-product">
         <img src="../../../assets/svg/abstract/add.svg" alt="Icon">
