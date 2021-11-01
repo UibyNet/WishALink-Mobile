@@ -1,0 +1,22 @@
+<ion-header mode="ios" style="height: unset">
+    <ion-toolbar>
+        <ion-title style="color: black">Bildirimler</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">Close</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list *ngIf="notifications != 'undefined' || notifications.length !=0 ">
+        <ion-item *ngFor="let notification of notifications">
+            {{notification.body}}
+        </ion-item>
+    </ion-list>
+    <div style="margin-top: 4rem;" class="ion-text-center">
+        <div class="icon-container">
+            <ion-icon name="notifications-off-outline"></ion-icon>
+        </div>
+        <div class="info-text">Bildiriminiz bulunmamaktadır.</div>
+    </div>
+</ion-content>

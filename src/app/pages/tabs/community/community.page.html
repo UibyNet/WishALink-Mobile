@@ -22,17 +22,17 @@
             </div>
             <div class="top-tabs">
                 <div class="tab-container">
-                    <div (click)="getFollowerList()" class="follow-info">
+                    <div [ngClass]="{'active': selectedTab === 'follower'}" (click)="getFollowerList()" class="follow-info">
                         Takipçi
                     </div>
-                    <div (click)="getFollowingList()" class="follow-info">
+                    <div [ngClass]="{'active': selectedTab === 'following'}" (click)="getFollowingList()" class="follow-info active">
                         Takip
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="content">
+    <div *ngIf="selectedTab=== 'follower'" class="content">
         <div *ngFor="let user of followerList" class="profile-list-item">
             <div class="person-info">
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
@@ -42,22 +42,22 @@
                 Takip Et
             </div>
         </div>
-        <!--        <div *ngIf="followerList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">Seni takip-->
-        <!--            eden herkesi burada göreceksin.-->
-        <!--        </div>-->
+        <div *ngIf="followerList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">Seni takip
+            eden herkesi burada göreceksin.
+        </div>
     </div>
-    <div  class="content">
-        <div *ngFor="let item of followingList" class="profile-list-item">
+    <div *ngIf="selectedTab=== 'following'" class="content">
+        <div *ngFor="let user of followingList" class="profile-list-item">
             <div class="person-info">
-                <div class="img-container"><img [src]="item.profilePictureUrl" alt="Img"></div>
-                <div class="name">{{item.fullName}}</div>
+                <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
+                <div class="name">{{user?.fullName}}</div>
             </div>
             <div class="follow-info active">
                 Takibi Bırak
             </div>
         </div>
-        <!--        <div *ngIf="followingList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">Takip-->
-        <!--            ettiğin kişileri burada göreceksin.-->
-        <!--        </div>-->
+        <div *ngIf="followingList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">Takip
+            ettiğin kişileri burada göreceksin.
+        </div>
     </div>
 </ion-content>
