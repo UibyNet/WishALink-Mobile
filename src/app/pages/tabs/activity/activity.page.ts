@@ -6,6 +6,8 @@ import localeZh from '@angular/common/locales/tr';
 import { ActivityApiService, ActivityListModel, SocialUserListModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
 import * as moment from 'moment';
+import {NotificationComponent} from "../../../components/notification/notification.component";
+import {ModalController} from "@ionic/angular";
 
 registerLocaleData(localeZh);
 
@@ -57,7 +59,8 @@ export class ActivityPage implements OnInit {
 
     constructor(
         private appService: AppService,
-        private activityApiService: ActivityApiService
+        private activityApiService: ActivityApiService,
+        private modalController:ModalController
     ) {
     }
 
@@ -155,6 +158,14 @@ export class ActivityPage implements OnInit {
 
     onRangeChanged(ev) {
         console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
+    }
+    async openNotification() {
+        const modal = await this.modalController.create({
+            component: NotificationComponent,
+            cssClass: 'notification-custom'
+        })
+
+        return await modal.present();
     }
 
     markDisabled = (date: Date) => {

@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AppService} from "../../../services/app.service";
 import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
 import {Router} from "@angular/router";
+import {NotificationComponent} from "../../../components/notification/notification.component";
+import {ModalController} from "@ionic/angular";
 
 @Component({
     selector: 'app-search',
@@ -13,7 +15,8 @@ export class SearchPage implements OnInit {
     constructor(
         private appService: AppService,
         private socialApiService: SocialApiService,
-        private router: Router
+        private router: Router,
+        private modalController:ModalController
     ) {
     }
 
@@ -73,6 +76,14 @@ export class SearchPage implements OnInit {
     onUnfollow(v: number, userId: number) {
         this.searchResultPeople.filter(x => x.id === userId)[0].isFollowing = false;
         this.appService.userInfo.followingsCount = v
+    }
+    async openNotification() {
+        const modal = await this.modalController.create({
+            component: NotificationComponent,
+            cssClass: 'notification-custom'
+        })
+
+        return await modal.present();
     }
 
     onFollow(v: number, userId: number) {
