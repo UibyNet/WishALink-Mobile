@@ -3,9 +3,9 @@
         <div class="top-container">
     <span (click)="openNotification()" class="notification-content">
       <img src="../../../../assets/svg/tabs/notification-light.svg" alt="Icon">
-      <div class="badge-notification">
-        6
-      </div>
+      <div *ngIf="userData != null && userData.notificationCount > 0" class="badge-notification">
+        {{ userData.notificationCount }}
+    </div>
     </span>
             <div class="page-title ion-margin-top ion-text-center">
                 Ayarlar

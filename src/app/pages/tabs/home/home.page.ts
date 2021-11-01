@@ -8,7 +8,7 @@ import {
     SocialUserListModel
 } from "../../../services/api.service";
 import { AppService } from "../../../services/app.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ActionSheetController, ModalController } from "@ionic/angular";
 import { NotificationComponent } from "../../../components/notification/notification.component";
 
@@ -22,6 +22,7 @@ export class HomePage implements OnInit {
 
     constructor(
         private zone: NgZone,
+        private router: Router,
         private appService: AppService,
         private profileApiService: ProfileApiService,
         private categoryApiService: CategoryApiService,
@@ -142,6 +143,12 @@ export class HomePage implements OnInit {
         })
 
         return await modal.present();
+    }
+
+    addCategory() {
+        this.zone.run(()=>{
+            this.router.navigateByUrl("/add-product/add-category");
+        })
     }
 
     private changePicture() {

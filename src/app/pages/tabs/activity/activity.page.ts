@@ -22,6 +22,7 @@ export class ActivityPage implements OnInit {
     @ViewChild(CalendarComponent, { static: false }) calendarComponent: CalendarComponent;
 
     eventSource = [];
+    upcomingEvents: any[];
     viewTitle;
     isToday: boolean;
     userData: SocialUserListModel
@@ -88,6 +89,8 @@ export class ActivityPage implements OnInit {
                 });
             }
             this.calendarComponent.loadEvents();
+
+            this.upcomingEvents = this.eventSource.sort((a, b) => a.startTime.getTime() - b.startTime.getTime() ).slice(1, 10);
         }
     }
 

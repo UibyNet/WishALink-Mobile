@@ -2,8 +2,8 @@
     <div class="profile-header scrollable">
         <span (click)="openNotification()" class="notification-content">
             <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
-            <div class="badge-notification">
-                6
+            <div *ngIf="userData != null && userData.notificationCount > 0" class="badge-notification">
+                {{ userData.notificationCount }}
             </div>
         </span>
         <div class="profile-container ion-text-center">
@@ -39,15 +39,47 @@
                     {{viewTitle}}
                 </div>
                 <div>
-                    <button class="month-today-button" ion-button [disabled]="isToday" (click)="today()">Today</button>
+                    <button class="month-today-button" ion-button [disabled]="isToday" (click)="today()">Bugün</button>
                 </div>
             </div>
             <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
-                (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)"
-                (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)"
-                [step]="calendar.step">
+                [monthviewEventDetailTemplate]="detailTemplate" (onCurrentDateChanged)="onCurrentDateChanged($event)"
+                (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)"
+                (onTimeSelected)="onTimeSelected($event)" [step]="calendar.step" noEventsLabel="Etkinlik bulunamadı"
+                allDayLabel="">
             </calendar>
+        </div>
+
+        <div>
+            <h1 class="px-3">
+                <img src="../../../../assets/svg/activity/upcoming.svg" alt="Icon" style="margin-bottom: -6px">
+
+                Yaklaşan Etkinlikler
+            </h1>
+
+            <ion-list class="activity-list" *ngIf="upcomingEvents">
+                <ion-item *ngFor="let activity of upcomingEvents">
+                    <span class="activity-date">{{ activity.startTime | date: 'dd/MM/yyyy' }}</span>
+                    <span class="dot"></span>
+                    <span class="activity-title">{{ activity.title }}</span>
+                </ion-item>
+            </ion-list>
+
+            <div class="px-3 text-2" *ngIf="upcomingEvents == null">
+                Yaklaşan etkinlik bulunamadı.
+            </div>
         </div>
 
     </div>
 </ion-content>
+
+<ng-template #detailTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate"
+    let-noEventsLabel="noEventsLabel">
+    <ion-list class="activity-list" *ngIf="selectedDate.hasEvent">
+        <ion-item *ngFor="let activity of selectedDate.events">
+            <span class="activity-date">{{ activity.startTime | date: 'dd/MM/yyyy' }}</span>
+            <span class="dot"></span>
+            <span class="activity-title">{{ activity.title }}</span>
+        </ion-item>
+    </ion-list>
+</ng-template>

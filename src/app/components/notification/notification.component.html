@@ -2,13 +2,13 @@
     <ion-toolbar>
         <ion-title style="color: black">Bildirimler</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="closeModal()">Close</ion-button>
+            <ion-button (click)="closeModal()">Kapat</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-list *ngIf="notifications != undefined || notifications.length !=0 ">
+    <ion-list *ngIf="notifications != undefined && notifications.length !=0 ">
         <ion-item *ngFor="let notification of notifications">
             {{notification.body}}
         </ion-item>

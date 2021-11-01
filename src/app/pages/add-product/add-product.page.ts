@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { ActivityApiService, ActivityListModel, MetaInfoModel, PostApiService, PostEditModel, PostListModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
@@ -24,8 +25,10 @@ export class AddProductPage implements OnInit {
     activities: ActivityListModel[];
     name: string;
     activityId: number;
+    categoryId: number;
 
     constructor(
+        private route: ActivatedRoute,
         private appService: AppService,
         private postApiService: PostApiService,
         private activityApiService: ActivityApiService,
@@ -34,6 +37,9 @@ export class AddProductPage implements OnInit {
     }
 
     ngOnInit() {
+        const id = this.route.snapshot.paramMap.get('id');
+        this.categoryId = parseInt(id)
+
         this.activityApiService.list(this.appService.user.id)
             .subscribe(
                 v => this.onActivitiesLoad(v),
@@ -53,12 +59,14 @@ export class AddProductPage implements OnInit {
     savePost() {
         const model = new PostEditModel();
         model.name = this.name;
+        model.url = this.url;
         model.brand = this.brand;
         model.model = this.model;
         model.size = this.size;
         model.color = this.color;
         model.description = this.description;
         model.activityId = this.activityId;
+        model.categoryId = this.categoryId;
         model.mediaId = this.mediaId
 
         this.postApiService.create(model)
@@ -93,6 +101,6 @@ export class AddProductPage implements OnInit {
     }
 
     onError(e: any): void {
-        throw new Error('Method not implemented.');
+        this.appService.showErrorAlert(e);
     }
 }

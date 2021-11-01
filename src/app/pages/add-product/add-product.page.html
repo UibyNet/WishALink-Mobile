@@ -11,6 +11,9 @@
         <img src="../../../assets/svg/abstract/exit.svg" alt="Icon">
       </div>
       <div class="ion-margin-bottom">
+        <ion-input [(ngModel)]="name" placeholder="Ürün Başlığı"></ion-input>
+      </div>
+      <div class="ion-margin-bottom">
         <ion-input [(ngModel)]="url" (ionChange)="onLinkChange()" placeholder="Ürün linki"></ion-input>
       </div>
       <div *ngIf="mediaUrl != undefined && mediaUrl.length>0" class="ion-margin-bottom product-image">

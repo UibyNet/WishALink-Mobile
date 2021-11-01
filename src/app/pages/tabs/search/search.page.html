@@ -3,8 +3,8 @@
     <div class="profile-header scrollable">
         <span (click)="openNotification()" class="notification-content">
             <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
-            <div class="badge-notification">
-                6
+            <div *ngIf="userData != null && userData.notificationCount > 0" class="badge-notification">
+                {{ userData.notificationCount }}
             </div>
         </span>
         <div class="profile-container ion-text-center">

@@ -3914,6 +3914,7 @@ export class PostEditModel implements IPostEditModel {
     id?: number;
     mediaId?: number | undefined;
     activityId?: number | undefined;
+    categoryId?: number;
     name?: string | undefined;
     url?: string | undefined;
     brand?: string | undefined;
@@ -3937,6 +3938,7 @@ export class PostEditModel implements IPostEditModel {
             this.id = _data["Id"];
             this.mediaId = _data["MediaId"];
             this.activityId = _data["ActivityId"];
+            this.categoryId = _data["CategoryId"];
             this.name = _data["Name"];
             this.url = _data["Url"];
             this.brand = _data["Brand"];
@@ -3960,6 +3962,7 @@ export class PostEditModel implements IPostEditModel {
         data["Id"] = this.id;
         data["MediaId"] = this.mediaId;
         data["ActivityId"] = this.activityId;
+        data["CategoryId"] = this.categoryId;
         data["Name"] = this.name;
         data["Url"] = this.url;
         data["Brand"] = this.brand;
@@ -3976,6 +3979,7 @@ export interface IPostEditModel {
     id?: number;
     mediaId?: number | undefined;
     activityId?: number | undefined;
+    categoryId?: number;
     name?: string | undefined;
     url?: string | undefined;
     brand?: string | undefined;

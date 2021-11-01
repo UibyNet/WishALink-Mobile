@@ -54,3 +54,22 @@
   letter-spacing: 0.38px;
   color: #6A40D6;
 }
+
+.activity-list {
+  .activity-date {
+    color: #b7b7b7;
+  }
+
+  .activity-title {
+    color: var(--ion-color-secondary);
+  }
+
+  .dot {
+    margin: 2px 10px;
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color:  var(--ion-color-secondary);
+  }
+}

@@ -35,6 +35,14 @@ export class AddCategoryPage implements OnInit {
     }
 
     save() {
+        if(this.categoryName == null || this.categoryName.length == 0) {
+            this.appService.showToast("Lütfen geçerli bir ad yazın.");
+            return;
+        }
+        if(this.catImageBlob == null) {
+            this.appService.showToast("Lütfen kategori görseli ekleyin.");
+            return;
+        }
         this.appService.toggleLoader(true).then(()=>{
             this.categoryApiService.create(0, this.categoryName, 0, this.isHidden, {fileName: '', data:  this.catImageBlob})
             .subscribe(

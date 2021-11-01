@@ -2,8 +2,8 @@
     <div class="profile-header scrollable">
         <span (click)="openNotification()" class="notification-content">
             <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
-            <div class="badge-notification">
-                6
+            <div *ngIf="userData != null && userData.notificationCount > 0" class="badge-notification">
+                {{ userData.notificationCount }}
             </div>
         </span>
         <div class="profile-container ion-text-center">
@@ -36,7 +36,7 @@
             <div class="top-tabs">
                 <div class="tab-container">
                     <div>Kategoriler</div>
-                    <div routerLink="/add-product/add-category" class="active">
+                    <div (click)="addCategory()" class="active">
                         <span class="mr-1"> <img style="filter: contrast(3) brightness(0) invert(1);" class="plus-icon"
                                 src="../../../../assets/svg/home/plus.svg" alt="Icon"></span>
                         Kategori Ekle

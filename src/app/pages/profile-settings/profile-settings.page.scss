@@ -1,5 +1,5 @@
 .main {
-  background: #6A40D6;
+  background: #6a40d6;
   height: 50%;
 
   .top-container {
@@ -10,7 +10,7 @@
       width: 100%;
       font-size: 24px;
       line-height: 27px;
-      color: #FFFFFF;
+      color: #ffffff;
       margin-bottom: 24px;
     }
   }
@@ -19,21 +19,18 @@
 .main-content {
   border-top-right-radius: 32px;
   border-top-left-radius: 32px;
-  background: #FFFFFF;
+  background: #ffffff;
   position: relative;
   padding-bottom: 1.5rem;
 
   .success {
-    width: 100%;
     height: 56px;
-    background: #1E90FF;
-    border-radius: 16px;
-    font-size: 20px;
+    --border-radius: 16px;
   }
 
   .input-container {
     .add-address {
-      color: #1E90FF;
+      color: #1e90ff;
       text-decoration-line: underline;
       background: transparent;
     }
@@ -48,7 +45,7 @@
       flex: unset !important;
 
       input {
-        border: 1px solid #6A40D6 !important;
+        border: 1px solid #6a40d6 !important;
         border-radius: 16px !important;
         width: 56px !important;
         height: 56px !important;
@@ -56,11 +53,11 @@
     }
 
     ion-input {
-      border: 1px solid #6A40D6;
+      border: 1px solid #6a40d6;
       border-radius: 16px;
       height: 56px;
       padding: 1.125rem 1rem !important;
-      --placeholder-color: #D5D5D5;
+      --placeholder-color: #d5d5d5;
       --placeholder-opacity: unset;
     }
   }
@@ -68,9 +65,9 @@
   .arrange-button {
     button {
       background: transparent;
-      border: 1px solid #6A40D6;
+      border: 1px solid #6a40d6;
       border-radius: 8px;
-      color: #6A40D6;
+      color: #6a40d6;
       height: 24px;
       width: 72px;
     }
