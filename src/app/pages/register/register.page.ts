@@ -64,7 +64,7 @@ export class RegisterPage implements OnInit {
   ];
   selectedProducts = [];
 
-  selectedCountry = { dialCode: '90', isoCode: 'tr', phoneMask: '999 999 99 99' };
+  selectedCountry = { dialCode: '90', isoCode: 'tr', phoneMask: '000 000 00 00' };
 
   isLoading: boolean = false;
   otp: string;

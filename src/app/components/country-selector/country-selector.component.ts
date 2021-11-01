@@ -56,7 +56,7 @@ export class CountrySelectorComponent implements OnInit, AfterViewInit {
 
     const phoneMask = phoneMasks[value.isoCode.toUpperCase()];
     if (phoneMask != undefined && phoneMask.length > 0) {
-      value.phoneMask = phoneMask.replace(/#/g, '9');
+      value.phoneMask = phoneMask.replace(/#/g, '0');
     }
 
     this.closeModal(value);

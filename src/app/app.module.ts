@@ -1,7 +1,6 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -22,6 +21,11 @@ import {
     ActivityApiService, NotificationApiService
 } from './services/api.service';
 import { SharedComponentsModule } from './components/shared-components.module';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 
 @NgModule({
@@ -31,9 +35,9 @@ import { SharedComponentsModule } from './components/shared-components.module';
     entryComponents: [],
     imports: [
         BrowserModule,
-        BrowserAnimationsModule,
         HttpClientModule,
         IonicModule.forRoot(),
+        NgxMaskModule.forRoot(maskConfig),
         AppRoutingModule,
         AppPipesModule,
         SharedComponentsModule,

@@ -21,48 +21,23 @@
                 <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
                     <ion-item>
                         <div class="p-inputgroup">
-                            <button (click)="showCountrySelector()" class="p-button-outlined" type="button" pButton
-                                pRipple icon="flag-icon flag-icon-{{selectedCountry.isoCode}}"
-                                label="+{{selectedCountry.dialCode}}"></button>
-                            <p-inputMask formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
+                            <button class="p-button" (click)="showCountrySelector()" type="button">
+                                <i class="flag-icon flag-icon-{{selectedCountry.isoCode}}"></i>
+                                <span>+{{selectedCountry.dialCode}}</span>
+                            </button>
+                            <input class="p-inputtext" formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
                                 placeholder="Telefon">
-                            </p-inputMask>
                         </div>
                     </ion-item>
                     <ion-item>
-                        <input formControlName="password" pInputText type="password" placeholder="Şifre">
+                        <input class="p-inputtext" formControlName="password" type="password" placeholder="Şifre">
                     </ion-item>
                     <ion-item>
-                        <ion-button type="submit" [disabled]="isLoading || !loginForm.valid">{{ isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap' }}</ion-button>
+                        <ion-button type="submit" [disabled]="isLoading || !loginForm.valid">{{ isLoading ? 'Giriş
+                            yapılıyor...' : 'Giriş Yap' }}</ion-button>
                     </ion-item>
                 </form>
             </div>
         </div>
     </div>
-    <!--  <div *ngIf="stepper===2" class="login-container">-->
-    <!--    <div (click)="stepper=stepper-1" class="back-button">-->
-    <!--      <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">-->
-    <!--    </div>-->
-    <!--    <div class="ion-text-center text-container">-->
-    <!--      Wish a Link’e hoş geldiniz-->
-    <!--      lütfen ‘’Onay Kodunu’’ giriniz-->
-    <!--      <div class="horizontal-dots">-->
-    <!--        <img src="../../../assets/svg/login/horizontal-dots.svg" alt="Icon">-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <!--    <div class="bottom-container">-->
-    <!--      <div>-->
-    <!--        <div class="input-container">-->
-    <!--          <code-input class="code-input" [isCodeHidden]="false"-->
-    <!--                      [codeLength]="4"-->
-    <!--                      (codeChanged)="onCodeChanged($event)"-->
-    <!--                      (codeCompleted)="onCodeCompleted($event)">-->
-    <!--          </code-input>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--      <div class="ion-padding-horizontal">-->
-    <!--        <ion-button (click)="verify()" [disabled]="isLoading">{{ isLoading ? 'Giriş yapılıyor...' : 'Giriş Yap'}}</ion-button>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <!--  </div>-->
 </ion-content>

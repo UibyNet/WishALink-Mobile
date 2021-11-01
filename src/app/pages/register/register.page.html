@@ -30,22 +30,24 @@
 
         <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
           <ion-item>
-            <input pInputText formControlName="firstName" type="text" (keyup)="autoCapitalize('firstName')"
+            <input class="p-inputtext" formControlName="firstName" type="text" (keyup)="autoCapitalize('firstName')"
               placeholder="İsim">
           </ion-item>
           <ion-item>
-            <input pInputText formControlName="lastName" type="text" (keyup)="autoCapitalize('lastName')"
+            <input class="p-inputtext" formControlName="lastName" type="text" (keyup)="autoCapitalize('lastName')"
               placeholder="Soyisim">
           </ion-item>
           <ion-item>
-            <input pInputText formControlName="email" type="email" placeholder="E-mail">
+            <input class="p-inputtext" formControlName="email" type="email" placeholder="E-mail">
           </ion-item>
           <ion-item>
             <div class="p-inputgroup">
-              <button (click)="showCountrySelector()" class="p-button-outlined" type="button" pButton pRipple
-                icon="flag-icon flag-icon-{{selectedCountry.isoCode}}" label="+{{selectedCountry.dialCode}}"></button>
-              <p-inputMask formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask" placeholder="Telefon">
-              </p-inputMask>
+              <button class="p-button" (click)="showCountrySelector()" type="button">
+                <i class="flag-icon flag-icon-{{selectedCountry.isoCode}}"></i>
+                <span>+{{selectedCountry.dialCode}}</span>
+              </button>
+              <input class="p-inputtext" formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
+                placeholder="Telefon">
             </div>
           </ion-item>
           <ion-item>

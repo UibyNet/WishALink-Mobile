@@ -14,7 +14,6 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            resolve:{user:UserResolverService},
             loadChildren: () => import('../../pages/tabs/home/home.module').then(m => m.HomePageModule)
           },
           {

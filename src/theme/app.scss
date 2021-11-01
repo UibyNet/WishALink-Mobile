@@ -91,6 +91,11 @@ ion-content {
 .modal-wrapper {
   ion-header {
     background-color: #fff;
+    height: auto;
+  }
+
+  ion-content {
+   --padding-bottom: 0;
   }
 }
 

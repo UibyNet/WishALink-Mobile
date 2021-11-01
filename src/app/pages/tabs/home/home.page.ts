@@ -26,7 +26,6 @@ export class HomePage implements OnInit {
         private appService: AppService,
         private profileApiService: ProfileApiService,
         private categoryApiService: CategoryApiService,
-        private activatedRoute: ActivatedRoute,
         private actionSheetController: ActionSheetController,
         private modalController: ModalController
     ) {
@@ -35,11 +34,11 @@ export class HomePage implements OnInit {
     userData: SocialUserListModel
 
     ngOnInit() {
-        this.getUserData();
+        
     }
 
     ionViewDidEnter() {
-
+        this.getUserData();
         this.loadCategories();
     }
 
@@ -48,14 +47,14 @@ export class HomePage implements OnInit {
 
         if (this.userData == null) {
             this.appService.toggleLoader(true).then(res => {
-                this.activatedRoute.data.subscribe(
-                    v => this.userInfo(v.user),
+                this.profileApiService.info(this.appService.user.id).subscribe(
+                    v => this.userInfo(v),
                     e => this.onError(e)
                 )
             })
         } else {
-            this.activatedRoute.data.subscribe(
-                v => this.userInfo(v.user),
+            this.profileApiService.info(this.appService.user.id).subscribe(
+                v => this.userInfo(v),
                 e => this.onError(e)
             )
         }

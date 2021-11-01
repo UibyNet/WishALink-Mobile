@@ -8,12 +8,13 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
     selector: 'app-login',
-    templateUrl: './login.page.html',
+    templateUrl: 
+    './login.page.html',
     styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
 
-    selectedCountry = { dialCode: '90', isoCode: 'tr', phoneMask: '999 999 99 99' };
+    selectedCountry = { dialCode: '90', isoCode: 'tr', phoneMask: '000 000 00 00' };
     stepper = 1;
     intPhoneNumber: any;
     password: string;

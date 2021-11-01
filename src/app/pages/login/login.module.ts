@@ -1,17 +1,15 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {IonicModule} from '@ionic/angular';
-import {LoginPageRoutingModule} from './login-routing.module';
+import { IonicModule } from '@ionic/angular';
+import { LoginPageRoutingModule } from './login-routing.module';
 
-import {LoginPage} from './login.page';
-import {CodeInputModule} from 'angular-code-input';
+import { LoginPage } from './login.page';
+import { CodeInputModule } from 'angular-code-input';
 
-import {InputTextModule} from 'primeng/inputtext';
-import {InputMaskModule} from 'primeng/inputmask';
-import {ButtonModule} from 'primeng/button';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
     imports: [
@@ -20,11 +18,9 @@ import { SharedDirectivesModule } from 'src/app/directives/shared-directives.mod
         IonicModule,
         ReactiveFormsModule,
         CodeInputModule,
-        InputTextModule,
-        InputMaskModule,
-        ButtonModule,
         LoginPageRoutingModule,
-        SharedDirectivesModule
+        SharedDirectivesModule,
+        NgxMaskModule
     ],
     declarations: [LoginPage]
 })

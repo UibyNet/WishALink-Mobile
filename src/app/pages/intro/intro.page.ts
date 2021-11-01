@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActionSheetController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import { AppService } from 'src/app/services/app.service';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 @Component({
   selector: 'app-intro',
@@ -19,9 +20,15 @@ export class IntroPage implements OnInit {
   ) { }
 
   ionViewWillEnter() {
+    this.hideSplashScreen();
+    
     if(this.appService.isLoggedIn) {
       this.router.navigate(['tabs']);
     }
+  }
+  
+  async hideSplashScreen() {
+    await SplashScreen.hide();
   }
 
   ngOnInit() {

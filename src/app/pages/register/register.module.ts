@@ -7,10 +7,8 @@ import { RegisterPageRoutingModule } from './register-routing.module';
 import { RegisterPage } from './register.page';
 import { CodeInputModule } from 'angular-code-input';
 
-import {InputTextModule} from 'primeng/inputtext';
-import {InputMaskModule} from 'primeng/inputmask';
-import {ButtonModule} from 'primeng/button';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   imports: [
@@ -19,11 +17,9 @@ import { SharedDirectivesModule } from 'src/app/directives/shared-directives.mod
     ReactiveFormsModule,
     IonicModule,
     CodeInputModule,
-    InputTextModule,
-    InputMaskModule,
-    ButtonModule,
     RegisterPageRoutingModule,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    NgxMaskModule
   ],
   declarations: [RegisterPage]
 })
