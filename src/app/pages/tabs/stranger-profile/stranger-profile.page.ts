@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ProfileApiService, SocialApiService, SocialUserListModel} from "../../../services/api.service";
 import {AppService} from "../../../services/app.service";
@@ -14,7 +14,8 @@ export class StrangerProfilePage implements OnInit {
         private route: ActivatedRoute,
         private profileApiService: ProfileApiService,
         private appService: AppService,
-        private socialApiService: SocialApiService
+        private socialApiService: SocialApiService,
+        private ngZone: NgZone
     ) {
     }
 
@@ -60,27 +61,35 @@ export class StrangerProfilePage implements OnInit {
     }
 
     onUserInfo(v: SocialUserListModel) {
-        this.strangerUser = v
-        console.log(this.strangerUser)
-        this.appService.toggleLoader(false)
+        this.ngZone.run(() => {
+            this.strangerUser = v
+            console.log(this.strangerUser)
+            this.appService.toggleLoader(false)
+        })
     }
 
     onError(e: any) {
-        this.appService.toggleLoader(false)
-        this.appService.showAlert(e)
+        this.ngZone.run(() => {
+            this.appService.toggleLoader(false)
+            this.appService.showAlert(e)
+        })
+
     }
 
     onUnfollow(v: number) {
-        this.strangerUser.isFollowing = false;
-        this.appService.userInfo.followingsCount = v
-        this.getUser(false)
-
+        this.ngZone.run(() => {
+            this.strangerUser.isFollowing = false;
+            this.appService.userInfo.followingsCount = v
+            this.getUser(false)
+        })
     }
 
     onFollow(v: number) {
-        this.strangerUser.isFollowing = true;
-        this.appService.userInfo.followingsCount = v
-        this.getUser(false)
+        this.ngZone.run(() => {
+            this.strangerUser.isFollowing = true;
+            this.appService.userInfo.followingsCount = v
+            this.getUser(false)
+        })
     }
 
 }
