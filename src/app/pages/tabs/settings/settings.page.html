@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="main-content">
-            <div class="inner-item">
+            <div (click)="shareApp()" class="inner-item">
                 <div class="list-item">
                     <div class="icon-container">
                         <img src="../../../../assets/svg/settings/add.svg" alt="Icon">
@@ -33,30 +33,30 @@
             <div class="inner-item">
                 <div routerLink="/change-password" class="list-item">
                     <div class="icon-container">
-                        <i style="color: #FFFFFF;font-weight: bold" class="pi pi-unlock"></i>
+                        <ion-icon style="color: #FFFFFF;font-weight: bold;font-size: 1.5rem;" name="lock-closed-outline"></ion-icon>
                     </div>
                     <div class="item">Şifreyi Değiştir</div>
                 </div>
                 <div><img src="../../../../assets/svg/abstract/right-arrow-blue.svg" alt="Icon"></div>
             </div>
-            <div class="inner-item">
-                <div class="list-item">
-                    <div class="icon-container">
-                        <img src="../../../../assets/svg/settings/notification.svg" alt="Icon">
-                    </div>
-                    <div class="item">Bildirim Ayarları</div>
-                </div>
-                <div><img src="../../../../assets/svg/abstract/right-arrow-blue.svg" alt="Icon"></div>
-            </div>
-            <div class="inner-item">
-                <div class="list-item">
-                    <div class="icon-container">
-                        <img src="../../../../assets/svg/settings/setting.svg" alt="Icon">
-                    </div>
-                    <div class="item">Hesap Ayarları</div>
-                </div>
-                <div><img src="../../../../assets/svg/abstract/right-arrow-blue.svg" alt="Icon"></div>
-            </div>
+<!--            <div class="inner-item">-->
+<!--                <div class="list-item">-->
+<!--                    <div class="icon-container">-->
+<!--                        <img src="../../../../assets/svg/settings/notification.svg" alt="Icon">-->
+<!--                    </div>-->
+<!--                    <div class="item">Bildirim Ayarları</div>-->
+<!--                </div>-->
+<!--                <div><img src="../../../../assets/svg/abstract/right-arrow-blue.svg" alt="Icon"></div>-->
+<!--            </div>-->
+<!--            <div class="inner-item">-->
+<!--                <div class="list-item">-->
+<!--                    <div class="icon-container">-->
+<!--                        <img src="../../../../assets/svg/settings/setting.svg" alt="Icon">-->
+<!--                    </div>-->
+<!--                    <div class="item">Hesap Ayarları</div>-->
+<!--                </div>-->
+<!--                <div><img src="../../../../assets/svg/abstract/right-arrow-blue.svg" alt="Icon"></div>-->
+<!--            </div>-->
             <div class="inner-item" (click)="logout()">
                 <div class="list-item">
                     <div class="icon-container">

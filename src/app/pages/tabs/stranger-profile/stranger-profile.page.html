@@ -5,7 +5,7 @@
     </span>
         <div class="top-avatar mt-1 ion-text-center">
             <div class="avatar-container">
-                <img  [src]="strangerUser?.profilePictureUrl" alt="Avatar">
+                <img [src]="strangerUser?.profilePictureUrl" alt="Avatar">
             </div>
             <div class="ion-margin-bottom name">
                 {{strangerUser?.fullName}}
@@ -33,35 +33,21 @@
     <div class="content">
         <ion-grid>
             <ion-row>
-                <ion-col routerLink="stranger-profile-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
+                <ion-col *ngFor="let category of categories" routerLink="stranger-profile-detail/1" class="ion-text-center" size="4">
+                    <div [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}" class="card">
                     </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="stranger-profile-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="stranger-profile-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
-                </ion-col>
-                <ion-col routerLink="stranger-profile-detail/1" class="ion-text-center" size="4">
-                    <div class="card">
-                        <img src="../../../../assets/svg/abstract/product.png" alt="Img">
-                    </div>
-                    <div class="product-title">Teknoloji</div>
-                    <div class="product-amount">30 ürün</div>
+                    <div class="product-title">{{category.name}}</div>
+                    <div class="product-amount">{{category.postCount}} ürün</div>
                 </ion-col>
             </ion-row>
         </ion-grid>
+        <div class="ion-margin-top" *ngIf="categories == undefined || categories.length === 0">
+            <div class="ion-text-center icon-container">
+                <ion-icon name="alert-outline"></ion-icon>
+            </div>
+            <div class="ion-margin-top info-text">
+                Kullanıcının ürünü bulunmamaktadir.
+            </div>
+        </div>
     </div>
 </ion-content>

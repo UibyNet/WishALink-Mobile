@@ -28,7 +28,6 @@ export class CommunityPage implements OnInit {
 
     getUserData() {
         this.userData = this.appService.userInfo
-        console.log(this.appService.userInfo)
     }
 
     getFollowingList() {
@@ -52,16 +51,12 @@ export class CommunityPage implements OnInit {
             this.followingList = v
         })
 
-        console.log("following", this.followingList)
     }
 
     onFollowers(v: SocialUserListModel[]) {
         this.zone.run(() => {
             this.followerList = v
         })
-
-
-        console.log("follower", v)
     }
 
     onError(e: any) {
@@ -70,5 +65,37 @@ export class CommunityPage implements OnInit {
         })
     }
 
+    followUser(id: number) {
+        this.socialApiService.follow(id).subscribe(
+            v => this.onFollow(v),
+            e => this.onError(e)
+        )
+    }
 
+    unfollowUser(id: number, type: string) {
+        this.socialApiService.unfollow(id).subscribe(
+            v => this.onUnfollow(v, type),
+            e => this.onError(e)
+        )
+    }
+
+
+    onUnfollow(v: number, type: string) {
+        this.zone.run(() => {
+            if (type === 'reloadFollowing') {
+                this.getFollowingList()
+            }
+            if (type === 'reloadFollower') {
+                this.getFollowerList()
+            }
+            this.userData.followingsCount = v
+        })
+    }
+
+    onFollow(v: number) {
+        this.zone.run(() => {
+            this.getFollowerList()
+            this.userData.followingsCount = v
+        })
+    }
 }

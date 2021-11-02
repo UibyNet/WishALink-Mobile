@@ -38,7 +38,10 @@
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
                 <div class="name">{{user?.fullName}}</div>
             </div>
-            <div class="follow-info active">
+            <div (click)="unfollowUser(user.id,'reloadFollower')" *ngIf="user.isFollowing" class="follow-info active">
+                Takibi Bırak
+            </div>
+            <div (click)="followUser(user.id)" *ngIf="!user.isFollowing" class="follow-info">
                 Takip Et
             </div>
         </div>
@@ -52,7 +55,7 @@
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
                 <div class="name">{{user?.fullName}}</div>
             </div>
-            <div class="follow-info active">
+            <div (click)="unfollowUser(user.id,'reloadFollowing')" class="follow-info active">
                 Takibi Bırak
             </div>
         </div>

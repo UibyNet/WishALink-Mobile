@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {
     CategoryApiService,
     CategoryListModel,
@@ -7,10 +7,10 @@ import {
     SocialApiService,
     SocialUserListModel
 } from "../../../services/api.service";
-import { AppService } from "../../../services/app.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { ActionSheetController, ModalController } from "@ionic/angular";
-import { NotificationComponent } from "../../../components/notification/notification.component";
+import {AppService} from "../../../services/app.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ActionSheetController, ModalController} from "@ionic/angular";
+import {NotificationComponent} from "../../../components/notification/notification.component";
 
 @Component({
     selector: 'app-home',
@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
     userData: SocialUserListModel
 
     ngOnInit() {
-        
+
     }
 
     ionViewDidEnter() {
@@ -69,9 +69,10 @@ export class HomePage implements OnInit {
     }
 
     onCategoriesLoad(v: CategoryListModel[]): void {
-       this.zone.run(()=>{
-        this.categories = v;
-       })
+        this.zone.run(() => {
+            this.categories = v;
+            console.log(this.categories)
+        })
     }
 
     private userInfo(v: SocialUserListModel) {
@@ -113,12 +114,12 @@ export class HomePage implements OnInit {
         });
         await actionSheet.present();
 
-        const { role } = await actionSheet.onDidDismiss();
+        const {role} = await actionSheet.onDidDismiss();
         console.log('onDidDismiss resolved with role', role);
     }
 
     onProfilePictureChanged(v: SocialUserListModel) {
-        this.zone.run(()=>{
+        this.zone.run(() => {
             if (v != null) {
                 this.appService.userInfo = v;
                 this.userData = v;
@@ -145,7 +146,7 @@ export class HomePage implements OnInit {
     }
 
     addCategory() {
-        this.zone.run(()=>{
+        this.zone.run(() => {
             this.router.navigateByUrl("/add-product/add-category");
         })
     }
@@ -156,7 +157,7 @@ export class HomePage implements OnInit {
             .then(
                 (imgData) => {
                     this.userData.profilePictureUrl = `data:image/jpeg;base64,${imgData.photo.base64String}`;
-                    this.profileApiService.changeprofilepicture({ fileName: 'avatar.jpg', data: imgData.blob })
+                    this.profileApiService.changeprofilepicture({fileName: 'avatar.jpg', data: imgData.blob})
                         .subscribe(
                             v => this.onProfilePictureChanged(v),
                             e => this.onError(e)

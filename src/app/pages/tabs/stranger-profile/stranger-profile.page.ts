@@ -1,6 +1,11 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {ProfileApiService, SocialApiService, SocialUserListModel} from "../../../services/api.service";
+import {
+    CategoryApiService, CategoryListModel,
+    ProfileApiService,
+    SocialApiService,
+    SocialUserListModel
+} from "../../../services/api.service";
 import {AppService} from "../../../services/app.service";
 
 @Component({
@@ -15,17 +20,20 @@ export class StrangerProfilePage implements OnInit {
         private profileApiService: ProfileApiService,
         private appService: AppService,
         private socialApiService: SocialApiService,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private categoryApiService: CategoryApiService
     ) {
     }
 
     strangerUser: SocialUserListModel
     userId: number
+    categories: CategoryListModel[]
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
         this.userId = parseInt(id)
         this.getUser();
+        this.getUserCategory()
     }
 
     getUser(showLoader: boolean = true) {
@@ -92,4 +100,17 @@ export class StrangerProfilePage implements OnInit {
         })
     }
 
+    getUserCategory() {
+        this.categoryApiService.list(this.userId).subscribe(
+            v => this.onUserCategory(v),
+            e => this.onError(e)
+        )
+    }
+
+    onUserCategory(v: CategoryListModel[]) {
+        this.ngZone.run(() => {
+            this.categories = v
+            console.log(this.categories)
+        })
+    }
 }
