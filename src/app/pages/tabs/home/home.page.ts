@@ -147,7 +147,7 @@ export class HomePage implements OnInit {
 
     addCategory() {
         this.zone.run(() => {
-            this.router.navigateByUrl("/add-product/add-category");
+            this.router.navigateByUrl("/add-category");
         })
     }
 

@@ -51,7 +51,7 @@
     <div class="content">
         <ion-grid>
             <ion-row>
-                <ion-col *ngFor="let category of categories" routerLink="/category-detail/{{category.id}}" class="ion-text-center" size="4">
+                <ion-col *ngFor="let category of categories" routerLink="/category-detail" [state]="category" class="ion-text-center" size="4">
                     <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}" >
                     </div>
                     <div class="product-title">{{ category.name }}</div>

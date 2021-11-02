@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PostApiService, PostListModel } from 'src/app/services/api.service';
+import { CategoryListModel, PostApiService, PostListModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
 import { Browser } from '@capacitor/browser';
 
@@ -10,10 +10,12 @@ import { Browser } from '@capacitor/browser';
   styleUrls: ['./category-detail.page.scss'],
 })
 export class CategoryDetailPage implements OnInit {
-  categoryId: number;
+
   posts: PostListModel[];
+  category: CategoryListModel;
 
   constructor(
+    private zone: NgZone,
     private router: Router,
     private route: ActivatedRoute,
     private appService: AppService,
@@ -21,22 +23,26 @@ export class CategoryDetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.categoryId = parseInt(id)
-    this.loadPosts();
+    this.category = this.router.getCurrentNavigation().extras.state as CategoryListModel;
+    if(this.category != null) {
+      this.loadPosts();
+    }
   }
 
   loadPosts() {
-    this.postApiService.category(this.categoryId)
+    this.postApiService.category(this.category.id)
       .subscribe(
         v => this.onPostsLoad(v),
         e => this.onError(e)
       )
   }
   onPostsLoad(v: PostListModel[]): void {
-    this.posts = v;
+    this.zone.run(()=>{
+      this.posts = v;
+    })
   }
   onError(e: any): void {
+    this.posts = [];
     this.appService.showErrorAlert(e);
   }
 
@@ -45,7 +51,7 @@ export class CategoryDetailPage implements OnInit {
   }
 
   addProduct() {
-    this.router.navigate(['/add-product', this.categoryId])
+    this.router.navigate(['/add-product', this.category.id])
   }
 
 }

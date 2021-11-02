@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { CategoryApiService, CategoryListModel } from "../../../services/api.service";
-import { AppService } from "../../../services/app.service";
+import { CategoryApiService, CategoryListModel } from "../../services/api.service";
 import { NavController } from '@ionic/angular';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
     selector: 'app-add-category',

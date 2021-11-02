@@ -12,10 +12,6 @@ const routes: Routes = [
     path: 'choose-category',
     loadChildren: () => import('./choose-category/choose-category.module').then( m => m.ChooseCategoryPageModule)
   },
-  {
-    path: 'add-category',
-    loadChildren: () => import('./add-category/add-category.module').then( m => m.AddCategoryPageModule)
-  }
 ];
 
 @NgModule({

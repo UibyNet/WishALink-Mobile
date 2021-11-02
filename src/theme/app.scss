@@ -13,6 +13,11 @@ form {
   }
 }
 
+ion-button {
+  --border-radius: 16px;
+  --border-width: 1px;
+}
+
 .page-container {
   height: 100%;
   background: #6a40d6;
@@ -163,7 +168,7 @@ ion-content {
           padding: 0.375rem 1rem;
           border-radius: 7px;
           white-space: pre;
-          font-size: 18px;
+          font-size: 16px;
           line-height: 20px;
           color: #d5d5d5;
 
@@ -506,5 +511,19 @@ ion-content {
         line-height: 27px;
       }
     }
+  }
+}
+
+
+.center-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  ion-spinner {
+    --ion-color-medium: #b7b7b7;
+    width: 3em;
+    height: 3em;
   }
 }

@@ -7,24 +7,27 @@
       <div class="profile-inner">
         <div class="avatar avatar-sm">
           <div class="avatar-image">
-            <img src="../../../../assets/svg/home/avatar.png" alt="Avatar">
+            <img [src]="category?.mediaUrl" alt="Avatar">
           </div>
         </div>
         <div class="profile-info">
           <div class="category-name">
-            Teknoloji
+            {{ category == null ? '-' : category.name }}
           </div>
           <div class="category-info">
             {{ posts != undefined && posts.length > 0 ? posts.length : 0 }} Ürün
           </div>
           <div class="arrange-button">
-            <button>Düzenle</button>
+            <ion-button size="small" class="ion-text-capitalize" fill="outline">Düzenle</ion-button>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="content product-content">
+    <div *ngIf="posts == undefined" class="center-spinner">
+      <ion-spinner name="crescent" color="medium"></ion-spinner>
+    </div>
     <div *ngFor="let post of posts" class="item-container">
       <ion-grid *ngIf="post != null" class="ion-no-padding">
         <ion-row>

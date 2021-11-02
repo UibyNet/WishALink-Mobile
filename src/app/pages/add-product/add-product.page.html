@@ -36,6 +36,7 @@
           <ion-select-option *ngFor="let activity of activities" [value]="activity.id">{{ activity.name }}</ion-select-option>
         </ion-select>
       </div>
+      <!--
       <div class="ion-margin-bottom" hidden>
         <p-calendar placeholder="Takvim" (onShow)="calendarOpen()" (onClose)="calendarClose()" [(ngModel)]="date">
           <ng-template pTemplate="footer">
@@ -46,6 +47,7 @@
           </ng-template>
         </p-calendar>
       </div>
+    -->
       <div class="mb-32">
         <ion-input [(ngModel)]="description" placeholder="Açıklama"></ion-input>
       </div>
