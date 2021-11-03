@@ -104,3 +104,6 @@
 ::ng-deep .action-sheet-icon.sc-ion-action-sheet-md {
   color: #ffffff;
 }
+ion-content{
+  --padding-top: var(--ion-safe-area-top);
+}

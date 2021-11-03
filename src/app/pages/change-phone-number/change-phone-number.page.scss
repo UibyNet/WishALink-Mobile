@@ -37,6 +37,7 @@
     flex-direction: column;
     position: relative;
     z-index: 2;
+
     justify-content: space-around;
 
     ion-button {
@@ -118,4 +119,10 @@ ion-button {
     height: 56px;
     padding: 1.125rem 1rem !important;
   }
+}
+.page-container{
+  overflow: auto;
+}
+ion-header{
+  padding-top: var(--ion-statusbar-padding)
 }

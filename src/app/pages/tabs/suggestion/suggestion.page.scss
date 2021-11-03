@@ -68,3 +68,6 @@
   margin: auto;
   bottom: 28px;
 }
+ion-content{
+  --padding-top: var(--ion-safe-area-top);
+}

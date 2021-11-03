@@ -469,11 +469,11 @@
 }
 
 .top-container {
-  margin-top: var(--ion-statusbar-padding);
+  margin-top: var(--ion-safe-area-top);
 }
 
 .main {
-  padding-top: var(--ion-statusbar-padding);
+  padding-top: var(--ion-safe-area-top);
 }
 ion-input{
   --placeholder-color: #7a7a7a !important;
@@ -481,4 +481,7 @@ ion-input{
 }
 .main .top-container {
   margin-top: 0;
+}
+ion-content{
+  --padding-bottom: 0 !important;
 }

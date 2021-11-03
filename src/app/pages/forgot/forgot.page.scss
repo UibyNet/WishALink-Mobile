@@ -28,52 +28,56 @@
     }
   }
 
-  .bottom-container {
-    height: 66%;
-    border-top-right-radius: 32px;
-    border-top-left-radius: 32px;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    z-index: 2;
-    justify-content: space-around;
+  .page-container {
+    .bottom-container {
+      height: 66% !important;
+      border-top-right-radius: 32px;
+      border-top-left-radius: 32px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+      justify-content: space-around;
 
-    ion-button {
-      width: 100%;
-      height: 56px;
-      --border-radius: 16px;
-    }
-
-    .input-container {
-      padding: 0 1.5rem;
-
-      .code-input {
-        justify-content: center !important;
-      }
-
-      ::ng-deep span {
-        padding: 0 !important;
-        margin-right: 8px !important;
-        flex: unset !important;
-
-        input {
-          border: 1px solid #6A40D6 !important;
-          border-radius: 16px !important;
-          width: 56px !important;
-          height: 56px !important;
-        }
-      }
-      .number-input{
-        border: 1px solid #6A40D6;
-        padding: 0.5rem 1rem;
-        border-radius: 1rem;
-      }
-      ion-input {
-        border: 1px solid #6A40D6;
-        border-radius: 16px;
+      ion-button {
+        width: 100%;
         height: 56px;
-        padding: 1.125rem 1rem !important;
+        --border-radius: 16px;
+      }
+
+      .input-container {
+        padding: 0 1.5rem;
+
+        .code-input {
+          justify-content: center !important;
+        }
+
+        ::ng-deep span {
+          padding: 0 !important;
+          margin-right: 8px !important;
+          flex: unset !important;
+
+          input {
+            border: 1px solid #6A40D6 !important;
+            border-radius: 16px !important;
+            width: 56px !important;
+            height: 56px !important;
+          }
+        }
+
+        .number-input {
+          border: 1px solid #6A40D6;
+          padding: 0.5rem 1rem;
+          border-radius: 1rem;
+        }
+
+        ion-input {
+          border: 1px solid #6A40D6;
+          border-radius: 16px;
+          height: 56px;
+          padding: 1.125rem 1rem !important;
+        }
       }
     }
   }
@@ -118,4 +122,11 @@ ion-button {
     height: 56px;
     padding: 1.125rem 1rem !important;
   }
+}
+
+.page-container {
+  overflow: auto;
+}
+ion-header{
+  padding-top: var(--ion-statusbar-padding)
 }

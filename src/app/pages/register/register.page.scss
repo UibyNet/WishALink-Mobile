@@ -79,7 +79,12 @@ ion-button {
 
   }
 }
-
+.page-container{
+  overflow: auto;
+}
+ion-header{
+  padding-top: var(--ion-statusbar-padding)
+}
 /*
 .register-container {
     height: 72%;

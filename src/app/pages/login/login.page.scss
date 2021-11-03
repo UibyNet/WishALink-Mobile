@@ -91,3 +91,9 @@ ion-button {
   left: 10%;
   top: 79%;
 }
+.page-container{
+  overflow: auto;
+}
+ion-header{
+  padding-top: var(--ion-statusbar-padding)
+}

@@ -1,7 +1,6 @@
 .main {
   background: #6A40D6;
   height: 50%;
-
   .top-container {
     height: auto;
     padding: 26px;
@@ -41,9 +40,8 @@
 
     .notification-content {
       position: absolute;
-      position: absolute;
-      right: 16px;    
-      top: 16px;
+      right: 16px;
+      top: 5%;
 
       .badge-notification {
         display: flex;
