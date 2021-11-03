@@ -37,10 +37,6 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () => import('./suggestion/suggestion.module').then( m => m.SuggestionPageModule)
-          },
-          {
-            path: 'suggestion-detail/:id',
-            loadChildren: () => import('./suggestion-detail/suggestion-detail.module').then( m => m.SuggestionDetailPageModule)
           }
         ]
       },
@@ -65,6 +61,10 @@ const routes: Routes = [
             loadChildren: () => import('./activity/activity.module').then( m => m.ActivityPageModule)
           }
         ]
+      },
+      {
+        path: 'post-detail',
+        loadChildren: () => import('./post-detail/post-detail.module').then( m => m.PostDetailPageModule)
       },
       {
         path: '',

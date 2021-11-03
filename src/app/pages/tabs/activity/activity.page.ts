@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { CalendarComponent } from "ionic2-calendar";
 import { CalendarMode, Step } from 'ionic2-calendar/calendar';
 import { registerLocaleData } from '@angular/common';
@@ -6,8 +6,9 @@ import localeZh from '@angular/common/locales/tr';
 import { ActivityApiService, ActivityListModel, SocialUserListModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
 import * as moment from 'moment';
-import {NotificationComponent} from "../../../components/notification/notification.component";
-import {ModalController} from "@ionic/angular";
+import { NotificationComponent } from "../../../components/notification/notification.component";
+import { ModalController } from "@ionic/angular";
+import { Router } from '@angular/router';
 
 registerLocaleData(localeZh);
 
@@ -57,17 +58,27 @@ export class ActivityPage implements OnInit {
             }
         }
     };
+    selectedDate: Date = new Date();
 
     constructor(
+        private zone: NgZone,
+        private router: Router,
         private appService: AppService,
         private activityApiService: ActivityApiService,
-        private modalController:ModalController
+        private modalController: ModalController
     ) {
     }
 
-    ngOnInit() {
-        this.userData = this.appService.userInfo
-        this.loadEvents();
+    ngOnInit() { }
+
+    ionViewDidEnter() {
+        this.userData = this.appService.userInfo;
+        if (this.appService.userActivities.length > 0) {
+            this.onActivitiesLoad(this.appService.userActivities);
+        }
+        else {
+            this.loadEvents();
+        }
     }
 
     loadEvents() {
@@ -79,19 +90,27 @@ export class ActivityPage implements OnInit {
     }
 
     onActivitiesLoad(v: ActivityListModel[]): void {
-        if (v != undefined && v.length > 0) {
-            for (const activity of v) {
-                this.eventSource.push({
-                    title: activity.name,
-                    startTime: moment(activity.startDate, 'DD.MM.YYYY HH:mm').toDate(),
-                    endTime: moment(activity.endDate, 'DD.MM.YYYY HH:mm').toDate(),
-                    allDay: true
-                });
-            }
-            this.calendarComponent.loadEvents();
+        this.zone.run(() => {
 
-            this.upcomingEvents = this.eventSource.sort((a, b) => a.startTime.getTime() - b.startTime.getTime() ).slice(1, 10);
-        }
+            if (v != undefined && v.length > 0) {
+                this.appService.userActivities = v;
+                this.eventSource = [];
+
+                for (const activity of v) {
+                    this.eventSource.push({
+                        id: activity.id,
+                        title: activity.name,
+                        startTime: moment(activity.startDate, 'DD.MM.YYYY HH:mm').toDate(),
+                        endTime: moment(activity.endDate, 'DD.MM.YYYY HH:mm').toDate(),
+                        allDay: false
+                    });
+                }
+
+                this.upcomingEvents = this.eventSource.sort((a, b) => a.startTime.getTime() - b.startTime.getTime()).slice(0, 10);
+
+                this.calendarComponent.loadEvents();
+            }
+        })
     }
 
     onError(e: any): void {
@@ -103,7 +122,7 @@ export class ActivityPage implements OnInit {
     }
 
     onEventSelected(event) {
-        console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+        // console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
     }
 
     today() {
@@ -111,8 +130,12 @@ export class ActivityPage implements OnInit {
     }
 
     onTimeSelected(ev) {
-        console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' +
-            (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
+        this.selectedDate = ev.selectedTime;
+        //console.log('Selected time: ' + ev.selectedTime + ', hasEvents: ' + (ev.events !== undefined && ev.events.length !== 0) + ', disabled: ' + ev.disabled);
+    }
+
+    onRangeChanged(ev) {
+        // console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
     }
 
     onCurrentDateChanged(event: Date) {
@@ -122,50 +145,14 @@ export class ActivityPage implements OnInit {
         this.isToday = today.getTime() === event.getTime();
     }
 
-    createRandomEvents() {
-        const events = [];
-        for (let i = 0; i < 50; i += 1) {
-            const date = new Date();
-            const eventType = Math.floor(Math.random() * 2);
-            const startDay = Math.floor(Math.random() * 90) - 45;
-            let endDay = Math.floor(Math.random() * 2) + startDay;
-            let startTime;
-            let endTime;
-            if (eventType === 0) {
-                startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-                if (endDay === startDay) {
-                    endDay += 1;
-                }
-                endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-                events.push({
-                    title: 'All Day - ' + i,
-                    startTime: startTime,
-                    endTime: endTime,
-                    allDay: true
-                });
-            } else {
-                const startMinute = Math.floor(Math.random() * 24 * 60);
-                const endMinute = Math.floor(Math.random() * 180) + startMinute;
-                startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-                endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-                events.push({
-                    title: 'Event - ' + i,
-                    startTime: startTime,
-                    endTime: endTime,
-                    allDay: false
-                });
-            }
-        }
-        return events;
-    }
-
-    onRangeChanged(ev) {
-        console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
-    }
     async openNotification() {
         const modal = await this.modalController.create({
             component: NotificationComponent,
             cssClass: 'notification-custom'
+        })
+
+        modal.onDidDismiss().then(v => {
+            console.log(v.data);
         })
 
         return await modal.present();
@@ -176,4 +163,13 @@ export class ActivityPage implements OnInit {
         current.setHours(0, 0, 0);
         return date < current;
     };
+
+    openCreate() {
+        this.router.navigate(['/tabs/activity/create'], { queryParams: { activityId: 0, date: moment(this.selectedDate).format('DD.MM.YYYY') } })
+    }
+
+    openEdit(activity) {
+        console.log(activity)
+        this.router.navigate(['/tabs/activity/create'], { queryParams: { activityId: activity.id, date: moment(this.selectedDate).format('DD.MM.YYYY') } })
+    }
 }

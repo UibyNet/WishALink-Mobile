@@ -1,10 +1,19 @@
-.bottom-nav-container{
+.bottom-nav-container {
   width: 100%;
   position: fixed;
-  bottom: 28px;
+  bottom: -58px;
   height: 56px;
-  .nav-inner{
-    background: #6A40D6;
+  transition: bottom 250ms cubic-bezier(0.1, 0.2, 0.3, 0.4);
+
+  &.showing {
+    bottom: 28px;
+    .round-light {
+      top: -29px !important;
+    }
+  }
+
+  .nav-inner {
+    background: #6a40d6;
     height: 100%;
     margin: 0 1rem;
     padding: 0 4%;
@@ -12,17 +21,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .left-inner{
+    .left-inner {
       display: flex;
       width: 38%;
       justify-content: space-between;
     }
-    .right-inner{
+    .right-inner {
       display: flex;
       width: 38%;
       justify-content: space-between;
     }
-    .item-container{
+    .item-container {
       width: 48px;
       display: flex;
       justify-content: center;
@@ -30,33 +39,35 @@
       background: transparent;
       border-radius: 50px;
       height: 48px;
-      &.active{
-        background: #1E90FF;
+      &.active {
+        background: #1e90ff;
       }
     }
-    .round-light{
+    .round-light {
       width: 56px;
       height: 56px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #FFFFFF;
+      background: #ffffff;
       border-radius: 50px;
       position: absolute;
-      top: -29px;
+      top: 0;
       right: 0;
       left: 0;
       margin: auto;
-      .round-inner{
+      transition: top 250ms cubic-bezier(0.1, 0.2, 0.3, 0.4);
+
+      .round-inner {
         width: 48px;
         display: flex;
         align-items: center;
         justify-content: center;
         height: 48px;
-        background: #6A40D6;
+        background: #6a40d6;
         border-radius: 50px;
-        &.active{
-          background: #1E90FF;
+        &.active {
+          background: #1e90ff;
         }
       }
     }

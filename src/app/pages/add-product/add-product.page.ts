@@ -103,4 +103,8 @@ export class AddProductPage implements OnInit {
     onError(e: any): void {
         this.appService.showErrorAlert(e);
     }
+
+    close() {
+        this.navController.back();
+    }
 }

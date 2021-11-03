@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import {
     CategoryApiService,
     CategoryListModel,
@@ -7,10 +7,10 @@ import {
     SocialApiService,
     SocialUserListModel
 } from "../../../services/api.service";
-import {AppService} from "../../../services/app.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ActionSheetController, ModalController} from "@ionic/angular";
-import {NotificationComponent} from "../../../components/notification/notification.component";
+import { AppService } from "../../../services/app.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ActionSheetController, ModalController } from "@ionic/angular";
+import { NotificationComponent } from "../../../components/notification/notification.component";
 
 @Component({
     selector: 'app-home',
@@ -61,25 +61,33 @@ export class HomePage implements OnInit {
     }
 
     loadCategories() {
-        this.categoryApiService.list(this.appService.user.id)
-            .subscribe(
-                v => this.onCategoriesLoad(v),
-                e => this.onError(e)
-            )
+        this.categories = this.appService.userCategories;
+
+        if (this.appService.userCategories.length > 0) {
+            this.onCategoriesLoad(this.appService.userCategories);
+        }
+        else {
+            this.categoryApiService.list(this.appService.user.id)
+                .subscribe(
+                    v => this.onCategoriesLoad(v),
+                    e => this.onError(e)
+                )
+        }
     }
 
     onCategoriesLoad(v: CategoryListModel[]): void {
-        this.zone.run(() => {
-            this.categories = v;
-            console.log(this.categories)
-        })
+        if (v != null && v.length > 0) {
+            this.zone.run(() => {
+                this.categories = v;
+                this.appService.userCategories = v;
+            })
+        }
     }
 
     private userInfo(v: SocialUserListModel) {
         this.zone.run(() => {
             this.userData = v;
             this.appService.userInfo = v;
-            console.log(this.userData);
             this.appService.toggleLoader(false);
         })
     }
@@ -114,8 +122,7 @@ export class HomePage implements OnInit {
         });
         await actionSheet.present();
 
-        const {role} = await actionSheet.onDidDismiss();
-        console.log('onDidDismiss resolved with role', role);
+        const { role } = await actionSheet.onDidDismiss();
     }
 
     onProfilePictureChanged(v: SocialUserListModel) {
@@ -147,7 +154,7 @@ export class HomePage implements OnInit {
 
     addCategory() {
         this.zone.run(() => {
-            this.router.navigateByUrl("/add-category");
+            this.router.navigateByUrl("/tabs/home/add-category");
         })
     }
 
@@ -157,7 +164,7 @@ export class HomePage implements OnInit {
             .then(
                 (imgData) => {
                     this.userData.profilePictureUrl = `data:image/jpeg;base64,${imgData.photo.base64String}`;
-                    this.profileApiService.changeprofilepicture({fileName: 'avatar.jpg', data: imgData.blob})
+                    this.profileApiService.changeprofilepicture({ fileName: 'avatar.jpg', data: imgData.blob })
                         .subscribe(
                             v => this.onProfilePictureChanged(v),
                             e => this.onError(e)

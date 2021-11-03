@@ -19,7 +19,7 @@
                         <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
                     </div>
                     <div class="d-flex ion-justify-content-center">
-                        <div routerLink="create"
+                        <div (click)="openCreate()"
                             class="round-badge mr-2 d-flex ion-justify-content-center ion-align-items-center">
                             <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
                         </div>
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="main">
+    <div class="content main">
 
         <div>
             <div class="d-flex ion-padding-horizontal ion-align-items-center ion-justify-content-between mb-4 mt-4">
@@ -50,7 +50,7 @@
             </calendar>
         </div>
 
-        <div>
+        <div style="min-height: 500px;">
             <h1 class="px-3">
                 <img src="../../../../assets/svg/activity/upcoming.svg" alt="Icon" style="margin-bottom: -6px">
 
@@ -58,7 +58,7 @@
             </h1>
 
             <ion-list class="activity-list" *ngIf="upcomingEvents">
-                <ion-item *ngFor="let activity of upcomingEvents">
+                <ion-item *ngFor="let activity of upcomingEvents" (click)="openEdit(activity)">
                     <span class="activity-date">{{ activity.startTime | date: 'dd/MM/yyyy' }}</span>
                     <span class="dot"></span>
                     <span class="activity-title">{{ activity.title }}</span>
@@ -76,7 +76,7 @@
 <ng-template #detailTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate"
     let-noEventsLabel="noEventsLabel">
     <ion-list class="activity-list" *ngIf="selectedDate.hasEvent">
-        <ion-item *ngFor="let activity of selectedDate.events">
+        <ion-item *ngFor="let activity of selectedDate.events" (click)="openEdit(activity)">
             <span class="activity-date">{{ activity.startTime | date: 'dd/MM/yyyy' }}</span>
             <span class="dot"></span>
             <span class="activity-title">{{ activity.title }}</span>

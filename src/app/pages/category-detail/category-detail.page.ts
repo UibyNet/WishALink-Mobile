@@ -23,8 +23,12 @@ export class CategoryDetailPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.category = this.router.getCurrentNavigation().extras.state as CategoryListModel;
-    if(this.category != null) {
+    this.route.queryParams.subscribe(v => {
+      const categoryId = parseInt(v.categoryId);
+      this.category = this.appService.userCategories.find(x => x.id == categoryId);
+    });
+
+    if (this.category != null) {
       this.loadPosts();
     }
   }
@@ -37,7 +41,7 @@ export class CategoryDetailPage implements OnInit {
       )
   }
   onPostsLoad(v: PostListModel[]): void {
-    this.zone.run(()=>{
+    this.zone.run(() => {
       this.posts = v;
     })
   }
@@ -51,7 +55,11 @@ export class CategoryDetailPage implements OnInit {
   }
 
   addProduct() {
-    this.router.navigate(['/add-product', this.category.id])
+    this.router.navigate(['/add-product/' + this.category.id]);
+  }
+
+  openEditCategory() {
+    this.router.navigate(["/tabs/home/add-category"], { queryParams: { categoryId: this.category.id } });
   }
 
 }

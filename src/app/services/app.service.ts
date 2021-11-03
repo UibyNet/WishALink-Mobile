@@ -3,7 +3,7 @@ import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/cam
 import { AlertController, LoadingController, ToastController } from "@ionic/angular";
 import jwt_decode from 'jwt-decode';
 import { LocalUser } from "../models/localuser";
-import { ErrorDto, getFileReader, SocialUserListModel } from "./api.service";
+import { ActivityListModel, CategoryListModel, ErrorDto, getFileReader, SocialUserListModel } from "./api.service";
 
 @Injectable({
     providedIn: "root",
@@ -15,7 +15,9 @@ export class AppService {
 
     loader: HTMLIonLoadingElement;
     loaderCount = 0;
-    userInfo: SocialUserListModel
+    userInfo: SocialUserListModel;
+    userActivities: ActivityListModel[] = [];
+    userCategories: CategoryListModel[] = [];
     private mUser: LocalUser;
 
     constructor(

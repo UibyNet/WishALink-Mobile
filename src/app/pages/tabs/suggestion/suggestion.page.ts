@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {PostApiService, PostListModel, SocialUserListModel} from "../../../services/api.service";
+import { PostApiService, PostListModel, SocialUserListModel } from 'src/app/services/api.service';
 import {AppService} from "../../../services/app.service";
 
 @Component({
@@ -10,7 +10,7 @@ import {AppService} from "../../../services/app.service";
 export class SuggestionPage implements OnInit {
 
     userData: SocialUserListModel
-    suggestions: PostListModel[] = [];
+    suggestions: PostListModel[];
 
     constructor(
         private zone: NgZone,
@@ -32,6 +32,7 @@ export class SuggestionPage implements OnInit {
     }
     onSuggestionsLoad(v: PostListModel[]): void {
         this.zone.run(()=>{
+            if(this.suggestions == null) this.suggestions = [];
             this.suggestions = this.suggestions.concat(v);
         })
     }

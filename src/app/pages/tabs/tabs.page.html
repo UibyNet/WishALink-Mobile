@@ -1,6 +1,6 @@
 <ion-router-outlet></ion-router-outlet>
 
-<div class="bottom-nav-container">
+<div class="bottom-nav-container" [class.showing]="isKeyboardOpen">
   <div class="nav-inner">
     <div class="left-inner">
       <div (click)="openPage('/tabs/activity')" [class.active]="router.url == '/tabs/activity'" class="item-container">

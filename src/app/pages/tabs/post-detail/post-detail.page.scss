@@ -1,5 +1,5 @@
 .main {
-  background: #6A40D6;
+  background: #6a40d6;
   height: 50%;
 
   .top-container {
@@ -10,7 +10,7 @@
       width: 100%;
       font-size: 24px;
       line-height: 27px;
-      color: #FFFFFF;
+      color: #ffffff;
       margin-bottom: 24px;
     }
   }
@@ -19,27 +19,40 @@
 .main-content {
   border-top-right-radius: 32px;
   border-top-left-radius: 32px;
-  background: #FFFFFF;
+  background: #ffffff;
   position: relative;
   padding-bottom: 38%;
-  .badge{
+  .badge {
     width: 48px;
-    background: #1E90FF;
+    background: #1e90ff;
     border-radius: 6px;
     height: 18px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
-  button{
+
+  ion-badge {
+    --padding-top: 4px;
+    --padding-end: 4px;
+    --padding-bottom: 4px;
+    --padding-start: 4px;
+    font-size: 10px;
+    
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+
+  button {
     background: transparent;
-    color :#6A40D6;
+    color: #6a40d6;
   }
-  .writing-area{
+  .writing-area {
     border-radius: 1rem;
-    border: 1px solid #6A40D5;
-    padding: 1rem .5rem;
+    border: 1px solid #6a40d5;
+    padding: 1rem 0.5rem;
     min-height: 288px;
   }
-  .img-container-absolute{
+  .img-container-absolute {
     position: absolute;
     top: -50px;
     width: 80px;
@@ -49,9 +62,9 @@
     right: 0;
     left: 0;
     margin: auto;
-    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25))
+    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25));
   }
 }
-.mt-6{
+.mt-6 {
   margin-top: 2.4rem;
 }
