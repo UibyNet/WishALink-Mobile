@@ -735,6 +735,72 @@ export class AuthApiService {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    changephonenumber(body: PhoneNumberModel | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/auth/changephonenumber";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processChangephonenumber(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processChangephonenumber(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processChangephonenumber(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -2353,6 +2419,71 @@ export class ProfileApiService {
     }
 
     /**
+     * @return Success
+     */
+    detail(): Observable<UserModel> {
+        let url_ = this.baseUrl + "/api/profile/detail";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDetail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDetail(<any>response_);
+                } catch (e) {
+                    return <Observable<UserModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDetail(response: HttpResponseBase): Observable<UserModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserModel>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -3910,6 +4041,46 @@ export enum NotificationType {
     _2 = 2,
 }
 
+export class PhoneNumberModel implements IPhoneNumberModel {
+    oldPhoneNumber?: string | undefined;
+    newPhoneNumber?: string | undefined;
+
+    constructor(data?: IPhoneNumberModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.oldPhoneNumber = _data["OldPhoneNumber"];
+            this.newPhoneNumber = _data["NewPhoneNumber"];
+        }
+    }
+
+    static fromJS(data: any): PhoneNumberModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new PhoneNumberModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["OldPhoneNumber"] = this.oldPhoneNumber;
+        data["NewPhoneNumber"] = this.newPhoneNumber;
+        return data; 
+    }
+}
+
+export interface IPhoneNumberModel {
+    oldPhoneNumber?: string | undefined;
+    newPhoneNumber?: string | undefined;
+}
+
 export class PostEditModel implements IPostEditModel {
     id?: number;
     mediaId?: number | undefined;
@@ -4409,6 +4580,7 @@ export class User implements IUser {
     fcmToken?: string | undefined;
     otp?: string | undefined;
     address?: string | undefined;
+    readonly newPhoneNumber?: string | undefined;
     profilePicture?: Media;
     profilePictureId?: number | undefined;
     addresses?: UserAddress[] | undefined;
@@ -4458,6 +4630,7 @@ export class User implements IUser {
             this.fcmToken = _data["FcmToken"];
             this.otp = _data["Otp"];
             this.address = _data["Address"];
+            (<any>this).newPhoneNumber = _data["NewPhoneNumber"];
             this.profilePicture = _data["ProfilePicture"] ? Media.fromJS(_data["ProfilePicture"]) : <any>undefined;
             this.profilePictureId = _data["ProfilePictureId"];
             if (Array.isArray(_data["Addresses"])) {
@@ -4527,6 +4700,7 @@ export class User implements IUser {
         data["FcmToken"] = this.fcmToken;
         data["Otp"] = this.otp;
         data["Address"] = this.address;
+        data["NewPhoneNumber"] = this.newPhoneNumber;
         data["ProfilePicture"] = this.profilePicture ? this.profilePicture.toJSON() : <any>undefined;
         data["ProfilePictureId"] = this.profilePictureId;
         if (Array.isArray(this.addresses)) {
@@ -4589,6 +4763,7 @@ export interface IUser {
     fcmToken?: string | undefined;
     otp?: string | undefined;
     address?: string | undefined;
+    newPhoneNumber?: string | undefined;
     profilePicture?: Media;
     profilePictureId?: number | undefined;
     addresses?: UserAddress[] | undefined;
@@ -4865,6 +5040,7 @@ export interface IUserRole {
 export class VerifyModel implements IVerifyModel {
     otp!: string;
     phoneNumber!: string;
+    isUsernameChange?: boolean;
 
     constructor(data?: IVerifyModel) {
         if (data) {
@@ -4879,6 +5055,7 @@ export class VerifyModel implements IVerifyModel {
         if (_data) {
             this.otp = _data["Otp"];
             this.phoneNumber = _data["PhoneNumber"];
+            this.isUsernameChange = _data["IsUsernameChange"];
         }
     }
 
@@ -4893,6 +5070,7 @@ export class VerifyModel implements IVerifyModel {
         data = typeof data === 'object' ? data : {};
         data["Otp"] = this.otp;
         data["PhoneNumber"] = this.phoneNumber;
+        data["IsUsernameChange"] = this.isUsernameChange;
         return data; 
     }
 }
@@ -4900,6 +5078,7 @@ export class VerifyModel implements IVerifyModel {
 export interface IVerifyModel {
     otp: string;
     phoneNumber: string;
+    isUsernameChange?: boolean;
 }
 
 export interface FileParameter {
