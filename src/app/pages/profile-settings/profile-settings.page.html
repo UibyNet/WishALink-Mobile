@@ -10,23 +10,21 @@
         </div>
         <div class="main-content pt-3 px-4">
             <div class="img-container-absolute">
-                <img [src]="userData?.profilePictureUrl" alt="Img">
+                <img [src]="userProfilePic" alt="Img">
             </div>
             <div class="arrange-button ion-text-center mb-4 mt-6" hidden>
                 <button class="font-9">Düzenle</button>
             </div>
-            <div class="input-container mb-5">
-                <ion-input class="ion-margin-bottom" [value]="userData?.fullName" placeholder="Ad Soyad"></ion-input>
-                <ion-input class="ion-margin-bottom" placeholder="E-posta"></ion-input>
-                <ion-input class="ion-margin-bottom" placeholder="Numara"></ion-input>
-                <ion-input class="mb-2" placeholder="Adres"></ion-input>
-                <div class="ion-text-center" hidden>
-                    <button class="add-address font-12">Adres Ekle</button>
+            <form [formGroup]="updateForm" (ngSubmit)="updateUserData()" class="input-container mb-5">
+                <ion-input class="ion-margin-bottom" formControlName="firstName" placeholder="Ad"></ion-input>
+                <ion-input class="ion-margin-bottom" formControlName="lastName" placeholder="Soyad"></ion-input>
+                <ion-input class="ion-margin-bottom" formControlName="email" placeholder="E-posta"></ion-input>
+                <div class="ion-text-center">
+                    <ion-button type="submit" [disabled]="isLoading || !updateForm.valid" class="success" color="primary" expand="block">{{isLoading ? 'Lütfen bekleyiniz...' : 'Kaydet'}}
+
+                    </ion-button>
                 </div>
-            </div>
-            <div class="ion-text-center">
-                <ion-button class="success" color="primary" expand="block">Kaydet</ion-button>
-            </div>
+            </form>
         </div>
     </div>
 </ion-content>
