@@ -1,6 +1,6 @@
 <ion-content [scrollEvents]="true" parallax-page>
   <div class="profile-header scrollable">
-    <span (click)="back()" routerDirection="back" class="back-button">
+    <span (click)="back()" class="back-button">
       <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
     </span>
     <div class="profile-container ion-text-center">
@@ -17,7 +17,7 @@
           <div class="category-info">
             {{ posts != undefined && posts.length > 0 ? posts.length : 0 }} Ürün
           </div>
-          <div (click)="openEditCategory()" class="arrange-button">
+          <div *ngIf="!isStrangerCategory" (click)="openEditCategory()" class="arrange-button">
             <ion-button size="small" class="ion-text-capitalize" fill="outline">Düzenle</ion-button>
           </div>
         </div>
@@ -32,13 +32,13 @@
       <div class="item-container" *ngFor="let post of posts; let i = index">
         <ion-grid *ngIf="post != null" class="ion-no-padding">
           <ion-row [class.reverse]="i%2==1">
-            <ion-col class="ion-text-center img-bottom" size="4" routerLink="/tabs/post-detail" [state]="post">
+            <ion-col class="ion-text-center img-bottom" size="4" routerLink="/tabs/post-detail" [queryParams]='{isStrangerPost: isStrangerCategory}' [state]="post">
               <div class="img-product-container">
                 <img [src]="post.mediaUrl" alt="">
               </div>
             </ion-col>
             <ion-col class="ion-text-center col-custom ion-padding-start" size="8">
-              <div class="d-flex mb-8" routerLink="/tabs/post-detail" [state]="post">
+              <div class="d-flex mb-8" routerLink="/tabs/post-detail" [queryParams]='{isStrangerPost: isStrangerCategory}' [state]="post">
                 <div class="product-name">{{ post.name }}</div>
                 <div (click)="redirectToUrl(post.url)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
               </div>
@@ -65,7 +65,7 @@
       </div>
     </div>
   </div>
-  <div (click)="addProduct()" class="add-product">
+  <div *ngIf="!isStrangerCategory" (click)="addProduct()" class="add-product">
     <img src="../../../assets/svg/abstract/add.svg" alt="Icon">
   </div>
 </ion-content>
