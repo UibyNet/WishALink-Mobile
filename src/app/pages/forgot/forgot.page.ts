@@ -1,29 +1,29 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthApiService, LoginModel, TokenModel, VerifyModel } from 'src/app/services/api.service';
+import { AuthApiService, ForgotModel, LoginModel, ProfileApiService, TokenModel, VerifyModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
 import { CountrySelectorComponent } from "../../components/country-selector/country-selector.component";
 import { ModalController } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
-    selector: 'app-login',
-    templateUrl: 
-    './login.page.html',
-    styleUrls: ['./login.page.scss'],
+    selector: 'app-forgot',
+    templateUrl:
+        './forgot.page.html',
+    styleUrls: ['./forgot.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class ForgotPage implements OnInit {
 
     selectedCountry = { dialCode: '90', isoCode: 'tr', phoneMask: '000 000 00 00' };
     stepper = 1;
     intPhoneNumber: any;
-    password: string;
     otp: string;
     isLoading: boolean = false;
-    loginForm: FormGroup
+    resetPasswordForm: FormGroup;
+    oldPassword: string;
 
     get phoneNumber(): string {
-        return (this.selectedCountry.dialCode + this.loginForm.get('phoneNumberMasked').value.trim()).match(/\d/g)?.join('');
+        return (this.selectedCountry.dialCode + this.resetPasswordForm.get('phoneNumberMasked').value.trim()).match(/\d/g)?.join('');
     }
 
     constructor(
@@ -31,6 +31,7 @@ export class LoginPage implements OnInit {
         private router: Router,
         private appService: AppService,
         private authService: AuthApiService,
+        private profileService: ProfileApiService,
         private formBuilder: FormBuilder,
         private modalController: ModalController
     ) {
@@ -43,9 +44,8 @@ export class LoginPage implements OnInit {
     // }
 
     ngOnInit() {
-        this.loginForm = this.formBuilder.group({
+        this.resetPasswordForm = this.formBuilder.group({
             phoneNumberMasked: ['', [Validators.required, Validators.minLength(1)]],
-            password: ['', [Validators.required, Validators.minLength(1)]],
         })
     }
 
@@ -56,30 +56,22 @@ export class LoginPage implements OnInit {
         this.otp = code;
     }
 
-    login() {
-        const model = new LoginModel();
+    resetPassword () {
+        const model = new ForgotModel();
         model.phoneNumber = this.phoneNumber;
-        model.password = this.loginForm.get('password').value.trim();
 
         this.isLoading = true;
-        this.authService.login(model)
+        this.authService.forgot(model)
             .subscribe(
-                v => this.onLogin(v),
+                v => this.onForgot(),
                 e => this.onError(e)
             )
     }
 
-    onLogin(v: TokenModel): void {
+    onForgot(): void {
         this.zone.run(() => {
-
             this.isLoading = false;
-
-            if (v.isNeedVerify) {
-                this.stepper++;
-            } else if (v.token != null && v.token.length > 0) {
-                this.appService.accessToken = v.token;
-                this.router.navigate(['tabs']);
-            }
+            this.stepper++;
         })
     }
 
@@ -100,10 +92,24 @@ export class LoginPage implements OnInit {
 
         this.authService.verify(model)
             .subscribe(
-                v => this.onLogin(v),
+                v => this.onForgot(),
                 e => this.onError(e)
             )
     }
+
+    setPassword() {
+        this.profileService.changepassword(this.oldPassword, this.otp)
+            .subscribe(
+                v => this.onPasswordChange(),
+                e => this.onError(e)
+            )
+    }
+
+    onPasswordChange(): void {
+        this.zone.run(() => {
+          this.stepper++;
+        });
+      }
 
     async showCountrySelector() {
         const modal = await this.modalController.create({
@@ -118,10 +124,6 @@ export class LoginPage implements OnInit {
         })
 
         return await modal.present();
-    }
-
-    goForgot() {
-        this.router.navigateByUrl('/forgot');
     }
 
 }

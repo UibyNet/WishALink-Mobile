@@ -33,11 +33,11 @@
     <div class="content">
         <ion-grid>
             <ion-row>
-                <ion-col *ngFor="let category of categories" routerLink="stranger-profile-detail/1" class="ion-text-center" size="4">
-                    <div [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}" class="card">
+                <ion-col *ngFor="let category of categories" routerLink="/category-detail" [queryParams]="{categoryId: category.id}" class="ion-text-center" size="4">
+                    <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}" >
                     </div>
-                    <div class="product-title">{{category.name}}</div>
-                    <div class="product-amount">{{category.postCount}} ürün</div>
+                    <div class="product-title">{{ category.name }}</div>
+                    <div class="product-amount">{{ category.postCount }} ürün</div>
                 </ion-col>
             </ion-row>
         </ion-grid>

@@ -36,6 +36,9 @@
                         <ion-button type="submit" [disabled]="isLoading || !loginForm.valid">{{ isLoading ? 'Giriş
                             yapılıyor...' : 'Giriş Yap' }}</ion-button>
                     </ion-item>
+                    <ion-item>
+                        <ion-button (click)="goForgot()" class="ion-text-capitalize" fill="clear" type="button" >Şifremi Unuttum</ion-button>
+                    </ion-item>
                 </form>
             </div>
         </div>

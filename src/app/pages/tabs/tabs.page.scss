@@ -6,7 +6,7 @@
   transition: bottom 250ms cubic-bezier(0.1, 0.2, 0.3, 0.4);
 
   &.showing {
-    bottom: 28px;
+    bottom: 1em;
     .round-light {
       top: -29px !important;
     }
@@ -69,6 +69,96 @@
         &.active {
           background: #1e90ff;
         }
+      }
+    }
+  }
+}
+
+ion-tabs {
+  position: relative;
+  ion-fab {
+    margin-bottom: calc(env(safe-area-inset-bottom) + 2em);
+    margin-inline-start: -24px;
+    ion-fab-button {
+      --box-shadow: none;
+      width: 48px;
+      height: 48px;
+    }
+  }
+  ion-tab-bar {
+    --border: 0;
+    --background: transparent;
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    right: 1em;
+    height: 56px;
+    &:after {
+      content: " ";
+      width: 100%;
+      bottom: 0;
+      background: var(--ion-color-light);
+      height: env(safe-area-inset-bottom);
+      position: absolute;
+    }
+    ion-tab-button {
+      --background: var(--ion-color-secondary);
+      position: relative;
+
+      &.tab-selected {
+        &::before {
+          width: 48px;
+          height: 48px;
+          background: #1e90ff;
+          content: " ";
+          position: absolute;
+          display: block;
+          border-radius: 24px;
+          top: 4px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+
+      &:first-child {
+        border-top-left-radius: 1em;
+        border-bottom-left-radius: 1em;
+      }
+
+      &:last-child {
+        border-top-right-radius: 1em;
+        border-bottom-right-radius: 1em;
+      }
+
+      &.suggestions {
+        margin-right: 0px;
+        padding-right: 10px;
+        border-top-right-radius: 21px;
+        &.tab-selected {
+          &::before {
+            left: calc(50% - 5px);
+          }
+        }
+      }
+      &.search {
+        margin-left: 0px;
+        padding-left: 10px;
+        border-top-left-radius: 21px;
+        &.tab-selected {
+          &::before {
+            left: calc(50% + 5px);
+          }
+        }
+      }
+    }
+    .center-round {
+      width: calc(calc(100% - 2em) / 5);
+      margin-top: 21px;
+      margin-right: -2px;
+      margin-left: -2px;
+
+      path {
+        fill: var(--ion-color-secondary);
       }
     }
   }

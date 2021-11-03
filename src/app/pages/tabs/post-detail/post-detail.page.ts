@@ -22,7 +22,6 @@ export class PostDetailPage implements OnInit {
 
   ngOnInit() {
     this.post = this.router.getCurrentNavigation().extras.state as PostListModel;
-    console.log(this.post)
   }
   
   async redirectToUrl(url: string) {
