@@ -1,6 +1,7 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { PostApiService, PostListModel, SocialUserListModel } from 'src/app/services/api.service';
-import {AppService} from "../../../services/app.service";
+import { AppService } from "../../../services/app.service";
+import { Browser } from '@capacitor/browser';
 
 @Component({
     selector: 'app-suggestion',
@@ -31,8 +32,8 @@ export class SuggestionPage implements OnInit {
             )
     }
     onSuggestionsLoad(v: PostListModel[]): void {
-        this.zone.run(()=>{
-            if(this.suggestions == null) this.suggestions = [];
+        this.zone.run(() => {
+            if (this.suggestions == null) this.suggestions = [];
             this.suggestions = this.suggestions.concat(v);
         })
     }
@@ -40,4 +41,7 @@ export class SuggestionPage implements OnInit {
         this.appService.showErrorAlert(e);
     }
 
+    async redirectToUrl(url: string) {
+        await Browser.open({ url: url });
+    }
 }
