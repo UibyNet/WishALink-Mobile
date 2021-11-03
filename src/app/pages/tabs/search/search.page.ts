@@ -111,16 +111,9 @@ export class SearchPage implements OnInit {
 
     onSearchFocus() {
         this.isSearchFocused = true;
-        this.checkHeaderClass();
     }
 
     onSearchBlur() {
         this.isSearchFocused = false;
-        this.checkHeaderClass();
-    }
-
-    checkHeaderClass() {
-        var classes = this.profileHeaderEl.nativeElement.classList;
-        console.log(classes);
     }
 }

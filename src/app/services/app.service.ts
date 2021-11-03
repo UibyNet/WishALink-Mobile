@@ -64,9 +64,13 @@ export class AppService {
 
 
     logout() {
+        this.clearUser();
+        localStorage.removeItem("access_token");
+    }
+
+    clearUser() {
         this.mUser = new LocalUser();
         this.mUser = null;
-        localStorage.removeItem("access_token");
     }
 
 

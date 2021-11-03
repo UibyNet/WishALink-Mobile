@@ -18,15 +18,29 @@
                     <div class="ion-margin-bottom profile-name">
                         <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
                     </div>
-                    <div class="d-flex ion-justify-content-center">
-                        <div (click)="openCreate()"
-                            class="round-badge mr-2 d-flex ion-justify-content-center ion-align-items-center">
-                            <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
-                        </div>
-                        <div class="round-badge ml-2 d-flex ion-justify-content-center ion-align-items-center">
+                    <div hidden class="d-flex ion-justify-content-center">
+                        <ion-button size="" (click)="openCreate()"
+                            class="ion-text-capitalize">
+                            <img class="mr-2" src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+                            Etkinlik Ekle
+                        </ion-button>
+                        <div hidden class="round-badge ml-2 d-flex ion-justify-content-center ion-align-items-center">
                             <img src="../../../../assets/svg/abstract/search.svg" alt="Icon">
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="top-tabs">
+                <div class="tab-container">
+                    <div>Etkinlikler</div>
+                    <div (click)="openCreate()" class="active">
+                        <span class="mr-1"> <img style="filter: contrast(3) brightness(0) invert(1);" class="plus-icon"
+                                src="../../../../assets/svg/home/plus.svg" alt="Icon"></span>
+                                Etkinlikler Ekle
+                    </div>
+                </div>
+                <div class="d-flex ">
+
                 </div>
             </div>
         </div>

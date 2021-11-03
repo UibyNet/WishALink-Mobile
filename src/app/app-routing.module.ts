@@ -25,6 +25,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/forgot/forgot.module').then( m => m.ForgotPageModule)
   },
   {
+    path: 'change-phone-number',
+    loadChildren: () => import('./pages/change-phone-number/change-phone-number.module').then( m => m.ChangePhoneNumberPageModule)
+  },
+  {
     path: 'tabs',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)

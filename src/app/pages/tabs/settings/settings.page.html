@@ -24,7 +24,7 @@
             <div (click)="shareApp()" class="inner-item">
                 <div class="list-item">
                     <div class="icon-container">
-                        <img src="../../../../assets/svg/settings/add.svg" alt="Icon">
+                        <ion-icon style="color: #FFFFFF;font-weight: bold;font-size: 1.4rem;" name="person-add-outline"></ion-icon>
                     </div>
                     <div class="item">Arkadaş Davet</div>
                 </div>
@@ -36,6 +36,15 @@
                         <ion-icon style="color: #FFFFFF;font-weight: bold;font-size: 1.5rem;" name="lock-closed-outline"></ion-icon>
                     </div>
                     <div class="item">Şifreyi Değiştir</div>
+                </div>
+                <div><img src="../../../../assets/svg/abstract/right-arrow-blue.svg" alt="Icon"></div>
+            </div>
+            <div class="inner-item">
+                <div routerLink="/change-phone-number" class="list-item">
+                    <div class="icon-container">
+                        <ion-icon style="color: #FFFFFF;font-weight: bold;font-size: 1.5rem;" name="call-outline"></ion-icon>
+                    </div>
+                    <div class="item">Telefon Numarasını Değiştir</div>
                 </div>
                 <div><img src="../../../../assets/svg/abstract/right-arrow-blue.svg" alt="Icon"></div>
             </div>
@@ -60,7 +69,7 @@
             <div class="inner-item" (click)="logout()">
                 <div class="list-item">
                     <div class="icon-container">
-                        <img src="../../../../assets/svg/settings/logout.svg" alt="Icon">
+                        <ion-icon style="color: #FFFFFF;font-weight: bold;font-size: 1.5rem;" name="exit-outline"></ion-icon>
                     </div>
                     <div class="item">Çıkış Yap</div>
                 </div>
