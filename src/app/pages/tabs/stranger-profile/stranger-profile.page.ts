@@ -1,5 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import { NavController } from '@ionic/angular';
 import {
     CategoryApiService, CategoryListModel,
     ProfileApiService,
@@ -16,12 +17,13 @@ import {AppService} from "../../../services/app.service";
 export class StrangerProfilePage implements OnInit {
 
     constructor(
-        private route: ActivatedRoute,
-        private profileApiService: ProfileApiService,
-        private appService: AppService,
-        private socialApiService: SocialApiService,
         private ngZone: NgZone,
-        private categoryApiService: CategoryApiService
+        private route: ActivatedRoute,
+        private appService: AppService,
+        private profileApiService: ProfileApiService,
+        private socialApiService: SocialApiService,
+        private categoryApiService: CategoryApiService,
+        private navController: NavController
     ) {
     }
 
@@ -112,5 +114,9 @@ export class StrangerProfilePage implements OnInit {
             this.categories = v
             console.log(this.categories)
         })
+    }
+
+    goBack() {
+        this.navController.back();
     }
 }

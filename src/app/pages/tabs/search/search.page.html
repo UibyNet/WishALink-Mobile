@@ -1,14 +1,14 @@
 <ion-content [scrollEvents]="true" parallax-page>
 
-    <div class="profile-header scrollable">
-        <span (click)="openNotification()" class="notification-content">
+    <div #profileHeader class="profile-header scrollable">
+        <span *ngIf="!isSearchFocused" (click)="openNotification()" class="notification-content">
             <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
             <div *ngIf="userData != null && userData.notificationCount > 0" class="badge-notification">
                 {{ userData.notificationCount }}
             </div>
         </span>
         <div class="profile-container ion-text-center">
-            <div class="profile-inner">
+            <div *ngIf="!isSearchFocused" class="profile-inner">
                 <div class="avatar">
                     <div class="avatar-image">
                         <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
@@ -31,9 +31,10 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="search-bar">
-                <ion-searchbar mode="ios" debounce="500" (ionChange)="searchUser($event)" placeholder="Arama Yap"></ion-searchbar>
+                <ion-searchbar mode="ios" debounce="500" (ionChange)="searchUser($event)" (ionFocus)="onSearchFocus()"
+                    (ionBlur)="onSearchBlur()" placeholder="Arama Yap"></ion-searchbar>
             </div>
         </div>
     </div>
@@ -48,6 +49,9 @@
             <div class="follow-info">
                 Takip Et
             </div>
+        </div>
+        <div *ngIf="isSearching" class="center-spinner">
+            <ion-spinner name="crescent" color="medium"></ion-spinner>
         </div>
         <div *ngFor="let user of searchResultPeople" class="profile-list-item">
             <div (click)="selectedUser(user.id)" class="person-info">

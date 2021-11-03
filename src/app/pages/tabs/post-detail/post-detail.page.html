@@ -17,7 +17,7 @@
       <div class="img-container-absolute">
         <img [src]="post.mediaUrl" alt="">
       </div>
-      <div class="ion-text-end" hidden>
+      <div class="ion-text-end" *ngIf="isStrangerPost === false">
         <button class="font-9">Duzenle</button>
       </div>
       <div class="mt-6 mb-4 d-flex ion-align-items-center ion-justify-content-center ion-text-center">

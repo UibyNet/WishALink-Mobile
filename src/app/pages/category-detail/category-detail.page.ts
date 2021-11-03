@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryListModel, PostApiService, PostListModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
 import { Browser } from '@capacitor/browser';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-category-detail',
@@ -13,24 +14,31 @@ export class CategoryDetailPage implements OnInit {
 
   posts: PostListModel[];
   category: CategoryListModel;
+  isStrangerCategory: boolean = false;
 
   constructor(
     private zone: NgZone,
     private router: Router,
     private route: ActivatedRoute,
     private appService: AppService,
-    private postApiService: PostApiService
+    private postApiService: PostApiService,
+    private navController: NavController
   ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(v => {
       const categoryId = parseInt(v.categoryId);
       this.category = this.appService.userCategories.find(x => x.id == categoryId);
-    });
 
-    if (this.category != null) {
-      this.loadPosts();
-    }
+      if(this.category == null) {
+       this.category = this.router.getCurrentNavigation().extras.state as CategoryListModel;
+       this.isStrangerCategory = true;
+      }
+
+      if (this.category != null) {
+        this.loadPosts();
+      }
+    });
   }
 
   loadPosts() {
@@ -62,4 +70,7 @@ export class CategoryDetailPage implements OnInit {
     this.router.navigate(["/tabs/home/add-category"], { queryParams: { categoryId: this.category.id } });
   }
 
+  goBack() {
+    this.navController.back();
+  }
 }

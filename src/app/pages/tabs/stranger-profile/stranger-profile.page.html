@@ -1,6 +1,6 @@
 <ion-content>
     <div class="top-container">
-    <span routerLink="/tabs/search" routerDirection="back" class="back-button">
+    <span (click)="goBack()" class="back-button">
       <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
     </span>
         <div class="top-avatar mt-1 ion-text-center">
@@ -33,7 +33,7 @@
     <div class="content">
         <ion-grid>
             <ion-row>
-                <ion-col *ngFor="let category of categories" routerLink="/category-detail" [queryParams]="{categoryId: category.id}" class="ion-text-center" size="4">
+                <ion-col *ngFor="let category of categories" routerLink="/category-detail" [queryParams]="{categoryId: category.id}" [state]="category" class="ion-text-center" size="4">
                     <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}" >
                     </div>
                     <div class="product-title">{{ category.name }}</div>

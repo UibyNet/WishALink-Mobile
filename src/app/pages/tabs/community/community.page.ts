@@ -1,6 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {AppService} from "../../../services/app.service";
 import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
+import { NavController } from '@ionic/angular';
 
 @Component({
     selector: 'app-community',
@@ -13,6 +14,7 @@ export class CommunityPage implements OnInit {
         private appService: AppService,
         private socialApiService: SocialApiService,
         private zone: NgZone,
+        private navController: NavController
     ) {
     }
 
@@ -97,5 +99,9 @@ export class CommunityPage implements OnInit {
             this.getFollowerList()
             this.userData.followingsCount = v
         })
+    }
+
+    goBack() {
+        this.navController.back();
     }
 }
