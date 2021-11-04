@@ -77,3 +77,17 @@
 ion-content{
   --padding-top: var(--ion-safe-area-top);
 }
+.profile-header.fixed {
+  position: fixed;
+  width: 100%;
+  z-index: 9;
+  background-color: #fff;
+  align-items: center;
+  top: 0;
+  padding-top: var(--ion-safe-area-top);
+}
+.fixed{
+  span{
+    padding-top: var(--ion-safe-area-top);
+  }
+}

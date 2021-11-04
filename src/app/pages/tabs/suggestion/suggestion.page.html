@@ -1,4 +1,6 @@
-<ion-content [scrollEvents]="true" parallax-page>
+<ion-content [scrollEvents]="true"  parallax-page>
+    <div style="overflow: hidden">
+
     <div class="profile-header scrollable has-border">
         <span routerLink="/tabs/home" routerDirection="back" class="back-button">
             <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
@@ -62,6 +64,7 @@
                   </ion-grid>
             </div>
         </div>
+    </div>
     </div>
 
     <div hidden routerLink="/add-product" class="add-product">

@@ -1,14 +1,14 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
-import { CalendarComponent } from "ionic2-calendar";
-import { CalendarMode, Step } from 'ionic2-calendar/calendar';
-import { registerLocaleData } from '@angular/common';
+import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
+import {CalendarComponent} from "ionic2-calendar";
+import {CalendarMode, Step} from 'ionic2-calendar/calendar';
+import {registerLocaleData} from '@angular/common';
 import localeZh from '@angular/common/locales/tr';
-import { ActivityApiService, ActivityListModel, SocialUserListModel } from 'src/app/services/api.service';
-import { AppService } from 'src/app/services/app.service';
+import {ActivityApiService, ActivityListModel, SocialUserListModel} from 'src/app/services/api.service';
+import {AppService} from 'src/app/services/app.service';
 import * as moment from 'moment';
-import { NotificationComponent } from "../../../components/notification/notification.component";
-import { ModalController } from "@ionic/angular";
-import { Router } from '@angular/router';
+import {NotificationComponent} from "../../../components/notification/notification.component";
+import {ModalController} from "@ionic/angular";
+import {Router} from '@angular/router';
 
 registerLocaleData(localeZh);
 
@@ -20,7 +20,7 @@ registerLocaleData(localeZh);
 })
 export class ActivityPage implements OnInit {
 
-    @ViewChild(CalendarComponent, { static: false }) calendarComponent: CalendarComponent;
+    @ViewChild(CalendarComponent, {static: false}) calendarComponent: CalendarComponent;
 
     eventSource = [];
     upcomingEvents: any[];
@@ -69,14 +69,13 @@ export class ActivityPage implements OnInit {
     ) {
     }
 
-    ngOnInit() { }
-
+    ngOnInit() {
+    }
     ionViewDidEnter() {
         this.userData = this.appService.userInfo;
         if (this.appService.userActivities.length > 0) {
             this.onActivitiesLoad(this.appService.userActivities);
-        }
-        else {
+        } else {
             this.loadEvents();
         }
     }
@@ -165,11 +164,21 @@ export class ActivityPage implements OnInit {
     };
 
     openCreate() {
-        this.router.navigate(['/tabs/activity/create'], { queryParams: { activityId: 0, date: moment(this.selectedDate).format('DD.MM.YYYY') } })
+        this.router.navigate(['/tabs/activity/create'], {
+            queryParams: {
+                activityId: 0,
+                date: moment(this.selectedDate).format('DD.MM.YYYY')
+            }
+        })
     }
 
     openEdit(activity) {
         console.log(activity)
-        this.router.navigate(['/tabs/activity/create'], { queryParams: { activityId: activity.id, date: moment(this.selectedDate).format('DD.MM.YYYY') } })
+        this.router.navigate(['/tabs/activity/create'], {
+            queryParams: {
+                activityId: activity.id,
+                date: moment(this.selectedDate).format('DD.MM.YYYY')
+            }
+        })
     }
 }
