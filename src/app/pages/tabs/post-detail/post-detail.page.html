@@ -17,14 +17,14 @@
       <div class="img-container-absolute">
         <img [src]="post.mediaUrl" alt="">
       </div>
-      <div class="ion-text-end" *ngIf="isStrangerPost === false">
+      <div class=" ion-text-end" *ngIf="isStrangerPost === false">
         <button class="font-9">Duzenle</button>
       </div>
-      <div class="mt-6 mb-4 d-flex ion-align-items-center ion-justify-content-center ion-text-center">
-        <div class="mr-4 d-flex"><img src="../../../../assets/svg/abstract/like.svg" alt="Icon"></div>
-        <div class="d-flex"><img src="../../../../assets/svg/abstract/dislike.svg" alt="Icon"></div>
-      </div>
-      <div class="ion-text-center">
+<!--      <div class="mt-6 mb-4 d-flex ion-align-items-center ion-justify-content-center ion-text-center">-->
+<!--        <div class="mr-4 d-flex"><img src="../../../../assets/svg/abstract/like.svg" alt="Icon"></div>-->
+<!--        <div class="d-flex"><img src="../../../../assets/svg/abstract/dislike.svg" alt="Icon"></div>-->
+<!--      </div>-->
+      <div class="mt-6 mb-4 ion-text-center">
         <ion-badge class="product-tag" color="primary" *ngIf="post.brand != null && post.brand.length > 0">{{
           post.brand
           }}</ion-badge>

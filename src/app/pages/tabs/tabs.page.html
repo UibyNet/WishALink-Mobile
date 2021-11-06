@@ -1,30 +1,30 @@
 <ion-router-outlet></ion-router-outlet>
 
-<div class="bottom-nav-container" [class.showing]="isKeyboardOpen">
-  <div class="nav-inner">
-    <div class="left-inner">
-      <div (click)="openPage('/tabs/activity')" [class.active]="router.url == '/tabs/activity'" class="item-container">
-        <img src="../../../assets/svg/tabs/calendar.svg" alt="Icon">
-      </div>
-      <div (click)="openPage('/tabs/suggestion')" [class.active]="router.url == '/tabs/suggestion'"
-        class="item-container">
-        <img src="../../../assets/svg/tabs/suggestion.svg" alt="Icon">
-      </div>
+<div class="bottom-nav-container" [ngClass]="{'d-none':isKeyboardOpen}">
+    <div class="nav-inner">
+        <div class="left-inner">
+            <div (click)="openPage('/tabs/activity')" [class.active]="router.url == '/tabs/activity'" class="item-container">
+                <img src="../../../assets/svg/tabs/calendar.svg" alt="Icon">
+            </div>
+            <div (click)="openPage('/tabs/suggestion')" [class.active]="router.url == '/tabs/suggestion'"
+                 class="item-container">
+                <img src="../../../assets/svg/tabs/suggestion.svg" alt="Icon">
+            </div>
+        </div>
+        <div class="round-light">
+            <div (click)="openPage('/tabs/home')" [class.active]="router.url == '/tabs/home'" class="round-inner">
+                <img src="../../../assets/svg/tabs/home.svg" alt="Icon">
+            </div>
+        </div>
+        <div class="right-inner">
+            <div (click)="openPage('/tabs/search')" [class.active]="router.url == '/tabs/search'" class="item-container">
+                <img src="../../../assets/svg/tabs/search.svg" alt="Icon">
+            </div>
+            <div (click)="openPage('/tabs/settings')" [class.active]="router.url == '/tabs/settings'" class="item-container">
+                <img src="../../../assets/svg/tabs/settings.svg" alt="Icon">
+            </div>
+        </div>
     </div>
-    <div class="round-light">
-      <div (click)="openPage('/tabs/home')" [class.active]="router.url == '/tabs/home'" class="round-inner">
-        <img src="../../../assets/svg/tabs/home.svg" alt="Icon">
-      </div>
-    </div>
-    <div class="right-inner">
-      <div (click)="openPage('/tabs/search')" [class.active]="router.url == '/tabs/search'" class="item-container">
-        <img src="../../../assets/svg/tabs/search.svg" alt="Icon">
-      </div>
-      <div (click)="openPage('/tabs/settings')" [class.active]="router.url == '/tabs/settings'" class="item-container">
-        <img src="../../../assets/svg/tabs/settings.svg" alt="Icon">
-      </div>
-    </div>
-  </div>
 </div>
 
 

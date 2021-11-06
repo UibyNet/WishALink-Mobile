@@ -16,13 +16,21 @@
                 <button class="font-9">Düzenle</button>
             </div>
             <form [formGroup]="updateForm" (ngSubmit)="updateUserData()" class="input-container mb-5">
-                <ion-input class="ion-margin-bottom" formControlName="firstName" placeholder="Ad"></ion-input>
-                <ion-input class="ion-margin-bottom" formControlName="lastName" placeholder="Soyad"></ion-input>
-                <ion-input class="ion-margin-bottom" formControlName="email" placeholder="E-posta"></ion-input>
+                <ion-item>
+                    <input class="p-inputtext" formControlName="firstName" placeholder="Ad"/>
+                </ion-item>
+                <ion-item>
+                    <input class="p-inputtext" formControlName="lastName" placeholder="Soyad"/>
+                </ion-item>
+                <ion-item>
+                    <input class="p-inputtext" formControlName="email" placeholder="E-posta"/>
+                </ion-item>
                 <div class="ion-text-center">
-                    <ion-button type="submit" [disabled]="isLoading || !updateForm.valid" class="success" color="primary" expand="block">{{isLoading ? 'Lütfen bekleyiniz...' : 'Kaydet'}}
+                    <ion-item>
+                        <button type="submit" [disabled]="isLoading || !updateForm.valid" class="success" color="primary" expand="block">{{isLoading ? 'Lütfen bekleyiniz...' : 'Kaydet'}}
+                        </button>
+                    </ion-item>
 
-                    </ion-button>
                 </div>
             </form>
         </div>
