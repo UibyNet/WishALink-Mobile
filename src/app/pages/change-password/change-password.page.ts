@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProfileApiService, SocialUserListModel} from "../../services/api.service";
 import {AppService} from "../../services/app.service";
 import {Router} from "@angular/router";
+import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-change-password',
@@ -26,7 +27,10 @@ export class ChangePasswordPage implements OnInit {
     ngOnInit() {
         this.userData = this.appService.userInfo
     }
+    ionViewWillEnter() {
+        StatusBar.setStyle({style: Style.Dark})
 
+    }
     changePassword() {
 
         if (this.oldPassword === undefined || this.oldPassword.length < 4) {

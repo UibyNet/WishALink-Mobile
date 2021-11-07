@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IonInfiniteScroll, ModalController } from '@ionic/angular';
 import { countries, CountryI, phoneMasks } from './countries';
+import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
   selector: 'app-country-selector',
@@ -21,7 +22,10 @@ export class CountrySelectorComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.countries = countries;
   }
+  ionViewWillEnter() {
+    StatusBar.setStyle({style: Style.Light})
 
+  }
   ngAfterViewInit() {
     setTimeout(() => {
       this.loadData(null);

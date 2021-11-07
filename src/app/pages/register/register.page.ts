@@ -5,6 +5,7 @@ import { AppService } from 'src/app/services/app.service';
 import { ModalController } from '@ionic/angular';
 import { CountrySelectorComponent } from 'src/app/components/country-selector/country-selector.component';
 import { Router } from '@angular/router';
+import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
   selector: 'app-register',
@@ -86,7 +87,10 @@ export class RegisterPage implements OnInit {
     private zone: NgZone
   ) {
   }
+  ionViewWillEnter() {
+    StatusBar.setStyle({style: Style.Dark})
 
+  }
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.minLength(1)]],

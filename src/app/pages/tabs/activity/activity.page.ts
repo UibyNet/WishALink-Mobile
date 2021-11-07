@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import {NotificationComponent} from "../../../components/notification/notification.component";
 import {ModalController} from "@ionic/angular";
 import {Router} from '@angular/router';
+import {StatusBar, Style} from '@capacitor/status-bar';
 
 registerLocaleData(localeZh);
 
@@ -71,6 +72,12 @@ export class ActivityPage implements OnInit {
 
     ngOnInit() {
     }
+
+    ionViewWillEnter() {
+        StatusBar.setStyle({style: Style.Light})
+
+    }
+
     ionViewDidEnter() {
         this.userData = this.appService.userInfo;
         if (this.appService.userActivities.length > 0) {

@@ -5,6 +5,7 @@ import {AppService} from 'src/app/services/app.service';
 import {SocialUserListModel} from "../../../services/api.service";
 import {NotificationComponent} from "../../../components/notification/notification.component";
 import {Share} from '@capacitor/share';
+import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-settings',
@@ -25,7 +26,10 @@ export class SettingsPage implements OnInit {
     ngOnInit() {
         this.userData = this.appService.userInfo
     }
+    ionViewWillEnter() {
+        StatusBar.setStyle({style: Style.Dark})
 
+    }
     async openNotification() {
         const modal = await this.modalController.create({
             component: NotificationComponent,

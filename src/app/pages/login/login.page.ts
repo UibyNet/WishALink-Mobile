@@ -5,6 +5,7 @@ import { AppService } from 'src/app/services/app.service';
 import { CountrySelectorComponent } from "../../components/country-selector/country-selector.component";
 import { ModalController } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-login',
@@ -48,7 +49,10 @@ export class LoginPage implements OnInit {
             password: ['', [Validators.required, Validators.minLength(1)]],
         })
     }
+    ionViewWillEnter() {
+        StatusBar.setStyle({style: Style.Dark})
 
+    }
     onCodeChanged(code: string) {
     }
 

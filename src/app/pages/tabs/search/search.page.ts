@@ -4,6 +4,7 @@ import {SocialApiService, SocialUserListModel} from "../../../services/api.servi
 import {Router} from "@angular/router";
 import {NotificationComponent} from "../../../components/notification/notification.component";
 import {ModalController} from "@ionic/angular";
+import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-search',
@@ -11,8 +12,8 @@ import {ModalController} from "@ionic/angular";
     styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
-    @ViewChild('profileHeader', {static: false}) profileHeaderEl :ElementRef;
-    
+    @ViewChild('profileHeader', {static: false}) profileHeaderEl: ElementRef;
+
     isSearchFocused: boolean;
     isSearching: boolean;
 
@@ -31,6 +32,11 @@ export class SearchPage implements OnInit {
     ngOnInit() {
         this.userData = this.appService.userInfo
         this.searchResultPeople = []
+    }
+
+    ionViewWillEnter() {
+        StatusBar.setStyle({style: Style.Light})
+
     }
 
     searchUser(event: any) {

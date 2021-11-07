@@ -8,6 +8,7 @@ import {
     SocialUserListModel
 } from "../../../services/api.service";
 import {AppService} from "../../../services/app.service";
+import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-stranger-profile',
@@ -37,7 +38,10 @@ export class StrangerProfilePage implements OnInit {
         this.getUser();
         this.getUserCategory()
     }
+    ionViewWillEnter() {
+        StatusBar.setStyle({style: Style.Light})
 
+    }
     getUser(showLoader: boolean = true) {
         if (showLoader) {
             this.appService.toggleLoader(true).then(res => {
