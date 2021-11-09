@@ -10,6 +10,8 @@ form {
     --inner-padding-start: 0;
     --inner-padding-end: 0;
     --ion-item-background: transparent;
+    font-size: 1em;
+    font-weight: 500;
   }
 }
 
@@ -45,8 +47,8 @@ ion-button {
 
     h2 {
       font-weight: 500;
-      font-size: 24px;
-      line-height: 24px;
+      font-size: 1.5em;
+      line-height: 1.8em;
       color: #ffffff;
       text-align: center;
       position: relative;
@@ -67,9 +69,9 @@ ion-button {
   }
 }
 
-ion-header {
-  height: 80px;
-  background-color: #fff;
+ion-headerx {
+  //height: 80px;
+  //background-color: #fff;
 
   &.dark {
     background-color: var(--ion-color-secondary);
@@ -85,7 +87,7 @@ ion-header {
   }
 }
 
-ion-content {
+ion-contentx {
   --padding-bottom: 50px;
 }
 
@@ -172,7 +174,7 @@ ion-content {
           padding: 0.375rem 1rem;
           border-radius: 7px;
           white-space: pre;
-          font-size: 16px;
+          font-size: 1em;
           line-height: 20px;
           color: #d5d5d5;
 
@@ -241,7 +243,7 @@ ion-content {
           .profile-name {
             width: 100%;
             text-align: left;
-            font-size: 24px;
+            font-size: 1.5em;
             line-height: 27px;
           }
           .follower-info {
@@ -278,7 +280,7 @@ ion-content {
             color: #d5d5d5;
           }
           .category-name {
-            font-size: 24px;
+            font-size: 1.5em;
             margin-bottom: 6px;
             line-height: 27px;
           }
@@ -321,7 +323,7 @@ ion-content {
           padding: 0.375rem 1rem;
           border-radius: 7px;
           white-space: pre;
-          font-size: 18px;
+          font-size: 1em;
           line-height: 20px;
           color: #d5d5d5;
 
@@ -344,8 +346,8 @@ ion-content {
 
         .avatar {
           position: relative;
-          height: 80px;
-          width: 80px;
+          height: 64px;
+          width: 64px;
           margin: 0 1em 0 0;
 
           &.avatar-sm {
@@ -390,7 +392,7 @@ ion-content {
           .profile-name {
             width: 100%;
             text-align: left;
-            font-size: 24px;
+            font-size: 1.5em;
             line-height: 27px;
           }
           .follower-info {
@@ -507,12 +509,14 @@ ion-content {
       }
 
       .name {
-        font-size: 24px;
+        font-size: 1.5em;
         line-height: 27px;
       }
     }
   }
 }
+
+
 
 
 .center-spinner {
@@ -594,6 +598,76 @@ ion-content {
       overflow: hidden;
       display: flex;
       align-items: center;
+    }
+  }
+}
+
+ion-action-sheet {
+  .action-sheet-button {
+    .action-sheet-button-inner {
+      font-size: 1.2em !important;
+    }
+  }
+}
+
+app-shrink-header {
+  background-color: #ededed;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .profile {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+    align-items: center;
+
+    .avatar {
+      position: relative;
+      height: 96px;
+      width: 96px;
+      margin: 0 1em 1em 1em;
+    }
+
+    .name {
+      width: 100%;
+      text-align: left;
+      font-size: 1.5em;
+      line-height: 27px;
+    }
+  }
+
+  .top-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5em 0;
+
+    .plus-icon {
+      max-width: unset;
+    }
+
+    .tab-container {
+      margin-right: 8px;
+      display: flex;
+      align-items: center;
+      border: 1px solid #1e90ff;
+      border-radius: 8px;
+
+      div {
+        padding: 0.375rem 1rem;
+        border-radius: 7px;
+        white-space: pre;
+        font-size: 1em;
+        line-height: 20px;
+        color: #d5d5d5;
+
+        &.active {
+          background: #1e90ff;
+          color: #ffffff;
+        }
+      }
     }
   }
 }

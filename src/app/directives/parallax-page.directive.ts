@@ -67,7 +67,7 @@ export class ParallaxPageDirective implements AfterViewInit {
     if(this.isFixed) {
       var height = this.profileContainer.offsetHeight + 64;
       this.contentContainer.style.paddingTop = height + 'px';
-      this.contentContainer.style.paddingBottom = height + 'px';
+      this.contentContainer.style.marginBottom = (height * 2) + 'px';
     }
     else {
       this.contentContainer.style.paddingTop = '0';

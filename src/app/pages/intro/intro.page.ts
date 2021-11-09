@@ -3,7 +3,6 @@ import {ActionSheetController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {AppService} from 'src/app/services/app.service';
 import {SplashScreen} from '@capacitor/splash-screen';
-import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-intro',
@@ -23,7 +22,7 @@ export class IntroPage implements OnInit {
 
     ionViewWillEnter() {
         this.hideSplashScreen();
-        StatusBar.setStyle({style: Style.Dark})
+        this.appService.toggleStatusBar('dark');
 
         if (this.appService.isLoggedIn) {
             this.router.navigate(['tabs']);

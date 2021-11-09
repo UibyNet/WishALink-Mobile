@@ -4,7 +4,6 @@ import { NavController } from '@ionic/angular';
 import { PostListModel } from 'src/app/services/api.service';
 import { AppService } from 'src/app/services/app.service';
 import { Browser } from '@capacitor/browser';
-import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
   selector: 'app-post-detail',
@@ -23,7 +22,7 @@ export class PostDetailPage implements OnInit {
     private navController: NavController
   ) { }
   ionViewWillEnter() {
-    StatusBar.setStyle({style: Style.Dark})
+    this.appService.toggleStatusBar('dark');
 
   }
   ngOnInit() {

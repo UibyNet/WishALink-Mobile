@@ -9,7 +9,6 @@ import * as moment from 'moment';
 import {NotificationComponent} from "../../../components/notification/notification.component";
 import {ModalController} from "@ionic/angular";
 import {Router} from '@angular/router';
-import {StatusBar, Style} from '@capacitor/status-bar';
 
 registerLocaleData(localeZh);
 
@@ -74,7 +73,7 @@ export class ActivityPage implements OnInit {
     }
 
     ionViewWillEnter() {
-        StatusBar.setStyle({style: Style.Light})
+        this.appService.toggleStatusBar('light');
 
     }
 

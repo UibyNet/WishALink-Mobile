@@ -4,7 +4,6 @@ import { CategoryListModel, PostApiService, PostListModel } from 'src/app/servic
 import { AppService } from 'src/app/services/app.service';
 import { Browser } from '@capacitor/browser';
 import { NavController } from '@ionic/angular';
-import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
   selector: 'app-category-detail',
@@ -26,7 +25,7 @@ export class CategoryDetailPage implements OnInit {
     private navController: NavController
   ) { }
   ionViewWillEnter() {
-    StatusBar.setStyle({style: Style.Light})
+    this.appService.toggleStatusBar('light');
 
   }
   ngOnInit() {

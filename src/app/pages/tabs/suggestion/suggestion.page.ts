@@ -2,7 +2,6 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { PostApiService, PostListModel, SocialUserListModel } from 'src/app/services/api.service';
 import { AppService } from "../../../services/app.service";
 import { Browser } from '@capacitor/browser';
-import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-suggestion',
@@ -26,7 +25,7 @@ export class SuggestionPage implements OnInit {
         this.loadSuggestions()
     }
     ionViewWillEnter() {
-        StatusBar.setStyle({style: Style.Light})
+        this.appService.toggleStatusBar('light');
 
     }
 

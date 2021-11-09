@@ -11,7 +11,6 @@ import {AppService} from "../../../services/app.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ActionSheetController, ModalController} from "@ionic/angular";
 import {NotificationComponent} from "../../../components/notification/notification.component";
-import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-home',
@@ -39,7 +38,7 @@ export class HomePage implements OnInit {
     }
 
     ionViewWillEnter() {
-        StatusBar.setStyle({style: Style.Light})
+        this.appService.toggleStatusBar('light');
 
     }
 

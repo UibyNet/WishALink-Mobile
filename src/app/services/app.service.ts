@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
-import { AlertController, LoadingController, ToastController } from "@ionic/angular";
+import { StatusBar, Style } from "@capacitor/status-bar";
+import { AlertController, LoadingController, Platform, ToastController } from "@ionic/angular";
 import jwt_decode from 'jwt-decode';
 import { LocalUser } from "../models/localuser";
 import { ActivityListModel, CategoryListModel, ErrorDto, getFileReader, SocialUserListModel } from "./api.service";
@@ -18,9 +19,10 @@ export class AppService {
     userInfo: SocialUserListModel;
     userActivities: ActivityListModel[] = [];
     userCategories: CategoryListModel[] = [];
-    private mUser: LocalUser;
+    private mUser: LocalUser;s
 
     constructor(
+        private platform: Platform,
         private loadingController: LoadingController,
         private toastController: ToastController,
         private alertController: AlertController
@@ -73,6 +75,11 @@ export class AppService {
         this.mUser = null;
     }
 
+    toggleStatusBar(style: 'dark' | 'light') {
+        if(this.platform.is('capacitor')) {
+            StatusBar.setStyle({style: style == 'dark' ? Style.Dark : Style.Light});
+        }
+    }
 
     async toggleLoader(value: boolean = false, message: string = null): Promise<void> {
         if (value) {

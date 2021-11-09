@@ -20,7 +20,7 @@ export class TabsPage implements OnInit {
     }
 
     ngOnInit() {
-        if (!this.platform.is('mobileweb')) {
+        if (this.platform.is('capacitor')) {
             Keyboard.addListener('keyboardWillShow', info => {
                 this.zone.run(() => {
                     this.isKeyboardOpen = true;

@@ -10,7 +10,7 @@ import {NotificationComponent} from "./notification/notification.component";
 @NgModule({
     declarations: [
         CountrySelectorComponent,
-        NotificationComponent
+        NotificationComponent,
     ],
     imports: [
         FormsModule,
@@ -21,7 +21,7 @@ import {NotificationComponent} from "./notification/notification.component";
     ],
     exports: [
         CountrySelectorComponent,
-        NotificationComponent
+        NotificationComponent,
     ]
 })
 export class SharedComponentsModule {

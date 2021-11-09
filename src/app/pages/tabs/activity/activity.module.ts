@@ -9,6 +9,7 @@ import { ActivityPageRoutingModule } from './activity-routing.module';
 import { ActivityPage } from './activity.page';
 import { NgCalendarModule  } from 'ionic2-calendar';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
+import { SharedComponentsModule } from 'src/app/components/shared-components.module';
 @NgModule({
   providers: [
     { provide: LOCALE_ID, useValue: 'tr' }
@@ -19,7 +20,8 @@ import { SharedDirectivesModule } from 'src/app/directives/shared-directives.mod
     IonicModule,
     NgCalendarModule,
     ActivityPageRoutingModule,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    SharedComponentsModule
   ],
   declarations: [ActivityPage]
 })

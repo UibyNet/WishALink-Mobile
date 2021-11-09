@@ -5,7 +5,6 @@ import { AppService } from 'src/app/services/app.service';
 import { CountrySelectorComponent } from "../../components/country-selector/country-selector.component";
 import { ModalController } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-change-phone-number',
@@ -38,8 +37,7 @@ export class ChangePhoneNumberPage implements OnInit {
     }
 
     ionViewWillEnter() {
-        StatusBar.setStyle({style: Style.Dark})
-
+        this.appService.toggleStatusBar('dark');
     }
 
     ngOnInit() {

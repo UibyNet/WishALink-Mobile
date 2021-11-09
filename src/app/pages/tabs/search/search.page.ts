@@ -4,7 +4,6 @@ import {SocialApiService, SocialUserListModel} from "../../../services/api.servi
 import {Router} from "@angular/router";
 import {NotificationComponent} from "../../../components/notification/notification.component";
 import {ModalController} from "@ionic/angular";
-import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-search',
@@ -35,7 +34,7 @@ export class SearchPage implements OnInit {
     }
 
     ionViewWillEnter() {
-        StatusBar.setStyle({style: Style.Light})
+        this.appService.toggleStatusBar('light');
 
     }
 

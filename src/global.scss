@@ -15,7 +15,7 @@
 /* Basic CSS for apps built with Ionic */
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
-@import "~@ionic/angular/css/typography.css";
+//@import "~@ionic/angular/css/typography.css";
 @import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
@@ -443,6 +443,30 @@
 
 .font-16 {
   font-size: 16px;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 1.5m;
+}
+h2 {
+  margin-top: 0;
+  font-size: 1.3em;
+}
+h3 {
+  font-size: 1.17em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.83em;
+}
+
+h6 {
+  font-size: 0.67em;
 }
 
 .text-2 {

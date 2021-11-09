@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {NotificationApiService, Notification} from "../../services/api.service";
 import {AppService} from "../../services/app.service";
 import {ModalController} from "@ionic/angular";
-import {StatusBar, Style} from "@capacitor/status-bar";
 
 @Component({
     selector: 'app-notification',
@@ -24,8 +23,7 @@ export class NotificationComponent implements OnInit {
         this.getNotifications()
     }
     ionViewWillEnter() {
-        StatusBar.setStyle({style: Style.Light})
-
+        this.appService.toggleStatusBar('light');
     }
     getNotifications() {
         this.notificationApiService.list().subscribe(

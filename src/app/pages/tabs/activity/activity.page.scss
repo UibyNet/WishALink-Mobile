@@ -29,7 +29,7 @@
   }
   th{
     border: unset !important;
-    font-size: 14px !important;
+    font-size: 1em !important;
     color: #D5D5D5 !important;
     letter-spacing: 0.38px !important;
   }
@@ -50,7 +50,7 @@
 }
 .date-info{
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.2em;
   letter-spacing: 0.38px;
   color: #6A40D6;
 }
@@ -77,6 +77,8 @@
 ion-content{
   --padding-top: var(--ion-safe-area-top);
 }
+
+/*
 .profile-header.fixed {
   position: fixed;
   width: 100%;
@@ -86,8 +88,19 @@ ion-content{
   top: 0;
   padding-top: var(--ion-safe-area-top);
 }
+*/
+
 .fixed{
   span{
     padding-top: var(--ion-safe-area-top);
+  }
+}
+
+ion-content {
+  h2 {
+    img {
+      margin-bottom: -0.5em;
+      margin-right: 0.3em;
+    }
   }
 }

@@ -10,7 +10,7 @@ import { ParallaxHeaderDirective } from './parallax-header.directive';
 @NgModule({
   declarations: [
     ParallaxPageDirective,
-    ParallaxHeaderDirective
+    ParallaxHeaderDirective,
   ],
   imports: [
     FormsModule,
