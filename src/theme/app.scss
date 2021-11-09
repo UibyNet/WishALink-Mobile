@@ -53,7 +53,7 @@ ion-button {
       text-align: center;
       position: relative;
       margin: 0;
-      padding: 16px;
+      padding: 1rem 1rem .5rem 1rem
     }
 
     h3 {
@@ -64,11 +64,17 @@ ion-button {
       text-align: center;
       position: relative;
       margin: 0;
-      padding: 16px;
+      padding: 0 1rem 1rem 1rem
     }
   }
 }
+ion-header {
+  padding-top: var(--ion-statusbar-padding);
 
+  .back-button {
+    padding: 1.5rem;
+  }
+}
 ion-headerx {
   //height: 80px;
   //background-color: #fff;
@@ -242,19 +248,20 @@ ion-contentx {
 
           .profile-name {
             width: 100%;
-            text-align: left;
+            text-align: center;
             font-size: 1.5em;
             line-height: 27px;
           }
           .follower-info {
             display: flex;
             flex-direction: row;
-            width: 70%;
+            //width: 70%;
 
             .follower,
             .following {
               flex: 1;
               display: flex;
+              margin: .5rem;
               align-items: center;
 
               .number {

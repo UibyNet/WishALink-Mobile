@@ -29,7 +29,18 @@ ion-button {
 
 .input-number-container {
   padding: 72px 1.5rem 0;
-
+  ion-item {
+    --ion-margin: 0;
+    --inner-border-width: 0;
+    --min-height: 68px;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    --ion-item-background: transparent;
+  }
   .code-input {
     justify-content: center !important;
   }
@@ -79,12 +90,13 @@ ion-button {
 
   }
 }
-.page-container{
+
+.page-container {
   overflow: auto;
 }
-ion-header{
-  padding-top: var(--ion-statusbar-padding)
-}
+
+
+
 /*
 .register-container {
     height: 72%;

@@ -1,11 +1,11 @@
 <ion-header mode="ios" class="dark">
-    <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
-        <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-    </div>
-    <div *ngIf="stepper > 1" (click)="stepper=stepper-1" class="back-button">
-        <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-    </div>
-    <ion-title></ion-title>
+        <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
+            <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+        </div>
+        <div *ngIf="stepper > 1" (click)="stepper=stepper-1" class="back-button">
+            <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+        </div>
+        <ion-title></ion-title>
 </ion-header>
 
 <ion-content [scrollEvents]="true" [scrollY]="false" parallax-header>
@@ -21,11 +21,11 @@
                 </div>
             </h3>
         </div>
-        <div class="bottom-container pt-6">
+        <div class="bottom-container pt-4">
             <div class="bottom-content">
-                <div class="img-container">
-                    <img src="../../../assets/svg/register/photo.svg" alt="Icon">
-                </div>
+                <!--                <div class="img-container">-->
+                <!--                    <img src="../../../assets/svg/register/photo.svg" alt="Icon">-->
+                <!--                </div>-->
 
                 <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
                     <ion-item>
@@ -64,7 +64,7 @@
                 Wish a Link’e hoş geldiniz
             </h2>
             <h3>
-                Lütfen ‘’Onay Kodunu’’ giriniz
+                SMS şifrenizi giriniz
                 <div class="register-horizontal">
                     <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
                 </div>
@@ -90,10 +90,10 @@
     <div *ngIf="stepper === 3" class="page-container">
         <div class="lead">
             <h2>
-                Şifrenizi oluşturunuz
+                Wish A Link şifrenizi oluşturun
             </h2>
             <h3>
-                Hesabınızın güvenliğini sağlamak için dört basamaklı bir parola oluşturunuz
+                Hesabınızın güvenliğini sağlamak için parola oluşturunuz
                 <div class="register-horizontal">
                     <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
                 </div>
@@ -103,9 +103,15 @@
             <div class="bottom-content">
                 <div>
                     <div class="input-number-container">
-                        <code-input class="code-input" [isCodeHidden]="true" [codeLength]="4" (codeChanged)="onCodeChanged($event)"
-                                    (codeCompleted)="onCodeCompleted($event)">
-                        </code-input>
+                        <ion-item>
+                            <input [(ngModel)]="password" class="p-inputtext" placeholder="Parola" type="password" />
+                        </ion-item>
+                        <ion-item>
+                            <input [(ngModel)]="rePassword" class="p-inputtext" placeholder="Parola Onayı" type="password">
+                        </ion-item>
+<!--                        <code-input class="code-input" [isCodeHidden]="true" [codeLength]="4" (codeChanged)="onCodeChanged($event)"-->
+<!--                                    (codeCompleted)="onCodeCompleted($event)">-->
+<!--                        </code-input>-->
                     </div>
                 </div>
                 <div class="mt-5 px-3 button-container-number">
@@ -117,7 +123,7 @@
     <div *ngIf="stepper === 4" class="page-container">
         <div class="lead">
             <h2>
-                Sizi daha yakından tanıyabilmemiz için favori ürünlerinizi işaretleyebilirsiniz
+                İlgi alanlarınızı ekleyiniz
             </h2>
             <div class="register-horizontal" style="bottom: 0;">
                 <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
