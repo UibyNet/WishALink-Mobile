@@ -1,7 +1,9 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {AppService} from "../../../services/app.service";
 import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { NotificationComponent } from 'src/app/components/notification/notification.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-community',
@@ -11,10 +13,12 @@ import { NavController } from '@ionic/angular';
 export class CommunityPage implements OnInit {
 
     constructor(
+        private router: Router,
         private appService: AppService,
         private socialApiService: SocialApiService,
         private zone: NgZone,
-        private navController: NavController
+        private navController: NavController,
+        private modalController: ModalController
     ) {
     }
 
@@ -104,4 +108,18 @@ export class CommunityPage implements OnInit {
     goBack() {
         this.navController.back();
     }
+
+    selectedUser(id: number) {
+        this.router.navigate(['/tabs/search/stranger-profile', id])
+    }
+    
+    async openNotification() {
+        const modal = await this.modalController.create({
+            component: NotificationComponent,
+            cssClass: 'notification-custom'
+        })
+
+        return await modal.present();
+    }
+
 }

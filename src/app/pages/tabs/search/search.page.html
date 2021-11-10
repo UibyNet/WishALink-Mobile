@@ -1,6 +1,44 @@
-<ion-content [scrollEvents]="true" parallax-page>
+<ion-header mode="ios" shrink-header [scrollArea]="scrollArea">
+    <div class="shrinkable">
+        <ion-toolbar mode="ios">
+            <ion-buttons slot="start">
+            </ion-buttons>
+            <ion-buttons slot="end">
+                <ion-button (click)="openNotification()">
+                    <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
 
-    <div #profileHeader class="profile-header scrollable">
+        <div class="profile">
+            <div class="avatar">
+                <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
+                    alt="">
+            </div>
+            <div class="name">
+                <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
+            </div>
+            <div routerLink="community" class="community">
+                <div class="follower">
+                    <div class="number">{{userData == null ? 0 : userData.followersCount}}</div>
+                    <div class="text">Takipçi</div>
+                </div>
+                <div class="following">
+                    <div class="number">{{userData == null ? 0 : userData.followingsCount}}</div>
+                    <div class="text">Takip</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="search-bar">
+        <ion-searchbar mode="ios" debounce="500" (ionChange)="searchUser($event)" (ionFocus)="onSearchFocus()"
+            (ionBlur)="onSearchBlur()" placeholder="Arama Yap"></ion-searchbar>
+    </div>
+</ion-header>
+
+<ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
+
+    <div hidden #profileHeader class="profile-header scrollable">
         <span *ngIf="!isSearchFocused" (click)="openNotification()" class="notification-content">
             <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
             <div *ngIf="userData != null && userData.notificationCount > 0" class="badge-notification">
@@ -58,8 +96,8 @@
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
                 <div class="name">{{user?.fullName}}</div>
             </div>
-            <div (click)="followAction(user)" [ngClass]="{'active':!user.isFollowing}" class="follow-info">
-                {{ user.isFollowing ? 'Takibi Bırak' : 'Takip Et'}}
+            <div (click)="followAction(user)" [ngClass]="{'active':!user.isFollowing }" class="follow-info">
+                {{ user.isBusy ? '...' : (user.isFollowing ? 'Takibi Bırak' : 'Takip Et')}}
             </div>
         </div>
     </div>

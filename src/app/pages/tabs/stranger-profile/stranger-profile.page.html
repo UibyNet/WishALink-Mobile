@@ -1,26 +1,79 @@
-<ion-content>
-    <div class="top-container">
-    <span (click)="goBack()" class="back-button">
-      <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
-    </span>
-        <div class="top-avatar mt-1 ion-text-center">
-            <div class="avatar-container">
-                <img [src]="strangerUser?.profilePictureUrl" alt="Avatar">
+<ion-header mode="ios" shrink-header [scrollArea]="scrollArea">
+    <div class="shrinkable">
+        <ion-toolbar mode="ios">
+            <ion-buttons slot="start">
+                <ion-back-button text="" defaultHref="/tabs/home" color="dark"></ion-back-button>
+            </ion-buttons>
+            <ion-buttons slot="end">
+                <ion-button (click)="openNotification()">
+                    <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+
+        <div class="profile">
+            <div class="avatar">
+                <img [src]="strangerUser == null ? '../../../../assets/svg/home/avatar.png' : strangerUser.profilePictureUrl"
+                    alt="">
+
+                <div (click)="presentActionSheet()" class="options">
+                    <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+                </div>
             </div>
-            <div class="ion-margin-bottom name">
-                {{strangerUser?.fullName}}
+            <div class="name">
+                <span>{{strangerUser == null? '&nbsp;' : strangerUser.fullName}}</span>
             </div>
-            <div class="follower-content">
+            <div routerLink="community" class="community">
                 <div class="follower">
-                    <div class="number">{{strangerUser?.followersCount}}</div>
+                    <div class="number">{{strangerUser == null ? 0 : strangerUser.followersCount}}</div>
                     <div class="text">Takipçi</div>
                 </div>
                 <div class="following">
-                    <div class="number">{{strangerUser?.followingsCount}}</div>
+                    <div class="number">{{strangerUser == null ? 0 : strangerUser.followingsCount}}</div>
                     <div class="text">Takip</div>
                 </div>
             </div>
-            <div (click)="selectedUser()" [ngClass]="{'active':!strangerUser?.isFollowing}" class="my-4 badge-container mx-auto font-9 d-flex ion-justify-content-center ion-align-items-center">
+        </div>
+    </div>
+    <div class="top-tabs">
+        <div class="tab-container">
+            <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
+                <ion-segment-button value="segment-category">
+                    <ion-label>Kategoriler</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="segment-activity">
+                    <ion-label>Etkinlikler</ion-label>
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+    </div>
+</ion-header>
+
+<ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
+    <div hidden class="top-container">
+        <span (click)="goBack()" class="back-button">
+            <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
+        </span>
+        <div class="top-avatar mt-1 ion-text-center">
+            <div class="avatar-container">
+                <img [src]="strangerUser == null ? '../../../../assets/svg/home/avatar.png' : strangerUser.profilePictureUrl"
+                    alt="Avatar">
+            </div>
+            <div class="ion-margin-bottom name">
+                <span>{{strangerUser == null? '&nbsp;' : strangerUser.fullName}}</span>
+            </div>
+            <div class="follower-content">
+                <div class="follower">
+                    <div class="number">{{strangerUser == null ? 0 : strangerUser.followersCount}}</div>
+                    <div class="text">Takipçi</div>
+                </div>
+                <div class="following">
+                    <div class="number">{{strangerUser == null ? 0 : strangerUser.followingsCount}}</div>
+                    <div class="text">Takip</div>
+                </div>
+            </div>
+            <div (click)="selectedUser()" [ngClass]="{'active':!strangerUser?.isFollowing}"
+                class="my-4 badge-container mx-auto font-9 d-flex ion-justify-content-center ion-align-items-center">
                 {{strangerUser?.isFollowing ? 'Takibi Bırak' : 'Takip Et'}}
             </div>
             <div class="top-tabs">
@@ -30,11 +83,33 @@
             </div>
         </div>
     </div>
-    <div class="content">
+    <div *ngIf="selectedSegment == 'segment-category'" class="content">
         <ion-grid>
             <ion-row>
-                <ion-col *ngFor="let category of categories" routerLink="/category-detail" [queryParams]="{categoryId: category.id}" [state]="category" class="ion-text-center" size="4">
-                    <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}" >
+                <ion-col *ngFor="let category of categories" routerLink="/category-detail"
+                    [queryParams]="{categoryId: category.id}" [state]="category" class="ion-text-center" size="4">
+                    <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}">
+                    </div>
+                    <div class="product-title">{{ category.name }}</div>
+                    <div class="product-amount">{{ category.postCount }} ürün</div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <div class="ion-margin-top" *ngIf="categories == undefined || categories.length === 0">
+            <div class="ion-text-center icon-container">
+                <ion-icon name="alert-outline"></ion-icon>
+            </div>
+            <div class="ion-margin-top info-text ion-text-center">
+                Kullanıcının ürünü bulunmamaktadir.
+            </div>
+        </div>
+    </div>
+    <div *ngIf="selectedSegment == 'segment-activity'" class="content">
+        <ion-grid>
+            <ion-row>
+                <ion-col *ngFor="let category of categories" routerLink="/category-detail"
+                    [queryParams]="{categoryId: category.id}" [state]="category" class="ion-text-center" size="4">
+                    <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}">
                     </div>
                     <div class="product-title">{{ category.name }}</div>
                     <div class="product-amount">{{ category.postCount }} ürün</div>

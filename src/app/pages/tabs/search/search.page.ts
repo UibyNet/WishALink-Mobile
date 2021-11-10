@@ -1,9 +1,9 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
-import {AppService} from "../../../services/app.service";
-import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
-import {Router} from "@angular/router";
-import {NotificationComponent} from "../../../components/notification/notification.component";
-import {ModalController} from "@ionic/angular";
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { AppService } from "../../../services/app.service";
+import { SocialApiService, SocialUserListModel } from "../../../services/api.service";
+import { Router } from "@angular/router";
+import { NotificationComponent } from "../../../components/notification/notification.component";
+import { ModalController } from "@ionic/angular";
 
 @Component({
     selector: 'app-search',
@@ -11,7 +11,7 @@ import {ModalController} from "@ionic/angular";
     styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
-    @ViewChild('profileHeader', {static: false}) profileHeaderEl: ElementRef;
+    @ViewChild('profileHeader', { static: false }) profileHeaderEl: ElementRef;
 
     isSearchFocused: boolean;
     isSearching: boolean;
@@ -61,17 +61,32 @@ export class SearchPage implements OnInit {
     }
 
     followAction(user) {
+        if(user.isBusy) return;
+
+        user.isBusy = true;
         switch (user.isFollowing) {
             case true:
                 this.socialApiService.unfollow(user.id).subscribe(
-                    v => this.onUnfollow(v, user.id),
-                    e => this.onError(e)
+                    v => {
+                        user.isBusy = false;
+                        this.onUnfollow(v, user.id)
+                    },
+                    e => {
+                        user.isBusy = false;
+                        this.onError(e);
+                    }
                 )
                 break;
             case false:
                 this.socialApiService.follow(user.id).subscribe(
-                    v => this.onFollow(v, user.id),
-                    e => this.onError(e)
+                    v => {
+                        user.isBusy = false;
+                        this.onFollow(v, user.id)
+                    },
+                    e => {
+                        user.isBusy = false;
+                        this.onError(e);
+                    }
                 )
                 break;
         }

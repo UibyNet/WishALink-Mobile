@@ -71,6 +71,9 @@ export class AppService {
     }
 
     clearUser() {
+        this.userInfo = null;
+        this.userCategories = null;
+        this.userActivities = null;
         this.mUser = new LocalUser();
         this.mUser = null;
     }

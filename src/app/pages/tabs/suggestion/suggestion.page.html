@@ -1,73 +1,101 @@
-<ion-content [scrollEvents]="true"  parallax-page>
-    <div style="overflow: hidden">
+<ion-header mode="ios" shrink-header [scrollArea]="scrollArea">
 
-    <div class="profile-header scrollable has-border">
-        <span routerLink="/tabs/home" routerDirection="back" class="back-button">
-            <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
-        </span>
-        <div class="profile-container ion-text-center">
-            <div class="profile-inner">
-                <div class="avatar avatar-sm">
-                    <div class="avatar-image">
-                        <img [src]="userData?.profilePictureUrl" alt="Avatar">
-                    </div>
-                </div>
-                <div class="profile-info">
-                    <div class="category-name">
-                        Önerilerim
-                    </div>
-                    <div class="category-info">
-                        {{ suggestions != undefined && suggestions.length > 0 ? suggestions.length : 0 }} Ürün
-                    </div>
-                </div>
+  <div class="shrinkable">
+    <ion-toolbar mode="ios">
+      <ion-buttons slot="start">
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button (click)="openNotification()">
+          <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <div class="profile">
+      <div class="avatar">
+        <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl" alt="">
+      </div>
+      <div class="name">
+        Önerilerim
+      </div>
+      <div class="info">
+        {{ suggestions != undefined && suggestions.length > 0 ? suggestions.length : 0 }} Ürün
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
+  <div style="overflow: hidden">
+
+    <div hidden class="profile-header scrollable has-border">
+      <span routerLink="/tabs/home" routerDirection="back" class="back-button">
+        <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
+      </span>
+      <div class="profile-container ion-text-center">
+        <div class="profile-inner">
+          <div class="avatar avatar-sm">
+            <div class="avatar-image">
+              <img [src]="userData?.profilePictureUrl" alt="Avatar">
             </div>
+          </div>
+          <div class="profile-info">
+            <div class="category-name">
+              Önerilerim
+            </div>
+            <div class="category-info">
+              {{ suggestions != undefined && suggestions.length > 0 ? suggestions.length : 0 }} Ürün
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="content">
-        <div class="product-content">
-            <div *ngIf="suggestions == undefined" class="center-spinner">
-                <ion-spinner name="crescent" color="medium"></ion-spinner>
-            </div>
-            <div class="item-container" *ngFor="let post of suggestions; let i = index">
-                <ion-grid *ngIf="post != null" class="ion-no-padding">
-                    <ion-row [class.reverse]="i%2==1">
-                      <ion-col class="ion-text-center img-bottom" size="4" routerLink="/tabs/post-detail" [state]="post">
-                        <div class="img-product-container">
-                          <img [src]="post.mediaUrl" alt="">
-                        </div>
-                      </ion-col>
-                      <ion-col class="ion-text-center col-custom ion-padding-start" size="8">
-                        <div class="d-flex mb-8" routerLink="/tabs/post-detail" [state]="post">
-                          <div class="product-name">{{ post.name }}</div>
-                          <div (click)="redirectToUrl(post.url)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
-                        </div>
-                        <div class="ion-text-left">
-                          <ion-badge class="product-tag" color="primary" *ngIf="post.brand != null && post.brand.length > 0">{{
-                            post.brand
-                            }}</ion-badge>
-                          <ion-badge class="product-tag" color="primary" *ngIf="post.model != null && post.model.length > 0">{{
-                            post.model
-                            }}</ion-badge>
-                          <ion-badge class="product-tag" color="primary" *ngIf="post.color != null && post.color.length > 0">{{
-                            post.color
-                            }}</ion-badge>
-                          <ion-badge class="product-tag" color="primary" *ngIf="post.size != null && post.size.length > 0">{{
-                            post.size }}
-                          </ion-badge>
-                          <ion-badge class="product-tag" color="primary"
-                            *ngIf="post.keywords != null && post.keywords.length > 0">{{
-                            post.keywords }}</ion-badge>
-                        </div>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
-            </div>
+      <div class="product-content">
+        <div *ngIf="suggestions == undefined" class="center-spinner">
+          <ion-spinner name="crescent" color="medium"></ion-spinner>
         </div>
+        <div class="item-container" *ngFor="let post of suggestions; let i = index">
+          <ion-grid *ngIf="post != null" class="ion-no-padding">
+            <ion-row [class.reverse]="i%2==1">
+              <ion-col class="ion-text-center img-bottom" size="4" routerLink="/tabs/post-detail" [state]="post">
+                <div class="img-product-container">
+                  <img [src]="post.mediaUrl" alt="">
+                </div>
+              </ion-col>
+              <ion-col class="ion-text-center col-custom ion-padding-start" size="8">
+                <div class="d-flex mb-8" routerLink="/tabs/post-detail" [state]="post">
+                  <div class="product-name">{{ post.name }}</div>
+                  <div (click)="redirectToUrl(post.url)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon">
+                  </div>
+                </div>
+                <div class="ion-text-left">
+                  <ion-badge class="product-tag" color="primary" *ngIf="post.brand != null && post.brand.length > 0">{{
+                    post.brand
+                    }}</ion-badge>
+                  <ion-badge class="product-tag" color="primary" *ngIf="post.model != null && post.model.length > 0">{{
+                    post.model
+                    }}</ion-badge>
+                  <ion-badge class="product-tag" color="primary" *ngIf="post.color != null && post.color.length > 0">{{
+                    post.color
+                    }}</ion-badge>
+                  <ion-badge class="product-tag" color="primary" *ngIf="post.size != null && post.size.length > 0">{{
+                    post.size }}
+                  </ion-badge>
+                  <ion-badge class="product-tag" color="primary"
+                    *ngIf="post.keywords != null && post.keywords.length > 0">{{
+                    post.keywords }}</ion-badge>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </div>
     </div>
-    </div>
+  </div>
 
-    <div hidden routerLink="/add-product" class="add-product">
-        <img src="../../../assets/svg/abstract/add.svg" alt="Icon">
-    </div>
+  <div hidden routerLink="/add-product" class="add-product">
+    <img src="../../../assets/svg/abstract/add.svg" alt="Icon">
+  </div>
 </ion-content>

@@ -1,10 +1,11 @@
 <ion-content>
     <div class="main">
         <div class="top-container mb-4">
-      <span routerLink="/tabs/settings" routerDirection="back">
-        <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-      </span>
-            <div class="page-title ion-justify-content-center d-flex ion-align-items-center ion-margin-top ion-text-center">
+            <span routerLink="/tabs/settings" routerDirection="back">
+                <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+            </span>
+            <div
+                class="page-title ion-justify-content-center d-flex ion-align-items-center ion-margin-top ion-text-center">
                 Profil ayarları
             </div>
         </div>
@@ -17,18 +18,19 @@
             </div>
             <form [formGroup]="updateForm" (ngSubmit)="updateUserData()" class="input-container mb-5">
                 <ion-item>
-                    <input class="p-inputtext" formControlName="firstName" placeholder="Ad"/>
+                    <input class="p-inputtext" formControlName="firstName" placeholder="Ad" />
                 </ion-item>
                 <ion-item>
-                    <input class="p-inputtext" formControlName="lastName" placeholder="Soyad"/>
+                    <input class="p-inputtext" formControlName="lastName" placeholder="Soyad" />
                 </ion-item>
                 <ion-item>
-                    <input class="p-inputtext" formControlName="email" placeholder="E-posta"/>
+                    <input class="p-inputtext" formControlName="email" placeholder="E-posta" />
                 </ion-item>
                 <div class="ion-text-center">
                     <ion-item>
-                        <button type="submit" [disabled]="isLoading || !updateForm.valid" class="success" color="primary" expand="block">{{isLoading ? 'Lütfen bekleyiniz...' : 'Kaydet'}}
-                        </button>
+                        <ion-button type="submit" [disabled]="isLoading || !updateForm.valid" class="success"
+                            color="primary" expand="block">{{isLoading ? 'Lütfen bekleyiniz...' : 'Kaydet'}}
+                        </ion-button>
                     </ion-item>
 
                 </div>

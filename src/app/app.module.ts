@@ -36,7 +36,9 @@ const maskConfig: Partial<IConfig> = {
     imports: [
         BrowserModule,
         HttpClientModule,
-        IonicModule.forRoot(),
+        IonicModule.forRoot({
+            mode: 'ios'
+          }),
         NgxMaskModule.forRoot(maskConfig),
         AppRoutingModule,
         AppPipesModule,

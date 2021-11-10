@@ -1,12 +1,12 @@
 .main {
-  background: #6A40D6;
+  background: #6a40d6;
   height: 50%;
   .top-container {
     height: auto;
     padding: 26px;
 
     .profile-content {
-      background: #FFFFFF;
+      background: #ffffff;
       border-radius: 16px;
       padding: 0.25rem 1rem;
       display: flex;
@@ -19,13 +19,13 @@
         align-items: center;
 
         .name-text {
-          font-size: 18px;
+          font-size: 1.1em;
         }
 
         .img-container {
           width: 48px;
           height: 48px;
-          background: #6A40D6;
+          background: #6a40d6;
           border-radius: 50px;
           overflow: hidden;
           margin-right: 1rem;
@@ -47,8 +47,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #1E90FF;
-        color: #FFFFFF;
+        background: #1e90ff;
+        color: #ffffff;
         font-size: 9px;
         width: 1rem;
         height: 1rem;
@@ -63,17 +63,49 @@
       width: 100%;
       font-size: 24px;
       line-height: 27px;
-      color: #FFFFFF;
+      color: #ffffff;
       margin-bottom: 32px;
     }
   }
 }
 
 .main-content {
-  border-top-right-radius: 32px;
-  border-top-left-radius: 32px;
-  background: #FFFFFF;
-  padding: 1rem 1.5rem 38%;
+  border-top-right-radius: 2em;
+  border-top-left-radius: 2em;
+  background: #ffffff;
+  padding: 1em 1em 38%;
+
+  ion-list {
+    ion-item {
+      --padding-start: 1em;
+      --padding-top: 0.5em;
+      --padding-bottom: 0.5em;
+      --inner-border-width: 0;
+      --detail-icon-color: #1E90FF;
+      --detail-icon-opacity: 1;
+      border-radius: 1em;
+
+      ion-label {
+        overflow: unset;
+      }
+
+      .icon {
+        width: 40px;
+        height: 40px;
+        overflow: hidden;
+        background: #1e90ff;
+        color: #ffffff;
+        border-radius: 20px;
+        font-size: 1em;
+        padding: 10px;
+
+        ion-icon {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
 
   .inner-item {
     padding: 8px 1rem;
@@ -91,7 +123,7 @@
         height: 40px;
         border-radius: 50px;
         overflow: hidden;
-        background: #1E90FF;
+        background: #1e90ff;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -99,7 +131,7 @@
       }
 
       .item {
-        font-size: 18px;
+        font-size: 1.1em;
       }
     }
   }

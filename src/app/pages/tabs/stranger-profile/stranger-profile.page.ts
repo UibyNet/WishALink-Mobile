@@ -30,6 +30,7 @@ export class StrangerProfilePage implements OnInit {
     strangerUser: SocialUserListModel
     userId: number
     categories: CategoryListModel[]
+    selectedSegment: string = 'segment-activity';
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
@@ -121,5 +122,9 @@ export class StrangerProfilePage implements OnInit {
 
     goBack() {
         this.navController.back();
+    }
+
+    onSegmentChanged(e) {
+
     }
 }

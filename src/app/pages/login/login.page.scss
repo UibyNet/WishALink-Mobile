@@ -1,6 +1,6 @@
 .login-container {
   height: 72%;
-  background: #6A40D6;
+  background: #6a40d6;
 
   .back-button {
     padding: 2.25rem 1.875rem 1rem;
@@ -11,7 +11,7 @@
     margin: 0 0 40px;
     font-size: 24px;
     line-height: 32px;
-    color: #FFFFFF;
+    color: #ffffff;
     position: relative;
 
     .vertical-dots {
@@ -58,19 +58,19 @@
         flex: unset !important;
 
         input {
-          border: 1px solid #6A40D6 !important;
+          border: 1px solid #6a40d6 !important;
           border-radius: 16px !important;
           width: 56px !important;
           height: 56px !important;
         }
       }
-      .number-input{
-        border: 1px solid #6A40D6;
+      .number-input {
+        border: 1px solid #6a40d6;
         padding: 0.5rem 1rem;
         border-radius: 1rem;
       }
       ion-input {
-        border: 1px solid #6A40D6;
+        border: 1px solid #6a40d6;
         border-radius: 16px;
         height: 56px;
         padding: 1.125rem 1rem !important;
@@ -91,9 +91,6 @@ ion-button {
   left: 10%;
   top: 79%;
 }
-.page-container{
-  overflow: auto;
-}
-ion-header{
-  padding-top: var(--ion-statusbar-padding)
+.page-container {
+  overflow: hidden;
 }

@@ -8,8 +8,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
     selector: 'app-login',
-    templateUrl: 
-    './login.page.html',
+    templateUrl:
+        './login.page.html',
     styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
@@ -125,6 +125,16 @@ export class LoginPage implements OnInit {
 
     goForgot() {
         this.router.navigateByUrl('/forgot');
+    }
+
+    showToolbar = false;
+
+
+    onScroll($event: CustomEvent<any>) {
+        if ($event && $event.detail && $event.detail.scrollTop) {
+            const scrollTop = $event.detail.scrollTop;
+            this.showToolbar = scrollTop >= 225;
+        }
     }
 
 }

@@ -1,11 +1,14 @@
-<ion-header mode="ios" class="dark">
-    <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
-        <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-    </div>
-    <ion-title></ion-title>
+<ion-header mode="ios" trasculent="true" class="back-only ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
+                <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+            </div>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollEvents]="true" [scrollY]="false" parallax-header>
+<ion-content fullscreen="true">
     <div *ngIf="stepper===1" class="page-container">
         <div class="lead">
             <h2>
@@ -25,8 +28,8 @@
                                 <i class="flag-icon flag-icon-{{selectedCountry.isoCode}}"></i>
                                 <span>+{{selectedCountry.dialCode}}</span>
                             </button>
-                            <input class="p-inputtext" formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
-                                placeholder="Telefon">
+                            <input type="tel" class="p-inputtext" formControlName="phoneNumberMasked"
+                                [mask]="selectedCountry.phoneMask" placeholder="Telefon">
                         </div>
                     </ion-item>
                     <ion-item>
@@ -37,7 +40,8 @@
                             yapılıyor...' : 'Giriş Yap' }}</ion-button>
                     </ion-item>
                     <ion-item>
-                        <ion-button (click)="goForgot()" class="ion-text-capitalize" fill="clear" type="button" >Şifremi Unuttum</ion-button>
+                        <ion-button (click)="goForgot()" class="ion-text-capitalize" fill="clear" type="button">Şifremi
+                            Unuttum</ion-button>
                     </ion-item>
                 </form>
             </div>

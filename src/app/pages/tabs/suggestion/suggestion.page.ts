@@ -2,6 +2,8 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { PostApiService, PostListModel, SocialUserListModel } from 'src/app/services/api.service';
 import { AppService } from "../../../services/app.service";
 import { Browser } from '@capacitor/browser';
+import { ModalController } from '@ionic/angular';
+import { NotificationComponent } from 'src/app/components/notification/notification.component';
 
 @Component({
     selector: 'app-suggestion',
@@ -16,7 +18,8 @@ export class SuggestionPage implements OnInit {
     constructor(
         private zone: NgZone,
         private appService: AppService,
-        private postApiService: PostApiService
+        private postApiService: PostApiService,
+        private modalController: ModalController
     ) {
     }
     ngOnInit() {
@@ -49,4 +52,17 @@ export class SuggestionPage implements OnInit {
     async redirectToUrl(url: string) {
         await Browser.open({ url: url });
     }
+
+    async openNotification() {
+        const modal = await this.modalController.create({
+            component: NotificationComponent,
+            cssClass: 'notification-custom'
+        })
+
+        modal.onDidDismiss().then(v => {
+            console.log(v.data);
+        })
+
+        return await modal.present();
+    } 
 }

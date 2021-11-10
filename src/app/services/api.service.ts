@@ -4457,6 +4457,7 @@ export class SocialUserListModel implements ISocialUserListModel {
     followersCount?: number;
     followingsCount?: number;
     notificationCount?: number;
+    isBusy: boolean = false;
 
     constructor(data?: ISocialUserListModel) {
         if (data) {

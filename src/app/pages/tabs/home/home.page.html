@@ -1,5 +1,56 @@
-<ion-content [scrollEvents]="true" parallax-page>
-    <div class="profile-header scrollable">
+<ion-header mode="ios" shrink-header [scrollArea]="scrollArea">
+    <div class="shrinkable">
+        <ion-toolbar mode="ios">
+            <ion-buttons slot="start">
+            </ion-buttons>
+            <ion-buttons slot="end">
+                <ion-button (click)="openNotification()">
+                    <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+
+        <div class="profile">
+            <div class="avatar">
+                <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
+                    alt="">
+
+                <div (click)="presentActionSheet()" class="options">
+                    <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+                </div>
+            </div>
+            <div class="name">
+                <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
+            </div>
+            <div routerLink="community" class="community">
+                <div class="follower">
+                    <div class="number">{{userData == null ? 0 : userData.followersCount}}</div>
+                    <div class="text">Takipçi</div>
+                </div>
+                <div class="following">
+                    <div class="number">{{userData == null ? 0 : userData.followingsCount}}</div>
+                    <div class="text">Takip</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="top-tabs">
+        <div class="tab-container">
+            <div>Kategoriler</div>
+            <div (click)="addCategory()" class="active">
+                <span class="mr-1"> <img style="filter: contrast(3) brightness(0) invert(1);" class="plus-icon"
+                        src="../../../../assets/svg/home/plus.svg" alt="Icon"></span>
+                Kategori Ekle
+            </div>
+        </div>
+        <div class="d-flex ">
+
+        </div>
+    </div>
+</ion-header>
+
+<ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
+    <div hidden class="profile-header scrollable">
         <span (click)="openNotification()" class="notification-content">
             <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
             <div *ngIf="userData != null && userData.notificationCount > 0" class="badge-notification">
@@ -51,8 +102,9 @@
     <div class="content">
         <ion-grid>
             <ion-row>
-                <ion-col *ngFor="let category of categories" routerLink="/category-detail" [queryParams]="{categoryId: category.id}" class="ion-text-center" size="4">
-                    <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}" >
+                <ion-col *ngFor="let category of categories" routerLink="/category-detail"
+                    [queryParams]="{categoryId: category.id}" class="ion-text-center" size="4">
+                    <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}">
                     </div>
                     <div class="product-title">{{ category.name }}</div>
                     <div class="product-amount">{{ category.postCount }} ürün</div>
