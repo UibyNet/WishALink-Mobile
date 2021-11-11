@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, ModalController } from '@ionic/angular';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { AppService } from 'src/app/services/app.service';
 import { countries, CountryI, phoneMasks } from './countries';
 
@@ -8,8 +8,7 @@ import { countries, CountryI, phoneMasks } from './countries';
   templateUrl: './country-selector.component.html',
   styleUrls: ['./country-selector.component.scss'],
 })
-export class CountrySelectorComponent implements OnInit, AfterViewInit {
-  @ViewChild(IonInfiniteScroll, { static: false }) infiniteScroll: IonInfiniteScroll;
+export class CountrySelectorComponent implements OnInit {
   @Input() selectedCountry: string;
   countries: CountryI[];
   pagedCountries: CountryI[];
@@ -23,14 +22,10 @@ export class CountrySelectorComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.countries = countries;
   }
+
   ionViewWillEnter() {
     this.appService.toggleStatusBar('light');
 
-  }
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.loadData(null);
-    }, 200);
   }
 
   filterCountries(e: any) {
@@ -43,17 +38,6 @@ export class CountrySelectorComponent implements OnInit, AfterViewInit {
     value = value.toLowerCase();
     this.countries = countries.filter(x => x.name.toLowerCase().indexOf(value) > -1);
     this.page = 0;
-    this.loadData(null);
-  }
-
-  loadData(event) {
-    this.infiniteScroll.complete();
-    this.page++;
-
-    this.pagedCountries = this.countries.slice(0, this.page*20);
-    if (this.pagedCountries.length == this.countries.length) {
-      this.infiniteScroll.disabled = true;
-    }
   }
 
   selectCountry(value: CountryI) {

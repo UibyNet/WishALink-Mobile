@@ -6,6 +6,7 @@
             <ion-buttons slot="end">
                 <ion-button (click)="openNotification()">
                     <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+                    <ion-badge *ngIf="appService.unreadNotificationsCount > 0">{{appService.unreadNotificationsCount}}</ion-badge>
                 </ion-button>
             </ion-buttons>
         </ion-toolbar>
@@ -37,47 +38,6 @@
 </ion-header>
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
-
-    <div hidden #profileHeader class="profile-header scrollable">
-        <span *ngIf="!isSearchFocused" (click)="openNotification()" class="notification-content">
-            <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
-            <div *ngIf="userData != null && userData.notificationCount > 0" class="badge-notification">
-                {{ userData.notificationCount }}
-            </div>
-        </span>
-        <div class="profile-container ion-text-center">
-            <div *ngIf="!isSearchFocused" class="profile-inner">
-                <div class="avatar">
-                    <div class="avatar-image">
-                        <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
-                            alt="">
-                    </div>
-                </div>
-                <div class="profile-info">
-                    <div class="ion-margin-bottom profile-name">
-                        <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
-                    </div>
-                    <div class="follower-info">
-                        <div class="follower">
-                            <div class="number">{{userData == null ? 0 : userData.followersCount}}</div>
-                            <div class="text">Takipçi</div>
-                        </div>
-                        <div class="following">
-                            <div class="number">{{userData == null ? 0 : userData.followingsCount}}</div>
-                            <div class="text">Takip</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="search-bar">
-                <ion-searchbar mode="ios" debounce="500" (ionChange)="searchUser($event)" (ionFocus)="onSearchFocus()"
-                    (ionBlur)="onSearchBlur()" placeholder="Arama Yap"></ion-searchbar>
-            </div>
-        </div>
-    </div>
-
-
     <div class="content">
         <div routerLink="stranger-profile/1" class="profile-list-item" hidden>
             <div class="person-info">

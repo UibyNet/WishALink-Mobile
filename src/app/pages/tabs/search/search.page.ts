@@ -17,7 +17,7 @@ export class SearchPage implements OnInit {
     isSearching: boolean;
 
     constructor(
-        private appService: AppService,
+        public appService: AppService,
         private socialApiService: SocialApiService,
         private router: Router,
         private modalController: ModalController,

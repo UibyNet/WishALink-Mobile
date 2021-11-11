@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } from '@capacitor/push-notifications';
 import { Platform } from '@ionic/angular';
+import * as moment from 'moment';
 import { AppService } from './services/app.service';
 
 @Component({
@@ -15,6 +16,8 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    moment.locale("tr");
+
     if(!this.platform.is('mobileweb')) {
       PushNotifications.requestPermissions().then(result => {
         if (result.receive === 'granted') {
@@ -37,6 +40,7 @@ export class AppComponent implements OnInit {
         'pushNotificationReceived',
         (notification: PushNotificationSchema) => {
           console.log('Push received: ' + JSON.stringify(notification));
+          this.appService.getNotifications().then(v => console.log(v) );
         },
       );
   

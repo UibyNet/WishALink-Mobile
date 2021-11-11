@@ -14,8 +14,8 @@ import {Share} from '@capacitor/share';
 export class SettingsPage implements OnInit {
 
     constructor(
+        public appService: AppService,
         private navController: NavController,
-        private appService: AppService,
         private modalController: ModalController,
     ) {
     }

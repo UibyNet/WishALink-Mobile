@@ -16,8 +16,8 @@ export class SuggestionPage implements OnInit {
     suggestions: PostListModel[];
 
     constructor(
+        public appService: AppService,
         private zone: NgZone,
-        private appService: AppService,
         private postApiService: PostApiService,
         private modalController: ModalController
     ) {

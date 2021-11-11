@@ -46,41 +46,6 @@
 </ion-header>
 
 <ion-content #scrollAreaCommunity [scrollEvents]="true" [fullscreen]="true">
-    <div hidden class="top-container">
-        <span (click)="goBack()" class="back-button">
-            <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
-        </span>
-        <div class="top-avatar ion-text-center">
-            <div class="avatar-container">
-                <img [src]="userData?.profilePictureUrl" alt="Avatar">
-            </div>
-            <div class="ion-margin-bottom name">
-                {{userData?.fullName}}
-            </div>
-            <div class="follower-content">
-                <div class="follower">
-                    <div class="number">{{userData?.followersCount}}</div>
-                    <div class="text">Takipçi</div>
-                </div>
-                <div class="following">
-                    <div class="number">{{userData?.followingsCount}}</div>
-                    <div class="text">Takip</div>
-                </div>
-            </div>
-            <div class="top-tabs">
-                <div class="tab-container">
-                    <div [ngClass]="{'active': selectedTab === 'follower'}" (click)="getFollowerList()"
-                        class="follow-info">
-                        Takipçi
-                    </div>
-                    <div [ngClass]="{'active': selectedTab === 'following'}" (click)="getFollowingList()"
-                        class="follow-info active">
-                        Takip
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div *ngIf="selectedTab=== 'follower'" class="content">
         <div *ngFor="let user of followerList" class="profile-list-item" (click)="selectedUser(user.id)">
             <div class="person-info">

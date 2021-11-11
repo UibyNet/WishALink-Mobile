@@ -1,8 +1,9 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {AppService} from "../../services/app.service";
-import {ProfileApiService, UserModel} from "../../services/api.service";
+import {ProfileApiService, SocialUserListModel, UserModel} from "../../services/api.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
     selector: 'app-profile-settings',
@@ -16,18 +17,20 @@ export class ProfileSettingsPage implements OnInit {
         private appService: AppService,
         private zone: NgZone,
         private formBuilder: FormBuilder,
-        private router: Router
+        private router: Router,
+        private actionSheetController: ActionSheetController
     ) {
     }
 
     userData: UserModel
-    userProfilePic: string
+    profilePictureUrl: string
     updateForm: FormGroup
     isLoading: boolean = false;
 
     ngOnInit() {
         this.getUserInfo()
-        this.userProfilePic = this.appService.userInfo.profilePictureUrl
+        this.profilePictureUrl = this.appService.userInfo.profilePictureUrl;
+
         this.updateForm = this.formBuilder.group({
             firstName: [this.userData?.firstName, [Validators.required, Validators.minLength(1)]],
             lastName: [this.userData?.lastName, [Validators.required, Validators.minLength(1)]],
@@ -78,5 +81,65 @@ export class ProfileSettingsPage implements OnInit {
             this.appService.showToast('Profil başarıyla güncellendi')
             this.router.navigate(['/tabs/settings'])
         })
+    }
+
+    async presentActionSheet() {
+        const actionSheet = await this.actionSheetController.create({
+            header: '',
+            mode: 'md',
+            cssClass: 'my-custom-class',
+            buttons: [
+                {
+                    text: 'Profil resmini değiştir',
+                    cssClass: 'changeProfilePicture',
+                    icon: 'image',
+                    handler: () => {
+                        this.changePicture();
+                    }
+                },
+                {
+                    text: 'Profil resmini kaldır',
+                    cssClass: 'changeProfilePicture',
+                    icon: 'trash',
+                    handler: () => {
+                        this.profileApiService.removeprofilepicture()
+                            .subscribe(
+                                v => this.onProfilePictureChanged(null),
+                                e => this.onError(e)
+                            )
+                    }
+                },
+            ]
+        });
+        await actionSheet.present();
+
+        const {role} = await actionSheet.onDidDismiss();
+    }
+
+    onProfilePictureChanged(v: SocialUserListModel) {
+        this.zone.run(() => {
+            if (v != null) {
+                this.appService.userInfo = v;
+                this.profilePictureUrl = v.profilePictureUrl;
+            } else {
+                this.profilePictureUrl = '';
+                this.appService.userInfo.profilePictureUrl = '';
+            }
+        })
+    }
+
+    private changePicture() {
+
+        this.appService.getImage()
+            .then(
+                (imgData) => {
+                    this.profilePictureUrl = `data:image/jpeg;base64,${imgData.photo.base64String}`;
+                    this.profileApiService.changeprofilepicture({fileName: 'avatar.jpg', data: imgData.blob})
+                        .subscribe(
+                            v => this.onProfilePictureChanged(v),
+                            e => this.onError(e)
+                        )
+                }
+            );
     }
 }

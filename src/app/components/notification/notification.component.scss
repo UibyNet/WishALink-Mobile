@@ -19,3 +19,28 @@
   color: #b7b7b7;
   font-weight: bold;
 }
+
+ion-list {
+  padding-top: .6em;
+  padding-bottom: .6em;
+
+  ion-item {
+    font-size: 0.9em;
+    --inner-border-width: 0;
+  
+    &.is-read {
+      color: #d5d5d5;
+    }
+  
+    ion-avatar {
+      margin-right: 1em;
+    }
+  
+    ion-label {
+      .time {
+        color: #d5d5d5;
+        font-size: 0.9em;
+      }
+    }
+  }
+}

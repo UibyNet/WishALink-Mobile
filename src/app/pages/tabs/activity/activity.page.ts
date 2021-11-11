@@ -61,9 +61,9 @@ export class ActivityPage implements OnInit {
     selectedDate: Date = new Date();
 
     constructor(
+        public appService: AppService,
         private zone: NgZone,
         private router: Router,
-        private appService: AppService,
         private activityApiService: ActivityApiService,
         private modalController: ModalController
     ) {

@@ -17,7 +17,7 @@
     "ios-open": "ionic capacitor update ios && npx cap open ios",
     "jetify": "npx jetify && npx cap sync android",
     "nswag-gen": "nswag openapi2tsclient /input:https://panel.wishalink.com/apidoc/v1/api.json?key=wishalink /output:src/app/services/api.service.ts /Template:Angular /InjectionTokenType:InjectionToken /OperationGenerationMode:MultipleClientsFromPathSegments /ClassName:{controller}ApiService /DateTimeType:MomentJS && node ./api/api.js",
-    "nswag-gen-local": "nswag openapi2tsclient /input:http://192.168.0.102:5000/apidoc/v1/api.json?key=wishalink /output:src/app/services/api.service.ts /Template:Angular /InjectionTokenType:InjectionToken /OperationGenerationMode:MultipleClientsFromPathSegments /ClassName:{controller}ApiService /DateTimeType:MomentJS && node ./api/api.js"
+    "nswag-gen-local": "nswag openapi2tsclient /input:https://localhost:44301/apidoc/v1/api.json?key=wishalink /output:src/app/services/api.service.ts /Template:Angular /InjectionTokenType:InjectionToken /OperationGenerationMode:MultipleClientsFromPathSegments /ClassName:{controller}ApiService /DateTimeType:MomentJS && node ./api/api.js"
   },
   "dependencies": {
     "@angular/cdk": "^12.2.12",

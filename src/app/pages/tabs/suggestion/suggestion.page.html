@@ -7,6 +7,7 @@
       <ion-buttons slot="end">
         <ion-button (click)="openNotification()">
           <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+          <ion-badge *ngIf="appService.unreadNotificationsCount > 0">{{appService.unreadNotificationsCount}}</ion-badge>
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
@@ -27,30 +28,6 @@
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
   <div style="overflow: hidden">
-
-    <div hidden class="profile-header scrollable has-border">
-      <span routerLink="/tabs/home" routerDirection="back" class="back-button">
-        <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
-      </span>
-      <div class="profile-container ion-text-center">
-        <div class="profile-inner">
-          <div class="avatar avatar-sm">
-            <div class="avatar-image">
-              <img [src]="userData?.profilePictureUrl" alt="Avatar">
-            </div>
-          </div>
-          <div class="profile-info">
-            <div class="category-name">
-              Önerilerim
-            </div>
-            <div class="category-info">
-              {{ suggestions != undefined && suggestions.length > 0 ? suggestions.length : 0 }} Ürün
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="content">
       <div class="product-content">
         <div *ngIf="suggestions == undefined" class="center-spinner">
@@ -93,9 +70,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div hidden routerLink="/add-product" class="add-product">
-    <img src="../../../assets/svg/abstract/add.svg" alt="Icon">
   </div>
 </ion-content>

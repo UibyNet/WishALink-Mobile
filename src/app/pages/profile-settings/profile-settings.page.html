@@ -11,7 +11,11 @@
         </div>
         <div class="main-content pt-3 px-4">
             <div class="img-container-absolute">
-                <img [src]="userProfilePic" alt="Img">
+                <img [src]="profilePictureUrl == null || profilePictureUrl.length == 0 ? '../../../../assets/svg/home/avatar.png' : profilePictureUrl"
+                alt="">
+                <div (click)="presentActionSheet()" class="options">
+                    <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+                </div>
             </div>
             <div class="arrange-button ion-text-center mb-4 mt-6" hidden>
                 <button class="font-9">Düzenle</button>

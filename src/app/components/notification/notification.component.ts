@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {NotificationApiService, Notification} from "../../services/api.service";
+import {Component, Inject, OnInit, Optional} from '@angular/core';
+import {NotificationApiService, Notification, API_BASE_URL} from "../../services/api.service";
 import {AppService} from "../../services/app.service";
 import {ModalController} from "@ionic/angular";
+import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-notification',
@@ -11,37 +13,75 @@ import {ModalController} from "@ionic/angular";
 export class NotificationComponent implements OnInit {
     
     notifications: Notification[];
+    apiBaseUrl: string;
 
     constructor(
-        private notificationApiService: NotificationApiService,
+        private router: Router,
         private appService: AppService,
-        private modalController: ModalController
+        private modalController: ModalController,
+        @Optional() @Inject(API_BASE_URL) baseUrl?: string,
     ) {
+        this.apiBaseUrl = baseUrl;
     }
 
     ngOnInit() {
-        this.getNotifications()
+        this.notifications = this.appService.userNotifications;
+        if(this.notifications.length == 0) {
+            this.getNotifications(null)
+        }
     }
     ionViewWillEnter() {
         this.appService.toggleStatusBar('light');
     }
-    getNotifications() {
-        this.notificationApiService.list().subscribe(
-            v => this.onNotifications(v),
-            e => this.onError(e)
+    getNotifications(event) {
+        this.appService.getNotifications().then(
+            v => this.onNotifications(v, event),
+            e => this.onError(e, event)
         )
     }
 
-    onNotifications(v: Notification[]) {
-        this.notifications = v
+    onNotifications(v: Notification[], event: any) {
+        if(event) event.target.complete();
+        this.notifications = v;
     }
 
-    onError(e: any) {
+    onError(e: any, event: any) {
+        if(event) event.target.complete();
         this.appService.showAlert(e)
 
     }
 
     closeModal() {
         this.modalController.dismiss();
+    }
+
+    getTargetUserId(notification: Notification) {
+        if(notification != null && notification.data != null && notification.data.length > 0) {
+            var data = JSON.parse(notification.data);
+            if(data.FollowerId > 0) {
+                return data.FollowerId;
+            }
+            if(data.CreatorId > 0) {
+                return data.CreatorId;
+            }
+        }
+        return 0;
+    }
+
+    getNotificationTime(notification: Notification) {
+        if(notification != null && notification.data != null && notification.data.length > 0) {
+            var data = JSON.parse(notification.data);
+            if(data.TimeStamp) {
+                var ago = moment(data.TimeStamp).fromNow(true);
+                return ago;
+            }
+        }
+        return '';
+    }
+
+    goTargetProfile(notification: Notification) {
+        this.modalController.dismiss();
+        this.appService.markNotificationAsRead(notification);
+        this.router.navigateByUrl('/tabs/search/stranger-profile/' + this.getTargetUserId(notification))
     }
 }

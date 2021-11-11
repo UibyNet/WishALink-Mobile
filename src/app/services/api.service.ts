@@ -1821,6 +1821,72 @@ export class NotificationApiService {
         }
         return _observableOf<Notification[]>(<any>null);
     }
+
+    /**
+     * @param notificationId (optional) 
+     * @return Success
+     */
+    markasread(notificationId: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/notification/markasread?";
+        if (notificationId === null)
+            throw new Error("The parameter 'notificationId' cannot be null.");
+        else if (notificationId !== undefined)
+            url_ += "notificationId=" + encodeURIComponent("" + notificationId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMarkasread(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMarkasread(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMarkasread(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -2335,6 +2401,76 @@ export class PostApiService {
         }
         return _observableOf<MetaInfoModel>(<any>null);
     }
+
+    /**
+     * @param postId (optional) 
+     * @return Success
+     */
+    like(postId: number | undefined): Observable<PostLikeModel> {
+        let url_ = this.baseUrl + "/api/post/like?";
+        if (postId === null)
+            throw new Error("The parameter 'postId' cannot be null.");
+        else if (postId !== undefined)
+            url_ += "postId=" + encodeURIComponent("" + postId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processLike(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processLike(<any>response_);
+                } catch (e) {
+                    return <Observable<PostLikeModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PostLikeModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processLike(response: HttpResponseBase): Observable<PostLikeModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PostLikeModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PostLikeModel>(<any>null);
+    }
 }
 
 @Injectable()
@@ -2588,6 +2724,70 @@ export class ProfileApiService {
     }
 
     protected processChangepassword(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    picture(id: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/profile/picture/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPicture(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPicture(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processPicture(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -3138,6 +3338,98 @@ export class SocialApiService {
     }
 }
 
+export class Activity implements IActivity {
+    id?: number;
+    createdOn?: moment.Moment | undefined;
+    createdById?: number | undefined;
+    updatedOn?: moment.Moment | undefined;
+    updatedById?: number | undefined;
+    deletedOn?: moment.Moment | undefined;
+    deletedById?: number | undefined;
+    name!: string;
+    startDate?: moment.Moment;
+    endDate?: moment.Moment;
+    hasReminder?: boolean;
+    isHidden?: boolean;
+    description?: string | undefined;
+    categoryId?: number | undefined;
+    category?: Category;
+
+    constructor(data?: IActivity) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
+            this.createdById = _data["CreatedById"];
+            this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
+            this.updatedById = _data["UpdatedById"];
+            this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
+            this.deletedById = _data["DeletedById"];
+            this.name = _data["Name"];
+            this.startDate = _data["StartDate"] ? moment(_data["StartDate"].toString()) : <any>undefined;
+            this.endDate = _data["EndDate"] ? moment(_data["EndDate"].toString()) : <any>undefined;
+            this.hasReminder = _data["HasReminder"];
+            this.isHidden = _data["IsHidden"];
+            this.description = _data["Description"];
+            this.categoryId = _data["CategoryId"];
+            this.category = _data["Category"] ? Category.fromJS(_data["Category"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): Activity {
+        data = typeof data === 'object' ? data : {};
+        let result = new Activity();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
+        data["CreatedById"] = this.createdById;
+        data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
+        data["UpdatedById"] = this.updatedById;
+        data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
+        data["DeletedById"] = this.deletedById;
+        data["Name"] = this.name;
+        data["StartDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["EndDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["HasReminder"] = this.hasReminder;
+        data["IsHidden"] = this.isHidden;
+        data["Description"] = this.description;
+        data["CategoryId"] = this.categoryId;
+        data["Category"] = this.category ? this.category.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IActivity {
+    id?: number;
+    createdOn?: moment.Moment | undefined;
+    createdById?: number | undefined;
+    updatedOn?: moment.Moment | undefined;
+    updatedById?: number | undefined;
+    deletedOn?: moment.Moment | undefined;
+    deletedById?: number | undefined;
+    name: string;
+    startDate?: moment.Moment;
+    endDate?: moment.Moment;
+    hasReminder?: boolean;
+    isHidden?: boolean;
+    description?: string | undefined;
+    categoryId?: number | undefined;
+    category?: Category;
+}
+
 export class ActivityEditModel implements IActivityEditModel {
     id?: number;
     name?: string | undefined;
@@ -3352,6 +3644,102 @@ export interface IAddress {
     province?: Province;
     countryId?: string | undefined;
     country?: Country;
+}
+
+export class Category implements ICategory {
+    id?: number;
+    createdOn?: moment.Moment | undefined;
+    createdById?: number | undefined;
+    updatedOn?: moment.Moment | undefined;
+    updatedById?: number | undefined;
+    deletedOn?: moment.Moment | undefined;
+    deletedById?: number | undefined;
+    name!: string;
+    order?: number;
+    mediaId?: number;
+    media?: Media;
+    isPredefined?: boolean;
+    isHidden?: boolean;
+    posts?: PostCategory[] | undefined;
+
+    constructor(data?: ICategory) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
+            this.createdById = _data["CreatedById"];
+            this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
+            this.updatedById = _data["UpdatedById"];
+            this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
+            this.deletedById = _data["DeletedById"];
+            this.name = _data["Name"];
+            this.order = _data["Order"];
+            this.mediaId = _data["MediaId"];
+            this.media = _data["Media"] ? Media.fromJS(_data["Media"]) : <any>undefined;
+            this.isPredefined = _data["IsPredefined"];
+            this.isHidden = _data["IsHidden"];
+            if (Array.isArray(_data["Posts"])) {
+                this.posts = [] as any;
+                for (let item of _data["Posts"])
+                    this.posts!.push(PostCategory.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): Category {
+        data = typeof data === 'object' ? data : {};
+        let result = new Category();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
+        data["CreatedById"] = this.createdById;
+        data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
+        data["UpdatedById"] = this.updatedById;
+        data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
+        data["DeletedById"] = this.deletedById;
+        data["Name"] = this.name;
+        data["Order"] = this.order;
+        data["MediaId"] = this.mediaId;
+        data["Media"] = this.media ? this.media.toJSON() : <any>undefined;
+        data["IsPredefined"] = this.isPredefined;
+        data["IsHidden"] = this.isHidden;
+        if (Array.isArray(this.posts)) {
+            data["Posts"] = [];
+            for (let item of this.posts)
+                data["Posts"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface ICategory {
+    id?: number;
+    createdOn?: moment.Moment | undefined;
+    createdById?: number | undefined;
+    updatedOn?: moment.Moment | undefined;
+    updatedById?: number | undefined;
+    deletedOn?: moment.Moment | undefined;
+    deletedById?: number | undefined;
+    name: string;
+    order?: number;
+    mediaId?: number;
+    media?: Media;
+    isPredefined?: boolean;
+    isHidden?: boolean;
+    posts?: PostCategory[] | undefined;
 }
 
 export class CategoryListModel implements ICategoryListModel {
@@ -3961,11 +4349,14 @@ export class Notification implements INotification {
     group?: Group;
     userId?: number | undefined;
     user?: User;
+    postId?: number | undefined;
+    post?: Post;
     sendDate?: moment.Moment;
     type?: NotificationType;
     isSent?: boolean;
     isRead?: boolean;
     isDeleted?: boolean;
+    sendFailCount?: number;
 
     constructor(data?: INotification) {
         if (data) {
@@ -3986,11 +4377,14 @@ export class Notification implements INotification {
             this.group = _data["Group"] ? Group.fromJS(_data["Group"]) : <any>undefined;
             this.userId = _data["UserId"];
             this.user = _data["User"] ? User.fromJS(_data["User"]) : <any>undefined;
+            this.postId = _data["PostId"];
+            this.post = _data["Post"] ? Post.fromJS(_data["Post"]) : <any>undefined;
             this.sendDate = _data["SendDate"] ? moment(_data["SendDate"].toString()) : <any>undefined;
             this.type = _data["Type"];
             this.isSent = _data["IsSent"];
             this.isRead = _data["IsRead"];
             this.isDeleted = _data["IsDeleted"];
+            this.sendFailCount = _data["SendFailCount"];
         }
     }
 
@@ -4011,11 +4405,14 @@ export class Notification implements INotification {
         data["Group"] = this.group ? this.group.toJSON() : <any>undefined;
         data["UserId"] = this.userId;
         data["User"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["PostId"] = this.postId;
+        data["Post"] = this.post ? this.post.toJSON() : <any>undefined;
         data["SendDate"] = this.sendDate ? this.sendDate.toISOString() : <any>undefined;
         data["Type"] = this.type;
         data["IsSent"] = this.isSent;
         data["IsRead"] = this.isRead;
         data["IsDeleted"] = this.isDeleted;
+        data["SendFailCount"] = this.sendFailCount;
         return data; 
     }
 }
@@ -4029,11 +4426,14 @@ export interface INotification {
     group?: Group;
     userId?: number | undefined;
     user?: User;
+    postId?: number | undefined;
+    post?: Post;
     sendDate?: moment.Moment;
     type?: NotificationType;
     isSent?: boolean;
     isRead?: boolean;
     isDeleted?: boolean;
+    sendFailCount?: number;
 }
 
 export enum NotificationType {
@@ -4079,6 +4479,198 @@ export class PhoneNumberModel implements IPhoneNumberModel {
 export interface IPhoneNumberModel {
     oldPhoneNumber?: string | undefined;
     newPhoneNumber?: string | undefined;
+}
+
+export class Post implements IPost {
+    id?: number;
+    createdOn?: moment.Moment | undefined;
+    createdById?: number | undefined;
+    updatedOn?: moment.Moment | undefined;
+    updatedById?: number | undefined;
+    deletedOn?: moment.Moment | undefined;
+    deletedById?: number | undefined;
+    name!: string;
+    url!: string;
+    brand?: string | undefined;
+    model?: string | undefined;
+    color?: string | undefined;
+    size?: string | undefined;
+    description?: string | undefined;
+    activity?: Activity;
+    activityId?: number;
+    media?: Media;
+    mediaId?: number | undefined;
+    categories?: PostCategory[] | undefined;
+    tags?: PostTag[] | undefined;
+    likes?: PostLike[] | undefined;
+
+    constructor(data?: IPost) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
+            this.createdById = _data["CreatedById"];
+            this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
+            this.updatedById = _data["UpdatedById"];
+            this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
+            this.deletedById = _data["DeletedById"];
+            this.name = _data["Name"];
+            this.url = _data["Url"];
+            this.brand = _data["Brand"];
+            this.model = _data["Model"];
+            this.color = _data["Color"];
+            this.size = _data["Size"];
+            this.description = _data["Description"];
+            this.activity = _data["Activity"] ? Activity.fromJS(_data["Activity"]) : <any>undefined;
+            this.activityId = _data["ActivityId"];
+            this.media = _data["Media"] ? Media.fromJS(_data["Media"]) : <any>undefined;
+            this.mediaId = _data["MediaId"];
+            if (Array.isArray(_data["Categories"])) {
+                this.categories = [] as any;
+                for (let item of _data["Categories"])
+                    this.categories!.push(PostCategory.fromJS(item));
+            }
+            if (Array.isArray(_data["Tags"])) {
+                this.tags = [] as any;
+                for (let item of _data["Tags"])
+                    this.tags!.push(PostTag.fromJS(item));
+            }
+            if (Array.isArray(_data["Likes"])) {
+                this.likes = [] as any;
+                for (let item of _data["Likes"])
+                    this.likes!.push(PostLike.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): Post {
+        data = typeof data === 'object' ? data : {};
+        let result = new Post();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
+        data["CreatedById"] = this.createdById;
+        data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
+        data["UpdatedById"] = this.updatedById;
+        data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
+        data["DeletedById"] = this.deletedById;
+        data["Name"] = this.name;
+        data["Url"] = this.url;
+        data["Brand"] = this.brand;
+        data["Model"] = this.model;
+        data["Color"] = this.color;
+        data["Size"] = this.size;
+        data["Description"] = this.description;
+        data["Activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
+        data["ActivityId"] = this.activityId;
+        data["Media"] = this.media ? this.media.toJSON() : <any>undefined;
+        data["MediaId"] = this.mediaId;
+        if (Array.isArray(this.categories)) {
+            data["Categories"] = [];
+            for (let item of this.categories)
+                data["Categories"].push(item.toJSON());
+        }
+        if (Array.isArray(this.tags)) {
+            data["Tags"] = [];
+            for (let item of this.tags)
+                data["Tags"].push(item.toJSON());
+        }
+        if (Array.isArray(this.likes)) {
+            data["Likes"] = [];
+            for (let item of this.likes)
+                data["Likes"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPost {
+    id?: number;
+    createdOn?: moment.Moment | undefined;
+    createdById?: number | undefined;
+    updatedOn?: moment.Moment | undefined;
+    updatedById?: number | undefined;
+    deletedOn?: moment.Moment | undefined;
+    deletedById?: number | undefined;
+    name: string;
+    url: string;
+    brand?: string | undefined;
+    model?: string | undefined;
+    color?: string | undefined;
+    size?: string | undefined;
+    description?: string | undefined;
+    activity?: Activity;
+    activityId?: number;
+    media?: Media;
+    mediaId?: number | undefined;
+    categories?: PostCategory[] | undefined;
+    tags?: PostTag[] | undefined;
+    likes?: PostLike[] | undefined;
+}
+
+export class PostCategory implements IPostCategory {
+    id?: number;
+    post?: Post;
+    postId?: number;
+    category?: Category;
+    categoryId?: number;
+
+    constructor(data?: IPostCategory) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.post = _data["Post"] ? Post.fromJS(_data["Post"]) : <any>undefined;
+            this.postId = _data["PostId"];
+            this.category = _data["Category"] ? Category.fromJS(_data["Category"]) : <any>undefined;
+            this.categoryId = _data["CategoryId"];
+        }
+    }
+
+    static fromJS(data: any): PostCategory {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostCategory();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["Post"] = this.post ? this.post.toJSON() : <any>undefined;
+        data["PostId"] = this.postId;
+        data["Category"] = this.category ? this.category.toJSON() : <any>undefined;
+        data["CategoryId"] = this.categoryId;
+        return data; 
+    }
+}
+
+export interface IPostCategory {
+    id?: number;
+    post?: Post;
+    postId?: number;
+    category?: Category;
+    categoryId?: number;
 }
 
 export class PostEditModel implements IPostEditModel {
@@ -4161,6 +4753,98 @@ export interface IPostEditModel {
     tags?: string | undefined;
 }
 
+export class PostLike implements IPostLike {
+    id?: number;
+    userId?: number;
+    user?: User;
+    postId?: number;
+    post?: Post;
+
+    constructor(data?: IPostLike) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.userId = _data["UserId"];
+            this.user = _data["User"] ? User.fromJS(_data["User"]) : <any>undefined;
+            this.postId = _data["PostId"];
+            this.post = _data["Post"] ? Post.fromJS(_data["Post"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): PostLike {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostLike();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["UserId"] = this.userId;
+        data["User"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["PostId"] = this.postId;
+        data["Post"] = this.post ? this.post.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IPostLike {
+    id?: number;
+    userId?: number;
+    user?: User;
+    postId?: number;
+    post?: Post;
+}
+
+export class PostLikeModel implements IPostLikeModel {
+    postId?: number;
+    likesCount?: number;
+
+    constructor(data?: IPostLikeModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.postId = _data["PostId"];
+            this.likesCount = _data["LikesCount"];
+        }
+    }
+
+    static fromJS(data: any): PostLikeModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostLikeModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["PostId"] = this.postId;
+        data["LikesCount"] = this.likesCount;
+        return data; 
+    }
+}
+
+export interface IPostLikeModel {
+    postId?: number;
+    likesCount?: number;
+}
+
 export class PostListModel implements IPostListModel {
     id?: number;
     name?: string | undefined;
@@ -4235,6 +4919,58 @@ export interface IPostListModel {
     keywords?: string | undefined;
     mediaUrl?: string | undefined;
     activity?: ActivityListModel;
+}
+
+export class PostTag implements IPostTag {
+    id?: number;
+    post?: Post;
+    postId?: number;
+    tag?: Tag;
+    tagId?: number;
+
+    constructor(data?: IPostTag) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.post = _data["Post"] ? Post.fromJS(_data["Post"]) : <any>undefined;
+            this.postId = _data["PostId"];
+            this.tag = _data["Tag"] ? Tag.fromJS(_data["Tag"]) : <any>undefined;
+            this.tagId = _data["TagId"];
+        }
+    }
+
+    static fromJS(data: any): PostTag {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostTag();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["Post"] = this.post ? this.post.toJSON() : <any>undefined;
+        data["PostId"] = this.postId;
+        data["Tag"] = this.tag ? this.tag.toJSON() : <any>undefined;
+        data["TagId"] = this.tagId;
+        return data; 
+    }
+}
+
+export interface IPostTag {
+    id?: number;
+    post?: Post;
+    postId?: number;
+    tag?: Tag;
+    tagId?: number;
 }
 
 export class Province implements IProvince {
@@ -4456,8 +5192,8 @@ export class SocialUserListModel implements ISocialUserListModel {
     isFollowing?: boolean;
     followersCount?: number;
     followingsCount?: number;
-    notificationCount?: number;
-    isBusy: boolean = false;
+    isBusy?: boolean;
+    isLoading?: boolean;
 
     constructor(data?: ISocialUserListModel) {
         if (data) {
@@ -4476,7 +5212,8 @@ export class SocialUserListModel implements ISocialUserListModel {
             this.isFollowing = _data["IsFollowing"];
             this.followersCount = _data["FollowersCount"];
             this.followingsCount = _data["FollowingsCount"];
-            this.notificationCount = _data["NotificationCount"];
+            this.isBusy = _data["IsBusy"];
+            this.isLoading = _data["IsLoading"];
         }
     }
 
@@ -4495,7 +5232,8 @@ export class SocialUserListModel implements ISocialUserListModel {
         data["IsFollowing"] = this.isFollowing;
         data["FollowersCount"] = this.followersCount;
         data["FollowingsCount"] = this.followingsCount;
-        data["NotificationCount"] = this.notificationCount;
+        data["IsBusy"] = this.isBusy;
+        data["IsLoading"] = this.isLoading;
         return data; 
     }
 }
@@ -4507,7 +5245,80 @@ export interface ISocialUserListModel {
     isFollowing?: boolean;
     followersCount?: number;
     followingsCount?: number;
-    notificationCount?: number;
+    isBusy?: boolean;
+    isLoading?: boolean;
+}
+
+export class Tag implements ITag {
+    id?: number;
+    createdOn?: moment.Moment | undefined;
+    createdById?: number | undefined;
+    updatedOn?: moment.Moment | undefined;
+    updatedById?: number | undefined;
+    deletedOn?: moment.Moment | undefined;
+    deletedById?: number | undefined;
+    name!: string;
+    order?: number;
+    isPredefined?: boolean;
+
+    constructor(data?: ITag) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
+            this.createdById = _data["CreatedById"];
+            this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
+            this.updatedById = _data["UpdatedById"];
+            this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
+            this.deletedById = _data["DeletedById"];
+            this.name = _data["Name"];
+            this.order = _data["Order"];
+            this.isPredefined = _data["IsPredefined"];
+        }
+    }
+
+    static fromJS(data: any): Tag {
+        data = typeof data === 'object' ? data : {};
+        let result = new Tag();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
+        data["CreatedById"] = this.createdById;
+        data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
+        data["UpdatedById"] = this.updatedById;
+        data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
+        data["DeletedById"] = this.deletedById;
+        data["Name"] = this.name;
+        data["Order"] = this.order;
+        data["IsPredefined"] = this.isPredefined;
+        return data; 
+    }
+}
+
+export interface ITag {
+    id?: number;
+    createdOn?: moment.Moment | undefined;
+    createdById?: number | undefined;
+    updatedOn?: moment.Moment | undefined;
+    updatedById?: number | undefined;
+    deletedOn?: moment.Moment | undefined;
+    deletedById?: number | undefined;
+    name: string;
+    order?: number;
+    isPredefined?: boolean;
 }
 
 export class TokenModel implements ITokenModel {
@@ -4589,6 +5400,7 @@ export class User implements IUser {
     followings?: UserFollow[] | undefined;
     followers?: UserFollow[] | undefined;
     blockedUsers?: UserBlock[] | undefined;
+    postLikes?: PostLike[] | undefined;
 
     constructor(data?: IUser) {
         if (data) {
@@ -4658,6 +5470,11 @@ export class User implements IUser {
                 this.blockedUsers = [] as any;
                 for (let item of _data["BlockedUsers"])
                     this.blockedUsers!.push(UserBlock.fromJS(item));
+            }
+            if (Array.isArray(_data["PostLikes"])) {
+                this.postLikes = [] as any;
+                for (let item of _data["PostLikes"])
+                    this.postLikes!.push(PostLike.fromJS(item));
             }
         }
     }
@@ -4729,6 +5546,11 @@ export class User implements IUser {
             for (let item of this.blockedUsers)
                 data["BlockedUsers"].push(item.toJSON());
         }
+        if (Array.isArray(this.postLikes)) {
+            data["PostLikes"] = [];
+            for (let item of this.postLikes)
+                data["PostLikes"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -4772,6 +5594,7 @@ export interface IUser {
     followings?: UserFollow[] | undefined;
     followers?: UserFollow[] | undefined;
     blockedUsers?: UserBlock[] | undefined;
+    postLikes?: PostLike[] | undefined;
 }
 
 export class UserAddress implements IUserAddress {

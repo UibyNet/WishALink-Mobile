@@ -8,12 +8,24 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="getNotifications($event)">
+        <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Yenile"
+            refreshingSpinner="circles" refreshingText="Yükleniyor...">
+        </ion-refresher-content>
+    </ion-refresher>
+
     <ion-list *ngIf="notifications != undefined && notifications.length !=0 ">
-        <ion-item *ngFor="let notification of notifications">
-            {{notification.body}}
+        <ion-item *ngFor="let notification of notifications" [class.is-read]="notification.isRead" details="true" (click)="goTargetProfile(notification)" >
+            <ion-avatar *ngIf="getTargetUserId(notification) > 0">
+                <img src="{{apiBaseUrl}}/api/profile/picture/{{ getTargetUserId(notification) }}">
+            </ion-avatar>
+            <ion-label class="ion-text-wrap">
+                {{notification.body}} <span class="time">{{ getNotificationTime(notification) }}</span>
+            </ion-label>
         </ion-item>
     </ion-list>
-    <div style="margin-top: 4rem;" class="ion-text-center">
+    <div *ngIf="notifications == undefined || notifications.length ==0 " style="margin-top: 4rem;"
+        class="ion-text-center">
         <div class="icon-container">
             <ion-icon name="notifications-off-outline"></ion-icon>
         </div>

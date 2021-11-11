@@ -43,39 +43,6 @@
 </ion-header>
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
-    <div hidden class="top-container">
-        <span (click)="goBack()" class="back-button">
-            <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
-        </span>
-        <div class="top-avatar mt-1 ion-text-center">
-            <div class="avatar-container">
-                <img [src]="strangerUser == null ? '../../../../assets/svg/home/avatar.png' : strangerUser.profilePictureUrl"
-                    alt="Avatar">
-            </div>
-            <div class="ion-margin-bottom name">
-                <span>{{strangerUser == null? '&nbsp;' : strangerUser.fullName}}</span>
-            </div>
-            <div class="follower-content">
-                <div class="follower">
-                    <div class="number">{{strangerUser == null ? 0 : strangerUser.followersCount}}</div>
-                    <div class="text">Takipçi</div>
-                </div>
-                <div class="following">
-                    <div class="number">{{strangerUser == null ? 0 : strangerUser.followingsCount}}</div>
-                    <div class="text">Takip</div>
-                </div>
-            </div>
-            <div (click)="selectedUser()" [ngClass]="{'active':!strangerUser?.isFollowing}"
-                class="my-4 badge-container mx-auto font-9 d-flex ion-justify-content-center ion-align-items-center">
-                {{strangerUser?.isFollowing ? 'Takibi Bırak' : 'Takip Et'}}
-            </div>
-            <div class="top-tabs">
-                <div class="tab-container">
-                    <div class="active">Kategoriler</div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div *ngIf="selectedSegment == 'segment-category'" class="content">
         <ion-grid>
             <ion-row>

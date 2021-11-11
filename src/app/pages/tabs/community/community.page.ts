@@ -13,9 +13,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CommunityPage implements OnInit {
 
     constructor(
+        public appService: AppService,
         private router: Router,
         private route: ActivatedRoute,
-        private appService: AppService,
         private socialApiService: SocialApiService,
         private zone: NgZone,
         private navController: NavController,

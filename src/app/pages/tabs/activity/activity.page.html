@@ -6,6 +6,7 @@
             <ion-buttons slot="end">
                 <ion-button (click)="openNotification()">
                     <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+                    <ion-badge *ngIf="appService.unreadNotificationsCount > 0">{{appService.unreadNotificationsCount}}</ion-badge>
                 </ion-button>
             </ion-buttons>
         </ion-toolbar>
@@ -36,51 +37,6 @@
 </ion-header>
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
-    <div hidden class="profile-header scrollable">
-        <span (click)="openNotification()" class="notification-content">
-            <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
-            <div *ngIf="userData != null && userData.notificationCount > 0" class="badge-notification">
-                {{ userData.notificationCount }}
-            </div>
-        </span>
-        <div class="profile-container ion-text-center">
-            <div class="profile-inner">
-                <div class="avatar">
-                    <div class="avatar-image">
-                        <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
-                            alt="">
-                    </div>
-                </div>
-                <div class="profile-info">
-                    <div class="ion-margin-bottom profile-name">
-                        <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
-                    </div>
-                    <div hidden class="d-flex ion-justify-content-center">
-                        <ion-button size="" (click)="openCreate()" class="ion-text-capitalize">
-                            <img class="mr-2" src="../../../../assets/svg/abstract/add.svg" alt="Icon">
-                            Etkinlik Ekle
-                        </ion-button>
-                        <div hidden class="round-badge ml-2 d-flex ion-justify-content-center ion-align-items-center">
-                            <img src="../../../../assets/svg/abstract/search.svg" alt="Icon">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="top-tabs">
-                <div class="tab-container">
-                    <div>Etkinlikler</div>
-                    <div (click)="openCreate()" class="active">
-                        <span class="mr-1"> <img style="filter: contrast(3) brightness(0) invert(1);" class="plus-icon"
-                                src="../../../../assets/svg/home/plus.svg" alt="Icon"></span>
-                        Etkinlikler Ekle
-                    </div>
-                </div>
-                <div class="d-flex ">
-
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="content main">
 
         <div>

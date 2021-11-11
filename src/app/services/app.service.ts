@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Injectable, NgZone } from "@angular/core";
 import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
 import { StatusBar, Style } from "@capacitor/status-bar";
 import { AlertController, LoadingController, Platform, ToastController } from "@ionic/angular";
 import jwt_decode from 'jwt-decode';
 import { LocalUser } from "../models/localuser";
-import { ActivityListModel, CategoryListModel, ErrorDto, getFileReader, SocialUserListModel } from "./api.service";
+import { ActivityListModel, CategoryListModel, ErrorDto, getFileReader, Notification, NotificationApiService, SocialUserListModel } from "./api.service";
 
 @Injectable({
     providedIn: "root",
@@ -21,10 +21,14 @@ export class AppService {
     isFcmTokenSaved: boolean = false;
     userActivities: ActivityListModel[] = [];
     userCategories: CategoryListModel[] = [];
+    userNotifications: Notification[] = [];
+    get unreadNotificationsCount () { return this.userNotifications.filter(x => !x.isRead).length }
     private mUser: LocalUser;
 
     constructor(
+        private zone:NgZone,
         private platform: Platform,
+        private notificationApiService: NotificationApiService,
         private loadingController: LoadingController,
         private toastController: ToastController,
         private alertController: AlertController
@@ -233,4 +237,35 @@ export class AppService {
         });
     }
 
+    checkNotifications() {
+        this.getNotifications().then(v => console.log(v));
+        setInterval(()=> {
+            this.getNotifications().then(v => console.log(v));
+        }, 60000);
+    }
+
+    getNotifications() {
+        return new Promise<Notification[]>(
+            (resolve, reject) => {
+                this.notificationApiService.list().subscribe(
+                    v => {
+                        this.zone.run(()=>{
+                            this.userNotifications = v;
+                            resolve(v);
+                        })
+                    },
+                    e => reject(e)
+                )
+            }
+        )
+    }
+
+    markNotificationAsRead(notification: Notification) {
+        this.notificationApiService.markasread(notification.id)
+            .subscribe(v => {
+                this.zone.run(()=>{
+                    notification.isRead = true;
+                })
+            })
+    }
 }

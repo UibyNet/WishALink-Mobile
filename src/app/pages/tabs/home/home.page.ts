@@ -22,9 +22,9 @@ export class HomePage implements OnInit {
     categories: CategoryListModel[];
 
     constructor(
+        public appService: AppService,
         private zone: NgZone,
         private router: Router,
-        private appService: AppService,
         private profileApiService: ProfileApiService,
         private categoryApiService: CategoryApiService,
         private actionSheetController: ActionSheetController,
@@ -108,6 +108,8 @@ export class HomePage implements OnInit {
                     e => console.log(e)
                 )
         }
+
+        this.appService.checkNotifications();
     }
 
     async presentActionSheet() {
