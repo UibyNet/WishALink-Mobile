@@ -52,6 +52,10 @@ const routes: Routes = [
             loadChildren: () => import('./stranger-profile/stranger-profile.module').then( m => m.StrangerProfilePageModule)
           },
           {
+            path: 'stranger-profile/:id/community',
+            loadChildren: () => import('./community/community.module').then( m => m.CommunityPageModule)
+          },
+          {
             path: 'community',
             loadChildren: () => import('./community/community.module').then( m => m.CommunityPageModule)
           }

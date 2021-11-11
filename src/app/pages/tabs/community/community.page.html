@@ -32,13 +32,15 @@
     </div>
     <div class="top-tabs">
         <div class="tab-container">
-            <div [ngClass]="{'active': selectedTab === 'follower'}" (click)="getFollowerList()" class="follow-info">
-                Takipçi
-            </div>
-            <div [ngClass]="{'active': selectedTab === 'following'}" (click)="getFollowingList()"
-                class="follow-info active">
-                Takip
-            </div>
+
+            <ion-segment [(ngModel)]="selectedTab">
+                <ion-segment-button value="follower" (click)="getFollowerList()">
+                    <ion-label>Takipçi</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="following" (click)="getFollowingList()">
+                    <ion-label>Takip</ion-label>
+                </ion-segment-button>
+            </ion-segment>
         </div>
     </div>
 </ion-header>

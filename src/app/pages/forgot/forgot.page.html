@@ -1,11 +1,14 @@
-<ion-header mode="ios" class="dark">
-    <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
-        <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-    </div>
-    <ion-title></ion-title>
+<ion-header mode="ios" trasculent="true" class="back-only ion-no-border">
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
+              <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+          </div>
+      </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollEvents]="true"  [scrollY]="false" parallax-header>
+<ion-content fullscreen="true">
     <div *ngIf="stepper===1" class="page-container">
         <div class="lead">
             <h2>

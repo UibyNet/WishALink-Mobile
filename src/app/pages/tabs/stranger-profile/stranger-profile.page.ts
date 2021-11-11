@@ -2,6 +2,8 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import { NavController } from '@ionic/angular';
 import {
+    ActivityApiService,
+    ActivityListModel,
     CategoryApiService, CategoryListModel,
     ProfileApiService,
     SocialApiService,
@@ -22,6 +24,7 @@ export class StrangerProfilePage implements OnInit {
         private appService: AppService,
         private profileApiService: ProfileApiService,
         private socialApiService: SocialApiService,
+        private activityApiService: ActivityApiService,
         private categoryApiService: CategoryApiService,
         private navController: NavController
     ) {
@@ -30,13 +33,14 @@ export class StrangerProfilePage implements OnInit {
     strangerUser: SocialUserListModel
     userId: number
     categories: CategoryListModel[]
-    selectedSegment: string = 'segment-activity';
+    activities: ActivityListModel[];
+    selectedSegment: string = 'segment-category';
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
         this.userId = parseInt(id)
         this.getUser();
-        this.getUserCategory()
+        this.getUserCategories()
     }
     ionViewWillEnter() {
         this.appService.toggleStatusBar('light');
@@ -106,14 +110,28 @@ export class StrangerProfilePage implements OnInit {
         })
     }
 
-    getUserCategory() {
+    getUserCategories() {
         this.categoryApiService.list(this.userId).subscribe(
-            v => this.onUserCategory(v),
+            v => this.onUserCategoriesLoad(v),
             e => this.onError(e)
         )
     }
 
-    onUserCategory(v: CategoryListModel[]) {
+    getUserActivities() {
+        this.activityApiService.list(this.userId).subscribe(
+            v => this.onUserActivitiesLoad(v),
+            e => this.onError(e)
+        )
+    }
+
+    onUserActivitiesLoad(v: ActivityListModel[]): void {
+        this.ngZone.run(() => {
+            this.activities = v
+            console.log(this.activities)
+        })
+    }
+
+    onUserCategoriesLoad(v: CategoryListModel[]) {
         this.ngZone.run(() => {
             this.categories = v
             console.log(this.categories)

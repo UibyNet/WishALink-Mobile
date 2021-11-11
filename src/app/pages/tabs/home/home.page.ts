@@ -5,7 +5,8 @@ import {
     Media,
     ProfileApiService,
     SocialApiService,
-    SocialUserListModel
+    SocialUserListModel,
+    UserModel
 } from "../../../services/api.service";
 import {AppService} from "../../../services/app.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -94,6 +95,19 @@ export class HomePage implements OnInit {
             this.appService.userInfo = v;
             this.appService.toggleLoader(false);
         })
+
+        if(!this.appService.isFcmTokenSaved && this.appService.fcmToken != undefined) {
+            const model = new UserModel();
+            model.fcmToken = this.appService.fcmToken;
+
+            this.profileApiService.update(model)
+                .subscribe(
+                    v => {
+                        this.appService.isFcmTokenSaved = true;
+                    },
+                    e => console.log(e)
+                )
+        }
     }
 
     async presentActionSheet() {

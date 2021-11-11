@@ -1,9 +1,9 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {AppService} from "../../../services/app.service";
-import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
+import { Component, NgZone, OnInit } from '@angular/core';
+import { AppService } from "../../../services/app.service";
+import { SocialApiService, SocialUserListModel } from "../../../services/api.service";
 import { ModalController, NavController } from '@ionic/angular';
 import { NotificationComponent } from 'src/app/components/notification/notification.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-community',
@@ -14,6 +14,7 @@ export class CommunityPage implements OnInit {
 
     constructor(
         private router: Router,
+        private route: ActivatedRoute,
         private appService: AppService,
         private socialApiService: SocialApiService,
         private zone: NgZone,
@@ -25,7 +26,7 @@ export class CommunityPage implements OnInit {
     userData: SocialUserListModel
     followingList: SocialUserListModel[]
     followerList: SocialUserListModel[]
-    selectedTab: string
+    selectedTab: string = 'follower'
 
     ngOnInit() {
         this.getUserData()
@@ -33,7 +34,14 @@ export class CommunityPage implements OnInit {
     }
 
     getUserData() {
-        this.userData = this.appService.userInfo
+        const state = this.router.getCurrentNavigation().extras.state;
+
+        if (state != null && state.userData != null) {
+            this.userData = state.userData;
+        }
+        else {
+            this.userData = this.appService.userInfo;
+        }
     }
 
     getFollowingList() {
@@ -112,7 +120,7 @@ export class CommunityPage implements OnInit {
     selectedUser(id: number) {
         this.router.navigate(['/tabs/search/stranger-profile', id])
     }
-    
+
     async openNotification() {
         const modal = await this.modalController.create({
             component: NotificationComponent,

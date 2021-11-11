@@ -5,9 +5,6 @@
                 <ion-back-button text="" defaultHref="/tabs/home" color="dark"></ion-back-button>
             </ion-buttons>
             <ion-buttons slot="end">
-                <ion-button (click)="openNotification()">
-                    <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
-                </ion-button>
             </ion-buttons>
         </ion-toolbar>
 
@@ -15,15 +12,11 @@
             <div class="avatar">
                 <img [src]="strangerUser == null ? '../../../../assets/svg/home/avatar.png' : strangerUser.profilePictureUrl"
                     alt="">
-
-                <div (click)="presentActionSheet()" class="options">
-                    <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
-                </div>
             </div>
             <div class="name">
                 <span>{{strangerUser == null? '&nbsp;' : strangerUser.fullName}}</span>
             </div>
-            <div routerLink="community" class="community">
+            <div routerLink="community" class="community" [state]="{userData: strangerUser}">
                 <div class="follower">
                     <div class="number">{{strangerUser == null ? 0 : strangerUser.followersCount}}</div>
                     <div class="text">Takipçi</div>
@@ -99,29 +92,27 @@
             <div class="ion-text-center icon-container">
                 <ion-icon name="alert-outline"></ion-icon>
             </div>
-            <div class="ion-margin-top info-text ion-text-center">
-                Kullanıcının ürünü bulunmamaktadir.
+            <div class="ion-margin-top info-text mt-4 ion-text-center">
+                Kullanıcının ürünü bulunmamaktadır.
             </div>
         </div>
     </div>
     <div *ngIf="selectedSegment == 'segment-activity'" class="content">
-        <ion-grid>
-            <ion-row>
-                <ion-col *ngFor="let category of categories" routerLink="/category-detail"
-                    [queryParams]="{categoryId: category.id}" [state]="category" class="ion-text-center" size="4">
-                    <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}">
-                    </div>
-                    <div class="product-title">{{ category.name }}</div>
-                    <div class="product-amount">{{ category.postCount }} ürün</div>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-        <div class="ion-margin-top" *ngIf="categories == undefined || categories.length === 0">
+        <ion-list *ngIf="activities != undefined && activities.length > 0">
+            <ion-item *ngFor="let activity of activities">
+                <ion-label>
+                    <h2>{{ activity.name }}</h2>
+                    <p>{{ activity.description }}</p>
+                </ion-label>
+                <span>{{ activity.startDate | date: 'DD MMM' }}</span>
+            </ion-item>
+        </ion-list>
+        <div class="ion-margin-top" *ngIf="activities == undefined || activities.length === 0">
             <div class="ion-text-center icon-container">
                 <ion-icon name="alert-outline"></ion-icon>
             </div>
-            <div class="ion-margin-top info-text ion-text-center">
-                Kullanıcının ürünü bulunmamaktadir.
+            <div class="ion-margin-top info-text mt-4 ion-text-center">
+                Kullanıcının etkinliği bulunmamaktadır.
             </div>
         </div>
     </div>

@@ -17,9 +17,11 @@ export class AppService {
     loader: HTMLIonLoadingElement;
     loaderCount = 0;
     userInfo: SocialUserListModel;
+    fcmToken: string;
+    isFcmTokenSaved: boolean = false;
     userActivities: ActivityListModel[] = [];
     userCategories: CategoryListModel[] = [];
-    private mUser: LocalUser;s
+    private mUser: LocalUser;
 
     constructor(
         private platform: Platform,
@@ -173,7 +175,10 @@ export class AppService {
                 preserveAspectRatio: true,
                 direction: CameraDirection.Rear,
                 resultType: CameraResultType.Base64,
-                promptLabelCancel: 'İptal'
+                promptLabelHeader: 'Fotoğraf',
+                promptLabelCancel: 'İptal',
+                promptLabelPhoto: 'Galeriden Seç',
+                promptLabelPicture: 'Fotoğraf Çek'
             };
 
             Camera.checkPermissions().then(
