@@ -55,7 +55,8 @@ export class ActivityPage implements OnInit {
             },
             formatDayViewTitle(date: Date) {
                 return 'testDT';
-            }
+            },
+
         }
     };
     selectedDate: Date = new Date();
@@ -126,6 +127,7 @@ export class ActivityPage implements OnInit {
         this.viewTitle = title;
     }
 
+
     onEventSelected(event) {
         // console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
     }
@@ -143,11 +145,20 @@ export class ActivityPage implements OnInit {
         // console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
     }
 
+    lockSwipeToPrev: boolean
+
     onCurrentDateChanged(event: Date) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         event.setHours(0, 0, 0, 0);
         this.isToday = today.getTime() === event.getTime();
+        if (this.calendar.mode === 'month') {
+            if (event.getFullYear() < today.getFullYear() || (event.getFullYear() === today.getFullYear() && event.getMonth() <= today.getMonth())) {
+                this.lockSwipeToPrev = true;
+            } else {
+                this.lockSwipeToPrev = false;
+            }
+        }
     }
 
     async openNotification() {

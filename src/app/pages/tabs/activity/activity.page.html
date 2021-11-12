@@ -48,7 +48,7 @@
                     <button class="month-today-button" ion-button [disabled]="isToday" (click)="today()">Bugün</button>
                 </div>
             </div>
-            <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+            <calendar [markDisabled]="markDisabled" [lockSwipeToPrev]="lockSwipeToPrev" [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
                 [monthviewEventDetailTemplate]="detailTemplate" (onCurrentDateChanged)="onCurrentDateChanged($event)"
                 (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)"
                 (onTimeSelected)="onTimeSelected($event)" [step]="calendar.step" noEventsLabel="Etkinlik bulunamadı"
