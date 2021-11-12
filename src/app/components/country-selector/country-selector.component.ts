@@ -11,7 +11,6 @@ import { countries, CountryI, phoneMasks } from './countries';
 export class CountrySelectorComponent implements OnInit {
   @Input() selectedCountry: string;
   countries: CountryI[];
-  pagedCountries: CountryI[];
   page: number = 0;
 
   constructor(

@@ -1,6 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import { NavController } from '@ionic/angular';
+import * as moment from 'moment';
 import {
     ActivityApiService,
     ActivityListModel,
@@ -40,7 +41,6 @@ export class StrangerProfilePage implements OnInit {
         const id = this.route.snapshot.paramMap.get('id');
         this.userId = parseInt(id)
         this.getUser();
-        this.getUserCategories()
     }
     ionViewWillEnter() {
         this.appService.toggleStatusBar('light');
@@ -60,6 +60,9 @@ export class StrangerProfilePage implements OnInit {
                 e => this.onError(e)
             )
         }
+
+        this.getUserCategories();
+
     }
 
     selectedUser() {
@@ -136,6 +139,9 @@ export class StrangerProfilePage implements OnInit {
             this.categories = v
             console.log(this.categories)
         })
+
+        this.getUserActivities();
+
     }
 
     goBack() {
@@ -144,5 +150,14 @@ export class StrangerProfilePage implements OnInit {
 
     onSegmentChanged(e) {
 
+    }
+
+    getDate(v: ActivityListModel) {
+
+        if(v != null && v.startDate != null) {
+            return moment(v.startDate, 'DD.MM.YYYY HH:mm').format('DD MMM');
+        }
+
+        return null;
     }
 }

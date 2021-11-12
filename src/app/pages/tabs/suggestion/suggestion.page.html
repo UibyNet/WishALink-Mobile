@@ -16,10 +16,10 @@
       <div class="avatar">
         <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl" alt="">
       </div>
-      <div class="name">
-        Önerilerim
+      <div class="name mb-2">
+        Keşfet
       </div>
-      <div class="info">
+      <div hidden class="info">
         {{ suggestions != undefined && suggestions.length > 0 ? suggestions.length : 0 }} Ürün
       </div>
     </div>

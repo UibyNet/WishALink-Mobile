@@ -67,9 +67,7 @@ export class HomePage implements OnInit {
     }
 
     loadCategories() {
-        this.categories = this.appService.userCategories;
-
-        if (this.appService.userCategories.length > 0) {
+        if (this.appService.userCategories != null && this.appService.userCategories.length > 0) {
             this.onCategoriesLoad(this.appService.userCategories);
         } else {
             this.categoryApiService.list(this.appService.user.id)

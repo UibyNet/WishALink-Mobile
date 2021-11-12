@@ -16,6 +16,9 @@ export class SearchPage implements OnInit {
     isSearchFocused: boolean;
     isSearching: boolean;
 
+    userData: SocialUserListModel
+    searchResultPeople: SocialUserListModel[]
+
     constructor(
         public appService: AppService,
         private socialApiService: SocialApiService,
@@ -24,9 +27,6 @@ export class SearchPage implements OnInit {
         private zone: NgZone,
     ) {
     }
-
-    userData: SocialUserListModel
-    searchResultPeople: SocialUserListModel[]
 
     ngOnInit() {
         this.userData = this.appService.userInfo

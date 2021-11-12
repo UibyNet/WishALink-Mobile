@@ -44,7 +44,7 @@
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
     <div *ngIf="selectedSegment == 'segment-category'" class="content">
-        <ion-grid>
+        <ion-grid *ngIf="categories != undefined && categories.length > 0">
             <ion-row>
                 <ion-col *ngFor="let category of categories" routerLink="/category-detail"
                     [queryParams]="{categoryId: category.id}" [state]="category" class="ion-text-center" size="4">
@@ -65,13 +65,13 @@
         </div>
     </div>
     <div *ngIf="selectedSegment == 'segment-activity'" class="content">
-        <ion-list *ngIf="activities != undefined && activities.length > 0">
+        <ion-list class="activities" *ngIf="activities != undefined && activities.length > 0">
             <ion-item *ngFor="let activity of activities">
                 <ion-label>
                     <h2>{{ activity.name }}</h2>
                     <p>{{ activity.description }}</p>
                 </ion-label>
-                <span>{{ activity.startDate | date: 'DD MMM' }}</span>
+                <span>{{ getDate(activity) }}</span>
             </ion-item>
         </ion-list>
         <div class="ion-margin-top" *ngIf="activities == undefined || activities.length === 0">
