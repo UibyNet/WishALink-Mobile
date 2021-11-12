@@ -54,6 +54,9 @@ export class ShrinkHeaderDirective implements AfterViewInit {
   }
 
   onScroll(e: CustomEvent<ScrollDetail>) {
+    if(e.detail.scrollTop < 0) {
+      e.detail.scrollTop = 0;
+    }
     let newHeight = this.shrinkableInitialHeight - e.detail.scrollTop;
     if (newHeight < this.minHeaderHeight) {
       newHeight = this.minHeaderHeight;

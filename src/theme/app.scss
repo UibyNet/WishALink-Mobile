@@ -75,7 +75,7 @@ ion-button {
 }
 
 ion-header {
-  padding-top: var(--ion-statusbar-padding);
+  padding-top: var(--ion-safe-area-top);
 
   .back-button {
     padding: 0.5rem 1em;
@@ -697,6 +697,15 @@ ion-header {
   background: #fff;
   font-family: var(--ion-font-family);
   border-bottom: 1px solid #d5d5d5;
+
+  ion-toolbar:first-of-type {
+    padding-top: 0 !important;
+  }
+
+}
+
+ion-header + ion-content {
+  --padding-top: 1em !important;
 }
 
 .shrinkable {
