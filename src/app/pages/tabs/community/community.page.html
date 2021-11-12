@@ -47,16 +47,16 @@
 
 <ion-content #scrollAreaCommunity [scrollEvents]="true" [fullscreen]="true">
     <div *ngIf="selectedTab=== 'follower'" class="content">
-        <div *ngFor="let user of followerList" class="profile-list-item" (click)="selectedUser(user.id)">
-            <div class="person-info">
+        <div *ngFor="let user of followerList" class="profile-list-item">
+            <div class="person-info" (click)="selectedUser(user.id)">
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
                 <div class="name">{{user?.fullName}}</div>
             </div>
-            <div (click)="unfollowUser(user.id,'reloadFollower')" *ngIf="user.isFollowing" class="follow-info active">
-                Takibi Bırak
+            <div (click)="unfollowUser(user,'reloadFollower')" *ngIf="user.isFollowing" class="follow-info active">
+                {{ user.isBusy ? '...' : 'Takibi Bırak'}}
             </div>
-            <div (click)="followUser(user.id)" *ngIf="!user.isFollowing" class="follow-info">
-                Takip Et
+            <div (click)="followUser(user)" *ngIf="!user.isFollowing" class="follow-info">
+                {{ user.isBusy ? '...' : 'Takip Et'}}
             </div>
         </div>
         <div *ngIf="followerList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">Seni takip
@@ -64,13 +64,13 @@
         </div>
     </div>
     <div *ngIf="selectedTab=== 'following'" class="content">
-        <div *ngFor="let user of followingList" class="profile-list-item" (click)="selectedUser(user.id)">
-            <div class="person-info">
+        <div *ngFor="let user of followingList" class="profile-list-item">
+            <div class="person-info" (click)="selectedUser(user.id)">
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
                 <div class="name">{{user?.fullName}}</div>
             </div>
-            <div (click)="unfollowUser(user.id,'reloadFollowing')" class="follow-info active">
-                Takibi Bırak
+            <div (click)="unfollowUser(user,'reloadFollowing')" class="follow-info active">
+                {{ user.isBusy ? '...' : 'Takibi Bırak'}}
             </div>
         </div>
         <div *ngIf="followingList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">Takip

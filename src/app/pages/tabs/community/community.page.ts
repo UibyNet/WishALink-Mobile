@@ -79,17 +79,35 @@ export class CommunityPage implements OnInit {
         })
     }
 
-    followUser(id: number) {
-        this.socialApiService.follow(id).subscribe(
-            v => this.onFollow(v),
-            e => this.onError(e)
+    followUser(user: SocialUserListModel) {
+        if(user.isBusy) return;
+        user.isBusy = true;
+
+        this.socialApiService.follow(user.id).subscribe(
+            v => {
+                user.isBusy = false;
+                this.onFollow(v)
+            },
+            e => {
+                user.isBusy = false;
+                this.onError(e);
+            }
         )
     }
 
-    unfollowUser(id: number, type: string) {
-        this.socialApiService.unfollow(id).subscribe(
-            v => this.onUnfollow(v, type),
-            e => this.onError(e)
+    unfollowUser(user: SocialUserListModel, type: string) {
+        if(user.isBusy) return;
+        user.isBusy = true;
+
+        this.socialApiService.unfollow(user.id).subscribe(
+            v => {
+                user.isBusy = false;
+                this.onUnfollow(v, type)
+            },
+            e => {
+                user.isBusy = false;
+                this.onError(e);
+            }
         )
     }
 

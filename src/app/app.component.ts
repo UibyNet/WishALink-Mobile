@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     moment.locale("tr");
+    window.screen.orientation.lock('portrait');
 
     if(!this.platform.is('mobileweb')) {
       PushNotifications.requestPermissions().then(result => {

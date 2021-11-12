@@ -173,7 +173,7 @@ export class AppService {
         return new Promise((resolve, reject) => {
             const cameraOptions = {
                 quality: 90,
-                allowEditing: true,
+                allowEditing: false,
                 width: 800,
                 height: 800,
                 preserveAspectRatio: true,
@@ -238,9 +238,9 @@ export class AppService {
     }
 
     checkNotifications() {
-        this.getNotifications().then(v => console.log(v));
+        this.getNotifications().then(v => this.void());
         setInterval(()=> {
-            this.getNotifications().then(v => console.log(v));
+            this.getNotifications().then((v) => this.void());
         }, 60000);
     }
 
@@ -267,5 +267,9 @@ export class AppService {
                     notification.isRead = true;
                 })
             })
+    }
+
+    void() {
+
     }
 }
