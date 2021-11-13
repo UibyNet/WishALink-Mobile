@@ -78,7 +78,7 @@
         white-space: pre;
         font-size: 18px;
         line-height: 20px;
-        color: #D5D5D5;
+        color: var(--ion-color-medium);
         &.active{
           background: #1E90FF;
           color: #FFFFFF;

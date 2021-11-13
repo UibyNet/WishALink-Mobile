@@ -53,7 +53,7 @@
     <div class="content">
         <ion-grid>
             <ion-row>
-                <ion-col *ngFor="let category of categories" routerLink="/category-detail"
+                <ion-col size="4" size-md="3" size-lg="2" *ngFor="let category of categories" routerLink="/category-detail"
                     [queryParams]="{categoryId: category.id}" class="ion-text-center" size="4">
                     <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}">
                     </div>

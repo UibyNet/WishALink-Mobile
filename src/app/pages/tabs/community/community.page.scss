@@ -30,7 +30,7 @@
         white-space: pre;
         font-size: 18px;
         line-height: 20px;
-        color: #D5D5D5;
+        color: var(--ion-color-medium);
 
         &.active {
           background: #1E90FF;
@@ -52,7 +52,7 @@
       .text {
         font-size: 12px;
         line-height: 13px;
-        color: #D5D5D5;
+        color: var(--ion-color-medium);
       }
 
       .number {
@@ -106,7 +106,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 0.5px solid #D5D5D5;
+    border-bottom: 0.5px solid var(--ion-color-light-shade);
     margin-bottom: 8px;
 
     .follow-info {

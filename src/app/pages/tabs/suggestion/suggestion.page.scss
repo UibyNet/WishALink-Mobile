@@ -2,7 +2,7 @@
   padding: 26px 26px 16px;
   height: auto;
   display: flex;
-  border-bottom: 0.5px solid #d5d5d5;
+  border-bottom: 0.5px solid var(--ion-color-light-shade);
 
   .back-button {
     position: absolute;
@@ -37,7 +37,7 @@
       font-weight: 300;
       font-size: 12px;
       margin-bottom: 6px;
-      color: #d5d5d5;
+      color: var(--ion-color-medium);
     }
 
     .category-name {
@@ -77,17 +77,16 @@ ion-list {
   ion-item {
     --ion-margin: 0;
     --inner-border-width: 0;
-    --min-height: 68px;
     --padding-top: 1em;
     --padding-bottom: 1em;
-    --padding-start: 16px;
-    --padding-end: 16px;
+    --padding-start: 1em;
+    --padding-end: 1em;
     --inner-padding-start: 0;
     --inner-padding-end: 0;
     --ion-item-background: transparent;
     font-size: 1em;
     font-weight: 500;
-    border-bottom: 1px solid #d5d5d5;
+    border-bottom: 1px solid var(--ion-color-light-shade);
 
     .product-name {
       font-size: 1em;

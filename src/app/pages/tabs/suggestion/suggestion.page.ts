@@ -78,15 +78,15 @@ export class SuggestionPage implements OnInit {
         return await modal.present();
     }
 
-    openPostDetail(event: any, postId: number) {
+    openPostDetail(event: any, postId: number, redirect: boolean = false) {
         console.log(event.target.classList)
         const post = this.suggestions.find(x => x.id == postId);
         if (post != null) {
-            if (event.target.tagName == 'IMG') {
-                console.log(post)
+            if (redirect === true) {
                 this.redirectToUrl(post.url)
+                event.stopPropagation();
             } else {
-                this.router.navigate(['/tabs/post-detail'], {state: post, queryParams: {isStrangerPost: true}});
+                this.router.navigate(['/app/post-detail'], {state: post, queryParams: {isStrangerPost: true}});
             }
         }
 

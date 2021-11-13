@@ -20,7 +20,7 @@
         white-space: pre;
         font-size: 18px;
         line-height: 20px;
-        color: #D5D5D5;
+        color: var(--ion-color-medium);
         &.active{
           background: #1E90FF;
           color: #FFFFFF;
@@ -46,7 +46,7 @@
   }
   .product-amount{
     font-size: 9px;
-    color: #D5D5D5;
+    color: var(--ion-color-medium);
     margin-bottom: 1rem;
   }
   .product-title{
@@ -56,7 +56,7 @@
   .card{
     width: 96px;
     height: 124px;
-    border: 1px solid #D5D5D5;
+    border: 1px solid var(--ion-color-light-shade);
     border-radius: 8px;
     overflow: hidden;
     margin:0 auto 4px;

@@ -7,21 +7,21 @@
   }
 
   .product-amount {
-    font-size: 9px;
-    color: #d5d5d5;
+    font-size: .6em;
+    color: var(--ion-color-medium);
     margin-bottom: 1rem;
   }
 
   .product-title {
     margin-bottom: 3px;
-    font-size: 12px;
+    font-size: .8em;
   }
 
   .card {
     height: 0;
     width: 100%;
     padding-bottom: 100%;
-    border: 1px solid #d5d5d5;
+    border: 1px solid var(--ion-color-light-shade);
     border-radius: 8px;
     overflow: hidden;
     margin: 0 auto 4px;

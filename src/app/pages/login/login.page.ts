@@ -81,7 +81,7 @@ export class LoginPage implements OnInit {
                 this.stepper++;
             } else if (v.token != null && v.token.length > 0) {
                 this.appService.accessToken = v.token;
-                this.router.navigate(['tabs']);
+                this.router.navigate(['app']);
             }
         })
     }
