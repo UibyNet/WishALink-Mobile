@@ -1,8 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import { ActivityApiService, ActivityListModel, MetaInfoModel, PostApiService, PostEditModel, PostListModel } from 'src/app/services/api.service';
-import { AppService } from 'src/app/services/app.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AlertController, NavController} from '@ionic/angular';
+import {
+    ActivityApiService,
+    ActivityListModel,
+    MetaInfoModel,
+    PostApiService,
+    PostEditModel,
+    PostListModel
+} from 'src/app/services/api.service';
+import {AppService} from 'src/app/services/app.service';
 
 @Component({
     selector: 'app-add-product',
@@ -32,7 +39,9 @@ export class AddProductPage implements OnInit {
         private appService: AppService,
         private postApiService: PostApiService,
         private activityApiService: ActivityApiService,
-        private navController: NavController
+        private navController: NavController,
+        private alertController: AlertController,
+        private router: Router
     ) {
     }
 
@@ -82,7 +91,7 @@ export class AddProductPage implements OnInit {
     }
 
     onLinkChange() {
-        if(this.url != undefined && this.url.length > 3)  {
+        if (this.url != undefined && this.url.length > 3) {
             this.postApiService.fetch(this.url)
                 .subscribe(
                     v => this.onFetch(v),
@@ -92,7 +101,26 @@ export class AddProductPage implements OnInit {
     }
 
     onActivitiesLoad(v: ActivityListModel[]): void {
+        if (v.length === 0) {
+            this.showAlert()
+        }
         this.activities = v;
+    }
+
+    async showAlert() {
+        const alert = await this.alertController.create({
+            header: 'Uyarı !',
+            subHeader: 'Ürün eklemek için en az bir etkinlik oluşturmalısınız.',
+            backdropDismiss: false,
+            buttons: [{
+                text: 'Etkinlik Ekle',
+                handler: () => {
+                    this.router.navigate(['/app/activity']);
+                }
+            }]
+        });
+
+        await alert.present();
     }
 
     onFetch(v: MetaInfoModel): void {
