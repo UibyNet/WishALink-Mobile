@@ -1,9 +1,15 @@
 .main {
   background: #6a40d6;
-  height: 50%;
+  height: 100%;
+  max-width: 500px;
+  margin: 0 auto;
   .top-container {
     height: auto;
-    padding: 26px;
+    padding: 26px 0;
+
+    @media (max-width: 500px) {
+      padding: 26px;
+    }
 
     .profile-content {
       background: #ffffff;
@@ -74,6 +80,7 @@
   border-top-left-radius: 2em;
   background: #ffffff;
   padding: 1em 1em 38%;
+  height: calc(100% - 198px);
 
   ion-list {
     ion-item {
@@ -81,7 +88,7 @@
       --padding-top: 0.5em;
       --padding-bottom: 0.5em;
       --inner-border-width: 0;
-      --detail-icon-color: #1E90FF;
+      --detail-icon-color: #1e90ff;
       --detail-icon-opacity: 1;
       border-radius: 1em;
 

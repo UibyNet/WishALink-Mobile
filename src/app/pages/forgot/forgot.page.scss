@@ -27,7 +27,7 @@
       position: absolute;
     }
   }
-
+  
   .page-container {
     .bottom-container {
       height: 66% !important;
@@ -124,9 +124,6 @@ ion-button {
   }
 }
 
-.page-container {
-  overflow: auto;
-}
 ion-header{
   padding-top: var(--ion-statusbar-padding)
 }
