@@ -39,7 +39,7 @@ export class ForgotPage implements OnInit {
 
     // ionViewWillEnter() {
     //     if (this.appService.isLoggedIn) {
-    //         this.router.navigate(['tabs']);
+    //         this.router.navigate(['app']);
     //     }
     // }
 

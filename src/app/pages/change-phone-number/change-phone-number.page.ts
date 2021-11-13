@@ -80,7 +80,7 @@ export class ChangePhoneNumberPage implements OnInit {
             this.appService.accessToken = v.token;
             const user = this.appService.user;
             console.log(user);
-            this.router.navigate(['tabs', 'settings']);
+            this.router.navigate(['app', 'settings']);
         })
     }
 

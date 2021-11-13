@@ -106,7 +106,7 @@ export class AddCategoryPage implements OnInit {
         this.zone.run(() => {
             this.appService.userCategories = this.appService.userActivities.filter(x => x.id !== this.categoryId)
             this.appService.showToast('Kategori silindi.');
-            this.navController.navigateRoot('/tabs/home');
+            this.navController.navigateRoot('/app/home');
         })
     }
 

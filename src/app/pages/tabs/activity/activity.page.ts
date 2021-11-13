@@ -181,7 +181,7 @@ export class ActivityPage implements OnInit {
     };
 
     openCreate() {
-        this.router.navigate(['/tabs/activity/create'], {
+        this.router.navigate(['/app/activity/create'], {
             queryParams: {
                 activityId: 0,
                 date: moment(this.selectedDate).format('DD.MM.YYYY')
@@ -191,7 +191,7 @@ export class ActivityPage implements OnInit {
 
     openEdit(activity) {
         console.log(activity)
-        this.router.navigate(['/tabs/activity/create'], {
+        this.router.navigate(['/app/activity/create'], {
             queryParams: {
                 activityId: activity.id,
                 date: moment(this.selectedDate).format('DD.MM.YYYY')

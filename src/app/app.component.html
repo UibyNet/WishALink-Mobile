@@ -1,3 +1,4 @@
 <ion-app>
+  <app-navbar *ngIf="!appService.isMobile"></app-navbar>
   <ion-router-outlet></ion-router-outlet>
 </ion-app>

@@ -221,7 +221,7 @@ export class RegisterPage implements OnInit {
 
     saveCategories() {
         this.zone.run(() => {
-            this.router.navigate(['/tabs']);
+            this.router.navigate(['/app']);
         });
     }
 }

@@ -82,6 +82,6 @@ export class NotificationComponent implements OnInit {
     goTargetProfile(notification: Notification) {
         this.modalController.dismiss();
         this.appService.markNotificationAsRead(notification);
-        this.router.navigateByUrl('/tabs/search/stranger-profile/' + this.getTargetUserId(notification))
+        this.router.navigateByUrl('/app/search/stranger-profile/' + this.getTargetUserId(notification))
     }
 }

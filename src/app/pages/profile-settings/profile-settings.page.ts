@@ -79,7 +79,7 @@ export class ProfileSettingsPage implements OnInit {
             this.appService.userInfo.fullName = this.updateForm.get('firstName').value.trim() + ' ' + this.updateForm.get('lastName').value.trim()
             this.isLoading = false
             this.appService.showToast('Profil başarıyla güncellendi')
-            this.router.navigate(['/tabs/settings'])
+            this.router.navigate(['/app/settings'])
         })
     }
 

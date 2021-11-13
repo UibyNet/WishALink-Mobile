@@ -1,7 +1,7 @@
 <ion-header mode="ios" trasculent="true" class="back-only ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <div *ngIf="stepper === 1" routerLink="/tabs/settings" class="back-button">
+      <div *ngIf="stepper === 1" routerLink="/app/settings" class="back-button">
         <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
       </div>
       <div *ngIf="stepper > 1" (click)="goPreviousStep()" class="back-button">

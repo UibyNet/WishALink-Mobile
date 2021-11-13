@@ -70,7 +70,7 @@ export class CategoryDetailPage implements OnInit {
   }
 
   openEditCategory() {
-    this.router.navigate(["/tabs/home/add-category"], { queryParams: { categoryId: this.category.id } });
+    this.router.navigate(["/app/home/add-category"], { queryParams: { categoryId: this.category.id } });
   }
 
   goBack() {

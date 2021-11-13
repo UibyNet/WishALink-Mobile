@@ -42,7 +42,7 @@ export class TabsPage implements OnInit {
 
     goHome() {
         this.zone.run(() => {
-            this.navController.navigateRoot('/tabs/home');
+            this.navController.navigateRoot('/app/home');
         });
     }
 

@@ -876,3 +876,14 @@ ion-content {
   width: 80%;
   text-align: center;
 }
+
+.plt-desktop {
+  ion-router-outlet {
+    flex: 1;
+    position: relative;
+  }
+
+  .bottom-nav-container {
+    display: none !important;
+  }
+}

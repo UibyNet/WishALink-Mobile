@@ -56,7 +56,7 @@ export class ChangePasswordPage implements OnInit {
     onPasswordChange() {
         this.isLoading = false;
         this.appService.showToast('Şifreniz başarıyla değiştirildi.')
-        this.router.navigate(['tabs', 'settings'])
+        this.router.navigate(['app', 'settings'])
     }
 
     onError(e: any) {

@@ -136,7 +136,7 @@ export class CommunityPage implements OnInit {
     }
 
     selectedUser(id: number) {
-        this.router.navigate(['/tabs/search/stranger-profile', id])
+        this.router.navigate(['/app/search/stranger-profile', id])
     }
 
     async openNotification() {

@@ -1,0 +1,59 @@
+:host {
+  ion-header {
+    color: #d5d5d5;
+    font-size: 0.9em;
+    height: 5em !important;
+    background-color: var(--ion-color-secondary);
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border-bottom: 0;
+  }
+
+  a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 1em;
+
+    &:hover {
+      color: #d5d5d5;
+    }
+  }
+
+  .social-btn {
+    --border-radius: 2em;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0.6em;
+    --padding-end: 0.5em;
+    width: 2.4em;
+    height: 2.4em;
+    margin-right: 1em;
+
+    ion-icon {
+      color: #fff;
+      font-size: 1.4em;
+    }
+  }
+
+  .logo {
+      max-height: 4em;
+      margin: 0 1em;
+      cursor: pointer;
+  }
+
+  ion-grid {
+    margin: 0 auto;
+    max-width: 1440px;
+    ion-row {
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+
+    .left {
+      .copyright {
+        display: inline-block;
+      }
+    }
+  }
+}

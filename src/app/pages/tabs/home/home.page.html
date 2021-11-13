@@ -1,4 +1,4 @@
-<ion-header mode="ios" shrink-header [scrollArea]="scrollArea">
+<ion-header *ngIf="appService.isMobile" mode="ios" shrink-header [scrollArea]="scrollArea">
     <div class="shrinkable">
         <ion-toolbar mode="ios">
             <ion-buttons slot="start">
@@ -49,7 +49,6 @@
         </div>
     </div>
 </ion-header>
-
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
     <div class="content">
         <ion-grid>
@@ -64,4 +63,6 @@
             </ion-row>
         </ion-grid>
     </div>
+
+    <app-footer *ngIf="!appService.isMobile"></app-footer>
 </ion-content>

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActionSheetController} from '@ionic/angular';
-import {Router} from '@angular/router';
-import {AppService} from 'src/app/services/app.service';
-import {SplashScreen} from '@capacitor/splash-screen';
+import { Component, OnInit } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AppService } from 'src/app/services/app.service';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 @Component({
     selector: 'app-intro',
@@ -24,8 +24,13 @@ export class IntroPage implements OnInit {
         this.hideSplashScreen();
         this.appService.toggleStatusBar('dark');
 
-        if (this.appService.isLoggedIn) {
-            this.router.navigate(['tabs']);
+        if (this.appService.isMobile) {
+            if (this.appService.isLoggedIn) {
+                this.router.navigate(['app']);
+            }
+        }
+        else {
+            this.router.navigate(['landing']);
         }
     }
 
@@ -61,7 +66,7 @@ export class IntroPage implements OnInit {
         });
         await actionSheet.present();
 
-        const {role} = await actionSheet.onDidDismiss();
+        const { role } = await actionSheet.onDidDismiss();
         console.log('onDidDismiss resolved with role', role);
     }
 

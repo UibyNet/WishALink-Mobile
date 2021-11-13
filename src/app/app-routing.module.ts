@@ -29,7 +29,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/change-phone-number/change-phone-number.module').then( m => m.ChangePhoneNumberPageModule)
   },
   {
-    path: 'tabs',
+    path: 'app',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
   },
@@ -48,7 +48,12 @@ const routes: Routes = [
   {
     path: 'change-password',
     loadChildren: () => import('./pages/change-password/change-password.module').then( m => m.ChangePasswordPageModule)
+  },
+  {
+    path: 'landing',
+    loadChildren: () => import('./pages/landing/landing.module').then( m => m.LandingPageModule)
   }
+
 ];
 
 @NgModule({

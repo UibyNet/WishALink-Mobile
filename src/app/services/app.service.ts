@@ -25,6 +25,8 @@ export class AppService {
     get unreadNotificationsCount () { return this.userNotifications.filter(x => !x.isRead).length }
     private mUser: LocalUser;
 
+    get isMobile() { return this.platform.is('capacitor') || this.platform.is('ios') || this.platform.is('android') || this.platform.is('tablet') || this.platform.is('ipad') || this.platform.is('mobile')}
+
     constructor(
         private zone:NgZone,
         private platform: Platform,
@@ -247,6 +249,8 @@ export class AppService {
     getNotifications() {
         return new Promise<Notification[]>(
             (resolve, reject) => {
+                if(this.user == null) reject('');
+
                 this.notificationApiService.list().subscribe(
                     v => {
                         this.zone.run(()=>{

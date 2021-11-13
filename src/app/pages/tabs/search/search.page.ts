@@ -102,7 +102,7 @@ export class SearchPage implements OnInit {
     }
 
     selectedUser(id: number) {
-        this.router.navigate(['/tabs/search/stranger-profile', id])
+        this.router.navigate(['/app/search/stranger-profile', id])
     }
 
     onUnfollow(v: number, userId: number) {

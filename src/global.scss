@@ -473,6 +473,21 @@ h6 {
   color: #d5d5d5;
 }
 
+.container {
+  width: 100%;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+  @media (min-width: 992px) {
+    max-width: 960px;
+  }
+  @media (min-width: 1200px) {
+    max-width: 1440px;
+  }
+}
+
 .notification-content {
   position: absolute;
 
@@ -480,7 +495,7 @@ h6 {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #6A40D6;
+    background: #6a40d6;
     color: #ffffff;
     font-size: 9px;
     width: 1rem;
@@ -499,13 +514,13 @@ h6 {
 .main {
   padding-top: var(--ion-safe-area-top);
 }
-ion-input{
+ion-input {
   --placeholder-color: #7a7a7a !important;
   --placeholder-opacity: unset;
 }
 .main .top-container {
   margin-top: 0;
 }
-ion-content{
+ion-content {
   --padding-bottom: 0 !important;
 }

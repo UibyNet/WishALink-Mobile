@@ -38,7 +38,7 @@ export class LoginPage implements OnInit {
 
     // ionViewWillEnter() {
     //     if (this.appService.isLoggedIn) {
-    //         this.router.navigate(['tabs']);
+    //         this.router.navigate(['app']);
     //     }
     // }
 
