@@ -27,12 +27,55 @@
 </ion-header>
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
-  <div style="overflow: hidden">
+  <div>
     <div class="content">
       <div class="product-content">
         <div *ngIf="suggestions == undefined" class="center-spinner">
           <ion-spinner name="crescent" color="medium"></ion-spinner>
         </div>
+
+        <ion-virtual-scroll [items]="suggestions" approxItemHeight="145px">
+          <div class="item-container" *virtualItem="let item; let itemBounds = bounds;  let i = index">
+            <ion-grid *ngIf="item != null" class="ion-no-padding">
+              <ion-row [class.reverse]="i%2==1">
+                <ion-col class="ion-text-center img-bottom" size="4" (click)="openPostDetail(item.id)">
+                  <div class="img-product-container">
+                    <img [src]="item.mediaUrl" alt="">
+                  </div>
+                </ion-col>
+                <ion-col class="ion-text-center col-custom ion-padding-start" size="8">
+                  <div class="d-flex mb-8" (click)="openPostDetail(item.id)">
+                    <div class="product-name">{{ item.name }}</div>
+                    <div (click)="redirectToUrl(item.url)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon">
+                    </div>
+                  </div>
+                  <div class="ion-text-left">
+                    <ion-badge class="product-tag" color="primary" *ngIf="item.brand != null && item.brand.length > 0">
+                      {{
+                      item.brand
+                      }}</ion-badge>
+                    <ion-badge class="product-tag" color="primary" *ngIf="item.model != null && item.model.length > 0">
+                      {{
+                      item.model
+                      }}</ion-badge>
+                    <ion-badge class="product-tag" color="primary" *ngIf="item.color != null && item.color.length > 0">
+                      {{
+                      item.color
+                      }}</ion-badge>
+                    <ion-badge class="product-tag" color="primary" *ngIf="item.size != null && item.size.length > 0">{{
+                      item.size }}
+                    </ion-badge>
+                    <ion-badge class="product-tag" color="primary"
+                      *ngIf="item.keywords != null && item.keywords.length > 0">{{
+                      item.keywords }}</ion-badge>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </ion-virtual-scroll>
+
+        <!--
         <div class="item-container" *ngFor="let post of suggestions; let i = index">
           <ion-grid *ngIf="post != null" class="ion-no-padding">
             <ion-row [class.reverse]="i%2==1">
@@ -68,6 +111,13 @@
             </ion-row>
           </ion-grid>
         </div>
+        -->
+
+
+        <ion-infinite-scroll class="mt-3" threshold="100px" (ionInfinite)="loadSuggestions($event)">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </div>
     </div>
   </div>

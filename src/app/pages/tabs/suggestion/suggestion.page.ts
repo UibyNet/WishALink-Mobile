@@ -4,6 +4,7 @@ import { AppService } from "../../../services/app.service";
 import { Browser } from '@capacitor/browser';
 import { ModalController } from '@ionic/angular';
 import { NotificationComponent } from 'src/app/components/notification/notification.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-suggestion',
@@ -18,6 +19,7 @@ export class SuggestionPage implements OnInit {
     constructor(
         public appService: AppService,
         private zone: NgZone,
+        private router: Router,
         private postApiService: PostApiService,
         private modalController: ModalController
     ) {
@@ -25,18 +27,24 @@ export class SuggestionPage implements OnInit {
     ngOnInit() {
         this.userData = this.appService.userInfo;
 
-        this.loadSuggestions()
+        this.loadSuggestions(null)
     }
     ionViewWillEnter() {
         this.appService.toggleStatusBar('light');
 
     }
 
-    loadSuggestions() {
+    loadSuggestions(event) {
         this.postApiService.suggestions()
             .subscribe(
-                v => this.onSuggestionsLoad(v),
-                e => this.onError(e)
+                v => {
+                    if (event) event.target.complete();
+                    this.onSuggestionsLoad(v);
+                },
+                e => {
+                    if (event) event.target.complete();
+                    this.onError(e);
+                }
             )
     }
     onSuggestionsLoad(v: PostListModel[]): void {
@@ -64,5 +72,12 @@ export class SuggestionPage implements OnInit {
         })
 
         return await modal.present();
-    } 
+    }
+
+    openPostDetail(postId: number) {
+        const post = this.suggestions.find(x => x.id == postId);
+        if (post != null) {
+            this.router.navigate(['/tabs/post-detail'], { state: post, queryParams: { isStrangerPost: true } });
+        }
+    }
 }

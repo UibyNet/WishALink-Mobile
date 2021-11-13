@@ -8,12 +8,14 @@ import { SuggestionPageRoutingModule } from './suggestion-routing.module';
 
 import { SuggestionPage } from './suggestion.page';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ScrollingModule,
     SuggestionPageRoutingModule,
     SharedDirectivesModule
   ],

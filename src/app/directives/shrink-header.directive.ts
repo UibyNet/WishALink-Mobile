@@ -46,7 +46,7 @@ export class ShrinkHeaderDirective implements AfterViewInit {
     }
 
     this.shrinkableInitialHeight = this.shrinkable.clientHeight;
-    console.log(this.shrinkableInitialHeight)
+    //console.log(this.shrinkableInitialHeight)
 
     this.scrollArea.ionScroll.subscribe((e) => {
       this.onScroll(e);
