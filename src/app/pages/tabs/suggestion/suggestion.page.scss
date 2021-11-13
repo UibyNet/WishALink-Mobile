@@ -2,7 +2,7 @@
   padding: 26px 26px 16px;
   height: auto;
   display: flex;
-  border-bottom: 0.5px solid #D5D5D5;
+  border-bottom: 0.5px solid #d5d5d5;
 
   .back-button {
     position: absolute;
@@ -13,7 +13,7 @@
     font-size: 9px;
     line-height: 10px;
     text-decoration-line: underline;
-    color: #6A40D6;
+    color: #6a40d6;
   }
 
   .top-avatar {
@@ -24,7 +24,7 @@
       width: 56px;
       margin: 2rem auto 8px;
       border-radius: 100px;
-      background: #FFFFFF;
+      background: #ffffff;
       overflow: hidden;
 
       img {
@@ -37,8 +37,7 @@
       font-weight: 300;
       font-size: 12px;
       margin-bottom: 6px;
-      color: #D5D5D5;
-
+      color: #d5d5d5;
     }
 
     .category-name {
@@ -53,11 +52,10 @@
   margin-bottom: 8px;
 }
 
-
 .add-product {
   width: 48px;
   height: 48px;
-  background: #1E90FF;
+  background: #1e90ff;
   border-radius: 50px;
   display: flex;
   justify-content: center;
@@ -68,10 +66,59 @@
   margin: auto;
   bottom: 28px;
 }
-ion-content{
+ion-content {
   --padding-top: var(--ion-safe-area-top);
 }
 .profile-header.fixed {
   top: 0;
   padding-top: var(--ion-safe-area-top);
+}
+ion-list {
+  ion-item {
+    --ion-margin: 0;
+    --inner-border-width: 0;
+    --min-height: 68px;
+    --padding-top: 1em;
+    --padding-bottom: 1em;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    --ion-item-background: transparent;
+    font-size: 1em;
+    font-weight: 500;
+    border-bottom: 1px solid #d5d5d5;
+
+    .product-name {
+      font-size: 1em;
+      line-height: 18px;
+      margin-right: 18px;
+      text-align: left;
+    }
+
+    .product-tag {
+      --padding-top: 4px;
+      --padding-end: 4px;
+      --padding-bottom: 4px;
+      --padding-start: 4px;
+      font-size: 10px;
+
+      &:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+    .img-product-container {
+      height: 7em;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
 }
