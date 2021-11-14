@@ -1,10 +1,18 @@
-import { Injectable, NgZone } from "@angular/core";
-import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
-import { StatusBar, Style } from "@capacitor/status-bar";
-import { AlertController, LoadingController, Platform, ToastController } from "@ionic/angular";
+import {Injectable, NgZone} from "@angular/core";
+import {Camera, CameraDirection, CameraResultType, Photo} from '@capacitor/camera';
+import {StatusBar, StatusBarBackgroundColorOptions, Style} from "@capacitor/status-bar";
+import {AlertController, LoadingController, Platform, ToastController} from "@ionic/angular";
 import jwt_decode from 'jwt-decode';
-import { LocalUser } from "../models/localuser";
-import { ActivityListModel, CategoryListModel, ErrorDto, getFileReader, Notification, NotificationApiService, SocialUserListModel } from "./api.service";
+import {LocalUser} from "../models/localuser";
+import {
+    ActivityListModel,
+    CategoryListModel,
+    ErrorDto,
+    getFileReader,
+    Notification,
+    NotificationApiService,
+    SocialUserListModel
+} from "./api.service";
 
 @Injectable({
     providedIn: "root",
@@ -22,13 +30,19 @@ export class AppService {
     userActivities: ActivityListModel[] = [];
     userCategories: CategoryListModel[] = [];
     userNotifications: Notification[] = [];
-    get unreadNotificationsCount () { return this.userNotifications.filter(x => !x.isRead).length }
+
+    get unreadNotificationsCount() {
+        return this.userNotifications.filter(x => !x.isRead).length
+    }
+
     private mUser: LocalUser;
 
-    get isMobile() { return this.platform.is('capacitor') || this.platform.is('ios') || this.platform.is('android') || this.platform.is('tablet') || this.platform.is('ipad') || this.platform.is('mobile')}
+    get isMobile() {
+        return this.platform.is('capacitor') || this.platform.is('ios') || this.platform.is('android') || this.platform.is('tablet') || this.platform.is('ipad') || this.platform.is('mobile')
+    }
 
     constructor(
-        private zone:NgZone,
+        private zone: NgZone,
         private platform: Platform,
         private notificationApiService: NotificationApiService,
         private loadingController: LoadingController,
@@ -87,8 +101,14 @@ export class AppService {
     }
 
     toggleStatusBar(style: 'dark' | 'light') {
-        if(this.platform.is('capacitor')) {
+        if (this.platform.is('capacitor')) {
             StatusBar.setStyle({style: style == 'dark' ? Style.Dark : Style.Light});
+        }
+    }
+
+    setStatusBarBackground(color: 'light' | 'primary') {
+        if (this.platform.is('capacitor')) {
+            StatusBar.setBackgroundColor({color: color === 'light' ? '#FFFFFF' : '#6A40D6'})
         }
     }
 
@@ -161,13 +181,13 @@ export class AppService {
                 .then(async (photo: Photo) => {
                     const base64Response = await fetch(`data:image/jpeg;base64,${photo.base64String}`);
                     const blob = await base64Response.blob();
-                    resolve({ photo, blob });
+                    resolve({photo, blob});
                 })
                 .catch((error) => {
                     console.log('Select image error: ' + JSON.stringify(error));
                     reject(error);
                 })
-                ;
+            ;
         });
     }
 
@@ -197,9 +217,8 @@ export class AppService {
                             .catch(() => {
                                 reject()
                             })
-                    }
-                    else {
-                        Camera.requestPermissions({ permissions: ['camera', 'photos'] })
+                    } else {
+                        Camera.requestPermissions({permissions: ['camera', 'photos']})
                             .then(
                                 cp => {
                                     if (p.camera == "granted" && p.photos == "granted") {
@@ -210,8 +229,7 @@ export class AppService {
                                             .catch(() => {
                                                 reject()
                                             })
-                                    }
-                                    else {
+                                    } else {
                                         reject('Kamera ve fotoğraflara erişim izni vermeniz gerekli.')
                                     }
                                 },
@@ -220,7 +238,7 @@ export class AppService {
                     }
                 },
                 e => {
-                    Camera.requestPermissions({ permissions: ['camera', 'photos'] })
+                    Camera.requestPermissions({permissions: ['camera', 'photos']})
                         .then(
                             cp => {
                                 Camera.getPhoto(cameraOptions)
@@ -241,7 +259,7 @@ export class AppService {
 
     checkNotifications() {
         this.getNotifications().then(v => this.void());
-        setInterval(()=> {
+        setInterval(() => {
             this.getNotifications().then((v) => this.void());
         }, 60000);
     }
@@ -249,11 +267,11 @@ export class AppService {
     getNotifications() {
         return new Promise<Notification[]>(
             (resolve, reject) => {
-                if(this.user == null) reject('');
+                if (this.user == null) reject('');
 
                 this.notificationApiService.list().subscribe(
                     v => {
-                        this.zone.run(()=>{
+                        this.zone.run(() => {
                             this.userNotifications = v;
                             resolve(v);
                         })
@@ -267,7 +285,7 @@ export class AppService {
     markNotificationAsRead(notification: Notification) {
         this.notificationApiService.markasread(notification.id)
             .subscribe(v => {
-                this.zone.run(()=>{
+                this.zone.run(() => {
                     notification.isRead = true;
                 })
             })

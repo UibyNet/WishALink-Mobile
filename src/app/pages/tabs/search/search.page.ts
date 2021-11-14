@@ -35,6 +35,7 @@ export class SearchPage implements OnInit {
 
     ionViewWillEnter() {
         this.appService.toggleStatusBar('light');
+        this.appService.setStatusBarBackground('light')
 
     }
 

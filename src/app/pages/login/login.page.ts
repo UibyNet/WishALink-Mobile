@@ -50,6 +50,7 @@ export class LoginPage implements OnInit {
     }
     ionViewWillEnter() {
         this.appService.toggleStatusBar('dark');
+        this.appService.setStatusBarBackground('primary')
 
     }
     onCodeChanged(code: string) {

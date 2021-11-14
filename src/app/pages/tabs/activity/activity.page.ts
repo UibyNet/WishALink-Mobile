@@ -75,6 +75,7 @@ export class ActivityPage implements OnInit {
 
     ionViewWillEnter() {
         this.appService.toggleStatusBar('light');
+        this.appService.setStatusBarBackground('light')
 
     }
 

@@ -26,6 +26,7 @@ export class CategoryDetailPage implements OnInit {
   ) { }
   ionViewWillEnter() {
     this.appService.toggleStatusBar('light');
+    this.appService.setStatusBarBackground('light')
 
   }
   ngOnInit() {

@@ -23,6 +23,7 @@ export class PostDetailPage implements OnInit {
   ) { }
   ionViewWillEnter() {
     this.appService.toggleStatusBar('dark');
+    this.appService.setStatusBarBackground('primary')
 
   }
   ngOnInit() {

@@ -40,6 +40,7 @@ export class HomePage implements OnInit {
 
     ionViewWillEnter() {
         this.appService.toggleStatusBar('light');
+        this.appService.setStatusBarBackground('light')
 
     }
 
