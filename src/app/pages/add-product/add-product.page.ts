@@ -33,6 +33,7 @@ export class AddProductPage implements OnInit {
     name: string;
     activityId: number;
     categoryId: number;
+    isLoading: boolean = false
 
     constructor(
         private route: ActivatedRoute,
@@ -66,6 +67,18 @@ export class AddProductPage implements OnInit {
     }
 
     savePost() {
+        this.isLoading = true
+        console.log(this.name)
+        if (this.url === undefined) {
+            this.isLoading = false
+            this.appService.showAlert('Ürün linki girmeniz gerekmektedir.')
+            return
+        }
+        if (this.name === undefined) {
+            this.isLoading = false
+            this.appService.showAlert('Ürün başlığı girmeniz gerekmektedir.')
+            return
+        }
         const model = new PostEditModel();
         model.name = this.name;
         model.url = this.url;
@@ -86,6 +99,7 @@ export class AddProductPage implements OnInit {
     }
 
     onSave(v: PostListModel): void {
+        this.isLoading = false
         this.appService.showToast('Ürün kaydedildi');
         this.navController.back();
     }
@@ -129,6 +143,7 @@ export class AddProductPage implements OnInit {
     }
 
     onError(e: any): void {
+        this.isLoading = false
         this.appService.showErrorAlert(e);
     }
 

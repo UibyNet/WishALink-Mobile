@@ -44,7 +44,6 @@ export class StrangerProfilePage implements OnInit {
     }
     ionViewWillEnter() {
         this.appService.toggleStatusBar('light');
-
     }
     getUser(showLoader: boolean = true) {
         if (showLoader) {

@@ -20,7 +20,8 @@ export class CreateActivityPage implements OnInit {
     description: string;
     activityId: number = 0;
     minDate = new Date().toISOString();
-    maxDate:string
+    maxDate: string
+    isLoading: boolean = false
 
     constructor(
         private zone: NgZone,
@@ -62,6 +63,12 @@ export class CreateActivityPage implements OnInit {
     }
 
     saveActivity() {
+        this.isLoading = true
+        if (this.name === undefined || this.name.length === 0) {
+            this.appService.showAlert('Lütfen başlık ekleyin')
+            this.isLoading = false
+            return
+        }
         const model = new ActivityEditModel();
         model.name = this.name;
         model.startDate = moment(this.startDate).format('DD.MM.YYYY HH:mm');
@@ -95,6 +102,7 @@ export class CreateActivityPage implements OnInit {
 
     onSave(v: ActivityListModel): void {
         this.zone.run(() => {
+            this.isLoading = false
             this.appService.userActivities.push(v);
             this.appService.showToast('Etkinlik kaydedildi.');
             this.navController.back();
@@ -103,6 +111,7 @@ export class CreateActivityPage implements OnInit {
 
     onUpdate(v: ActivityListModel): void {
         this.zone.run(() => {
+            this.isLoading = false
             const index = this.appService.userActivities.findIndex(x => x.id === this.activityId)
             this.appService.userActivities[index] = v;
             this.appService.showToast('Etkinlik güncellendi.');
@@ -119,6 +128,7 @@ export class CreateActivityPage implements OnInit {
     }
 
     onError(e: any): void {
+        this.isLoading = false
         this.appService.showErrorAlert(e);
     }
 

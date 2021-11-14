@@ -1,8 +1,8 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { CategoryApiService, CategoryListModel } from "../../services/api.service";
-import { NavController } from '@ionic/angular';
-import { AppService } from 'src/app/services/app.service';
-import { ActivatedRoute } from '@angular/router';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {CategoryApiService, CategoryListModel} from "../../services/api.service";
+import {NavController} from '@ionic/angular';
+import {AppService} from 'src/app/services/app.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'app-add-category',
@@ -17,6 +17,8 @@ export class AddCategoryPage implements OnInit {
     catImage: string;
     catImageBlob: Blob = new Blob();
     categoryId: number = 0;
+    isLoading: boolean = false
+    isCategoryId: boolean = true
 
     constructor(
         private zone: NgZone,
@@ -37,6 +39,11 @@ export class AddCategoryPage implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(v => {
+            //Console a yazinca eger category id yoksa yani
+            //Guncellestirme gelmiyorsa object bos gelir bu yuzden if yazildi.
+            if (Object.keys(v).length === 0 && v.constructor === Object) {
+                this.isCategoryId = false
+            }
             this.categoryId = parseInt(v.categoryId);
             const category = this.appService.userCategories.find(x => x.id == this.categoryId);
             if (category != null) {
@@ -48,24 +55,32 @@ export class AddCategoryPage implements OnInit {
     }
 
     saveCategory() {
+        this.isLoading = true
         if (this.categoryName == null || this.categoryName.length == 0) {
             this.appService.showToast("Lütfen geçerli bir ad yazın.");
+            this.isLoading = false
             return;
         }
         if (this.catImageBlob == null) {
             this.appService.showToast("Lütfen kategori görseli ekleyin.");
+            this.isLoading = false
             return;
         }
         this.appService.toggleLoader(true).then(() => {
             if (this.categoryId > 0) {
-                this.categoryApiService.update(this.categoryId, this.categoryName, 0, this.isHidden, { fileName: '', data: this.catImageBlob })
+                this.categoryApiService.update(this.categoryId, this.categoryName, 0, this.isHidden, {
+                    fileName: '',
+                    data: this.catImageBlob
+                })
                     .subscribe(
                         v => this.onUpdate(v),
                         e => this.onError(e)
                     )
-            }
-            else {
-                this.categoryApiService.create(0, this.categoryName, 0, this.isHidden, { fileName: '', data: this.catImageBlob })
+            } else {
+                this.categoryApiService.create(0, this.categoryName, 0, this.isHidden, {
+                    fileName: '',
+                    data: this.catImageBlob
+                })
                     .subscribe(
                         v => this.onSave(v),
                         e => this.onError(e)
@@ -85,6 +100,7 @@ export class AddCategoryPage implements OnInit {
 
     onSave(v: CategoryListModel): void {
         this.zone.run(() => {
+            this.isLoading = false
             this.appService.userCategories.push(v);
             this.appService.toggleLoader(false);
             this.appService.showToast('Kategori kaydedildi');
@@ -94,6 +110,7 @@ export class AddCategoryPage implements OnInit {
 
     onUpdate(v: CategoryListModel): void {
         this.zone.run(() => {
+            this.isLoading = false
             const index = this.appService.userCategories.findIndex(x => x.id === this.categoryId)
             this.appService.userCategories[index] = v;
             this.appService.toggleLoader(false);
@@ -112,6 +129,7 @@ export class AddCategoryPage implements OnInit {
 
     onError(e: any): void {
         this.zone.run(() => {
+            this.isLoading = false
             this.appService.toggleLoader(false);
             this.appService.showErrorAlert(e);
         })
