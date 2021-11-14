@@ -5,6 +5,33 @@ ion-button {
   font-size: 1em;
 }
 
+.policy {
+  max-width: 19rem;
+  line-height: 20px;
+
+  .modal {
+    text-decoration: underline;
+    color: var(--ion-color-primary);
+  }
+
+  .text {
+
+  }
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: #FFFFFF;
+  border: 1px solid;
+
+  &.active {
+    background: url("../../../assets/svg/abstract/check.svg") center no-repeat var(--ion-color-primary);
+    border: unset;
+  }
+}
+
 .img-container {
   width: 124px;
   height: 124px;
@@ -29,6 +56,7 @@ ion-button {
 
 .input-number-container {
   padding: 72px 1.5rem 0;
+
   ion-item {
     --ion-margin: 0;
     --inner-border-width: 0;
@@ -41,6 +69,7 @@ ion-button {
     --inner-padding-end: 0;
     --ion-item-background: transparent;
   }
+
   .code-input {
     justify-content: center !important;
   }

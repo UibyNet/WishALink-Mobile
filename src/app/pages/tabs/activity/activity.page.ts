@@ -80,12 +80,14 @@ export class ActivityPage implements OnInit {
     }
 
     ionViewDidEnter() {
-        this.userData = this.appService.userInfo;
-        if (this.appService.userActivities.length > 0) {
-            this.onActivitiesLoad(this.appService.userActivities);
-        } else {
-            this.loadEvents();
-        }
+        this.zone.run(() => {
+            this.userData = this.appService.userInfo;
+            if (this.appService.userActivities.length > 0) {
+                this.onActivitiesLoad(this.appService.userActivities);
+            } else {
+                this.loadEvents();
+            }
+        })
     }
 
     loadEvents() {
@@ -98,10 +100,9 @@ export class ActivityPage implements OnInit {
 
     onActivitiesLoad(v: ActivityListModel[]): void {
         this.zone.run(() => {
-
+            this.eventSource = [];
             if (v != undefined && v.length > 0) {
                 this.appService.userActivities = v;
-                this.eventSource = [];
 
                 for (const activity of v) {
                     this.eventSource.push({
@@ -112,11 +113,9 @@ export class ActivityPage implements OnInit {
                         allDay: false
                     });
                 }
-
-                this.upcomingEvents = this.eventSource.sort((a, b) => a.startTime.getTime() - b.startTime.getTime()).slice(0, 10);
-
-                this.calendarComponent.loadEvents();
             }
+            this.upcomingEvents = this.eventSource.sort((a, b) => a.startTime.getTime() - b.startTime.getTime()).slice(0, 10);
+            this.calendarComponent.loadEvents();
         })
     }
 

@@ -52,8 +52,15 @@
                                    placeholder="Telefon">
                         </div>
                     </ion-item>
+                    <div class="ion-padding d-flex">
+                        <div (click)="checkbox= !checkbox" [ngClass]="{active: checkbox}" class="custom-checkbox mr-2"></div>
+                        <div class="policy">
+                            <span class="modal" (click)="privacyModal()">Üyelik Sözleşmesi </span>
+                            <span class="text" (click)="checkbox= !checkbox">şartlarını okudum ve kabul ediyorum.</span>
+                        </div>
+                    </div>
                     <ion-item>
-                        <ion-button expand="block" type="submit" [disabled]="isLoading || !registerForm.valid">{{ isLoading ?
+                        <ion-button expand="block" type="submit" [disabled]="!checkbox || isLoading || !registerForm.valid">{{ isLoading ?
                             'Lütfen bekleyiniz...' : 'Devam Et'}}
                         </ion-button>
                     </ion-item>
@@ -107,14 +114,14 @@
                 <div>
                     <div class="input-number-container">
                         <ion-item>
-                            <input [(ngModel)]="password" class="p-inputtext" placeholder="Parola" type="password" />
+                            <input [(ngModel)]="password" class="p-inputtext" placeholder="Parola" type="password"/>
                         </ion-item>
                         <ion-item>
                             <input [(ngModel)]="rePassword" class="p-inputtext" placeholder="Parola Onayı" type="password">
                         </ion-item>
-<!--                        <code-input class="code-input" [isCodeHidden]="true" [codeLength]="4" (codeChanged)="onCodeChanged($event)"-->
-<!--                                    (codeCompleted)="onCodeCompleted($event)">-->
-<!--                        </code-input>-->
+                        <!--                        <code-input class="code-input" [isCodeHidden]="true" [codeLength]="4" (codeChanged)="onCodeChanged($event)"-->
+                        <!--                                    (codeCompleted)="onCodeCompleted($event)">-->
+                        <!--                        </code-input>-->
                     </div>
                 </div>
                 <div class="mt-5 px-3 button-container-number">

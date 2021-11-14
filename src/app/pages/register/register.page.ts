@@ -5,6 +5,7 @@ import {AppService} from 'src/app/services/app.service';
 import {ModalController} from '@ionic/angular';
 import {CountrySelectorComponent} from 'src/app/components/country-selector/country-selector.component';
 import {Router} from '@angular/router';
+import {PrivacyPolicyComponent} from "../../components/privacy-policy/privacy-policy.component";
 
 @Component({
     selector: 'app-register',
@@ -63,7 +64,7 @@ export class RegisterPage implements OnInit {
         }
     ];
     selectedProducts = [];
-
+    checkbox: boolean = false
     selectedCountry = {dialCode: '90', isoCode: 'tr', phoneMask: '000 000 00 00'};
 
     isLoading: boolean = false;
@@ -158,7 +159,7 @@ export class RegisterPage implements OnInit {
     }
 
     setPassword() {
-        console.log('password',this.password)
+        console.log('password', this.password)
         if (this.password !== this.rePassword) {
             return this.appService.showErrorAlert('Parolalar uyuşmuyor')
         }
@@ -224,5 +225,14 @@ export class RegisterPage implements OnInit {
         this.zone.run(() => {
             this.router.navigate(['/app']);
         });
+    }
+
+    async privacyModal() {
+        const modal = await this.modalController.create({
+            component: PrivacyPolicyComponent,
+            cssClass: 'my-custom-class'
+        });
+
+        return await modal.present();
     }
 }

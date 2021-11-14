@@ -39,8 +39,6 @@ export class AddCategoryPage implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(v => {
-            //Console a yazinca eger category id yoksa yani
-            //Guncellestirme gelmiyorsa object bos gelir bu yuzden if yazildi.
             if (Object.keys(v).length === 0 && v.constructor === Object) {
                 this.isCategoryId = false
             }
