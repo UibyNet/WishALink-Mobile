@@ -20,6 +20,7 @@ export class ShrinkHeaderDirective implements AfterViewInit {
   hasStartItem: boolean = false;
   profileCommunity: any;
   searchBar: any;
+  profileFollow: any;
 
   constructor(
     public element: ElementRef,
@@ -43,6 +44,7 @@ export class ShrinkHeaderDirective implements AfterViewInit {
       this.profileNameOffset = this.profileName.offsetLeft;
       this.profileInfo = profile.getElementsByClassName('info')[0];
       this.profileCommunity = profile.getElementsByClassName('community')[0];
+      this.profileFollow = profile.getElementsByClassName('badge-container')[0];
     }
 
     this.shrinkableInitialHeight = this.shrinkable.clientHeight;
@@ -86,6 +88,11 @@ export class ShrinkHeaderDirective implements AfterViewInit {
       if(this.profileCommunity != null) {
         this.profileCommunity.style.opacity = opacity;
         this.profileCommunity.style.display = opacity > 0 ? 'flex' : 'none';
+      } 
+
+      if(this.profileFollow != null) {
+        this.profileFollow.style.opacity = opacity;
+        this.profileFollow.style.display = opacity > 0 ? 'flex' : 'none';
       } 
 
       if(this.profileAvatarOption != null) {
