@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "578006999209",
+    "project_id": "wish-a-link",
+    "storage_bucket": "wish-a-link.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578006999209:android:1b342b007f2c032dc749b8",
+        "android_client_info": {
+          "package_name": "com.wishalink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578006999209-dt7a6541lis009qfiaj6788ddkt073lj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCos9gp1NPuAMgTwh1BjZ5VBjvkEXcq3DY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578006999209-dt7a6541lis009qfiaj6788ddkt073lj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
