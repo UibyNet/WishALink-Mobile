@@ -177,3 +177,17 @@
     border-bottom: 1px solid var(--ion-color-light-shade);
   }
 }
+.badge-container {
+  border-radius: 8px;
+  width: 72px;
+  height: 24px;
+  background: #FFFFFF;
+  border: 1px solid #6A40D6;
+  color: #6A40D6;
+
+  &.active {
+    background: #1E90FF;
+    color: #FFFFFF;
+    border: 1px solid #1E90FF;
+  }
+}
