@@ -892,6 +892,78 @@ export class CategoryApiService {
     }
 
     /**
+     * @return Success
+     */
+    predefined(): Observable<CategoryListModel[]> {
+        let url_ = this.baseUrl + "/api/category/predefined";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPredefined(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPredefined(<any>response_);
+                } catch (e) {
+                    return <Observable<CategoryListModel[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CategoryListModel[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processPredefined(response: HttpResponseBase): Observable<CategoryListModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CategoryListModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CategoryListModel[]>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @param name (optional) 
      * @param order (optional) 
@@ -1426,7 +1498,7 @@ export class CommonApiService {
     /**
      * @return Success
      */
-    privacypolicy(): Observable<string> {
+    privacypolicy(): Observable<StringStringKeyValuePair> {
         let url_ = this.baseUrl + "/api/common/privacypolicy";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1445,14 +1517,14 @@ export class CommonApiService {
                 try {
                     return this.processPrivacypolicy(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<StringStringKeyValuePair>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<StringStringKeyValuePair>><any>_observableThrow(response_);
         }));
     }
 
-    protected processPrivacypolicy(response: HttpResponseBase): Observable<string> {
+    protected processPrivacypolicy(response: HttpResponseBase): Observable<StringStringKeyValuePair> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1463,7 +1535,7 @@ export class CommonApiService {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = StringStringKeyValuePair.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1471,7 +1543,7 @@ export class CommonApiService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<StringStringKeyValuePair>(<any>null);
     }
 }
 
@@ -2953,6 +3025,72 @@ export class ProfileApiService {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateinterests(body: number[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/profile/updateinterests";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateinterests(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateinterests(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateinterests(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -3342,10 +3480,13 @@ export class Activity implements IActivity {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     name!: string;
     startDate?: moment.Moment;
     endDate?: moment.Moment;
@@ -3369,10 +3510,13 @@ export class Activity implements IActivity {
             this.id = _data["Id"];
             this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
             this.createdById = _data["CreatedById"];
+            this.createdBy = _data["CreatedBy"] ? User.fromJS(_data["CreatedBy"]) : <any>undefined;
             this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
             this.updatedById = _data["UpdatedById"];
+            this.updatedBy = _data["UpdatedBy"] ? User.fromJS(_data["UpdatedBy"]) : <any>undefined;
             this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
             this.deletedById = _data["DeletedById"];
+            this.deletedBy = _data["DeletedBy"] ? User.fromJS(_data["DeletedBy"]) : <any>undefined;
             this.name = _data["Name"];
             this.startDate = _data["StartDate"] ? moment(_data["StartDate"].toString()) : <any>undefined;
             this.endDate = _data["EndDate"] ? moment(_data["EndDate"].toString()) : <any>undefined;
@@ -3396,10 +3540,13 @@ export class Activity implements IActivity {
         data["Id"] = this.id;
         data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
         data["CreatedById"] = this.createdById;
+        data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
         data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
         data["UpdatedById"] = this.updatedById;
+        data["UpdatedBy"] = this.updatedBy ? this.updatedBy.toJSON() : <any>undefined;
         data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
         data["DeletedById"] = this.deletedById;
+        data["DeletedBy"] = this.deletedBy ? this.deletedBy.toJSON() : <any>undefined;
         data["Name"] = this.name;
         data["StartDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["EndDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
@@ -3416,10 +3563,13 @@ export interface IActivity {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     name: string;
     startDate?: moment.Moment;
     endDate?: moment.Moment;
@@ -3650,10 +3800,13 @@ export class Category implements ICategory {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     name!: string;
     order?: number;
     mediaId?: number;
@@ -3676,10 +3829,13 @@ export class Category implements ICategory {
             this.id = _data["Id"];
             this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
             this.createdById = _data["CreatedById"];
+            this.createdBy = _data["CreatedBy"] ? User.fromJS(_data["CreatedBy"]) : <any>undefined;
             this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
             this.updatedById = _data["UpdatedById"];
+            this.updatedBy = _data["UpdatedBy"] ? User.fromJS(_data["UpdatedBy"]) : <any>undefined;
             this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
             this.deletedById = _data["DeletedById"];
+            this.deletedBy = _data["DeletedBy"] ? User.fromJS(_data["DeletedBy"]) : <any>undefined;
             this.name = _data["Name"];
             this.order = _data["Order"];
             this.mediaId = _data["MediaId"];
@@ -3706,10 +3862,13 @@ export class Category implements ICategory {
         data["Id"] = this.id;
         data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
         data["CreatedById"] = this.createdById;
+        data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
         data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
         data["UpdatedById"] = this.updatedById;
+        data["UpdatedBy"] = this.updatedBy ? this.updatedBy.toJSON() : <any>undefined;
         data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
         data["DeletedById"] = this.deletedById;
+        data["DeletedBy"] = this.deletedBy ? this.deletedBy.toJSON() : <any>undefined;
         data["Name"] = this.name;
         data["Order"] = this.order;
         data["MediaId"] = this.mediaId;
@@ -3729,10 +3888,13 @@ export interface ICategory {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     name: string;
     order?: number;
     mediaId?: number;
@@ -3806,10 +3968,13 @@ export class Contact implements IContact {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     firstName?: string | undefined;
     lastName?: string | undefined;
     phoneNumber?: string | undefined;
@@ -3830,10 +3995,13 @@ export class Contact implements IContact {
             this.id = _data["Id"];
             this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
             this.createdById = _data["CreatedById"];
+            this.createdBy = _data["CreatedBy"] ? User.fromJS(_data["CreatedBy"]) : <any>undefined;
             this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
             this.updatedById = _data["UpdatedById"];
+            this.updatedBy = _data["UpdatedBy"] ? User.fromJS(_data["UpdatedBy"]) : <any>undefined;
             this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
             this.deletedById = _data["DeletedById"];
+            this.deletedBy = _data["DeletedBy"] ? User.fromJS(_data["DeletedBy"]) : <any>undefined;
             this.firstName = _data["FirstName"];
             this.lastName = _data["LastName"];
             this.phoneNumber = _data["PhoneNumber"];
@@ -3854,10 +4022,13 @@ export class Contact implements IContact {
         data["Id"] = this.id;
         data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
         data["CreatedById"] = this.createdById;
+        data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
         data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
         data["UpdatedById"] = this.updatedById;
+        data["UpdatedBy"] = this.updatedBy ? this.updatedBy.toJSON() : <any>undefined;
         data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
         data["DeletedById"] = this.deletedById;
+        data["DeletedBy"] = this.deletedBy ? this.deletedBy.toJSON() : <any>undefined;
         data["FirstName"] = this.firstName;
         data["LastName"] = this.lastName;
         data["PhoneNumber"] = this.phoneNumber;
@@ -3871,10 +4042,13 @@ export interface IContact {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     firstName?: string | undefined;
     lastName?: string | undefined;
     phoneNumber?: string | undefined;
@@ -4485,10 +4659,13 @@ export class Post implements IPost {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     name!: string;
     url!: string;
     brand?: string | undefined;
@@ -4518,10 +4695,13 @@ export class Post implements IPost {
             this.id = _data["Id"];
             this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
             this.createdById = _data["CreatedById"];
+            this.createdBy = _data["CreatedBy"] ? User.fromJS(_data["CreatedBy"]) : <any>undefined;
             this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
             this.updatedById = _data["UpdatedById"];
+            this.updatedBy = _data["UpdatedBy"] ? User.fromJS(_data["UpdatedBy"]) : <any>undefined;
             this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
             this.deletedById = _data["DeletedById"];
+            this.deletedBy = _data["DeletedBy"] ? User.fromJS(_data["DeletedBy"]) : <any>undefined;
             this.name = _data["Name"];
             this.url = _data["Url"];
             this.brand = _data["Brand"];
@@ -4563,10 +4743,13 @@ export class Post implements IPost {
         data["Id"] = this.id;
         data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
         data["CreatedById"] = this.createdById;
+        data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
         data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
         data["UpdatedById"] = this.updatedById;
+        data["UpdatedBy"] = this.updatedBy ? this.updatedBy.toJSON() : <any>undefined;
         data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
         data["DeletedById"] = this.deletedById;
+        data["DeletedBy"] = this.deletedBy ? this.deletedBy.toJSON() : <any>undefined;
         data["Name"] = this.name;
         data["Url"] = this.url;
         data["Brand"] = this.brand;
@@ -4601,10 +4784,13 @@ export interface IPost {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     name: string;
     url: string;
     brand?: string | undefined;
@@ -4807,7 +4993,8 @@ export interface IPostLike {
 
 export class PostLikeModel implements IPostLikeModel {
     postId?: number;
-    likesCount?: number;
+    likeCount?: number;
+    isUserLike?: boolean;
 
     constructor(data?: IPostLikeModel) {
         if (data) {
@@ -4821,7 +5008,8 @@ export class PostLikeModel implements IPostLikeModel {
     init(_data?: any) {
         if (_data) {
             this.postId = _data["PostId"];
-            this.likesCount = _data["LikesCount"];
+            this.likeCount = _data["LikeCount"];
+            this.isUserLike = _data["IsUserLike"];
         }
     }
 
@@ -4835,14 +5023,16 @@ export class PostLikeModel implements IPostLikeModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["PostId"] = this.postId;
-        data["LikesCount"] = this.likesCount;
+        data["LikeCount"] = this.likeCount;
+        data["IsUserLike"] = this.isUserLike;
         return data; 
     }
 }
 
 export interface IPostLikeModel {
     postId?: number;
-    likesCount?: number;
+    likeCount?: number;
+    isUserLike?: boolean;
 }
 
 export class PostListModel implements IPostListModel {
@@ -4856,6 +5046,7 @@ export class PostListModel implements IPostListModel {
     description?: string | undefined;
     keywords?: string | undefined;
     mediaUrl?: string | undefined;
+    likes?: number;
     activity?: ActivityListModel;
 
     constructor(data?: IPostListModel) {
@@ -4879,6 +5070,7 @@ export class PostListModel implements IPostListModel {
             this.description = _data["Description"];
             this.keywords = _data["Keywords"];
             this.mediaUrl = _data["MediaUrl"];
+            this.likes = _data["Likes"];
             this.activity = _data["Activity"] ? ActivityListModel.fromJS(_data["Activity"]) : <any>undefined;
         }
     }
@@ -4902,6 +5094,7 @@ export class PostListModel implements IPostListModel {
         data["Description"] = this.description;
         data["Keywords"] = this.keywords;
         data["MediaUrl"] = this.mediaUrl;
+        data["Likes"] = this.likes;
         data["Activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
         return data; 
     }
@@ -4918,6 +5111,7 @@ export interface IPostListModel {
     description?: string | undefined;
     keywords?: string | undefined;
     mediaUrl?: string | undefined;
+    likes?: number;
     activity?: ActivityListModel;
 }
 
@@ -5249,14 +5443,57 @@ export interface ISocialUserListModel {
     isLoading?: boolean;
 }
 
+export class StringStringKeyValuePair implements IStringStringKeyValuePair {
+    readonly key?: string | undefined;
+    readonly value?: string | undefined;
+
+    constructor(data?: IStringStringKeyValuePair) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            (<any>this).key = _data["Key"];
+            (<any>this).value = _data["Value"];
+        }
+    }
+
+    static fromJS(data: any): StringStringKeyValuePair {
+        data = typeof data === 'object' ? data : {};
+        let result = new StringStringKeyValuePair();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Key"] = this.key;
+        data["Value"] = this.value;
+        return data; 
+    }
+}
+
+export interface IStringStringKeyValuePair {
+    key?: string | undefined;
+    value?: string | undefined;
+}
+
 export class Tag implements ITag {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     name!: string;
     order?: number;
     isPredefined?: boolean;
@@ -5275,10 +5512,13 @@ export class Tag implements ITag {
             this.id = _data["Id"];
             this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
             this.createdById = _data["CreatedById"];
+            this.createdBy = _data["CreatedBy"] ? User.fromJS(_data["CreatedBy"]) : <any>undefined;
             this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
             this.updatedById = _data["UpdatedById"];
+            this.updatedBy = _data["UpdatedBy"] ? User.fromJS(_data["UpdatedBy"]) : <any>undefined;
             this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
             this.deletedById = _data["DeletedById"];
+            this.deletedBy = _data["DeletedBy"] ? User.fromJS(_data["DeletedBy"]) : <any>undefined;
             this.name = _data["Name"];
             this.order = _data["Order"];
             this.isPredefined = _data["IsPredefined"];
@@ -5297,10 +5537,13 @@ export class Tag implements ITag {
         data["Id"] = this.id;
         data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
         data["CreatedById"] = this.createdById;
+        data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
         data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
         data["UpdatedById"] = this.updatedById;
+        data["UpdatedBy"] = this.updatedBy ? this.updatedBy.toJSON() : <any>undefined;
         data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
         data["DeletedById"] = this.deletedById;
+        data["DeletedBy"] = this.deletedBy ? this.deletedBy.toJSON() : <any>undefined;
         data["Name"] = this.name;
         data["Order"] = this.order;
         data["IsPredefined"] = this.isPredefined;
@@ -5312,10 +5555,13 @@ export interface ITag {
     id?: number;
     createdOn?: moment.Moment | undefined;
     createdById?: number | undefined;
+    createdBy?: User;
     updatedOn?: moment.Moment | undefined;
     updatedById?: number | undefined;
+    updatedBy?: User;
     deletedOn?: moment.Moment | undefined;
     deletedById?: number | undefined;
+    deletedBy?: User;
     name: string;
     order?: number;
     isPredefined?: boolean;
@@ -5401,6 +5647,7 @@ export class User implements IUser {
     followers?: UserFollow[] | undefined;
     blockedUsers?: UserBlock[] | undefined;
     postLikes?: PostLike[] | undefined;
+    interests?: UserInterest[] | undefined;
 
     constructor(data?: IUser) {
         if (data) {
@@ -5475,6 +5722,11 @@ export class User implements IUser {
                 this.postLikes = [] as any;
                 for (let item of _data["PostLikes"])
                     this.postLikes!.push(PostLike.fromJS(item));
+            }
+            if (Array.isArray(_data["Interests"])) {
+                this.interests = [] as any;
+                for (let item of _data["Interests"])
+                    this.interests!.push(UserInterest.fromJS(item));
             }
         }
     }
@@ -5551,6 +5803,11 @@ export class User implements IUser {
             for (let item of this.postLikes)
                 data["PostLikes"].push(item.toJSON());
         }
+        if (Array.isArray(this.interests)) {
+            data["Interests"] = [];
+            for (let item of this.interests)
+                data["Interests"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -5595,6 +5852,7 @@ export interface IUser {
     followers?: UserFollow[] | undefined;
     blockedUsers?: UserBlock[] | undefined;
     postLikes?: PostLike[] | undefined;
+    interests?: UserInterest[] | undefined;
 }
 
 export class UserAddress implements IUserAddress {
@@ -5755,6 +6013,58 @@ export interface IUserFollow {
     sourceUserId?: number;
     followedUser?: User;
     followedUserId?: number;
+}
+
+export class UserInterest implements IUserInterest {
+    id?: number;
+    userId?: number;
+    user?: User;
+    categoryId?: number;
+    category?: Category;
+
+    constructor(data?: IUserInterest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.userId = _data["UserId"];
+            this.user = _data["User"] ? User.fromJS(_data["User"]) : <any>undefined;
+            this.categoryId = _data["CategoryId"];
+            this.category = _data["Category"] ? Category.fromJS(_data["Category"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UserInterest {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserInterest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["UserId"] = this.userId;
+        data["User"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["CategoryId"] = this.categoryId;
+        data["Category"] = this.category ? this.category.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUserInterest {
+    id?: number;
+    userId?: number;
+    user?: User;
+    categoryId?: number;
+    category?: Category;
 }
 
 export class UserModel implements IUserModel {
