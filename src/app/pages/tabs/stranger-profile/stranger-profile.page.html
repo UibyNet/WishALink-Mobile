@@ -26,6 +26,10 @@
                     <div class="text">Takip</div>
                 </div>
             </div>
+            <div (click)="toggleUserFollow()" [ngClass]="{'active':!strangerUser?.isFollowing}"
+                class="my-4 badge-container mx-auto font-9 d-flex ion-justify-content-center ion-align-items-center">
+                {{strangerUser?.isFollowing ? 'Takibi Bırak' : 'Takip Et'}}
+            </div>
         </div>
     </div>
     <div class="top-tabs">

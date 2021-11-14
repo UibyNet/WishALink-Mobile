@@ -65,7 +65,7 @@ export class StrangerProfilePage implements OnInit {
 
     }
 
-    selectedUser() {
+    toggleUserFollow() {
         const id = this.strangerUser.id
         if (this.strangerUser.isFollowing) {
             this.socialApiService.unfollow(id).subscribe(
