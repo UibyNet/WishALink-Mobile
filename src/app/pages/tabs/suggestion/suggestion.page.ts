@@ -53,6 +53,7 @@ export class SuggestionPage implements OnInit {
 
     onSuggestionsLoad(v: PostListModel[]): void {
         this.zone.run(() => {
+            console.log(v)
             if (this.suggestions == null) this.suggestions = [];
             this.suggestions = this.suggestions.concat(v);
         })
@@ -80,7 +81,7 @@ export class SuggestionPage implements OnInit {
     }
 
     openPostDetail(event: any, postId: number, redirect: boolean = false) {
-        console.log(event.target.classList)
+        console.log(postId)
         const post = this.suggestions.find(x => x.id == postId);
         if (post != null) {
             if (redirect === true) {
