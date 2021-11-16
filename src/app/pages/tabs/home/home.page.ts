@@ -91,6 +91,8 @@ export class HomePage implements OnInit {
     private userInfo(v: SocialUserListModel) {
         this.zone.run(() => {
             this.userData = v;
+            console.log(this.userData.id)
+
             this.appService.userInfo = v;
             this.appService.toggleLoader(false);
         })

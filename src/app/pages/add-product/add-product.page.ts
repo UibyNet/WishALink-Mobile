@@ -49,7 +49,7 @@ export class AddProductPage implements OnInit {
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
         this.categoryId = parseInt(id)
-
+        console.log(this.categoryId)
         this.activityApiService.list(this.appService.user.id)
             .subscribe(
                 v => this.onActivitiesLoad(v),
