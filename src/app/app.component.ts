@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     moment.locale("tr");
-
+    
     if (!this.appService.isMobile) {
       this.config.set('navAnimation', null);
       this.config.set('animated', false);
