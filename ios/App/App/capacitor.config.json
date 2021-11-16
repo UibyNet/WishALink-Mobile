@@ -1,0 +1,19 @@
+{
+	"appId": "com.wishalink",
+	"appName": "Wish A Link",
+	"versionName": "1.1.9",
+	"versionCode": 10109,
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "www",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 1000,
+			"launchAutoHide": false,
+			"androidScaleType": "CENTER_CROP",
+			"showSpinner": true,
+			"splashFullScreen": false,
+			"splashImmersive": false
+		}
+	}
+}
