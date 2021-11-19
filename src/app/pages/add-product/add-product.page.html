@@ -52,7 +52,8 @@
                 <ion-input [(ngModel)]="description" placeholder="Açıklama"></ion-input>
             </div>
             <div>
-                <button [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Ürün Ekleniyor...' : 'Devam Et'}}</button>
+                <ion-button *ngIf="postId == 0" color="primary" fill="outline" expand="block" [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Güncelleniyor...' : 'Kaydet'}}</ion-button>
+                <ion-button *ngIf="postId > 0" color="primary" fill="outline" expand="block" [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Kaydediliyor...' : 'Güncelle'}}</ion-button>
             </div>
         </div>
     </div>

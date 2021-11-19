@@ -24,7 +24,7 @@
 <!--        <div class="mr-4 d-flex"><img src="../../../../assets/svg/abstract/like.svg" alt="Icon"></div>-->
 <!--        <div class="d-flex"><img src="../../../../assets/svg/abstract/dislike.svg" alt="Icon"></div>-->
 <!--      </div>-->
-      <div class="mt-6 mb-4 ion-text-center">
+      <div class="mt-6 mb-2 ion-text-center">
         <ion-badge class="product-tag" color="primary" *ngIf="post.brand != null && post.brand.length > 0">{{
           post.brand
           }}</ion-badge>
@@ -39,6 +39,9 @@
         </ion-badge>
         <ion-badge class="product-tag" color="primary" *ngIf="post.keywords != null && post.keywords.length > 0">{{
           post.keywords }}</ion-badge>
+      </div>
+      <div routerLink="/app/search/stranger-profile/{{post.createdBy.id}}" class="mr-2 font-12 ion-text-center">
+        {{ post.createdBy.fullName }}
       </div>
       <div class="font-16 mt-5 text-2 ion-text-center ion-margin-bottom">
         Ürün hakkında

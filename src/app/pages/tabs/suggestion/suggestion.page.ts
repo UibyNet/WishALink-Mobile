@@ -92,7 +92,14 @@ export class SuggestionPage implements OnInit {
             }
         }
 
-        event.preventDefault();
         return false
+    }
+
+    openCreator(event: any, postId: number) {
+        const post = this.suggestions.find(x => x.id == postId);
+        this.router.navigate(['app', 'post-detail', post.createdBy.id ]);
+
+        event.stopPropagation();
+        return false;
     }
 }

@@ -48,6 +48,6 @@ export class PostDetailPage implements OnInit {
 
     openEditProduct() {
         console.log(this.post)
-        this.router.navigate(['/add-product'], {queryParams: {postId: this.post.id}})
+        this.router.navigate(['add-product', this.post.category.id], {state: this.post})
     }
 }

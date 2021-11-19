@@ -47,6 +47,10 @@
                   <ion-badge class="product-tag" color="primary" *ngIf="item.size != null && item.size.length > 0">{{ item.size }} </ion-badge>
                   <ion-badge class="product-tag" color="primary" *ngIf="item.keywords != null && item.keywords.length > 0">{{ item.keywords }}</ion-badge>
                 </div>
+                
+                <div class="creator d-flex mt-2" (click)="openCreator($event, item.id)">
+                  <div class="product-name" routerLink="/app/search/stranger-profile/{{item.createdBy.id}}">{{ item.createdBy.fullName }}</div>
+                </div>
               </div>
             </ion-item>
           </ion-virtual-scroll>

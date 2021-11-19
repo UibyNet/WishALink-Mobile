@@ -5328,6 +5328,7 @@ export class PostListModel implements IPostListModel {
     likes?: number;
     activity?: ActivityListModel;
     createdBy?: SocialUserListModel;
+    category?: CategoryListModel;
 
     constructor(data?: IPostListModel) {
         if (data) {
@@ -5353,6 +5354,7 @@ export class PostListModel implements IPostListModel {
             this.likes = _data["Likes"];
             this.activity = _data["Activity"] ? ActivityListModel.fromJS(_data["Activity"]) : <any>undefined;
             this.createdBy = _data["CreatedBy"] ? SocialUserListModel.fromJS(_data["CreatedBy"]) : <any>undefined;
+            this.category = _data["Category"] ? CategoryListModel.fromJS(_data["Category"]) : <any>undefined;
         }
     }
 
@@ -5378,6 +5380,7 @@ export class PostListModel implements IPostListModel {
         data["Likes"] = this.likes;
         data["Activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
         data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
+        data["Category"] = this.category ? this.category.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -5396,6 +5399,7 @@ export interface IPostListModel {
     likes?: number;
     activity?: ActivityListModel;
     createdBy?: SocialUserListModel;
+    category?: CategoryListModel;
 }
 
 export class PostTag implements IPostTag {

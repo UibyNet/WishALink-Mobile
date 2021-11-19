@@ -18,6 +18,7 @@ import {AppService} from 'src/app/services/app.service';
 })
 export class AddProductPage implements OnInit {
 
+    postId: number = 0;
     url: string;
     brand: string;
     model: string;
@@ -49,7 +50,20 @@ export class AddProductPage implements OnInit {
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
         this.categoryId = parseInt(id)
-        console.log(this.categoryId)
+
+        const post = this.router.getCurrentNavigation().extras.state as PostListModel;
+        if(post != undefined) {
+            this.postId = post.id;
+            this.url = post.url;
+            this.brand = post.brand;
+            this.model = post.model;
+            this.color = post.color;
+            this.size = post.size;
+            this.name = post.name;
+            this.activityId = post.activity.id;       
+        }        
+
+
         this.activityApiService.list(this.appService.user.id)
             .subscribe(
                 v => this.onActivitiesLoad(v),
@@ -91,11 +105,22 @@ export class AddProductPage implements OnInit {
         model.categoryId = this.categoryId;
         model.mediaId = this.mediaId
 
-        this.postApiService.create(model)
+        if(this.postId > 0) {
+            model.id = this.postId;
+            this.postApiService.update(model)
             .subscribe(
                 v => this.onSave(v),
                 e => this.onError(e)
             )
+        }
+        else {
+        
+            this.postApiService.create(model)
+            .subscribe(
+                v => this.onSave(v),
+                e => this.onError(e)
+            )
+        }
     }
 
     onSave(v: PostListModel): void {
