@@ -51,13 +51,26 @@
         <div *ngIf="isSearching" class="center-spinner">
             <ion-spinner name="crescent" color="medium"></ion-spinner>
         </div>
-        <div *ngFor="let user of searchResultPeople" class="profile-list-item">
-            <div (click)="selectedUser(user.id)" class="person-info">
-                <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
-                <div class="name">{{user?.fullName}}</div>
+        <div *ngIf="searchResultPeople">
+            <div *ngFor="let user of searchResultPeople" class="profile-list-item">
+                <div (click)="selectedUser(user.id)" class="person-info">
+                    <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
+                    <div class="name">{{user?.fullName}}</div>
+                </div>
+                <div (click)="followAction(user)" [ngClass]="{'active':!user.isFollowing }" class="follow-info">
+                    {{ user.isBusy ? '...' : (user.isFollowing ? 'Takibi Bırak' : 'Takip Et')}}
+                </div>
             </div>
-            <div (click)="followAction(user)" [ngClass]="{'active':!user.isFollowing }" class="follow-info">
-                {{ user.isBusy ? '...' : (user.isFollowing ? 'Takibi Bırak' : 'Takip Et')}}
+        </div>
+        <div *ngIf="searchResultPeople == undefined || searchResultPeople.length == 0">
+            <div *ngFor="let user of contacts" class="profile-list-item">
+                <div class="person-info">
+                    <div class="img-container"><img src="../../../../assets/svg/home/avatar.png" alt="Img"></div>
+                    <div class="name">{{user?.displayName}}</div>
+                </div>
+                <div (click)="share(user)" class="follow-info">
+                    Davet Et
+                </div>
             </div>
         </div>
     </div>

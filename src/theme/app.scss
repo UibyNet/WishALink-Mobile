@@ -32,9 +32,9 @@ ion-button {
 .page-container {
   background: #6a40d6;
   overflow: hidden;
-  height: 100%;
   max-width: 500px;
-  margin: 0 auto;
+  margin: -1em auto;
+  padding: 1em 0 0;
 
   .bottom-container {
     border-top-right-radius: 32px;
