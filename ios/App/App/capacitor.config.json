@@ -1,8 +1,8 @@
 {
 	"appId": "com.wishalink",
 	"appName": "Wish A Link",
-	"versionName": "1.1.9",
-	"versionCode": 10109,
+	"versionName": "1.2.0",
+	"versionCode": 10200,
 	"bundledWebRuntime": false,
 	"npmClient": "npm",
 	"webDir": "www",
@@ -15,8 +15,5 @@
 			"splashFullScreen": false,
 			"splashImmersive": false
 		}
-	},
-	"server": {
-		"url": "http://192.168.0.106:8100"
 	}
 }
