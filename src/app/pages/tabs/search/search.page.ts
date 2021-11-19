@@ -1,9 +1,11 @@
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
-import { AppService } from "../../../services/app.service";
-import { SocialApiService, SocialUserListModel } from "../../../services/api.service";
-import { Router } from "@angular/router";
-import { NotificationComponent } from "../../../components/notification/notification.component";
-import { ModalController } from "@ionic/angular";
+import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
+import {AppService} from "../../../services/app.service";
+import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
+import {Router} from "@angular/router";
+import {NotificationComponent} from "../../../components/notification/notification.component";
+import {ModalController} from "@ionic/angular";
+import {Contact, Contacts} from '@capacitor-community/contacts'
+import { Share } from '@capacitor/share';
 
 @Component({
     selector: 'app-search',
@@ -11,13 +13,14 @@ import { ModalController } from "@ionic/angular";
     styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
-    @ViewChild('profileHeader', { static: false }) profileHeaderEl: ElementRef;
+    @ViewChild('profileHeader', {static: false}) profileHeaderEl: ElementRef;
 
     isSearchFocused: boolean;
     isSearching: boolean;
 
     userData: SocialUserListModel
     searchResultPeople: SocialUserListModel[]
+    contacts: Contact[] = []
 
     constructor(
         public appService: AppService,
@@ -31,12 +34,21 @@ export class SearchPage implements OnInit {
     ngOnInit() {
         this.userData = this.appService.userInfo
         this.searchResultPeople = []
+        this.getContacts()
     }
 
     ionViewWillEnter() {
-        this.appService.toggleStatusBar('light');
+        this.appService.toggleStatusBar('light')
         this.appService.setStatusBarBackground('light')
 
+    }
+
+    getContacts() {
+        Contacts.getContacts().then(result => {
+            for (const contact of result.contacts) {
+                this.contacts.push(contact)
+            }
+        });
     }
 
     searchUser(event: any) {
@@ -62,7 +74,7 @@ export class SearchPage implements OnInit {
     }
 
     followAction(user) {
-        if(user.isBusy) return;
+        if (user.isBusy) return;
 
         user.isBusy = true;
         switch (user.isFollowing) {
@@ -136,5 +148,14 @@ export class SearchPage implements OnInit {
 
     onSearchBlur() {
         this.isSearchFocused = false;
+    }
+
+    async share(contact: Contact) {
+        await Share.share({
+            title: 'Wish a Link',
+            text: 'Wish a Link uygulamasını indirerek heyecana ortak ol!',
+            url: 'http://wishalink.com/',
+            dialogTitle: contact.displayName + ' Davet Et',
+        });
     }
 }

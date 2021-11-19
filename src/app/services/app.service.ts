@@ -13,6 +13,7 @@ import {
     NotificationApiService,
     SocialUserListModel
 } from "./api.service";
+import {Contact} from "@capacitor-community/contacts";
 
 @Injectable({
     providedIn: "root",
