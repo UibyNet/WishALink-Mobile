@@ -33,16 +33,16 @@
                 <ion-input [(ngModel)]="description" placeholder="Açıklama"></ion-input>
             </div>
             <div>
-                <button [disabled]="isLoading" *ngIf="activityId === 0" (click)="saveActivity()">
+                <ion-button color="primary" expand="block" fill="outline" [disabled]="isLoading" *ngIf="activityId === 0" (click)="saveActivity()">
                     {{isLoading ? 'Oluşturuluyor...' : 'Oluştur'}}
-                </button>
-                <button [disabled]="isLoading" *ngIf="activityId > 0" (click)="saveActivity()">
+                </ion-button>
+                <ion-button color="primary" expand="block" fill="outline" [disabled]="isLoading" *ngIf="activityId > 0" (click)="saveActivity()">
                     {{isLoading ? 'Güncelleniyor...' : 'Güncelle'}}
-                </button>
+                </ion-button>
             </div>
 
             <div *ngIf="activityId > 0" class="mt-3 ion-text-center">
-                <ion-button class="ion-text-capitalize" color="danger" fill="clear" (click)="deleteActivity()">Etkinliği
+                <ion-button class="ion-text-capitalize" color="danger" expand="block" fill="outline" (click)="deleteActivity()">Etkinliği
                     Sil
                 </ion-button>
             </div>

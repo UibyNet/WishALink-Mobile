@@ -32,7 +32,7 @@ export class ForgotPage implements OnInit {
     oldPassword: string;
     spinLoader: boolean = false
     isVal: boolean = false
-    color: string
+    iconColor: string
     iconName: string
 
     get phoneNumber(): string {
@@ -159,7 +159,7 @@ export class ForgotPage implements OnInit {
             this.spinLoader = false
             this.isVal = true
             this.iconName = 'close-sharp'
-            this.color = 'danger'
+            this.iconColor = 'danger'
         })
     }
 
@@ -168,7 +168,7 @@ export class ForgotPage implements OnInit {
             this.spinLoader = false
             this.isVal = true
             this.iconName = 'checkmark-sharp'
-            this.color = 'success'
+            this.iconColor = 'primary'
         })
     }
 }
