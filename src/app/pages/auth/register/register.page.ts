@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthApiService, CategoryApiService, CategoryListModel, ProfileApiService, TokenModel, UserModel, VerifyModel } from 'src/app/services/api.service';
+import { AuthApiService, CategoryApiService, CategoryListModel, ProfileApiService, TokenModel, UserModel, VerifyModel } from 'src/app/services/api-wishalink.service';
 import { AppService } from 'src/app/services/app.service';
 import { ModalController } from '@ionic/angular';
 import { CountrySelectorComponent } from 'src/app/components/country-selector/country-selector.component';

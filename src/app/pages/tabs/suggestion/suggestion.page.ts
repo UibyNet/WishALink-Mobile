@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {PostApiService, PostListModel, SocialUserListModel} from 'src/app/services/api.service';
+import {PostApiService, PostListModel, SocialUserListModel} from 'src/app/services/api-wishalink.service';
 import {AppService} from "../../../services/app.service";
 import {ModalController} from '@ionic/angular';
 import {NotificationComponent} from 'src/app/components/notification/notification.component';

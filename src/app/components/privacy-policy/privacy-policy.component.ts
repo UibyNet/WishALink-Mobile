@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {CommonApiService, StringStringKeyValuePair} from "../../services/api.service";
+import {CommonApiService, StringStringKeyValuePair} from "../../services/api-wishalink.service";
 import {AppService} from "../../services/app.service";
 import {ModalController} from "@ionic/angular";
 

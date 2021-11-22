@@ -2,7 +2,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import { ActionSheetController } from '@ionic/angular';
-import { ProfileApiService, SocialUserListModel, UserModel } from 'src/app/services/api.service';
+import { ProfileApiService, SocialUserListModel, UserModel } from 'src/app/services/api-wishalink.service';
 import { AppService } from 'src/app/services/app.service';
 
 @Component({

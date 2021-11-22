@@ -12,7 +12,7 @@ import {
     Notification,
     NotificationApiService,
     SocialUserListModel
-} from "./api.service";
+} from "./api-wishalink.service";
 import {Contact} from "@capacitor-community/contacts";
 
 @Injectable({

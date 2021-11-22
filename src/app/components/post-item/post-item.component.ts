@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PostListModel } from 'src/app/services/api.service';
+import { PostListModel } from 'src/app/services/api-wishalink.service';
 import { Browser } from '@capacitor/browser';
 import { Router } from '@angular/router';
 

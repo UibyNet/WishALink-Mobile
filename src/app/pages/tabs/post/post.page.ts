@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { PostApiService, PostListModel } from 'src/app/services/api.service';
+import { PostApiService, PostListModel } from 'src/app/services/api-wishalink.service';
 import { AppService } from 'src/app/services/app.service';
 import { Browser } from '@capacitor/browser';
 

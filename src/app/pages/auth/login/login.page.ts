@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthApiService, LoginModel, TokenModel, VerifyModel } from 'src/app/services/api.service';
+import { AuthApiService, LoginModel, TokenModel, VerifyModel } from 'src/app/services/api-wishalink.service';
 import { AppService } from 'src/app/services/app.service';
 import { ModalController } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";

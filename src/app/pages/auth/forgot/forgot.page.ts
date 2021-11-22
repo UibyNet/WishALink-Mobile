@@ -5,7 +5,7 @@ import {
     ForgotModel,
     ProfileApiService,
     VerifyModel
-} from 'src/app/services/api.service';
+} from 'src/app/services/api-wishalink.service';
 import { AppService } from 'src/app/services/app.service';
 import { ModalController } from "@ionic/angular";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";

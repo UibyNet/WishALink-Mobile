@@ -1,6 +1,6 @@
 import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {AppService} from "../../../services/app.service";
-import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
+import {SocialApiService, SocialUserListModel} from "../../../services/api-wishalink.service";
 import {Router} from "@angular/router";
 import {NotificationComponent} from "../../../components/notification/notification.component";
 import {ModalController, Platform} from "@ionic/angular";

@@ -2,7 +2,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {NavController} from '@ionic/angular';
 import * as moment from 'moment';
-import {ActivityApiService, ActivityEditModel, ActivityListModel} from 'src/app/services/api.service';
+import {ActivityApiService, ActivityEditModel, ActivityListModel} from 'src/app/services/api-wishalink.service';
 import {AppService} from 'src/app/services/app.service';
 
 @Component({

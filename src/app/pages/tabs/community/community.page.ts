@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { AppService } from "../../../services/app.service";
-import { ProfileApiService, SocialApiService, SocialUserListModel } from "../../../services/api.service";
+import { ProfileApiService, SocialApiService, SocialUserListModel } from "../../../services/api-wishalink.service";
 import { ModalController, NavController } from '@ionic/angular';
 import { NotificationComponent } from 'src/app/components/notification/notification.component';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';

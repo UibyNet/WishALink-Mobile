@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
-import {NotificationApiService, Notification, API_BASE_URL} from "../../services/api.service";
+import {NotificationApiService, Notification, WISH_API_URL} from "../../services/api-wishalink.service";
 import {AppService} from "../../services/app.service";
 import {ModalController} from "@ionic/angular";
 import * as moment from 'moment';
@@ -19,7 +19,7 @@ export class NotificationComponent implements OnInit {
         private router: Router,
         private appService: AppService,
         private modalController: ModalController,
-        @Optional() @Inject(API_BASE_URL) baseUrl?: string,
+        @Optional() @Inject(WISH_API_URL) baseUrl?: string,
     ) {
         this.apiBaseUrl = baseUrl;
     }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProfileApiService, SocialUserListModel} from "src/app/services/api.service";
+import {ProfileApiService, SocialUserListModel} from "src/app/services/api-wishalink.service";
 import {AppService} from "src/app/services/app.service";
 import {Router} from "@angular/router";
 

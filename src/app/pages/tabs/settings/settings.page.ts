@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ModalController, NavController} from '@ionic/angular';
 import {AppService} from 'src/app/services/app.service';
-import {SocialUserListModel} from "../../../services/api.service";
+import {SocialUserListModel} from "../../../services/api-wishalink.service";
 import {NotificationComponent} from "../../../components/notification/notification.component";
 import {Share} from '@capacitor/share';
 

@@ -1,7 +1,7 @@
 var fs = require('fs')
-var apiServiceFile = './src/app/services/api.service.ts';
+var apiServicesPath = './src/app/services/';
 
-function updateApiServiceFile() {
+function updateApiServiceFile(apiServiceFile) {
 	fs.readFile(apiServiceFile, 'utf8', function (err, data) {
 		if (err) {
 			return console.log(err);
@@ -9,19 +9,24 @@ function updateApiServiceFile() {
 
 		const lines = data.split(/\r?\n/);
 		let isFileChanged = false;
+		let isFileAlreadyChanged = false;
 
 		for (let i = 0; i < lines.length; i++) {
 			const line = lines[i];
+			if(line.indexOf('getFileReader()') > -1) {
+				isFileAlreadyChanged = true;
+			}
 
 			if (line.indexOf('new FileReader()') > -1) {
 				isFileChanged = true;
 				lines[i] = line.replace('new FileReader()', 'getFileReader()');
 			}
+
 		}
 
 		data = lines.join('\n');
 
-		if(isFileChanged) {
+		if(isFileChanged && !isFileAlreadyChanged) {
 			data += `
 export function getFileReader(): FileReader {
 	const fileReader = new FileReader();
@@ -36,4 +41,10 @@ export function getFileReader(): FileReader {
 	});
 }
 
-updateApiServiceFile();
+fs.readdir(apiServicesPath, (err, files) => {
+	files.forEach(file => {
+		if(file.indexOf('api-') === 0) {
+			updateApiServiceFile(apiServicesPath + file);
+		}
+	});
+  });

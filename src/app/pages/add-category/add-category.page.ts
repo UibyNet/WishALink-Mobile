@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {CategoryApiService, CategoryListModel} from "../../services/api.service";
+import {CategoryApiService, CategoryListModel} from "../../services/api-wishalink.service";
 import {NavController} from '@ionic/angular';
 import {AppService} from 'src/app/services/app.service';
 import {ActivatedRoute} from '@angular/router';

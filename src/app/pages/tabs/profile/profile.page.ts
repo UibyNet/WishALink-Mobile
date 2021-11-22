@@ -11,7 +11,7 @@ import {
     ProfileApiService,
     SocialApiService,
     SocialUserListModel
-} from "../../../services/api.service";
+} from "../../../services/api-wishalink.service";
 import { AppService } from "../../../services/app.service";
 
 @Component({

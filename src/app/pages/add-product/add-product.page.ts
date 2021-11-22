@@ -8,7 +8,7 @@ import {
     PostApiService,
     PostEditModel,
     PostListModel
-} from 'src/app/services/api.service';
+} from 'src/app/services/api-wishalink.service';
 import {AppService} from 'src/app/services/app.service';
 
 @Component({

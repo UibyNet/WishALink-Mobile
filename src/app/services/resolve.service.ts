@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import {Observable, of, ReplaySubject} from 'rxjs';
-import {ProfileApiService, SocialUserListModel} from "./api.service";
+import {ProfileApiService, SocialUserListModel} from "./api-wishalink.service";
 import {AppService} from "./app.service";
 import {first} from "rxjs/operators";
 

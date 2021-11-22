@@ -13,15 +13,19 @@ import {TokenInterceptor} from './helpers/token.interceptor';
 import {AppService} from './services/app.service';
 import {
     AuthApiService,
-    API_BASE_URL,
+    WISH_API_URL,
     ProfileApiService,
     SocialApiService,
     CategoryApiService,
     PostApiService,
     ActivityApiService, NotificationApiService, CommonApiService
-} from './services/api.service';
+} from './services/api-wishalink.service';
 import {SharedComponentsModule} from './components/shared-components.module';
 import {NgxMaskModule, IConfig} from 'ngx-mask'
+import { KPAY_BACKEND_API_URL } from './services/api-kpay-backend.service';
+import { KPAY_CCPAYMENT_API_URL } from './services/api-kpay-ccpayment.service';
+import { KPAY_FIXEDQR_API_URL } from './services/api-kpay-fixedqr.service';
+import { KPAY_FIXEDQRPAYMENT_API_URL } from './services/api-kpay-fixedqrpayment.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -58,8 +62,12 @@ const maskConfig: Partial<IConfig> = {
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {provide: LOCALE_ID, useValue: 'tr-TR'},
         {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-        {provide: API_BASE_URL, useValue: "https://panel.wishalink.com"},
-        //{ provide: API_BASE_URL, useValue: "http://192.168.0.102:5000" },
+        {provide: KPAY_BACKEND_API_URL, useValue: "https://api.kpay.com.tr/AppBackend/V1"},
+        {provide: KPAY_CCPAYMENT_API_URL, useValue: "https://api.kpay.com.tr/CCPayment/V1"},
+        {provide: KPAY_FIXEDQR_API_URL, useValue: "https://api.kpay.com.tr/FixedQR/V1"},
+        {provide: KPAY_FIXEDQRPAYMENT_API_URL, useValue: "https://api.kpay.com.tr/FixedQRPayment/V1"},
+        {provide: WISH_API_URL, useValue: "https://panel.wishalink.com"},
+        //{ provide: WISH_API_URL, useValue: "http://192.168.0.102:5000" },
     ],
     bootstrap: [AppComponent],
 })

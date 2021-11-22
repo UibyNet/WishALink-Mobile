@@ -3,7 +3,7 @@ import {CalendarComponent} from "ionic2-calendar";
 import {CalendarMode, Step} from 'ionic2-calendar/calendar';
 import {registerLocaleData} from '@angular/common';
 import localeZh from '@angular/common/locales/tr';
-import {ActivityApiService, ActivityListModel, SocialUserListModel} from 'src/app/services/api.service';
+import {ActivityApiService, ActivityListModel, SocialUserListModel} from 'src/app/services/api-wishalink.service';
 import {AppService} from 'src/app/services/app.service';
 import * as moment from 'moment';
 import {NotificationComponent} from "../../../components/notification/notification.component";
