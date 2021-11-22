@@ -1,0 +1,114 @@
+<ion-header mode="ios" trasculent="true" class="dark back-only ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <div *ngIf="stepper === 1" routerLink="/intro" routerDirection="back" class="back-button">
+                <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+            </div>
+            <div *ngIf="stepper > 1" (click)="stepper=stepper-1" class="back-button">
+                <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+            </div>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="dark" fullscreen="true">
+    <div *ngIf="stepper===1" class="page-container">
+        <div class="lead">
+            <h2>
+                Şifrenizi sıfırlamak için lütfen telefon numaranızı girin
+                <div class="vertical-dots">
+                    <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
+                </div>
+            </h2>
+        </div>
+        <div class="bottom-container">
+            <div class="bottom-content">
+                <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()" novalidate>
+                    <ion-item>
+                        <div class="input-group is-relative">
+                            <button class="p-button" (click)="showCountrySelector()" type="button">
+                                <i class="flag-icon flag-icon-{{selectedCountry.isoCode}}"></i>
+                                <span>+{{selectedCountry.dialCode}}</span>
+                            </button>
+                            <input type="tel" class="p-inputtext" (ngModelChange)="checkNumberStatus($event)"
+                                formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
+                                placeholder="Telefon">
+                            <div class="number-status">
+                                <ion-spinner *ngIf="spinLoader" name="crescent"></ion-spinner>
+                                <ion-icon *ngIf="!spinLoader && isVal" [color]="iconColor" [name]="iconName"></ion-icon>
+                            </div>
+                        </div>
+                    </ion-item>
+                    <div class="ion-padding py-1">
+                        <ion-button color="primary" expand="block" type="submit"
+                            [disabled]="isLoading || !resetPasswordForm.valid">
+                            <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+                            <span *ngIf="!isLoading">Şifre Gönder</span>
+                        </ion-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="stepper === 2" class="page-container">
+        <div class="lead">
+            <h2>
+                Wish a Link’e hoş geldiniz
+            </h2>
+            <h3>
+                Lütfen ‘’Onay Kodunu’’ giriniz
+                <div class="vertical-dots">
+                    <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+                </div>
+            </h3>
+        </div>
+
+        <div class="bottom-container">
+            <div class="bottom-content">
+                <div>
+                    <div class="code-container">
+                        <code-input class="code-input" [isCodeHidden]="false" [codeLength]="4"
+                            (codeChanged)="onCodeChanged($event)" (codeCompleted)="onCodeCompleted($event)">
+                        </code-input>
+                    </div>
+                </div>
+                <div class="ion-padding py-1">
+                    <ion-button color="primary" expand="block" type="button" (click)="verify()" [disabled]="isLoading">
+                        <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+                        <span *ngIf="!isLoading">Devam Et</span>
+                    </ion-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="stepper === 3" class="page-container">
+        <div class="lead">
+            <h2>
+                Şifrenizi oluşturunuz
+            </h2>
+            <h3>
+                Hesabınızın güvenliğini sağlamak için dört basamaklı bir parola oluşturunuz
+                <div class="vertical-dots">
+                    <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+                </div>
+            </h3>
+        </div>
+        <div class="bottom-container">
+            <div class="bottom-content">
+                <div>
+                    <div class="code-container">
+                        <code-input class="code-input" [isCodeHidden]="true" [codeLength]="4"
+                            (codeChanged)="onCodeChanged($event)" (codeCompleted)="onCodeCompleted($event)">
+                        </code-input>
+                    </div>
+                </div>
+                <div class="ion-padding py-1">
+                    <ion-button color="primary" expand="block" type="button" (click)="setPassword()">
+                        <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+                        <span *ngIf="!isLoading">Kaydet</span>
+                    </ion-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

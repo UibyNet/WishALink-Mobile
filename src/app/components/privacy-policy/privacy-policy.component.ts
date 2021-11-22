@@ -24,7 +24,7 @@ export class PrivacyPolicyComponent implements OnInit {
     ngOnInit() {
         setTimeout(()=>{
             this.getPolicy()
-        }, 1000)
+        }, 100)
     }
 
     getPolicy() {

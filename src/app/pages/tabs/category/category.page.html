@@ -1,0 +1,95 @@
+<ion-header mode="ios" shrink-header [scrollArea]="scrollArea">
+  <div class="shrinkable">
+    <ion-toolbar mode="ios">
+      <ion-buttons slot="start">
+        <ion-back-button text="" color="dark"></ion-back-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button *ngIf="!isStrangerCategory" (click)="openEditCategory()">
+          <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <div class="profile">
+      <div class="avatar">
+        <img [src]="category == null ? '../../../../assets/svg/home/avatar.png' : category.mediaUrl" alt="" />
+      </div>
+      <div class="name mb-2">{{ category == null ? '-' : category.name }}</div>
+      <div class="category-info mb-2">
+        {{ posts != undefined && posts.length > 0 ? posts.length : 0 }} Ürün
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
+  <div hidden class="profile-header scrollable">
+    <span (click)="goBack()" class="back-button">
+      <img src="../../../../assets/svg/abstract/back-icon-dark.svg" alt="Icon">
+    </span>
+    <div class="profile-container ion-text-center">
+      <div class="profile-inner">
+        <div class="avatar avatar-sm">
+          <div class="avatar-image">
+            <img [src]="category?.mediaUrl" alt="Avatar">
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="category-name">
+            {{ category == null ? '-' : category.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="product-content">
+      <div *ngIf="posts == undefined" class="center-spinner">
+        <ion-spinner name="crescent" color="medium"></ion-spinner>
+      </div>
+      <div class="item-container" *ngFor="let post of posts; let i = index">
+        <ion-list>
+          <app-post-item [item]="post" [index]="i"></app-post-item>
+        </ion-list>
+        <!--
+        <ion-grid *ngIf="post != null" class="ion-no-padding">
+          <ion-row [class.reverse]="i%2==1">
+            <ion-col class="ion-text-center img-bottom" size="4" routerLink="/app/post-detail" [queryParams]='{isStrangerPost: isStrangerCategory}' [state]="post">
+              <div class="img-product-container">
+                <img [src]="post.mediaUrl" alt="">
+              </div>
+            </ion-col>
+            <ion-col class="ion-text-center col-custom ion-padding-start" size="8">
+              <div class="d-flex mb-8" routerLink="/app/post-detail" [queryParams]='{isStrangerPost: isStrangerCategory}' [state]="post">
+                <div class="product-name">{{ post.name }}</div>
+                <div (click)="redirectToUrl(post.url)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon"></div>
+              </div>
+              <div class="ion-text-left">
+                <ion-badge class="product-tag" color="primary" *ngIf="post.brand != null && post.brand.length > 0">{{
+                  post.brand
+                  }}</ion-badge>
+                <ion-badge class="product-tag" color="primary" *ngIf="post.model != null && post.model.length > 0">{{
+                  post.model
+                  }}</ion-badge>
+                <ion-badge class="product-tag" color="primary" *ngIf="post.color != null && post.color.length > 0">{{
+                  post.color
+                  }}</ion-badge>
+                <ion-badge class="product-tag" color="primary" *ngIf="post.size != null && post.size.length > 0">{{
+                  post.size }}
+                </ion-badge>
+                <ion-badge class="product-tag" color="primary"
+                  *ngIf="post.keywords != null && post.keywords.length > 0">{{
+                  post.keywords }}</ion-badge>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      -->
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!isStrangerCategory" (click)="addProduct()" class="add-product">
+    <img src="../../../assets/svg/abstract/add.svg" alt="Icon">
+  </div>
+</ion-content>

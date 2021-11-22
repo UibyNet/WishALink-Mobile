@@ -1,9 +1,10 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { AppService } from "../../../services/app.service";
-import { SocialApiService, SocialUserListModel } from "../../../services/api.service";
+import { ProfileApiService, SocialApiService, SocialUserListModel } from "../../../services/api.service";
 import { ModalController, NavController } from '@ionic/angular';
 import { NotificationComponent } from 'src/app/components/notification/notification.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-community',
@@ -11,53 +12,96 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['./community.page.scss'],
 })
 export class CommunityPage implements OnInit {
+    currentUrl: string;
+    userData: SocialUserListModel
+    followingList: SocialUserListModel[]
+    followerList: SocialUserListModel[]
+    selectedSegment: string = 'follower'
+    currentUserId: number;
+    routerSubscription: Subscription;
 
     constructor(
         public appService: AppService,
         private router: Router,
         private route: ActivatedRoute,
         private socialApiService: SocialApiService,
+        private profileApiService: ProfileApiService,
         private zone: NgZone,
         private navController: NavController,
         private modalController: ModalController
     ) {
     }
 
-    userData: SocialUserListModel
-    followingList: SocialUserListModel[]
-    followerList: SocialUserListModel[]
-    selectedTab: string = 'follower'
-
     ngOnInit() {
-        this.getUserData()
-        this.getFollowerList()
+        this.ionViewDidEnter();
+    }
+
+
+    ionViewDidEnter() {
+        this.routerSubscription = this.router.events.subscribe(e => {
+            if (e instanceof NavigationEnd) {
+                this.zone.run(() => {
+                    this.currentUrl = e.url.split('?')[0];
+                    this.currentUserId = parseInt(e.url.replace('/app/profile/', '').split('/')[0]);
+
+                    if (isNaN(this.currentUserId)) return;
+
+                    this.selectedSegment = e.url.indexOf('following') > -1 ? 'following' : 'follower';
+
+                    if (this.selectedSegment === 'follower') {
+                        this.getFollowerList()
+                    }
+                    else if (this.selectedSegment === 'following') {
+                        this.getFollowingList()
+                    }
+
+                    this.getUserData();
+
+                })
+            }
+        })
+
+    }
+
+    ionViewWillLeave() {
+        this.routerSubscription.unsubscribe();
     }
 
     getUserData() {
+        if (this.userData) return;
+
         const state = this.router.getCurrentNavigation().extras.state;
 
         if (state != null && state.userData != null) {
             this.userData = state.userData;
         }
         else {
-            this.userData = this.appService.userInfo;
+            this.profileApiService.info(this.currentUserId).subscribe(
+                v => this.onUserInfoLoad(v),
+                e => this.onError(e)
+            )
         }
     }
 
     getFollowingList() {
-        this.selectedTab = 'following'
-        this.socialApiService.followings(this.userData.id).subscribe(
+
+        this.socialApiService.followings(this.currentUserId).subscribe(
             v => this.onFollowing(v),
             e => this.onError(e)
         )
     }
 
     getFollowerList() {
-        this.selectedTab = 'follower'
-        this.socialApiService.followers(this.userData.id).subscribe(
+        this.socialApiService.followers(this.currentUserId).subscribe(
             v => this.onFollowers(v),
             e => this.onError(e)
         )
+    }
+
+    private onUserInfoLoad(v: SocialUserListModel) {
+        this.zone.run(() => {
+            this.userData = v;
+        })
     }
 
     onFollowing(v: SocialUserListModel[]) {
@@ -80,7 +124,7 @@ export class CommunityPage implements OnInit {
     }
 
     followUser(user: SocialUserListModel) {
-        if(user.isBusy) return;
+        if (user.isBusy) return;
         user.isBusy = true;
 
         this.socialApiService.follow(user.id).subscribe(
@@ -96,7 +140,7 @@ export class CommunityPage implements OnInit {
     }
 
     unfollowUser(user: SocialUserListModel, type: string) {
-        if(user.isBusy) return;
+        if (user.isBusy) return;
         user.isBusy = true;
 
         this.socialApiService.unfollow(user.id).subscribe(
@@ -136,7 +180,7 @@ export class CommunityPage implements OnInit {
     }
 
     selectedUser(id: number) {
-        this.router.navigate(['/app/search/stranger-profile', id])
+        this.router.navigate(['/app/profile', id])
     }
 
     async openNotification() {

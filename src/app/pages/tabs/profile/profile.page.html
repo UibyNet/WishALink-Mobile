@@ -1,0 +1,93 @@
+<ion-header mode="ios" shrink-header [scrollArea]="scrollArea">
+    <div class="shrinkable">
+        <ion-toolbar mode="ios">
+            <ion-buttons slot="start">
+                <ion-back-button text="" color="dark"></ion-back-button>
+            </ion-buttons>
+            <ion-buttons slot="end">
+                <ion-button *ngIf="isMe" (click)="openNotification()">
+                    <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
+                    <ion-badge *ngIf="appService.unreadNotificationsCount > 0">{{appService.unreadNotificationsCount}}</ion-badge>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+
+        <div class="profile">
+            <div class="avatar">
+                <img [src]="currentUser == null ? '../../../../assets/svg/home/avatar.png' : currentUser.profilePictureUrl"
+                    alt="">
+            </div>
+            <div class="name">
+                <span>{{currentUser == null? '&nbsp;' : currentUser.fullName}}</span>
+            </div>
+            <div class="community">
+                <div class="follower" (click)="openCommunity('follower')">
+                    <div class="number">{{currentUser == null ? 0 : currentUser.followersCount}}</div>
+                    <div class="text">Takipçi</div>
+                </div>
+                <div class="following" (click)="openCommunity('following')">
+                    <div class="number">{{currentUser == null ? 0 : currentUser.followingsCount}}</div>
+                    <div class="text">Takip</div>
+                </div>
+            </div>
+            <div *ngIf="!isMe" (click)="toggleUserFollow()" [ngClass]="{'active':!currentUser?.isFollowing}"
+                class="my-2 badge-container mx-auto font-9 d-flex ion-justify-content-center ion-align-items-center">
+                {{currentUser?.isFollowing ? 'Takibi Bırak' : 'Takip Et'}}
+            </div>
+        </div>
+    </div>
+    <div class="top-tabs">
+        <div class="tab-container">
+            <ion-segment [value]="selectedSegment">
+                <ion-segment-button value="categories" [routerLink]="currentUrl" [queryParams]="{segment: 'categories'}">
+                    <ion-label>Kategoriler</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="activities" [routerLink]="currentUrl" [queryParams]="{segment: 'activities'}">
+                    <ion-label>Etkinlikler</ion-label>
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+    </div>
+</ion-header>
+
+<ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
+    <div *ngIf="selectedSegment == 'categories'" class="content">
+        <ion-grid *ngIf="categories != undefined && categories.length > 0">
+            <ion-row>
+                <ion-col *ngFor="let category of categories" routerLink="/app/category/{{category.id}}" [state]="category" class="ion-text-center" size="4">
+                    <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}">
+                    </div>
+                    <div class="product-title">{{ category.name }}</div>
+                    <div class="product-amount">{{ category.postCount }} ürün</div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <div class="ion-margin-top" *ngIf="categories == undefined || categories.length === 0">
+            <div class="ion-text-center icon-container">
+                <ion-icon name="alert-outline"></ion-icon>
+            </div>
+            <div class="ion-margin-top info-text mt-4 ion-text-center">
+                Kullanıcının ürünü bulunmamaktadır.
+            </div>
+        </div>
+    </div>
+    <div *ngIf="selectedSegment == 'activities'" class="content">
+        <ion-list class="activities" *ngIf="activities != undefined && activities.length > 0">
+            <ion-item *ngFor="let activity of activities">
+                <ion-label>
+                    <h2>{{ activity.name }}</h2>
+                    <p>{{ activity.description }}</p>
+                </ion-label>
+                <span>{{ getDate(activity) }}</span>
+            </ion-item>
+        </ion-list>
+        <div class="ion-margin-top" *ngIf="activities == undefined || activities.length === 0">
+            <div class="ion-text-center icon-container">
+                <ion-icon name="alert-outline"></ion-icon>
+            </div>
+            <div class="ion-margin-top info-text mt-4 ion-text-center">
+                Kullanıcının etkinliği bulunmamaktadır.
+            </div>
+        </div>
+    </div>
+</ion-content>

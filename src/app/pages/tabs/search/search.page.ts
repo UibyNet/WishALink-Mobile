@@ -3,7 +3,7 @@ import {AppService} from "../../../services/app.service";
 import {SocialApiService, SocialUserListModel} from "../../../services/api.service";
 import {Router} from "@angular/router";
 import {NotificationComponent} from "../../../components/notification/notification.component";
-import {ModalController} from "@ionic/angular";
+import {ModalController, Platform} from "@ionic/angular";
 import {Contact, Contacts} from '@capacitor-community/contacts'
 import { Share } from '@capacitor/share';
 
@@ -28,6 +28,7 @@ export class SearchPage implements OnInit {
         private router: Router,
         private modalController: ModalController,
         private zone: NgZone,
+        private platform: Platform
     ) {
     }
 
@@ -44,11 +45,13 @@ export class SearchPage implements OnInit {
     }
 
     getContacts() {
-        Contacts.getContacts().then(result => {
-            for (const contact of result.contacts) {
-                this.contacts.push(contact)
-            }
-        });
+        if(this.platform.is('capacitor')) {
+            Contacts.getContacts().then(result => {
+                for (const contact of result.contacts) {
+                    this.contacts.push(contact)
+                }
+            });
+        }
     }
 
     searchUser(event: any) {
@@ -115,7 +118,7 @@ export class SearchPage implements OnInit {
     }
 
     selectedUser(id: number) {
-        this.router.navigate(['/app/search/stranger-profile', id])
+        this.router.navigate(['/app/profile', id])
     }
 
     onUnfollow(v: number, userId: number) {

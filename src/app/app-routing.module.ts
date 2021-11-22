@@ -14,19 +14,27 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
   },
   {
     path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./pages/auth/register/register.module').then( m => m.RegisterPageModule)
   },
   {
     path: 'forgot',
-    loadChildren: () => import('./pages/forgot/forgot.module').then( m => m.ForgotPageModule)
+    loadChildren: () => import('./pages/auth/forgot/forgot.module').then( m => m.ForgotPageModule)
   },
   {
     path: 'change-phone-number',
-    loadChildren: () => import('./pages/change-phone-number/change-phone-number.module').then( m => m.ChangePhoneNumberPageModule)
+    loadChildren: () => import('./pages/auth/change-phone-number/change-phone-number.module').then( m => m.ChangePhoneNumberPageModule)
+  },
+  {
+    path: 'profile-settings',
+    loadChildren: () => import('./pages/auth/profile-settings/profile-settings.module').then( m => m.ProfileSettingsPageModule)
+  },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./pages/auth/change-password/change-password.module').then( m => m.ChangePasswordPageModule)
   },
   {
     path: 'app',
@@ -34,26 +42,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
   },
   {
-    path: 'category-detail',
-    loadChildren: () => import('./pages/category-detail/category-detail.module').then( m => m.CategoryDetailPageModule)
-  },
-  {
     path: 'add-product/:id',
     loadChildren: () => import('./pages/add-product/add-product.module').then( m => m.AddProductPageModule)
-  },
-  {
-    path: 'profile-settings',
-    loadChildren: () => import('./pages/profile-settings/profile-settings.module').then( m => m.ProfileSettingsPageModule)
-  },
-  {
-    path: 'change-password',
-    loadChildren: () => import('./pages/change-password/change-password.module').then( m => m.ChangePasswordPageModule)
   },
   {
     path: 'landing',
     loadChildren: () => import('./pages/landing/landing.module').then( m => m.LandingPageModule)
   }
-
 ];
 
 @NgModule({

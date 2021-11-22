@@ -1,0 +1,23 @@
+<ion-item detail="false" (click)="openPostDetail($event)">
+  <ion-button fill="clear" class="remote-link" *ngIf="index % 2 == 1" [slot]="index % 2 == 1 ? 'end' :'start'" (click)="openPostDetail($event, true)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon" /></ion-button>
+  <div class="img-product-container" [slot]="index % 2 == 1 ? 'end' :'start'">
+    <img [src]="item.mediaUrl" alt="" />
+  </div>
+  <ion-button fill="clear" class="remote-link" *ngIf="index % 2 == 0" [slot]="index % 2 == 1 ? 'start' :'end'" (click)="openPostDetail($event, true)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon" /></ion-button>
+  <div>
+    <div class="d-flex mb-2" >
+      <div class="product-name">{{ item.name }}</div>
+    </div>
+    <div class="">
+      <ion-badge class="product-tag" color="primary" *ngIf="item.brand != null && item.brand.length > 0"> {{item.brand}} </ion-badge>
+      <ion-badge class="product-tag" color="primary" *ngIf="item.model != null && item.model.length > 0"> {{ item.model }}</ion-badge>
+      <ion-badge class="product-tag" color="primary" *ngIf="item.color != null && item.color.length > 0"> {{ item.color }}</ion-badge>
+      <ion-badge class="product-tag" color="primary" *ngIf="item.size != null && item.size.length > 0">{{ item.size }} </ion-badge>
+      <ion-badge class="product-tag" color="primary" *ngIf="item.keywords != null && item.keywords.length > 0">{{ item.keywords }}</ion-badge>
+    </div>
+    
+    <div class="creator d-flex mt-2" (click)="openCreator($event)">
+      <div class="product-name">{{ item.createdBy.fullName }}</div>
+    </div>
+  </div>
+</ion-item>

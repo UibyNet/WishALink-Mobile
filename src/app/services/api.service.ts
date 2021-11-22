@@ -105,6 +105,76 @@ export class ActivityApiService {
     }
 
     /**
+     * @param activityId (optional) 
+     * @return Success
+     */
+    item(activityId: number | undefined): Observable<ActivityListModel> {
+        let url_ = this.baseUrl + "/api/activity/item?";
+        if (activityId === null)
+            throw new Error("The parameter 'activityId' cannot be null.");
+        else if (activityId !== undefined)
+            url_ += "activityId=" + encodeURIComponent("" + activityId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processItem(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processItem(<any>response_);
+                } catch (e) {
+                    return <Observable<ActivityListModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ActivityListModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processItem(response: HttpResponseBase): Observable<ActivityListModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ActivityListModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ActivityListModel>(<any>null);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -1044,6 +1114,76 @@ export class CategoryApiService {
             }));
         }
         return _observableOf<CategoryListModel[]>(<any>null);
+    }
+
+    /**
+     * @param categoryId (optional) 
+     * @return Success
+     */
+    item(categoryId: number | undefined): Observable<CategoryListModel> {
+        let url_ = this.baseUrl + "/api/category/item?";
+        if (categoryId === null)
+            throw new Error("The parameter 'categoryId' cannot be null.");
+        else if (categoryId !== undefined)
+            url_ += "categoryId=" + encodeURIComponent("" + categoryId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processItem(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processItem(<any>response_);
+                } catch (e) {
+                    return <Observable<CategoryListModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CategoryListModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processItem(response: HttpResponseBase): Observable<CategoryListModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CategoryListModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CategoryListModel>(<any>null);
     }
 
     /**
@@ -2202,6 +2342,76 @@ export class PostApiService {
             }));
         }
         return _observableOf<PostListModel[]>(<any>null);
+    }
+
+    /**
+     * @param postId (optional) 
+     * @return Success
+     */
+    item(postId: number | undefined): Observable<PostListModel> {
+        let url_ = this.baseUrl + "/api/post/item?";
+        if (postId === null)
+            throw new Error("The parameter 'postId' cannot be null.");
+        else if (postId !== undefined)
+            url_ += "postId=" + encodeURIComponent("" + postId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processItem(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processItem(<any>response_);
+                } catch (e) {
+                    return <Observable<PostListModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PostListModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processItem(response: HttpResponseBase): Observable<PostListModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PostListModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PostListModel>(<any>null);
     }
 
     /**
@@ -3803,6 +4013,7 @@ export class ActivityListModel implements IActivityListModel {
     isHidden?: boolean;
     startDate?: string | undefined;
     endDate?: string | undefined;
+    createdBy?: SocialUserListModel;
 
     constructor(data?: IActivityListModel) {
         if (data) {
@@ -3822,6 +4033,7 @@ export class ActivityListModel implements IActivityListModel {
             this.isHidden = _data["IsHidden"];
             this.startDate = _data["StartDate"];
             this.endDate = _data["EndDate"];
+            this.createdBy = _data["CreatedBy"] ? SocialUserListModel.fromJS(_data["CreatedBy"]) : <any>undefined;
         }
     }
 
@@ -3841,6 +4053,7 @@ export class ActivityListModel implements IActivityListModel {
         data["IsHidden"] = this.isHidden;
         data["StartDate"] = this.startDate;
         data["EndDate"] = this.endDate;
+        data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -3853,6 +4066,7 @@ export interface IActivityListModel {
     isHidden?: boolean;
     startDate?: string | undefined;
     endDate?: string | undefined;
+    createdBy?: SocialUserListModel;
 }
 
 export class Address implements IAddress {
@@ -4191,6 +4405,7 @@ export class CategoryListModel implements ICategoryListModel {
     isHidden?: boolean;
     mediaUrl?: string | undefined;
     postCount?: number;
+    createdBy?: SocialUserListModel;
 
     constructor(data?: ICategoryListModel) {
         if (data) {
@@ -4210,6 +4425,7 @@ export class CategoryListModel implements ICategoryListModel {
             this.isHidden = _data["IsHidden"];
             this.mediaUrl = _data["MediaUrl"];
             this.postCount = _data["PostCount"];
+            this.createdBy = _data["CreatedBy"] ? SocialUserListModel.fromJS(_data["CreatedBy"]) : <any>undefined;
         }
     }
 
@@ -4229,6 +4445,7 @@ export class CategoryListModel implements ICategoryListModel {
         data["IsHidden"] = this.isHidden;
         data["MediaUrl"] = this.mediaUrl;
         data["PostCount"] = this.postCount;
+        data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -4241,6 +4458,7 @@ export interface ICategoryListModel {
     isHidden?: boolean;
     mediaUrl?: string | undefined;
     postCount?: number;
+    createdBy?: SocialUserListModel;
 }
 
 export class Contact implements IContact {

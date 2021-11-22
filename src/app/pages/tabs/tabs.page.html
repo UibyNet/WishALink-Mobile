@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="round-light">
-            <div (click)="openPage('/app/home')" [class.active]="router.url == '/app/home'" class="round-inner">
+            <div (click)="openPage('/app/profile/me')" [class.active]="router.url.indexOf('/app/profile/me') > -1" class="round-inner">
                 <img src="../../../assets/svg/tabs/home.svg" alt="Icon">
             </div>
         </div>

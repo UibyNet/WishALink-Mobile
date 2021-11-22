@@ -39,15 +39,6 @@
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
     <div class="content">
-        <div routerLink="stranger-profile/1" class="profile-list-item" hidden>
-            <div class="person-info">
-                <div class="img-container"><img src="../../../../assets/svg/abstract/avatar.png" alt="Img"></div>
-                <div class="name">Mehmet Zor</div>
-            </div>
-            <div class="follow-info">
-                Takip Et
-            </div>
-        </div>
         <div *ngIf="isSearching" class="center-spinner">
             <ion-spinner name="crescent" color="medium"></ion-spinner>
         </div>

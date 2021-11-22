@@ -59,7 +59,7 @@ const maskConfig: Partial<IConfig> = {
         {provide: LOCALE_ID, useValue: 'tr-TR'},
         {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
         {provide: API_BASE_URL, useValue: "https://panel.wishalink.com"},
-        // { provide: API_BASE_URL, useValue: "http://192.168.0.102:5000" },
+        //{ provide: API_BASE_URL, useValue: "http://192.168.0.102:5000" },
     ],
     bootstrap: [AppComponent],
 })

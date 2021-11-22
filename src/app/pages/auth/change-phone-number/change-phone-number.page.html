@@ -1,0 +1,74 @@
+<ion-header mode="ios" trasculent="true" class="dark back-only ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <div *ngIf="stepper === 1" routerLink="/app/settings" routerDirection="back" class="back-button">
+        <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+      </div>
+      <div *ngIf="stepper > 1" (click)="goPreviousStep()" class="back-button">
+        <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+      </div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="dark" fullscreen="true">
+  <div *ngIf="stepper===1" class="page-container">
+    <div class="lead">
+      <h2>
+        Telefon numaranızı güncellemek için lütfen yeni telefon numaranızı girin
+        <div class="vertical-dots">
+          <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
+        </div>
+      </h2>
+    </div>
+    <div class="bottom-container">
+      <div class="bottom-content">
+        <form [formGroup]="changePhoneNumberForm" (ngSubmit)="changePhoneNumber()" novalidate>
+          <ion-item>
+            <div class="input-group">
+              <button class="p-button" (click)="showCountrySelector()" type="button">
+                <i class="flag-icon flag-icon-{{selectedCountry.isoCode}}"></i>
+                <span>+{{selectedCountry.dialCode}}</span>
+              </button>
+              <input class="p-inputtext" formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
+                placeholder="Telefon">
+            </div>
+          </ion-item>
+          <ion-item>
+            <ion-button type="submit" [disabled]="isLoading || !changePhoneNumberForm.valid">{{ isLoading ?
+              'Gönderiliyor...' : 'Güncelle' }}</ion-button>
+          </ion-item>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="stepper === 2" class="page-container">
+    <div class="lead">
+      <h2>
+        Wish a Link’e hoş geldiniz
+      </h2>
+      <h3>
+        Lütfen ‘’Onay Kodunu’’ giriniz
+        <div class="register-horizontal">
+          <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+        </div>
+      </h3>
+    </div>
+
+    <div class="bottom-container">
+      <div class="bottom-content">
+        <div>
+          <div class="code-container">
+            <code-input class="code-input" [isCodeHidden]="false" [codeLength]="4" (codeChanged)="onCodeChanged($event)"
+              (codeCompleted)="onCodeCompleted($event)">
+            </code-input>
+          </div>
+        </div>
+        <div class="ion-padding py-1">
+          <ion-button (click)="verify()" [disabled]="isLoading">{{ isLoading ? 'Lütfen bekleyiniz...' : 'Devam Et'}}
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

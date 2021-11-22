@@ -10,6 +10,7 @@ import {FooterComponent} from './web/footer/footer.component';
 import {NavbarComponent} from './web/navbar/navbar.component';
 import {PrivacyPolicyComponent} from "./privacy-policy/privacy-policy.component";
 import {AppPipesModule} from "../pipes/pipes.module";
+import { PostItemComponent } from './post-item/post-item.component';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import {AppPipesModule} from "../pipes/pipes.module";
         NotificationComponent,
         NavbarComponent,
         FooterComponent,
-        PrivacyPolicyComponent
+        PrivacyPolicyComponent,
+        PostItemComponent
     ],
     imports: [
         FormsModule,
@@ -32,7 +34,8 @@ import {AppPipesModule} from "../pipes/pipes.module";
         NotificationComponent,
         NavbarComponent,
         FooterComponent,
-        PrivacyPolicyComponent
+        PrivacyPolicyComponent,
+        PostItemComponent
     ]
 })
 export class SharedComponentsModule {

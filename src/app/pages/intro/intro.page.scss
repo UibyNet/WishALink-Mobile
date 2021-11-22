@@ -93,9 +93,10 @@ ion-content {
   span{
     justify-content: center !important;
     border: 1px solid #6A40D6;
-    border-radius: 16px;
+    border-radius: 3em;
     color: #6A40D6;
-    font-size: 20px;
+    font-size: 1em;
+    font-weight: 600;
   }
 }
 ::ng-deep .register{
@@ -103,9 +104,10 @@ ion-content {
   padding: 0 1.5rem !important;
   span{
     justify-content: center !important;
-    background: #1E90FF;
-    border-radius: 16px;
+    background: var(--ion-color-primary);
+    border-radius: 3em;
     color: white;
-    font-size: 20px;
+    font-size: 1em;
+    font-weight: 600;
   }
 }

@@ -1,0 +1,223 @@
+::placeholder {
+  font-family: var(--ion-font-family);
+}
+
+ion-button {
+  font-size: 1em;
+  font-weight: 600;
+
+  &.ion-color-primary {
+    --border-radius: 3em;
+  }
+}
+
+ion-item {
+  --ion-margin: 0;
+  --inner-border-width: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --ion-item-background: transparent;
+  font-size: 1em;
+  font-weight: 500;
+
+  ion-label {
+    font-size: 1em !important;
+  }
+
+  input {
+    font-family: var(--ion-font-family);
+    background-image: none;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    width: 100%;
+    height: 52px;
+    border-width: 1px;
+    border-color: var(--ion-color-light);
+    border-radius: 0;
+    border-style: solid;
+    outline: none !important;
+
+    &:enabled:hover:not(.ng-dirty) {
+      border-color: var(--ion-color-primary);
+    }
+
+    &:enabled:focus {
+      border-color: var(--ion-color-primary);
+    }
+
+    &.ng-dirty.ng-invalid:focus {
+      border-color: var(--ion-color-primary);
+    }
+  }
+
+  .input-group {
+    display: flex;
+    width: 100%;
+    .p-button {
+      font-size: 1em;
+      font-weight: 500;
+      width: 90px;
+      border-width: 1px;
+      height: 52px;
+      border-style: solid;
+      border-color: var(--ion-color-light);
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+      border-right-width: 0 !important;
+      color: var(--ion-color-primary);
+      background: transparent;
+      .flag-icon {
+        margin-right: 0.2em;
+      }
+    }
+
+    input {
+      flex: 1;
+    }
+  }
+}
+
+form {
+  ion-item {
+    margin-bottom: 1em;
+  }
+}
+
+.bottom-container {
+  ion-item {
+    --padding-start: 24px;
+    --padding-end: 24px;
+  }
+
+  .ion-padding {
+    --ion-padding: 24px;
+  }
+}
+
+.code-container {
+  padding: 2em 4rem 2em;
+
+  ion-item {
+    --ion-margin: 0;
+    --inner-border-width: 0;
+    --min-height: 68px;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    --ion-item-background: transparent;
+  }
+
+  code-input {
+    justify-content: center !important;
+    --item-spacing: .8em;
+    --item-border-radius: 0;
+    --item-height: 3.375em;
+    --item-border-focused: 1px solid var(--ion-color-primary);
+    --item-border-bottom-focused: 1px solid var(--ion-color-primary);
+  }
+
+  ::ng-deep span {
+    padding: 0 !important;
+    margin-right: 8px !important;
+    flex: unset !important;
+
+    input {
+      border: 1px solid #6a40d6 !important;
+      border-radius: 0 !important;
+      width: 56px !important;
+      height: 56px !important;
+    }
+  }
+}
+
+
+/*
+::placeholder {
+  font-family: var(--ion-font-family);
+}
+
+.p-button {
+  font-family: var(--ion-font-family);
+  &:focus {
+    box-shadow: none;
+  }
+
+  .p-button-icon-left {
+    width: 20px;
+  }
+
+  .p-button-label {
+    white-space: nowrap;
+  }
+}
+
+.p-inputtext {
+  
+}
+
+.p-inputgroup {
+  display: flex;
+  width: 100%;
+  .p-button {
+    font-size: 1em;
+    width: 90px;
+    border-width: 1px;
+    height: 52px;
+    border-style: solid;
+    border-color: var(--ion-color-primary);
+    border-top-left-radius: 16px !important;
+    border-bottom-left-radius: 16px !important;
+    border-right-width: 0 !important;
+    color: var(--ion-color-primary);
+    background: transparent;
+    .flag-icon {
+      margin-right: .2em;
+    }
+  }
+
+  .p-inputtext {
+    flex: 1;
+    width: 100% !important;
+    border-radius: 0 16px 16px 0;
+  }
+}
+
+.monthview-primary-with-event {
+  background-color: transparent !important;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    background-color: var(--ion-color-primary);
+    border-radius: 10px;
+    content: " ";
+    z-index: -1;
+  }
+
+  &.monthview-selected {
+    color: #fff !important;
+
+    &::before {
+      background-color: var(--ion-color-secondary);
+    }
+  }
+}
+
+*/

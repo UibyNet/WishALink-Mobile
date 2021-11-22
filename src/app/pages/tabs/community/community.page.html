@@ -33,11 +33,11 @@
     <div class="top-tabs">
         <div class="tab-container">
 
-            <ion-segment [(ngModel)]="selectedTab">
-                <ion-segment-button value="follower" (click)="getFollowerList()">
+            <ion-segment [value]="selectedSegment">
+                <ion-segment-button value="follower" [routerLink]="currentUrl" [queryParams]="{segment: 'follower'}">
                     <ion-label>Takipçi</ion-label>
                 </ion-segment-button>
-                <ion-segment-button value="following" (click)="getFollowingList()">
+                <ion-segment-button value="following" [routerLink]="currentUrl" [queryParams]="{segment: 'following'}">
                     <ion-label>Takip</ion-label>
                 </ion-segment-button>
             </ion-segment>
@@ -46,7 +46,7 @@
 </ion-header>
 
 <ion-content #scrollAreaCommunity [scrollEvents]="true" [fullscreen]="true">
-    <div *ngIf="selectedTab=== 'follower'" class="content">
+    <div *ngIf="selectedSegment === 'follower'" class="content">
         <div *ngFor="let user of followerList" class="profile-list-item">
             <div class="person-info" (click)="selectedUser(user.id)">
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
@@ -63,7 +63,7 @@
             eden herkesi burada göreceksin.
         </div>
     </div>
-    <div *ngIf="selectedTab=== 'following'" class="content">
+    <div *ngIf="selectedSegment === 'following'" class="content">
         <div *ngFor="let user of followingList" class="profile-list-item">
             <div class="person-info" (click)="selectedUser(user.id)">
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>

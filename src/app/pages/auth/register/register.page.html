@@ -1,0 +1,169 @@
+<ion-header mode="ios" trasculent="true" class="dark back-only ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
+                <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+            </div>
+            <div *ngIf="stepper > 1" (click)="stepper=stepper-1" class="back-button">
+                <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+            </div>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="dark" fullscreen="true">
+    <div *ngIf="stepper === 1" class="page-container">
+        <div class="lead">
+            <h2>
+                Wish a Link’e üye olun
+            </h2>
+            <h3>
+                Sevdiklerinize hediye seçmek artık çok kolay
+                <div class="register-horizontal">
+                    <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+                </div>
+            </h3>
+        </div>
+        <div class="bottom-container">
+            <div class="bottom-content">
+                <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+                    <ion-item>
+                        <input formControlName="firstName" type="text" (keyup)="autoCapitalize('firstName')"
+                            placeholder="Ad">
+                    </ion-item>
+                    <ion-item>
+                        <input formControlName="lastName" type="text" (keyup)="autoCapitalize('lastName')"
+                            placeholder="Soyad">
+                    </ion-item>
+                    <ion-item>
+                        <input formControlName="email" type="email" placeholder="E-mail">
+                    </ion-item>
+                    <ion-item>
+                        <div class="input-group">
+                            <button class="p-button" (click)="showCountrySelector()" type="button">
+                                <i class="flag-icon flag-icon-{{selectedCountry.isoCode}}"></i>
+                                <span>+{{selectedCountry.dialCode}}</span>
+                            </button>
+                            <input type="tel" formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
+                                placeholder="Telefon">
+                        </div>
+                    </ion-item>
+                    <div class="input-checkbox ion-padding d-flex">
+                        <div (click)="checkbox= !checkbox" [ngClass]="{active: checkbox}" class="checkbox mr-2">
+                        </div>
+                        <div class="label">
+                            <span class="link" (click)="privacyModal()">Üyelik Sözleşmesi </span>
+                            <span class="text" (click)="checkbox= !checkbox">şartlarını okudum ve kabul ediyorum.</span>
+                        </div>
+                    </div>
+                    <div class="ion-padding py-1">
+                        <ion-button color="primary" expand="block" type="submit"
+                            [disabled]="!checkbox || isLoading || !registerForm.valid">
+                            <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+                            <span *ngIf="!isLoading">İleri</span>
+                        </ion-button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="stepper === 2" class="page-container">
+        <div class="lead">
+            <h2>
+                Wish a Link’e hoş geldiniz
+            </h2>
+            <h3>
+                SMS şifrenizi giriniz
+                <div class="register-horizontal">
+                    <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+                </div>
+            </h3>
+        </div>
+
+        <div class="bottom-container">
+            <div class="bottom-content">
+                <div>
+                    <div class="code-container">
+                        <code-input class="code-input" [isCodeHidden]="false" [codeLength]="4"
+                            (codeChanged)="onCodeChanged($event)" (codeCompleted)="onCodeCompleted($event)">
+                        </code-input>
+                    </div>
+                </div>
+                <div class="ion-padding py-1">
+                    <ion-button color="primary" expand="block" type="button" (click)="verify()" [disabled]="isLoading">
+                        <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+                        <span *ngIf="!isLoading">İleri</span>
+                    </ion-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="stepper === 3" class="page-container">
+        <div class="lead">
+            <h2>
+                Wish A Link şifrenizi oluşturun
+            </h2>
+            <h3>
+                Hesabınızın güvenliğini sağlamak için parola oluşturunuz
+                <div class="register-horizontal">
+                    <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+                </div>
+            </h3>
+        </div>
+        <div class="bottom-container">
+            <div class="bottom-content">
+                <div>
+                    <div class="">
+                        <ion-item class="mb-3">
+                            <input [(ngModel)]="password" placeholder="Parola" type="password" />
+                        </ion-item>
+                        <ion-item class="mb-3">
+                            <input [(ngModel)]="rePassword" placeholder="Parola (Tekrar)" type="password">
+                        </ion-item>
+                    </div>
+                </div>
+                <div class="ion-padding py-1">
+                    <ion-button color="primary" expand="block" type="button" (click)="setPassword()">
+                        <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+                        <span *ngIf="!isLoading">İleri</span>
+                    </ion-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="stepper === 4" class="page-container">
+        <div class="lead">
+            <h2>
+                İlgi alanlarınızı ekleyiniz
+            </h2>
+            <div class="register-horizontal" style="bottom: 0;">
+                <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
+            </div>
+        </div>
+        <div class="bottom-container">
+            <div class="bottom-content">
+                <div class="grid-container">
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col *ngFor="let category of categories" class="ion-text-center" size="4">
+                                <div [ngClass]="{'active' : selectedCategories.indexOf(category.id)> -1}"
+                                    (click)="selectCategory(category.id)" class="select-content">
+                                    {{category.name}}
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <ion-button color="primary" expand="block" type="button" class="mt-3" (click)="saveCategories()">
+                                    <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+                                    <span *ngIf="!isLoading">Kaydet</span>
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

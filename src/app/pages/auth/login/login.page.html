@@ -1,0 +1,52 @@
+<ion-header mode="ios" trasculent="true" class="dark back-only ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
+                <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
+            </div>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="dark" fullscreen="true">
+    <div *ngIf="stepper===1" class="page-container">
+        <div class="lead">
+            <h2>
+                Wish a Link’e hoş geldiniz<br>
+                lütfen giriş yapınız
+                <div class="vertical-dots">
+                    <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
+                </div>
+            </h2>
+        </div>
+        <div class="bottom-container">
+            <div class="bottom-content">
+                <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+                    <ion-item>
+                        <div class="input-group">
+                            <button class="p-button" (click)="showCountrySelector()" type="button">
+                                <i class="flag-icon flag-icon-{{selectedCountry.isoCode}}"></i>
+                                <span>+{{selectedCountry.dialCode}}</span>
+                            </button>
+                            <input type="tel" formControlName="phoneNumberMasked" type="tel"
+                                [mask]="selectedCountry.phoneMask" placeholder="Telefon">
+                        </div>
+                    </ion-item>
+                    <ion-item>
+                        <input formControlName="password" type="password" pattern="[0-9]*" inputmode="numeric" placeholder="Şifre">
+                    </ion-item>
+                    <div class="ion-padding py-1">
+                        <ion-button color="primary" expand="block" type="submit" type="submit" [disabled]="isLoading || !loginForm.valid">
+                            <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+                            <span *ngIf="!isLoading">Giriş Yap</span>
+                        </ion-button>
+                    </div>
+                    <div class="ion-padding py-1">
+                        <ion-button color="primary" expand="block" type="button" (click)="goForgot()" class="ion-text-capitalize" fill="clear" type="button">Şifremi
+                            Unuttum</ion-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ion-content>

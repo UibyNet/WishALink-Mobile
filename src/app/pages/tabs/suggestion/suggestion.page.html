@@ -15,7 +15,8 @@
         <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl" alt="" />
       </div>
       <div class="name mb-2">Keşfet</div>
-      <div hidden class="info">{{ suggestions != undefined && suggestions.length > 0 ? suggestions.length : 0 }} Ürün</div>
+      <div hidden class="info">{{ suggestions != undefined && suggestions.length > 0 ? suggestions.length : 0 }} Ürün
+      </div>
     </div>
   </div>
 </ion-header>
@@ -29,59 +30,10 @@
         </div>
 
         <ion-list>
-          <ion-virtual-scroll [items]="suggestions" approxItemHeight="145px" >
-            <ion-item detail="false" *virtualItem="let item; let itemBounds = bounds;  let i = index" (click)="openPostDetail($event, item.id)">
-              <ion-button fill="clear" class="remote-link" *ngIf="i%2==1" [slot]="i%2==1 ? 'end' :'start'" (click)="openPostDetail($event, item.id, true)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon" /></ion-button>
-              <div class="img-product-container" [slot]="i%2==1 ? 'end' :'start'">
-                <img [src]="item.mediaUrl" alt="" />
-              </div>
-              <ion-button fill="clear" class="remote-link" *ngIf="i%2==0" [slot]="i%2==1 ? 'start' :'end'" (click)="openPostDetail($event, item.id, true)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon" /></ion-button>
-              <div>
-                <div class="d-flex mb-8" >
-                  <div class="product-name">{{ item.name }}</div>
-                </div>
-                <div class="">
-                  <ion-badge class="product-tag" color="primary" *ngIf="item.brand != null && item.brand.length > 0"> {{item.brand}} </ion-badge>
-                  <ion-badge class="product-tag" color="primary" *ngIf="item.model != null && item.model.length > 0"> {{ item.model }}</ion-badge>
-                  <ion-badge class="product-tag" color="primary" *ngIf="item.color != null && item.color.length > 0"> {{ item.color }}</ion-badge>
-                  <ion-badge class="product-tag" color="primary" *ngIf="item.size != null && item.size.length > 0">{{ item.size }} </ion-badge>
-                  <ion-badge class="product-tag" color="primary" *ngIf="item.keywords != null && item.keywords.length > 0">{{ item.keywords }}</ion-badge>
-                </div>
-                
-                <div class="creator d-flex mt-2" (click)="openCreator($event, item.id)">
-                  <div class="product-name" routerLink="/app/search/stranger-profile/{{item.createdBy.id}}">{{ item.createdBy.fullName }}</div>
-                </div>
-              </div>
-            </ion-item>
+          <ion-virtual-scroll [items]="suggestions" approxItemHeight="145px">
+            <app-post-item [item]="item" [index]="i" *virtualItem="let item; let itemBounds = bounds;  let i = index"></app-post-item>
           </ion-virtual-scroll>
         </ion-list>
-<!--        <ion-virtual-scroll [items]="suggestions" approxItemHeight="145px">-->
-<!--          <div class="item-container" *virtualItem="let item; let itemBounds = bounds;  let i = index">-->
-<!--            <ion-grid *ngIf="item != null" class="ion-no-padding">-->
-<!--              <ion-row [class.reverse]="i%2==1">-->
-<!--                <ion-col class="ion-text-center img-bottom" size="4" (click)="openPostDetail(item.id)">-->
-<!--                  <div class="img-product-container">-->
-<!--                    <img [src]="item.mediaUrl" alt="" />-->
-<!--                  </div>-->
-<!--                </ion-col>-->
-<!--                <ion-col class="ion-text-center col-custom ion-padding-start" size="8">-->
-<!--                  <div class="d-flex mb-8" (click)="openPostDetail(item.id)">-->
-<!--                    <div class="product-name">{{ item.name }}</div>-->
-<!--                    <div (click)="redirectToUrl(item.url)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon" /></div>-->
-<!--                  </div>-->
-<!--                  <div class="ion-text-left">-->
-<!--                    <ion-badge class="product-tag" color="primary" *ngIf="item.brand != null && item.brand.length > 0"> {{item.brand}} </ion-badge>-->
-<!--                    <ion-badge class="product-tag" color="primary" *ngIf="item.model != null && item.model.length > 0"> {{ item.model }}</ion-badge>-->
-<!--                    <ion-badge class="product-tag" color="primary" *ngIf="item.color != null && item.color.length > 0"> {{ item.color }}</ion-badge>-->
-<!--                    <ion-badge class="product-tag" color="primary" *ngIf="item.size != null && item.size.length > 0">{{ item.size }} </ion-badge>-->
-<!--                    <ion-badge class="product-tag" color="primary" *ngIf="item.keywords != null && item.keywords.length > 0">{{ item.keywords }}</ion-badge>-->
-<!--                  </div>-->
-<!--                </ion-col>-->
-<!--              </ion-row>-->
-<!--            </ion-grid>-->
-<!--          </div>-->
-<!--        </ion-virtual-scroll>-->
-
         <ion-infinite-scroll class="mt-3" threshold="100px" (ionInfinite)="loadSuggestions($event)">
           <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
         </ion-infinite-scroll>
