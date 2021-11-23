@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="right-inner">
-            <div (click)="openPage('/app/wallet')" [class.active]="router.url == '/app/wallet'" class="item-container">
+            <div (click)="startPayment()" class="item-container">
                 <img src="../../../assets/svg/tabs/scan.svg" alt="Icon">
             </div>
             <div (click)="openPage('/app/settings')" [class.active]="router.url == '/app/settings'" class="item-container">
