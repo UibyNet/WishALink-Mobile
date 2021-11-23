@@ -28,7 +28,9 @@ export class CardListPage implements OnInit {
   ionViewDidEnter() {
     this.appService.getKpayMember().then(v => {
       this.member = v;
-      this.loadData();
+      this.zone.run(()=>{
+        this.loadData();
+      })
     })
   }
 

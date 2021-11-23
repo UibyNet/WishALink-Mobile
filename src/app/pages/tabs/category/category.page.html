@@ -21,6 +21,14 @@
       </div>
     </div>
   </div>
+  <ion-item detail="false" *ngIf="!isStrangerCategory" routerLink="/add-product/{{category?.id}}/0" style="border-top: 1px solid var(--ion-color-light);">
+    <ion-label>
+      <h2>Ürün Ekle</h2>
+    </ion-label>
+    <span>
+      <ion-icon name="add-outline"></ion-icon>
+    </span>
+  </ion-item>
 </ion-header>
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
@@ -48,9 +56,9 @@
       <div *ngIf="posts == undefined" class="center-spinner">
         <ion-spinner name="crescent" color="medium"></ion-spinner>
       </div>
-      <div class="item-container" *ngFor="let post of posts; let i = index">
+      <div class="item-container">
         <ion-list>
-          <app-post-item [item]="post" [index]="i"></app-post-item>
+          <app-post-item *ngFor="let post of posts; let i = index" [item]="post" [index]="i"></app-post-item>
         </ion-list>
         <!--
         <ion-grid *ngIf="post != null" class="ion-no-padding">

@@ -218,7 +218,10 @@ export class ProfilePage implements OnInit {
     }
 
     openActivityEdit(activity: ActivityListModel) {
-        console.log(activity)
+        
+        if(activity.createdBy.id != this.appService.user.id) return;
+        debugger;
+        
         this.router.navigate(['/app/activity/create'], {
             queryParams: {
                 activityId: activity.id,

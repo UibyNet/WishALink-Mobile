@@ -114,15 +114,16 @@ ion-header {
 
         .number {
           margin-right: 0.3em;
-          font-size: 0.9em;
-          line-height: 0.9em;
+          font-size: 1em;
+          line-height: 1em;
           color: #6a40d6;
           font-weight: 600;
+          margin-top: -0.1em;
         }
 
         .text {
-          font-size: 0.8em;
-          line-height: 0.8em;
+          font-size: 0.9em;
+          line-height: 0.9em;
           color: var(--ion-color-medium);
         }
       }
@@ -164,7 +165,7 @@ ion-header {
         border: 1px solid var(--ion-color-primary);
 
         ion-segment-button {
-          font-size: 0.9em;
+          font-size: 1em;
           --color: var(--ion-color-primary);
           --color-checked: #ffffff;
         }
@@ -176,6 +177,11 @@ ion-header {
     margin: 0 auto;
     width: 80%;
     text-align: center;
+    input {
+      
+    font-size: 1.1em !important;
+    font-weight: 500 !important;
+    }
   }
 }
 
