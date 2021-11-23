@@ -46,7 +46,11 @@ export class AddProductPage implements OnInit {
         private router: Router
     ) {
     }
+    ionViewWillEnter() {
+        this.appService.toggleStatusBar('dark');
+        this.appService.setStatusBarBackground('primary')
 
+    }
     ngOnInit() {
         const categoryId = this.route.snapshot.paramMap.get('categoryId');
         this.categoryId = parseInt(categoryId)

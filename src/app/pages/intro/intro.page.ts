@@ -23,7 +23,7 @@ export class IntroPage implements OnInit {
     ionViewWillEnter() {
         this.hideSplashScreen();
         this.appService.toggleStatusBar('dark');
-
+        this.appService.setStatusBarBackground('primary')
         if (this.appService.isMobile) {
             if (this.appService.isLoggedIn) {
                 this.router.navigate(['app']);

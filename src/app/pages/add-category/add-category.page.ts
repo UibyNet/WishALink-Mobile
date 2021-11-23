@@ -36,7 +36,11 @@ export class AddCategoryPage implements OnInit {
     onAutoFormatChangedCategoryName() {
         this.categoryName = this.setFirstLetterToUppercase(this.categoryName);
     }
+    ionViewWillEnter() {
+        this.appService.toggleStatusBar('dark');
+        this.appService.setStatusBarBackground('primary')
 
+    }
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
         this.categoryId = parseInt(id)
