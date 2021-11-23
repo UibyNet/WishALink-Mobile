@@ -22,6 +22,10 @@ export class WalletPage {
     private paymentRequestApiService: KpayFixedqrPaymentPayment_RequestApiService
   ) { }
 
+  ionViewDidEnter() {
+    this.startPayment();
+  }
+
   openCards() {
     this.router.navigateByUrl(`/app/wallet/cards`);
   }
