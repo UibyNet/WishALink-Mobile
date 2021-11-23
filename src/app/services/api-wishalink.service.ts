@@ -4014,6 +4014,7 @@ export class ActivityListModel implements IActivityListModel {
     startDate?: string | undefined;
     endDate?: string | undefined;
     createdBy?: SocialUserListModel;
+    createdOn?: string | undefined;
 
     constructor(data?: IActivityListModel) {
         if (data) {
@@ -4034,6 +4035,7 @@ export class ActivityListModel implements IActivityListModel {
             this.startDate = _data["StartDate"];
             this.endDate = _data["EndDate"];
             this.createdBy = _data["CreatedBy"] ? SocialUserListModel.fromJS(_data["CreatedBy"]) : <any>undefined;
+            this.createdOn = _data["CreatedOn"];
         }
     }
 
@@ -4054,6 +4056,7 @@ export class ActivityListModel implements IActivityListModel {
         data["StartDate"] = this.startDate;
         data["EndDate"] = this.endDate;
         data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
+        data["CreatedOn"] = this.createdOn;
         return data; 
     }
 }
@@ -4067,6 +4070,7 @@ export interface IActivityListModel {
     startDate?: string | undefined;
     endDate?: string | undefined;
     createdBy?: SocialUserListModel;
+    createdOn?: string | undefined;
 }
 
 export class Address implements IAddress {
@@ -4406,6 +4410,7 @@ export class CategoryListModel implements ICategoryListModel {
     mediaUrl?: string | undefined;
     postCount?: number;
     createdBy?: SocialUserListModel;
+    createdOn?: string | undefined;
 
     constructor(data?: ICategoryListModel) {
         if (data) {
@@ -4426,6 +4431,7 @@ export class CategoryListModel implements ICategoryListModel {
             this.mediaUrl = _data["MediaUrl"];
             this.postCount = _data["PostCount"];
             this.createdBy = _data["CreatedBy"] ? SocialUserListModel.fromJS(_data["CreatedBy"]) : <any>undefined;
+            this.createdOn = _data["CreatedOn"];
         }
     }
 
@@ -4446,6 +4452,7 @@ export class CategoryListModel implements ICategoryListModel {
         data["MediaUrl"] = this.mediaUrl;
         data["PostCount"] = this.postCount;
         data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
+        data["CreatedOn"] = this.createdOn;
         return data; 
     }
 }
@@ -4459,6 +4466,7 @@ export interface ICategoryListModel {
     mediaUrl?: string | undefined;
     postCount?: number;
     createdBy?: SocialUserListModel;
+    createdOn?: string | undefined;
 }
 
 export class Contact implements IContact {
@@ -5543,9 +5551,11 @@ export class PostListModel implements IPostListModel {
     description?: string | undefined;
     keywords?: string | undefined;
     mediaUrl?: string | undefined;
-    likes?: number;
+    likeCount?: number;
+    isUserLike?: boolean;
     activity?: ActivityListModel;
     createdBy?: SocialUserListModel;
+    createdOn?: string | undefined;
     category?: CategoryListModel;
 
     constructor(data?: IPostListModel) {
@@ -5569,9 +5579,11 @@ export class PostListModel implements IPostListModel {
             this.description = _data["Description"];
             this.keywords = _data["Keywords"];
             this.mediaUrl = _data["MediaUrl"];
-            this.likes = _data["Likes"];
+            this.likeCount = _data["LikeCount"];
+            this.isUserLike = _data["IsUserLike"];
             this.activity = _data["Activity"] ? ActivityListModel.fromJS(_data["Activity"]) : <any>undefined;
             this.createdBy = _data["CreatedBy"] ? SocialUserListModel.fromJS(_data["CreatedBy"]) : <any>undefined;
+            this.createdOn = _data["CreatedOn"];
             this.category = _data["Category"] ? CategoryListModel.fromJS(_data["Category"]) : <any>undefined;
         }
     }
@@ -5595,9 +5607,11 @@ export class PostListModel implements IPostListModel {
         data["Description"] = this.description;
         data["Keywords"] = this.keywords;
         data["MediaUrl"] = this.mediaUrl;
-        data["Likes"] = this.likes;
+        data["LikeCount"] = this.likeCount;
+        data["IsUserLike"] = this.isUserLike;
         data["Activity"] = this.activity ? this.activity.toJSON() : <any>undefined;
         data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
+        data["CreatedOn"] = this.createdOn;
         data["Category"] = this.category ? this.category.toJSON() : <any>undefined;
         return data; 
     }
@@ -5614,9 +5628,11 @@ export interface IPostListModel {
     description?: string | undefined;
     keywords?: string | undefined;
     mediaUrl?: string | undefined;
-    likes?: number;
+    likeCount?: number;
+    isUserLike?: boolean;
     activity?: ActivityListModel;
     createdBy?: SocialUserListModel;
+    createdOn?: string | undefined;
     category?: CategoryListModel;
 }
 
@@ -6772,7 +6788,7 @@ function blobToText(blob: any): Observable<string> {
     });
 }
 export function getFileReader(): FileReader {
-	const fileReader = getFileReader();
+	const fileReader = new FileReader();
 	const zoneOriginalInstance = (fileReader as any)["__zone_symbol__originalInstance"];
 	return zoneOriginalInstance || fileReader;
 }

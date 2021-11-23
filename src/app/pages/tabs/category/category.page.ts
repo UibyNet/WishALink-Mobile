@@ -83,11 +83,11 @@ export class CategoryPage implements OnInit {
   }
 
   addProduct() {
-    this.router.navigate(['/add-product/' + this.category.id]);
+    this.router.navigate(['add-product', this.category.id, 0]);
   }
 
   openEditCategory() {
-    this.router.navigate(["/app/home/add-category"], { queryParams: { categoryId: this.category.id } });
+    this.router.navigate(['add-category', this.category.id], {state: this.category});
   }
 
   goBack() {

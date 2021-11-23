@@ -1,0 +1,37 @@
+:host {
+  ion-avatar {
+    --border-radius: 0;
+  }
+
+  ion-radio {
+    border-radius: 50%;
+    border: 2px solid gray;
+    width: 24px;
+    height: 24px;
+  }
+
+  ion-footer {
+    background: #ecedf2;
+
+    p {
+      margin: 0;
+      padding-left: 4px;
+    }
+  }
+
+  .no-cards {
+    padding-top: 20%;
+    .icon {
+      img {
+        width: 40%;
+        max-width: 400px;
+      }
+    }
+
+    h2 {
+      color: rgb(179, 179, 179);
+      font-size: 1.2em;
+      margin-bottom: 40px;
+    }
+  }
+}

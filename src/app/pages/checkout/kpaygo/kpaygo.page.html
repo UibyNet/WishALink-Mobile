@@ -1,0 +1,58 @@
+<ion-header mode="ios" class="ion-no-border">
+  <div class="shrinkable">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/app/wallet" text="" color="dark"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Kartlarım</ion-title>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="page-content gap-list">
+
+    <ion-radio-group *ngIf="cards != undefined && cards.length > 0">
+      <ion-item detail="false" (click)="onCardSelect(card)" *ngFor="let card of cards">
+        <ion-label>
+          <h2>{{ card.alias }}</h2>
+          <h3>{{ card.bankName}} - {{card.familyName}}</h3>
+          <p>{{ card.pAN }}</p>
+        </ion-label>
+        <ion-radio slot="start" [value]="card.cardID"></ion-radio>
+        <ion-avatar slot="start">
+          <img src="assets/img/icon/payment/{{ card.creditCardType.toLowerCase() }}.png">
+        </ion-avatar>
+        <ion-icon *ngIf="card.cardID == member?.defaultCard" slot="end" name="star-outline" color="secondary">
+        </ion-icon>
+      </ion-item>
+    </ion-radio-group>
+
+    <div class="no-cards" *ngIf="cards == undefined || cards.length == 0">
+      <div class="icon ion-text-center">
+        <img src="../../../../assets/svg/logo/ccard.svg" alt="">
+      </div>
+      <div class="ion-text-center mb-3">
+        <ion-note>Kayıtlı kredi kartı bulunamadı!</ion-note>
+      </div>
+      <div class="ion-text-center" (click)="openCardEdit()">
+        <ion-button color="primary">Yeni Kart Ekle</ion-button>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="cards != undefined && cards.length > 0">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <p>Toplam Tutar</p>
+        <p><strong>{{ order?.amount }} TL</strong></p>
+      </ion-col>
+      <ion-col>
+        <ion-button size="block" (click)="pay()" [disabled]="selectedCard == undefined">Seçili Kart ile Öde</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

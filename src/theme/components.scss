@@ -6,6 +6,11 @@ ion-button {
   font-size: 1em;
   font-weight: 600;
 
+  .button-small {
+    font-size: 0.8em;
+    font-weight: 500;
+  }
+
   &.ion-color-primary {
     --border-radius: 3em;
   }
@@ -26,6 +31,9 @@ ion-item {
 
   ion-label {
     font-size: 1em !important;
+    h2 {
+      font-weight: 500 !important;
+    }
   }
 
   input {
@@ -122,7 +130,7 @@ form {
 
   code-input {
     justify-content: center !important;
-    --item-spacing: .8em;
+    --item-spacing: 0.8em;
     --item-border-radius: 0;
     --item-height: 3.375em;
     --item-border-focused: 1px solid var(--ion-color-primary);
@@ -142,7 +150,6 @@ form {
     }
   }
 }
-
 
 /*
 ::placeholder {

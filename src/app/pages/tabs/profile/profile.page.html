@@ -54,6 +54,13 @@
     <div *ngIf="selectedSegment == 'categories'" class="content">
         <ion-grid *ngIf="categories != undefined && categories.length > 0">
             <ion-row>
+                <ion-col *ngIf="isMe" class="ion-text-center new-category" size="4" routerLink="/add-category/0">
+                    <div class="card">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </div>
+                    <div class="product-title">Yeni</div>
+                    <div class="product-amount">Kategori</div>
+                </ion-col>
                 <ion-col *ngFor="let category of categories" routerLink="/app/category/{{category.id}}" [state]="category" class="ion-text-center" size="4">
                     <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}">
                     </div>
@@ -73,7 +80,15 @@
     </div>
     <div *ngIf="selectedSegment == 'activities'" class="content">
         <ion-list class="activities" *ngIf="activities != undefined && activities.length > 0">
-            <ion-item *ngFor="let activity of activities">
+            <ion-item detail="false" *ngIf="isMe" routerLink="/app/activity/create" [queryParams]="{activityId: 0}">
+                <ion-label>
+                    <h2>Ektinlik Ekle</h2>
+                </ion-label>
+                <span>
+                    <ion-icon name="add-outline"></ion-icon>
+                </span>
+            </ion-item>
+            <ion-item button detail="false" *ngFor="let activity of activities" (click)="openActivityEdit(activity)">
                 <ion-label>
                     <h2>{{ activity.name }}</h2>
                     <p>{{ activity.description }}</p>

@@ -206,6 +206,10 @@
       &.active {
         background: #1e90ff;
       }
+
+      img {
+        width: 2em;
+      }
     }
     .round-light {
       width: 56px;
@@ -230,6 +234,9 @@
         border-radius: 50px;
         &.active {
           background: #1e90ff;
+        }
+        img {
+          width: 2em;
         }
       }
     }

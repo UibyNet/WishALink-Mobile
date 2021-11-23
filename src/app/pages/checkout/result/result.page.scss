@@ -1,0 +1,61 @@
+.page-content {
+  height: 100%;
+
+  &.success {
+    background: rgb(147, 189, 66);
+    background: linear-gradient(
+      336deg,
+      rgba(147, 189, 66, 1) 0%,
+      rgba(112, 160, 65, 1) 100%
+    );
+  }
+
+  &.error {
+    background: rgb(237, 28, 36);
+    background: linear-gradient(
+      336deg,
+      rgba(237, 28, 36, 1) 0%,
+      rgba(190, 30, 45, 1) 100%
+    );
+  }
+
+  .result-img {
+    div {
+      width: 20vh;
+      height: 20vh;
+      margin: 5vh auto;
+      border-radius: 50%;
+      background: #ffffff;
+      position: relative;
+
+      img {
+        width: 40%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  .result-text {
+    font-size: 1.2em;
+
+    &.has-result {
+      color: #ffffff;
+    }
+  }
+
+  ion-button {
+    font-size: 1.2em;
+    img {
+      width: 1.6em;
+      margin-left: 2em;
+      float: right;
+
+      &.error {
+        filter: brightness(0);
+      }
+    }
+  }
+}

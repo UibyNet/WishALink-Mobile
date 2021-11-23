@@ -71,6 +71,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'wallet',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./wallet/wallet.module').then(m => m.WalletPageModule)
+          }
+        ]
+      },
+      {
         path: 'post/:id',
         loadChildren: () => import('./post/post.module').then(m => m.PostPageModule)
       },

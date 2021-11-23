@@ -7,7 +7,7 @@
     </div>
     <div class="main-content">
       <div>
-        <div routerLink="/app" routerDirection="back" class="exit-container">
+        <div (click)="goBack()" class="exit-container">
           <img src="../../../assets/svg/abstract/exit.svg" alt="Icon">
         </div>
         <div class="top-tabs" hidden>
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div>
-        <ion-button color="primary" expand="block" fill="outline" [disabled]="isLoading" *ngIf="!isCategoryId" (click)="saveCategory()">{{isLoading ? 'Kaydediliyor...' : 'Kaydet'}}</ion-button>
+        <ion-button color="primary" expand="block" fill="outline" [disabled]="isLoading" *ngIf="!(categoryId > 0)" (click)="saveCategory()">{{isLoading ? 'Kaydediliyor...' : 'Kaydet'}}</ion-button>
         <ion-button color="primary" expand="block" fill="outline" [disabled]="isLoading" *ngIf="categoryId > 0"  (click)="saveCategory()"> {{isLoading ? 'Güncelleniyor...' : 'Güncelle'}}</ion-button>
       </div>
 

@@ -1,9 +1,10 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {PostApiService, PostListModel, SocialUserListModel} from 'src/app/services/api-wishalink.service';
-import {AppService} from "../../../services/app.service";
-import {ModalController} from '@ionic/angular';
-import {NotificationComponent} from 'src/app/components/notification/notification.component';
-import {Router} from '@angular/router';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { PostApiService, PostListModel, SocialUserListModel } from 'src/app/services/api-wishalink.service';
+import { AppService } from "../../../services/app.service";
+import { ModalController } from '@ionic/angular';
+import { NotificationComponent } from 'src/app/components/notification/notification.component';
+import { Router } from '@angular/router';
+import { IPageInfo } from 'ngx-virtual-scroller';
 
 @Component({
     selector: 'app-suggestion',
@@ -13,7 +14,8 @@ import {Router} from '@angular/router';
 export class SuggestionPage implements OnInit {
 
     userData: SocialUserListModel
-    suggestions: PostListModel[];
+    suggestions: PostListModel[] = [];
+    isLoading: boolean = false;
 
     constructor(
         public appService: AppService,
@@ -26,7 +28,7 @@ export class SuggestionPage implements OnInit {
     ngOnInit() {
         this.userData = this.appService.userInfo;
 
-        this.loadSuggestions(null)
+        //this.loadSuggestions(null)
     }
 
     ionViewWillEnter() {
@@ -35,15 +37,25 @@ export class SuggestionPage implements OnInit {
 
     }
 
+    loadMoreSuggestions(event: IPageInfo) {
+        if (event.endIndex !== this.suggestions.length - 1) return;
+        this.isLoading = true;
+        this.loadSuggestions(null);
+    }
+
     loadSuggestions(event) {
         this.postApiService.suggestions()
             .subscribe(
                 v => {
-                    if (event) event.target.complete();
+                    this.zone.run(() => {
+                        this.isLoading = false;
+                    })
                     this.onSuggestionsLoad(v);
                 },
                 e => {
-                    if (event) event.target.complete();
+                    this.zone.run(() => {
+                        this.isLoading = false;
+                    })
                     this.onError(e);
                 }
             )

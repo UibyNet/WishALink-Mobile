@@ -1,0 +1,54 @@
+<ion-header mode="ios" class="ion-no-border">
+  <div class="shrinkable">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/app/wallet" text="" color="dark"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Ödeme Yap</ion-title>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+
+<ion-content>
+  <div class="page-content">
+    <form>
+      <div class="balance">
+        <ion-list class="gap-list">
+          <ion-radio-group (ionChange)="onPaymentMethodChange($event)">
+            <ion-item>
+              <ion-label>
+                <h2>Kpay GO ile Öde</h2>
+                <p>Kredi kartı veya banka kartı</p>
+              </ion-label>
+              <ion-radio slot="start" value="kpay"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <h2>Kredi Kartı ile Öde</h2>
+                <p>Kart bilgileri girerek ödeme</p>
+              </ion-label>
+              <ion-radio slot="start" value="creditcard"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </div>
+
+    </form>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <p>Toplam Tutar</p>
+        <p><strong>{{ order?.amount }} TL</strong></p>
+      </ion-col>
+      <ion-col>
+        <ion-button size="block" (click)="pay()" [disabled]="selectedMethod == undefined">Ödeme Yap</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

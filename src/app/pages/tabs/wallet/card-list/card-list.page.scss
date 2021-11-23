@@ -1,0 +1,254 @@
+:host {
+  ion-avatar {
+    --border-radius: 0;
+  }
+
+  ion-item-sliding {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    ion-item {
+      border-radius: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .no-cards {
+    padding-top: 20%;
+    .icon {
+      img {
+        width: 40%;
+        max-width: 400px;
+      }
+    }
+
+    h2 {
+      color: rgb(179, 179, 179);
+      font-size: 1.2em;
+      margin-bottom: 40px;
+    }
+  }
+  .gridcard-color {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: -85px;
+  }
+  .gridcard-color:first-child {
+    margin-top: 10px !important;
+  }
+  .gridcard-color:nth-child(4n + 1) ion-grid {
+    animation-delay: 0.3s;
+    background: linear-gradient(
+      to top,
+      #360033,
+      #0b8793
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    border-radius: 10px;
+    //padding: 10px;
+    //margin-top: 10px;
+    //max-width: 400px !important;
+    .msg {
+      font-weight: bold;
+      background-color: #5a5a5a1c;
+    }
+  }
+  .gridcard-color:nth-child(4n + 2) ion-grid {
+    animation-delay: 0.8s;
+    background: linear-gradient(
+      to bottom,
+      #c04848,
+      #480048
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    border-radius: 10px;
+    //padding: 10px;
+    //margin-top: 10px;
+    //max-width: 400px !important;
+    .msg {
+      font-weight: bold;
+      background-color: #5a5a5a1c;
+    }
+  }
+  .gridcard-color:nth-child(4n + 3) ion-grid {
+    animation-delay: 1.3s;
+    background: linear-gradient(
+      to bottom,
+      #948e99,
+      #2e1437
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-radius: 10px;
+    //padding: 10px;
+    //margin-top: 10px;
+    //max-width: 400px !important;
+    .msg {
+      font-weight: bold;
+      background-color: #5a5a5a1c;
+    }
+  }
+  .gridcard-color:nth-child(4n + 4) ion-grid {
+    animation-delay: 1.8s;
+    background: linear-gradient(
+      to top,
+      #f46b45,
+      #eea849
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-radius: 10px;
+    //padding: 10px;
+    //margin-top: 10px;
+    //max-width: 400px !important;
+    .msg {
+      font-weight: bold;
+      background-color: #5a5a5a1c;
+    }
+  }
+  // ion-grid.cardON {
+  //   background-color: #4284ff;
+  //   border-radius: 10px;
+  //   padding: 10px;
+  //   margin-bottom: 15px;
+  //   max-width: 400px !important;
+  //   .msg {
+  //     background-color: #679cff;
+  //   }
+  // }
+  // ion-grid.cardOFF {
+  //   background-color: #6f42c1;
+  //   border-radius: 10px;
+  //   padding: 10px;
+  //   margin-bottom: 15px;
+  //   max-width: 400px !important;
+  //   .msg {
+  //     background-color: #d4d4d4;
+  //   }
+  // }
+  .msgOFF {
+    float: left;
+    padding: 5px;
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 1em;
+    color: white;
+    border-radius: 5px;
+  }
+  .msgON {
+    float: left;
+    border: solid 1px #8de378;
+    padding: 5px;
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 1em;
+    color: white;
+    border-radius: 5px;
+  }
+  ion-grid:active {
+    margin-bottom: 95px;
+  }
+  ion-grid ion-row {
+    padding-bottom: 12px;
+  }
+  .ccnumber {
+    color: white;
+    font-size: 1.2em;
+    line-height: 2em;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  .number {
+    color: white;
+    font-size: 1.4em;
+    line-height: 2em;
+    text-align: center;
+  }
+  .digits {
+    letter-spacing: 4px;
+    // padding-right: 5%;
+    // padding-left: 5%;
+  }
+  .date {
+    color: white;
+    font-size: 0.8em;
+  }
+  .bank {
+    text-align: right;
+    color: white;
+    font-size: 0.8em;
+  }
+  .ON {
+    height: 8px;
+    width: 8px;
+    background-color: #8de278;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 2px;
+  }
+  .OFF {
+    height: 8px;
+    width: 8px;
+    background-color: #fb5f5f;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 2px;
+  }
+  .brand {
+    max-width: 40%;
+    float: right;
+    -webkit-filter: brightness(0) invert(1);
+  }
+  .chip {
+    img {
+      max-width: 50px;
+      padding-top: 5%;
+      border-radius: 10% !important;
+      overflow: hidden;
+    }
+  }
+  ion-icon#power {
+    font-size: 2em;
+  }
+  .logo-white {
+    filter: brightness(0) invert(1);
+  }
+
+  // @keyframes FadeIn {
+  //   0% {
+  //     opacity: 0;
+  //     transform: scale(0.1);
+  //   }
+
+  //   85% {
+  //     opacity: 1;
+  //     transform: scale(1.05);
+  //   }
+  //   100% {
+  //     transform: scale(1);
+  //   }
+  // }
+
+  // .gridcard-color ion-grid {
+  //   float: left;
+  //   margin: 20px;
+  //   animation: FadeIn 1s linear;
+  //   animation-fill-mode: both;
+  // }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      -webkit-transform: translate3d(0, 100%, 0);
+      transform: translate3d(0, 100%, 0);
+    }
+
+    to {
+      opacity: 1;
+      -webkit-transform: none;
+      transform: none;
+    }
+  }
+
+  .gridcard-color ion-grid {
+    // first we make all instances of this transparent.
+    opacity: 0;
+    // as we're using the same animation for each instance, call it here so we're not repeating it
+    animation: fadeInUp 1s ease-in-out 0s forwards;
+  }
+}

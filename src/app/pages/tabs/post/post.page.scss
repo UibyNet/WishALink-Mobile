@@ -1,3 +1,4 @@
+/*
 .main {
   background: #6a40d6;
   height: 50%;
@@ -74,3 +75,31 @@
 .mt-6 {
   margin-top: 2.4rem;
 }
+*/
+
+.external-link {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+
+  ion-icon {
+    font-size: 1.2em;
+    margin-right: .4em;
+  }
+}
+
+ion-badge {
+  margin-right: .6em;
+  font-weight: 500;
+}
+
+.like-button {
+  ion-icon {
+    margin-right: .2em;
+  }
+}
+
+.description {
+  font-weight: 500;
+}
+

@@ -17,7 +17,7 @@ import * as moment from 'moment';
 export const KPAY_BACKEND_API_URL = new InjectionToken<string>('KPAY_BACKEND_API_URL');
 
 @Injectable()
-export class ApiService {
+export class KpayBackendServiceApiService {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -150,6 +150,18 @@ export class ApiService {
             }));
         }
         return _observableOf<APIResultDTO[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class KpayBackendMemberApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
     }
 
     /**
@@ -917,6 +929,18 @@ export class ApiService {
         }
         return _observableOf<void>(<any>null);
     }
+}
+
+@Injectable()
+export class KpayBackendCardApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
+    }
 
     /**
      * Stores a card for the member
@@ -1327,6 +1351,18 @@ export class ApiService {
         }
         return _observableOf<void>(<any>null);
     }
+}
+
+@Injectable()
+export class KpayBackendPaymentApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
+    }
 
     /**
      * Returns a paginated list of member's payments ordered by date time
@@ -1552,6 +1588,18 @@ export class ApiService {
             }));
         }
         return _observableOf<PaymentDTO>(<any>null);
+    }
+}
+
+@Injectable()
+export class KpayBackendApplicationApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
     }
 
     /**
@@ -2246,6 +2294,18 @@ export class ApiService {
         }
         return _observableOf<void>(<any>null);
     }
+}
+
+@Injectable()
+export class KpayBackendEstablishmentApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
+    }
 
     /**
      * Returns the list of the establishments with summary data
@@ -2619,6 +2679,18 @@ export class ApiService {
         }
         return _observableOf<FileResponse>(<any>null);
     }
+}
+
+@Injectable()
+export class KpayBackendNewsApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
+    }
 
     /**
      * Returns the list of the news in the selected language
@@ -2801,6 +2873,18 @@ export class ApiService {
             }));
         }
         return _observableOf<FileResponse>(<any>null);
+    }
+}
+
+@Injectable()
+export class KpayBackendEventApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
     }
 
     /**
@@ -3125,6 +3209,18 @@ export class ApiService {
         }
         return _observableOf<FileResponse>(<any>null);
     }
+}
+
+@Injectable()
+export class KpayBackendCampaignApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
+    }
 
     /**
      * Returns the list of the campaigns in the selected language
@@ -3307,6 +3403,18 @@ export class ApiService {
             }));
         }
         return _observableOf<FileResponse>(<any>null);
+    }
+}
+
+@Injectable()
+export class KpayBackendAdvertisementApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
     }
 
     /**
@@ -3494,6 +3602,18 @@ export class ApiService {
             }));
         }
         return _observableOf<FileResponse>(<any>null);
+    }
+}
+
+@Injectable()
+export class KpayBackendProductApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
     }
 
     /**
@@ -3885,6 +4005,18 @@ export class ApiService {
         }
         return _observableOf<FileResponse>(<any>null);
     }
+}
+
+@Injectable()
+export class KpayBackendMetropolApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
+    }
 
     /**
      * Returns list of provinces which has Metropol establishments in them
@@ -4178,6 +4310,18 @@ export class ApiService {
             }));
         }
         return _observableOf<PaginatedBranchListDTO>(<any>null);
+    }
+}
+
+@Injectable()
+export class KpayBackendSystemApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_BACKEND_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/AppBackend/V1";
     }
 
     /**

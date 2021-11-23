@@ -1,0 +1,86 @@
+<ion-content>
+  <div
+    class="page-content"
+    [class.error]="result == 'error'"
+    [class.success]="result == 'success'"
+  >
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center result-img">
+          <div>
+            <img
+              *ngIf="result == undefined || result.length == 0"
+              src="../../../../assets/svg/payment/loading.svg"
+              alt=""
+            />
+            <img
+              *ngIf="result == 'error'"
+              src="../../../../assets/svg/payment/error.svg"
+              alt=""
+            />
+            <img
+              *ngIf="result == 'success'"
+              src="../../../../assets/svg/payment/success.svg"
+              alt=""
+            />
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col
+          class="ion-text-center result-text"
+          [class.has-result]="result != undefined && result.length > 0"
+        >
+          {{ resultText }}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-center ion-padding" style="margin-top: 4vh">
+          <ion-button
+            *ngIf="result == undefined || result.length == 0"
+            class="submit-button"
+            type="button"
+            expand="block"
+            color="danger"
+            (click)="cancel()"
+          >
+            Kapat
+          </ion-button>
+          <ion-button
+            *ngIf="result == 'error' || result == 'success'"
+            class="submit-button"
+            type="button"
+            expand="block"
+            [color]="result == 'error' ? 'light' : 'primary'"
+            (click)="goHome()"
+          >
+            <ion-grid class="ion-no-padding">
+              <ion-row class="ion-align-items-center">
+                <ion-col> Anasayfa'ya Dön </ion-col>
+                <ion-col>
+                  <img
+                    [class]="result"
+                    src="../../../../assets/svg/payment/home-mini.svg"
+                    alt=""
+                  />
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="order != undefined && order.isMetropol">
+        <ion-col class="ion-text-center">
+          <img src="../../../../assets/svg/payment/e-arsiv.svg" alt="" style="height: 4em" />
+          <p>
+            E-arşiv faturanız <br />
+            <span style="font-size: 80%"
+              >(uygulamada yer alan telefon/mail adresinize)</span
+            ><br />
+            MetropolCard tarafından iletilecektir.
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

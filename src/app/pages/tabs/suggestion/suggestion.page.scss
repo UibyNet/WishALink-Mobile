@@ -1,5 +1,12 @@
 app-post-item {
-  min-height: 145px;
+  display: block;
+  width: 100%;
+  min-height: 10em;
+}
+
+virtual-scroller {
+  width: 100%;
+  height: 100%;
 }
 
 /*

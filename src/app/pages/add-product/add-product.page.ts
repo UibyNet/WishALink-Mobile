@@ -48,8 +48,11 @@ export class AddProductPage implements OnInit {
     }
 
     ngOnInit() {
-        const id = this.route.snapshot.paramMap.get('id');
-        this.categoryId = parseInt(id)
+        const categoryId = this.route.snapshot.paramMap.get('categoryId');
+        this.categoryId = parseInt(categoryId)
+
+        const postId = this.route.snapshot.paramMap.get('id');
+        this.postId = parseInt(postId)
 
         const post = this.router.getCurrentNavigation().extras.state as PostListModel;
         if(post != undefined) {
@@ -62,7 +65,6 @@ export class AddProductPage implements OnInit {
             this.name = post.name;
             this.activityId = post.activity.id;       
         }        
-
 
         this.activityApiService.list(this.appService.user.id)
             .subscribe(

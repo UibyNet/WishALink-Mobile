@@ -1,0 +1,90 @@
+<ion-header mode="ios">
+  <div class="shrinkable">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/app/wallet" color="dark" text=""></ion-back-button>
+      </ion-buttons>
+      <ion-title> Harcamalarım </ion-title>
+      <ion-buttons slot="end">
+        <ion-button [color]="isFilterActive ? 'primary' : 'default'" (click)="toggleFilter()">
+          <div [hidden]="isFilterActive || !hasFilter" class="badge"></div>
+          <ion-icon [name]="isFilterActive ? 'funnel' : 'funnel-outline'"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </div>
+
+  <ion-list class="filter-list" [class.active]="isFilterActive">
+    <ion-item>
+      <ion-label>İşletme</ion-label>
+      <ion-select placeholder="Seçiniz" [(ngModel)]="selectedInstitution" okText="Tamam" cancelText="İptal">
+        <ion-select-option value="">Tümü</ion-select-option>
+        <ion-select-option *ngFor="let institution of institutions" [value]="institution">{{institution}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Ödeme Tipi</ion-label>
+      <ion-select placeholder="Seçiniz" [(ngModel)]="selectedPaymentType" okText="Tamam" cancelText="İptal">
+        <ion-select-option value="">Tümü</ion-select-option>
+        <ion-select-option *ngFor="let paymentType of paymentTypes" [value]="paymentType">{{getPaymentType(paymentType)}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Durum</ion-label>
+      <ion-select placeholder="Seçiniz" [(ngModel)]="selectedPaymentStatus" okText="Tamam" cancelText="İptal">
+        <ion-select-option value="">Tümü</ion-select-option>
+        <ion-select-option *ngFor="let paymentStatus of paymentStatuses" [value]="paymentStatus">{{getPaymentStatus(paymentStatus)}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label>Başlangıç</ion-label>
+      <ion-datetime displayFormat="DD MMMM YYYY" placeholder="Tarih Seçiniz" [(ngModel)]="selectedStartDate" [monthNames]="monthNames" doneText="Tamam" cancelText="İptal"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Bitiş</ion-label>
+      <ion-datetime displayFormat="DD MMMM YYYY" placeholder="Tarih Seçiniz" [(ngModel)]="selectedEndDate" [monthNames]="monthNames" doneText="Tamam" cancelText="İptal"></ion-datetime>
+    </ion-item>
+    
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button size="small" expand="block" color="light" (click)="reset()">Temizle</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="small" expand="block" color="primary" (click)="filter()">Filtrele</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ion-header>
+
+<ion-content>
+  <div class="page-content">
+    <ion-list class="gap-list" *ngIf="payments != null && payments.length > 0">
+      <ion-item *ngFor="let payment of payments" (click)="openDetail(payment)" hasDetail="true">
+        <ion-label position="stacked">
+          <h3>{{ payment.institutionName }} - {{ payment.branchName }}</h3>
+          <p>{{ getPaymentType(payment.paymentType) }} - {{ getPaymentStatus(payment.paymentStatus) }}</p>
+          <p>{{ appService.getFormattedDate(payment.paymentTimeStamp)	}}</p>
+        </ion-label>
+        <div slot="end">
+          <p>
+            {{ payment.paymentAmountTRY }} TL
+          </p>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-card>
+      <ion-card-content class="ion-text-center" *ngIf="payments == null || payments.length == 0">
+        Ödeme bulunamadı.
+      </ion-card-content>
+    </ion-card>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="getData($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Yükleniyor...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

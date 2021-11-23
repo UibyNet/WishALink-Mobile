@@ -1,7 +1,8 @@
-<ion-header mode="ios" shrink-header [scrollArea]="scrollArea">
+<ion-header mode="ios">
   <div class="shrinkable">
     <ion-toolbar mode="ios">
       <ion-buttons slot="start"> </ion-buttons>
+      <ion-title>Wish A Link</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="openNotification()">
           <img src="../../../../assets/svg/home/notification.svg" alt="Icon" />
@@ -10,7 +11,7 @@
       </ion-buttons>
     </ion-toolbar>
 
-    <div class="profile">
+    <div hidden class="profile">
       <div class="avatar">
         <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl" alt="" />
       </div>
@@ -21,23 +22,31 @@
   </div>
 </ion-header>
 
-<ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
-  <div>
-    <div class="content">
-      <div class="product-content">
-        <div *ngIf="suggestions == undefined" class="center-spinner">
-          <ion-spinner name="crescent" color="medium"></ion-spinner>
-        </div>
-
-        <ion-list>
-          <ion-virtual-scroll [items]="suggestions" approxItemHeight="145px">
-            <app-post-item [item]="item" [index]="i" *virtualItem="let item; let itemBounds = bounds;  let i = index"></app-post-item>
-          </ion-virtual-scroll>
-        </ion-list>
-        <ion-infinite-scroll class="mt-3" threshold="100px" (ionInfinite)="loadSuggestions($event)">
-          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
-      </div>
-    </div>
+<ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true" [scrollX]="false" [scrollY]="false">
+  <div *ngIf="suggestions == undefined" class="center-spinner">
+    <ion-spinner name="crescent" color="medium"></ion-spinner>
   </div>
+
+  <virtual-scroller #scroll [items]="suggestions" (vsEnd)="loadMoreSuggestions($event)">
+    <app-post-item *ngFor="let item of scroll.viewPortItems" [item]="item">
+    </app-post-item>
+  </virtual-scroller>
+
+  <div *ngIf="isLoading" class="ion-text-center loader">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <!--
+  <div style="position: relative; height: 100%;  width: 100%;">
+
+    <cdk-virtual-scroll-viewport hidden itemSize="15" style="height: 100%;  width: 100%;">
+      <app-post-item *cdkVirtualFor="let item of suggestions; let i = index;" [item]="item" [index]="i"></app-post-item>
+    </cdk-virtual-scroll-viewport>
+  </div>
+  -->
+  <!--
+  <ion-infinite-scroll class="mt-3" threshold="100px" (ionInfinite)="loadSuggestions($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  -->
 </ion-content>

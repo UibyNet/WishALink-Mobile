@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { PostApiService, PostListModel } from 'src/app/services/api-wishalink.service';
+import { PostApiService, PostLikeModel, PostListModel } from 'src/app/services/api-wishalink.service';
 import { AppService } from 'src/app/services/app.service';
 import { Browser } from '@capacitor/browser';
 
@@ -14,6 +14,7 @@ export class PostPage implements OnInit {
     post: PostListModel;
     isStrangerPost: boolean = false;
     postId: number;
+    isLoading: boolean = false;
 
     constructor(
         private zone: NgZone,
@@ -72,6 +73,28 @@ export class PostPage implements OnInit {
 
     openEditProduct() {
         console.log(this.post)
-        this.router.navigate(['add-product', this.post.category.id], { state: this.post })
+        this.router.navigate(['add-product', this.post.category.id, this.post.id], { state: this.post })
     }
+
+
+    togglePostLike(event) {
+        this.isLoading = true;
+
+        this.postApiService.like(this.post.id)
+            .subscribe(
+                v => this.onPostLike(v),
+                e => this.onError(e)
+            )
+
+        event.stopPropagation();
+        return false;
+    }
+
+    onPostLike(v: PostLikeModel): void {
+        this.zone.run(() => {
+          this.isLoading = false;
+          this.post.isUserLike = v.isUserLike;
+          this.post.likeCount = v.likeCount;
+        })
+      }
 }

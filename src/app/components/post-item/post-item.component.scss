@@ -1,6 +1,98 @@
 ion-item {
   --ion-margin: 0;
   --inner-border-width: 0;
+  --padding-top: 1.5em;
+  --padding-bottom: 1.5em;
+  --padding-start: 1em;
+  --padding-end: 1em;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --ion-item-background: transparent;
+  font-size: 1em;
+  font-weight: 500;
+  border-bottom: 0 solid var(--ion-color-light);
+
+  .post-inner {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+
+    .post-image {
+      width: 7em;
+      height: 7em;
+      border-radius: 1rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      margin-right: 1rem;
+      border: 1px solid var(--ion-color-light);
+      box-shadow: rgb(0 0 0 / 4%) 0px 1px 6px;
+      img {
+        object-fit: cover;
+        width: 7em;
+        height: 7em;
+      }
+    }
+
+    .post-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      .post-creator {
+        font-size: 0.9em;
+        font-weight: 600;
+        margin-bottom: 0.4em;
+        color: var(--ion-color-primary);
+        flex: 1;
+      }
+
+      .post-tags {
+        margin-top: 0.3em;
+        white-space: nowrap;
+        width: 100%;
+        overflow-x: scroll;
+        .post-tag {
+          --padding-top: 4px;
+          --padding-end: 8px;
+          --padding-bottom: 4px;
+          --padding-start: 8px;
+          font-weight: 500;
+
+          &:not(:last-child) {
+            margin-right: 8px;
+          }
+        }
+      }
+
+      .post-actions {
+        ion-button {
+          --padding-start: 0;
+          --padding-end: 0;
+          --padding-top: 0;
+          --padding-bottom: 0;
+          --border-radius: 0;
+          font-size: 0.9em;
+          height: 1.2em;
+          margin-right: 1em;
+
+          ion-icon {
+            margin-right: 0.2em;
+          }
+        }
+      }
+    }
+
+    .post-title {
+      font-size: 1.1em;
+      font-weight: 500;
+      margin-bottom: 0.3em;
+    }
+  }
+}
+
+ion-itemx {
+  --ion-margin: 0;
+  --inner-border-width: 0;
   --padding-top: 1em;
   --padding-bottom: 1em;
   --padding-start: 1em;
@@ -48,6 +140,6 @@ ion-item {
 
   .creator {
     font-weight: 600;
-    font-size: 0.8em;
+    font-size: 0.9em;
   }
 }

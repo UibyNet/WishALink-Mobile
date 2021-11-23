@@ -46,11 +46,16 @@ export class SearchPage implements OnInit {
 
     getContacts() {
         if(this.platform.is('capacitor')) {
-            Contacts.getContacts().then(result => {
-                for (const contact of result.contacts) {
-                    this.contacts.push(contact)
+            Contacts.getPermissions().then(v => {
+                if(v.granted) {
+                    Contacts.getContacts().then(result => {
+                        for (const contact of result.contacts) {
+                            this.contacts.push(contact)
+                        }
+                    });
                 }
-            });
+            })
+            
         }
     }
 

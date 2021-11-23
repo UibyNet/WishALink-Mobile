@@ -2,7 +2,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {CategoryApiService, CategoryListModel} from "../../services/api-wishalink.service";
 import {NavController} from '@ionic/angular';
 import {AppService} from 'src/app/services/app.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-add-category',
@@ -18,10 +18,10 @@ export class AddCategoryPage implements OnInit {
     catImageBlob: Blob = new Blob();
     categoryId: number = 0;
     isLoading: boolean = false
-    isCategoryId: boolean = true
 
     constructor(
         private zone: NgZone,
+        private router: Router,
         private route: ActivatedRoute,
         private appService: AppService,
         private categoryApiService: CategoryApiService,
@@ -38,18 +38,15 @@ export class AddCategoryPage implements OnInit {
     }
 
     ngOnInit() {
-        this.route.queryParams.subscribe(v => {
-            if (Object.keys(v).length === 0 && v.constructor === Object) {
-                this.isCategoryId = false
-            }
-            this.categoryId = parseInt(v.categoryId);
-            const category = this.appService.userCategories.find(x => x.id == this.categoryId);
-            if (category != null) {
-                this.categoryName = category.name;
-                this.isHidden = category.isHidden;
-                this.catImage = category.mediaUrl;
-            }
-        });
+        const id = this.route.snapshot.paramMap.get('id');
+        this.categoryId = parseInt(id)
+
+        const category = this.router.getCurrentNavigation().extras.state as CategoryListModel;
+        if (category != null) {
+            this.categoryName = category.name;
+            this.isHidden = category.isHidden;
+            this.catImage = category.mediaUrl;
+        }
     }
 
     saveCategory() {
@@ -143,5 +140,9 @@ export class AddCategoryPage implements OnInit {
                     })
                 }
             );
+    }
+
+    goBack() {
+        this.navController.back();
     }
 }

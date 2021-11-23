@@ -1,0 +1,75 @@
+<ion-header mode="ios">
+  <div class="shrinkable">
+    <ion-toolbar>
+      <ion-title> Cüzdan </ion-title>
+    </ion-toolbar>
+  </div>
+</ion-header>
+<ion-content>
+  <div class="page-content gap-list">
+    <ion-item (click)="openCards()" detail="true">
+      <ion-avatar slot="start">
+        <img src="../../../../assets/svg/logo/kpay-icon.svg" />
+      </ion-avatar>
+      <ion-label>
+        <h2>Kpay GO</h2>
+        <p>Kayıtlı banka kartlarım</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item (click)="startPayment()" detail="true">
+      <ion-avatar slot="start">
+        <img src="../../../../assets/svg/payment/qr-code-hand.svg" />
+      </ion-avatar>
+      <ion-label>
+        <h2>Ödeme Yap</h2>
+        <p>QR kodu okutarak hızlıca ödeyin</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item (click)="showHistory()" detail="true">
+      <ion-avatar slot="start">
+        <img src="../../../../assets/svg/payment/history.svg" />
+      </ion-avatar>
+      <ion-label>
+        <h2>İşlem Geçmişi</h2>
+        <p>Geçmiş işlemlerinizi görüntüleyin</p>
+      </ion-label>
+    </ion-item>
+  </div>
+  <!-- 
+  <div class="bg4"></div>
+  <div class="bottomSheet4">
+    <div style="display: flex; flex-direction: row-reverse">
+      <div class="swipe-handler4"></div>
+
+      <ion-icon
+        (click)="closeBottomSheet4()"
+        style="margin-right: 4%; margin-top: 1%; zoom: 1.7"
+        slot="end"
+        color="warning"
+        name="close-circle"
+      ></ion-icon>
+    </div>
+    <div style="text-align: center; font-size: 10px">
+      <ion-note> Cüzdaniniza erisebilmek icin lutfen pin giriniz. </ion-note>
+    </div>
+    <div class="content4 ion-padding" style="padding-top: 0">
+      <ion-item lines="none">
+        <ion-label>Pin : </ion-label>
+        <ion-input placeholder="xxxx"></ion-input>
+      </ion-item>
+
+      <ion-button (click)="sendOffer()" expand="block" color="success">
+        Onayla
+      </ion-button>
+    </div>
+  </div> -->
+</ion-content>
+<ion-footer>
+  <ion-note>
+    KpayGO altında saklayacağınız kart saklama hizmeti
+    <img src="../../../../assets/svg/logo/paytr.svg" alt="" /> kuruluşu tarafından
+    sağlanmaktadır.
+  </ion-note>
+</ion-footer>

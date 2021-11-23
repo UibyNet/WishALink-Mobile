@@ -1,9 +1,12 @@
-import {Injectable, NgZone} from "@angular/core";
-import {Camera, CameraDirection, CameraResultType, Photo} from '@capacitor/camera';
-import {StatusBar, StatusBarBackgroundColorOptions, Style} from "@capacitor/status-bar";
-import {AlertController, LoadingController, Platform, ToastController} from "@ionic/angular";
+import { Injectable, InjectionToken, NgZone } from "@angular/core";
+import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
+import { StatusBar, StatusBarBackgroundColorOptions, Style } from "@capacitor/status-bar";
+import { AlertController, LoadingController, Platform, ToastController } from "@ionic/angular";
 import jwt_decode from 'jwt-decode';
-import {LocalUser} from "../models/localuser";
+import { LocalUser } from "../models/localuser";
+import { Order } from "../models/order";
+import { KpayBackendMemberApiService, MemberDTO } from "./api-kpay-backend.service";
+import { CheckoutPaymentRequestDTO } from "./api-kpay-fixedqrpayment.service";
 import {
     ActivityListModel,
     CategoryListModel,
@@ -13,7 +16,6 @@ import {
     NotificationApiService,
     SocialUserListModel
 } from "./api-wishalink.service";
-import {Contact} from "@capacitor-community/contacts";
 
 @Injectable({
     providedIn: "root",
@@ -32,6 +34,13 @@ export class AppService {
     userCategories: CategoryListModel[] = [];
     userNotifications: Notification[] = [];
 
+    kpayAppId: string = 'bG1nwhb8I4n1Mu74NM8XGXjJUPC577PJ';
+    kpayApiKey: string = 'IRSkoCGx7oQECLtKKhCOzzYpFfvtyhOA';
+    order: Order;
+    lastPaymentRequest: CheckoutPaymentRequestDTO;
+
+    private _kpayMember: MemberDTO;
+
     get unreadNotificationsCount() {
         return this.userNotifications.filter(x => !x.isRead).length
     }
@@ -48,7 +57,8 @@ export class AppService {
         private notificationApiService: NotificationApiService,
         private loadingController: LoadingController,
         private toastController: ToastController,
-        private alertController: AlertController
+        private alertController: AlertController,
+        private memberApiService: KpayBackendMemberApiService
     ) {
     }
 
@@ -70,6 +80,8 @@ export class AppService {
                 user.fullName = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'];
                 user.userName = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
                 user.roles = decoded['roles'];
+                user.kpayMemberId = decoded['KpayMemberId'];
+                user.kpayUsername = decoded['KpayUsername'];
 
                 if (user.id > 0) this.mUser = user;
                 return this.mUser;
@@ -103,13 +115,13 @@ export class AppService {
 
     toggleStatusBar(style: 'dark' | 'light') {
         if (this.platform.is('capacitor')) {
-            StatusBar.setStyle({style: style == 'dark' ? Style.Dark : Style.Light});
+            StatusBar.setStyle({ style: style == 'dark' ? Style.Dark : Style.Light });
         }
     }
 
     setStatusBarBackground(color: 'light' | 'primary') {
         if (this.platform.is('capacitor')) {
-            StatusBar.setBackgroundColor({color: color === 'light' ? '#FFFFFF' : '#6A40D6'})
+            StatusBar.setBackgroundColor({ color: color === 'light' ? '#FFFFFF' : '#6A40D6' })
         }
     }
 
@@ -160,6 +172,9 @@ export class AppService {
             const errorDtos: ErrorDto[] = message;
             message = errorDtos.map(x => x.message).join(' ');
         }
+        if (message != null && message.message != null) {
+            message = message.message;
+        }
 
         await this.showAlert(message);
     }
@@ -176,19 +191,40 @@ export class AppService {
         toast.present();
     }
 
+    getKpayMember(): Promise<MemberDTO> {
+        return new Promise((resolve, reject) => {
+            if (this._kpayMember != null && this._kpayMember.memberID != null && this._kpayMember.memberID.length > 0) {
+                resolve(this._kpayMember);
+            }
+            else {
+                this.memberApiService.getMember(this.user.kpayUsername)
+                    .subscribe(
+                        v => {
+                            this._kpayMember = v;
+                            resolve(v);
+                        },
+                        e => {
+                            this.showErrorAlert(e)
+                            reject();
+                        }
+                    );
+            }
+        });
+    }
+
     getImage(): Promise<{ photo: Photo, blob: Blob }> {
         return new Promise((resolve, reject) => {
             this.selectImage()
                 .then(async (photo: Photo) => {
                     const base64Response = await fetch(`data:image/jpeg;base64,${photo.base64String}`);
                     const blob = await base64Response.blob();
-                    resolve({photo, blob});
+                    resolve({ photo, blob });
                 })
                 .catch((error) => {
                     console.log('Select image error: ' + JSON.stringify(error));
                     reject(error);
                 })
-            ;
+                ;
         });
     }
 
@@ -219,7 +255,7 @@ export class AppService {
                                 reject()
                             })
                     } else {
-                        Camera.requestPermissions({permissions: ['camera', 'photos']})
+                        Camera.requestPermissions({ permissions: ['camera', 'photos'] })
                             .then(
                                 cp => {
                                     if (p.camera == "granted" && p.photos == "granted") {
@@ -239,7 +275,7 @@ export class AppService {
                     }
                 },
                 e => {
-                    Camera.requestPermissions({permissions: ['camera', 'photos']})
+                    Camera.requestPermissions({ permissions: ['camera', 'photos'] })
                         .then(
                             cp => {
                                 Camera.getPhoto(cameraOptions)
@@ -294,5 +330,37 @@ export class AppService {
 
     void() {
 
+    }
+
+
+    getFormattedDate(m: moment.Moment): string {
+        const v = m.toDate();
+        return (
+            ("00" + v.getHours()).slice(-2) +
+            ":" +
+            ("00" + v.getMinutes()).slice(-2) +
+            ":" +
+            ("00" + v.getSeconds()).slice(-2) +
+            " " +
+            ("00" + v.getDate()).slice(-2) +
+            "/" +
+            ("00" + (v.getMonth() + 1)).slice(-2) +
+            "/" +
+            v.getFullYear()
+        );
+    }
+
+    getFormattedSqlDate(v: Date): string {
+        return (
+            v.getFullYear() +
+            "-" +
+            ("00" + (v.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("00" + v.getDate()).slice(-2)
+        );
+    }
+
+    getUniqId(): string {
+        return Math.random().toString(36).substr(2, 9).toUpperCase();
     }
 }

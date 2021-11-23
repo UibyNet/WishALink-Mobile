@@ -217,6 +217,16 @@ export class ProfilePage implements OnInit {
         this.router.navigate(['app', 'profile', this.currentUser.id, 'community'], {queryParams: { segment : segment}, state: {userData: this.currentUser}});
     }
 
+    openActivityEdit(activity: ActivityListModel) {
+        console.log(activity)
+        this.router.navigate(['/app/activity/create'], {
+            queryParams: {
+                activityId: activity.id,
+                date: moment(activity.startDate).format('DD.MM.YYYY')
+            }
+        })
+    }
+
     getDate(v: ActivityListModel) {
 
         if (v != null && v.startDate != null) {

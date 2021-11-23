@@ -120,7 +120,9 @@
 }
 
 html {
+  font-family: var(--ion-font-family);
   font-size: 14px;
+  font-weight: 500;
 
   @media screen and (min-width: 400px) {
     font-size:  16px;

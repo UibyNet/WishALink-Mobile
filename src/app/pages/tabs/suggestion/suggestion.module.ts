@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 
 import { SuggestionPageRoutingModule } from './suggestion-routing.module';
 
 import { SuggestionPage } from './suggestion.page';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SharedComponentsModule } from 'src/app/components/shared-components.module';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { SharedComponentsModule } from 'src/app/components/shared-components.mod
     CommonModule,
     FormsModule,
     IonicModule,
-    ScrollingModule,
+    VirtualScrollerModule,
     SuggestionPageRoutingModule,
     SharedDirectivesModule,
     SharedComponentsModule

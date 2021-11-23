@@ -43,7 +43,10 @@ export class CreateActivityPage implements OnInit {
     ngOnInit() {
         this.maxDate = moment().add('y', 10).format()
         this.route.queryParams.subscribe(v => {
-            this.startDate = this.endDate = moment(v.date, 'DD.MM.YYYY').format('YYYY-MM-DD');
+            this.startDate = this.endDate = moment().format('YYYY-MM-DD');
+            if(v.date != undefined) {
+                this.startDate = this.endDate = moment(v.date, 'DD.MM.YYYY').format('YYYY-MM-DD');
+            }
             this.activityId = parseInt(v.activityId);
             const activity = this.appService.userActivities.find(x => x.id == this.activityId);
             if (activity != null) {

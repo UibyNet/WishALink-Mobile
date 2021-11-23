@@ -1,0 +1,67 @@
+<ion-header mode="ios">
+  <div class="shrinkable">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/app/wallet/history" color="dark" text=""></ion-back-button>
+      </ion-buttons>
+      <ion-title> Ödeme Detayı </ion-title>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="page-content">
+    <ion-grid *ngIf="payment != undefined">
+      <ion-row>
+        <ion-col size="4">Tarih</ion-col>
+        <ion-col size="8">{{appService.getFormattedDate(payment.paymentTimeStamp)}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">İşlem ID</ion-col>
+        <ion-col size="8">{{payment.merchantTransactionID}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="payment.merchantReceiptNo != undefined && payment.merchantReceiptNo.length > 0">
+        <ion-col size="4">İşlem No</ion-col>
+        <ion-col size="8">{{payment.merchantReceiptNo}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">İşletme</ion-col>
+        <ion-col size="8">{{payment.institutionName}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">Şube</ion-col>
+        <ion-col size="8">{{payment.branchName}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">Ödeme Noktası</ion-col>
+        <ion-col size="8">{{payment.checkoutPointName}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="payment.discountAmountTRY != undefined && payment.discountAmountTRY > 0">
+        <ion-col size="4">İndirim</ion-col>
+        <ion-col size="8">{{payment.discountAmountTRY}} TL</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">Tutar</ion-col>
+        <ion-col size="8">{{payment.transactionAmountTRY}} TL</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">Ödeme Tipi</ion-col>
+        <ion-col size="8">{{getPaymentType(payment.paymentType)}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4">Durum</ion-col>
+        <ion-col size="8">{{getPaymentStatus(payment.paymentStatus)}}</ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+    <ion-grid *ngIf="payment != undefined && payment.paymentNote !=undefined && payment.paymentNote.length> 0">
+      <ion-row>
+        <ion-col size="12">Açıklama</ion-col>
+        <ion-col size="12">
+          <div [innerHTML]='getPaymentNote(payment.paymentNote) | sanitizeHtml'></div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

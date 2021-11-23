@@ -1,0 +1,166 @@
+<ion-header>
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title> Ödeme </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="page-content" *ngIf="paymentRequest">
+    <div class="ion-padding">
+      <p [innerHTML]="alertMessage"></p>
+    </div>
+    <form
+      *ngIf="paymentInfoForm"
+      [formGroup]="paymentInfoForm"
+      (ngSubmit)="addBalance()"
+    >
+      <ion-list class="gap-list">
+        <ion-item *ngIf='paymentRequest.qRPaymentMode != "MetropolQR"'>
+          <ion-label position="stacked">Tutar</ion-label>
+          <ion-input
+            #amountInput
+            type="number"
+            placeholder=""
+            formControlName="amount"
+            (ionChange)="onAmountChange()"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item
+          *ngIf='paymentRequest.qRPaymentMode == "MetropolQR" && member.pointsTRY '
+        >
+          <p>Kullanılanilir Puan : {{ member.pointsTRY }} ₺</p>
+        </ion-item>
+        <ion-item
+          *ngIf='paymentRequest.qRPaymentMode == "MetropolQR" && member.pointsTRY > 0 '
+        >
+          <ion-label position="stacked"
+            >Kullanmak İstediğiniz Puan Miktarı</ion-label
+          >
+          <ion-input
+            #pointInput
+            type="number"
+            placeholder=""
+            formControlName="point"
+            (ionChange)="onPointChange()"
+          >
+          </ion-input>
+        </ion-item>
+        <!--
+        <ion-item *ngIf="1==0">
+          <ion-label position="stacked">Açıklama</ion-label>
+          <div class="validation-message">
+            <p *ngIf="paymentInfoForm?.controls.note.errors?.required">Geçerli bir açıklama giriniz.</p>
+            <p *ngIf="paymentInfoForm?.controls.note.errors?.minlength">Geçerli bir açıklama giriniz. (Min 3 karakter)
+            </p>
+            <p *ngIf="paymentInfoForm?.controls.note.errors?.maxlength">Geçerli bir açıklama giriniz. (Max 80 karakter)
+            </p>
+          </div>
+          <ion-input type="text" formControlName="note"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="1==0">
+          <ion-label class="ion-text-wrap">Başkasının adına ödeme yapıyorum</ion-label>
+          <ion-checkbox formControlName="differentUser" slot="start" (ionChange)="onCheck()"></ion-checkbox>
+        </ion-item>
+        -->
+
+        <ion-item *ngIf="paymentInfoForm?.value.differentUser">
+          <ion-label position="stacked">Ad Soyad / Firma Adı</ion-label>
+          <div class="validation-message">
+            <p *ngIf="paymentInfoForm?.controls.name.errors?.required">
+              Geçerli bir ad giriniz.
+            </p>
+            <p *ngIf="paymentInfoForm?.controls.name.errors?.minlength">
+              Geçerli bir ad giriniz. (Min 3 karakter)
+            </p>
+            <p *ngIf="paymentInfoForm?.controls.name.errors?.maxlength">
+              Geçerli bir ad giriniz. (Max 30 karakter)
+            </p>
+          </div>
+          <ion-input type="text" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="paymentInfoForm?.value.differentUser">
+          <ion-label position="stacked">E-mail</ion-label>
+          <div class="validation-message">
+            <p
+              *ngIf="paymentInfoForm?.controls.email.errors?.required || paymentInfoForm?.controls.email.errors?.pattern"
+            >
+              Geçerli bir email adresi giriniz.
+            </p>
+            <p *ngIf="paymentInfoForm?.controls.email.errors?.atLeastOne">
+              Telefon numarası veya email giriniz.
+            </p>
+          </div>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="paymentInfoForm?.value.differentUser">
+          <ion-label position="stacked">Telefon Numarası</ion-label>
+          <div class="validation-message">
+            <p
+              *ngIf="paymentInfoForm?.controls.gsmNo.errors?.required || paymentInfoForm?.controls.gsmNo.errors?.pattern || paymentInfoForm?.controls.gsmNo.errors?.minlength"
+            >
+              Geçerli bir telefon numarası giriniz.
+            </p>
+            <p *ngIf="paymentInfoForm?.controls.gsmNo.errors?.maxlength">
+              Geçerli bir telefon numarası giriniz. (Max 11 karakter)
+            </p>
+            <p *ngIf="paymentInfoForm?.controls.gsmNo.errors?.atLeastOne">
+              Telefon numarası veya email giriniz.
+            </p>
+          </div>
+          <ion-input
+            type="tel"
+            formControlName="gsmNo"
+            maxLength="11"
+          ></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              *ngIf="paymentRequest.qRPaymentMode != 'MetropolQR'"
+              class="submit-button"
+              type="button"
+              expand="block"
+              (click)="addBalance()"
+              [disabled]="!paymentInfoForm.valid"
+            >
+              Ödeme Yap
+            </ion-button>
+            <ion-button
+              *ngIf="paymentRequest.qRPaymentMode == 'MetropolQR'"
+              class="submit-button"
+              type="button"
+              expand="block"
+              (click)="goCheckout()"
+              [disabled]="!paymentInfoForm.valid"
+            >
+              Ödeme Yap
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              class="submit-button"
+              type="button"
+              expand="block"
+              color="medium"
+              fill="clear()"
+              (click)="goBack()"
+            >
+              İptal
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+</ion-content>

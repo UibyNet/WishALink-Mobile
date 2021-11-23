@@ -1,0 +1,167 @@
+
+<ion-header mode="ios" class="ion-no-border">
+  <div class="shrinkable">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/app/wallet/cards" color="dark" text=""></ion-back-button>
+      </ion-buttons>
+      <ion-title>Kredi Kartı ile Öde</ion-title>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div #content class="page-content" #paymentCardContainer>
+    <div class="card-container mt-3"></div>
+    <form
+      [formGroup]="cardForm"
+      card
+      container=".card-container"
+      card-width="350"
+      [placeholders]="placeholders"
+      formatting="true"
+      debug="true"
+    >
+      <ion-slides #cardSlides pager="false" [options]="slideOpts">
+        <ion-slide>
+          <ion-item>
+            <ion-label position="stacked">Kart Numarası</ion-label>
+            <div class="validation-message">
+              <p *ngIf="cardForm.controls.number.errors?.required">
+                Geçerli bir ad giriniz.
+              </p>
+              <p *ngIf="cardForm.controls.number.errors?.minlength">
+                Geçerli bir ad giriniz. (Min 3 karakter)
+              </p>
+              <p *ngIf="cardForm.controls.number.errors?.maxlength">
+                Geçerli bir ad giriniz. (Max 30 karakter)
+              </p>
+            </div>
+            <input
+              #inputNumber
+              autofocus="true"
+              type="tel"
+              name="number"
+              formControlName="number"
+              [placeholder]="placeholders.number"
+              (focus)="onFocus($event)"
+              (input)="onChange('number', $event)"
+              card-number
+            />
+          </ion-item>
+        </ion-slide>
+        <ion-slide>
+          <ion-item>
+            <ion-label position="stacked">Kart Üzerindeki İsim</ion-label>
+            <div class="validation-message">
+              <p *ngIf="cardForm.controls.name.errors?.required">
+                Geçerli bir ad giriniz.
+              </p>
+              <p *ngIf="cardForm.controls.name.errors?.minlength">
+                Geçerli bir ad giriniz. (Min 3 karakter)
+              </p>
+              <p *ngIf="cardForm.controls.name.errors?.maxlength">
+                Geçerli bir ad giriniz. (Max 30 karakter)
+              </p>
+            </div>
+            <input
+              #inputName
+              autofocus="true"
+              type="text"
+              name="name"
+              formControlName="name"
+              [placeholder]="placeholders.name"
+              (focus)="onFocus($event)"
+              (input)="onChange('name', $event)"
+              card-name
+            />
+          </ion-item>
+        </ion-slide>
+        <ion-slide>
+          <ion-item>
+            <ion-label position="stacked">Son Kullanma Tarihi</ion-label>
+            <div class="validation-message">
+              <p *ngIf="cardForm.controls.expiry.errors?.required">
+                Geçerli bir ad giriniz.
+              </p>
+              <p *ngIf="cardForm.controls.expiry.errors?.minlength">
+                Geçerli bir ad giriniz. (Min 3 karakter)
+              </p>
+              <p *ngIf="cardForm.controls.expiry.errors?.maxlength">
+                Geçerli bir ad giriniz. (Max 30 karakter)
+              </p>
+            </div>
+            <ion-datetime
+              cancelText="İptal"
+              doneText="Tamam"
+              displayFormat="MM/YYYY"
+              [min]="minCardDate"
+              [max]="maxCardDate"
+              [value]="curCardDate"
+              (ionChange)="onDateChange($event)"
+            >
+            </ion-datetime>
+            <input
+              hidden
+              type="tel"
+              name="expiry"
+              formControlName="expiry"
+              [placeholder]="placeholders.expiry"
+              (focus)="onFocus($event)"
+              (input)="onChange('expiry', $event)"
+              card-expiry
+            />
+          </ion-item>
+        </ion-slide>
+        <ion-slide>
+          <ion-item>
+            <ion-label position="stacked">Güvenlik Kodu</ion-label>
+            <div class="validation-message">
+              <p *ngIf="cardForm.controls.cvc.errors?.required">
+                Geçerli bir ad giriniz.
+              </p>
+              <p *ngIf="cardForm.controls.cvc.errors?.minlength">
+                Geçerli bir ad giriniz. (Min 3 karakter)
+              </p>
+              <p *ngIf="cardForm.controls.cvc.errors?.maxlength">
+                Geçerli bir ad giriniz. (Max 30 karakter)
+              </p>
+            </div>
+            <input
+              #inputCvc
+              autofocus="true"
+              type="tel"
+              name="cvc"
+              formControlName="cvc"
+              [placeholder]="placeholders.cvc"
+              (focus)="onFocus($event)"
+              (input)="onChange('cvc', $event)"
+              card-cvc
+            />
+          </ion-item>
+        </ion-slide>
+      </ion-slides>
+
+      <ion-button
+        [color]="currentSlideIndex == 4 ? 'success' : 'primary'"
+        size="block"
+        [disabled]="isNextDisabled"
+        (click)="nextStep()"
+      >
+        {{ currentSlideIndex == 4 ? 'Ödemeyi Tamamla' : 'Sonraki Adım'}}
+      </ion-button>
+    </form>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <p>Toplam Tutar</p> 
+        <p><strong>{{ order?.amount}} </strong><strong  *ngIf='order?.point != undefined'> - {{ order?.point}} </strong> <strong> TL</strong></p> 
+      </ion-col>
+      <ion-col> </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

@@ -3,12 +3,17 @@
 <div class="bottom-nav-container" [ngClass]="{'d-none':isKeyboardOpen}">
     <div class="nav-inner">
         <div class="left-inner">
+            <!--
             <div (click)="openPage('/app/activity')" [class.active]="router.url == '/app/activity'" class="item-container">
                 <img src="../../../assets/svg/tabs/calendar.svg" alt="Icon">
             </div>
+            -->
             <div (click)="openPage('/app/suggestion')" [class.active]="router.url == '/app/suggestion'"
                  class="item-container">
-                <img src="../../../assets/svg/tabs/suggestion.svg" alt="Icon">
+                <img src="../../../assets/svg/tabs/homee.svg" alt="Icon">
+            </div>
+            <div (click)="openPage('/app/search')" [class.active]="router.url == '/app/search'" class="item-container">
+                <img src="../../../assets/svg/tabs/search.svg" alt="Icon">
             </div>
         </div>
         <div class="round-light">
@@ -17,8 +22,8 @@
             </div>
         </div>
         <div class="right-inner">
-            <div (click)="openPage('/app/search')" [class.active]="router.url == '/app/search'" class="item-container">
-                <img src="../../../assets/svg/tabs/search.svg" alt="Icon">
+            <div (click)="openPage('/app/wallet')" [class.active]="router.url == '/app/wallet'" class="item-container">
+                <img src="../../../assets/svg/tabs/wallet.svg" alt="Icon">
             </div>
             <div (click)="openPage('/app/settings')" [class.active]="router.url == '/app/settings'" class="item-container">
                 <img src="../../../assets/svg/tabs/settings.svg" alt="Icon">

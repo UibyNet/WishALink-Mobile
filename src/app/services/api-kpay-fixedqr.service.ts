@@ -17,7 +17,7 @@ import * as moment from 'moment';
 export const KPAY_FIXEDQR_API_URL = new InjectionToken<string>('KPAY_FIXEDQR_API_URL');
 
 @Injectable()
-export class ApiService {
+export class KpayFixedqrServiceApiService {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -150,6 +150,18 @@ export class ApiService {
             }));
         }
         return _observableOf<APIResult[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class KpayFixedqrPayment_RequestApiService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(KPAY_FIXEDQR_API_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://api.kpay.com.tr/FixedQR/V1";
     }
 
     /**

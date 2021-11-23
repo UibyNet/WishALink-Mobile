@@ -27,9 +27,9 @@ dependencies {
     implementation project(':capacitor-status-bar')
     implementation project(':capacitor-storage')
     implementation project(':capacitor-toast')
-
+    implementation "com.android.support:support-v4:27.+"
 }
-
+apply from: "../../node_modules/phonegap-plugin-barcodescanner/src/android/barcodescanner.gradle"
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()

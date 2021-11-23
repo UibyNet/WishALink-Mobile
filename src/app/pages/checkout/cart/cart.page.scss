@@ -1,0 +1,47 @@
+.page-content {
+  padding: 0;
+
+  form {
+    padding: 16px;
+  }
+
+  ion-list {
+    background-color: transparent;
+  }
+
+  
+  ion-card {
+    margin-left: 0;
+    margin-right: 0;
+    -webkit-margin-start: 0;
+    margin-inline-start: 0;
+    -webkit-margin-end: 0;
+    margin-inline-end: 0;
+    margin-top: 0;
+
+    ion-card-title {
+      font-size: 16px;
+    }
+
+    ion-card-content {
+      padding: 4px;
+    }
+
+    ion-input {
+      border-radius: 10px;
+      border: 1px solid rgb(216, 216, 216);
+      padding: 0 10px !important;
+      color: #000000;
+    }
+  }
+
+
+  .seller-logo {
+    height: 200px;
+    margin-bottom: 10px;
+    background-repeat: no-repeat;
+    background-size: auto 90%;
+    background-position: center center;
+    background-color: #ffffff;
+  }
+}
