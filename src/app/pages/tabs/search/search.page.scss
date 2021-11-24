@@ -91,17 +91,17 @@
     margin-bottom: 8px;
 
     .follow-info {
-      font-weight: 300;
-      font-size: 9px;
       background: #FFFFFF;
       color: #6A40D6;
       border: 1px solid #6A40D6;
-      border-radius: 8px;
-      width: 72px;
+      border-radius: 2em;
+      width: 80px;
       height: 24px;
       display: flex;
       justify-content: center;
       align-items: center;
+      font-size: 0.8em;
+      white-space: nowrap;
 
       &.active {
         background: #1E90FF;
@@ -125,6 +125,11 @@
         border-radius: 50px;
         overflow: hidden;
         background: transparent;
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
       }
     }
   }

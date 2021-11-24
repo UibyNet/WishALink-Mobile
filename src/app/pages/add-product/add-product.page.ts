@@ -160,7 +160,7 @@ export class AddProductPage implements OnInit {
             buttons: [{
                 text: 'Etkinlik Ekle',
                 handler: () => {
-                    this.router.navigate(['/app/activity']);
+                    this.router.navigate(['/app/activity/create'], {queryParams: {activityId: 0}});
                 }
             }]
         });

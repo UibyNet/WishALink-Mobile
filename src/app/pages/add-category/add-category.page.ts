@@ -120,9 +120,9 @@ export class AddCategoryPage implements OnInit {
 
     onDelete(): void {
         this.zone.run(() => {
-            this.appService.userCategories = this.appService.userActivities.filter(x => x.id !== this.categoryId)
+            this.appService.userCategories = this.appService.userCategories.filter(x => x.id !== this.categoryId)
             this.appService.showToast('Kategori silindi.');
-            this.navController.navigateRoot('/app/home');
+            this.navController.navigateRoot('/app/profile/me');
         })
     }
 

@@ -14,8 +14,11 @@
 
         <div class="profile">
             <div class="avatar">
-                <img [src]="currentUser == null ? '../../../../assets/svg/home/avatar.png' : currentUser.profilePictureUrl"
+                <img [src]="profilePictureUrl == null || profilePictureUrl.length == 0 ? '../../../../assets/svg/home/avatar.png' : profilePictureUrl"
                     alt="">
+                <div *ngIf="isMe" (click)="presentActionSheet()" class="options">
+                    <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
+                </div>
             </div>
             <div class="name">
                 <span>{{currentUser == null? '&nbsp;' : currentUser.fullName}}</span>
@@ -52,7 +55,7 @@
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
     <div *ngIf="selectedSegment == 'categories'" class="content">
-        <ion-grid *ngIf="categories != undefined && categories.length > 0">
+        <ion-grid>
             <ion-row>
                 <ion-col *ngIf="isMe" class="ion-text-center new-category" size="4" routerLink="/add-category/0">
                     <div class="card">
@@ -69,7 +72,7 @@
                 </ion-col>
             </ion-row>
         </ion-grid>
-        <div class="ion-margin-top" *ngIf="categories == undefined || categories.length === 0">
+        <div class="ion-margin-top" *ngIf="!isMe && (categories == undefined || categories.length === 0)">
             <div class="ion-text-center icon-container">
                 <ion-icon name="alert-outline"></ion-icon>
             </div>
@@ -79,7 +82,7 @@
         </div>
     </div>
     <div *ngIf="selectedSegment == 'activities'" class="content">
-        <ion-list class="activities" *ngIf="activities != undefined && activities.length > 0">
+        <ion-list class="activities">
             <ion-item detail="false" *ngIf="isMe" routerLink="/app/activity/create" [queryParams]="{activityId: 0}">
                 <ion-label>
                     <h2>Ektinlik Ekle</h2>

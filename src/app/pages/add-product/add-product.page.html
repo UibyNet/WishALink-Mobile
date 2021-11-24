@@ -7,8 +7,9 @@
             </div>
         </div>
         <div class="main-content">
-            <div (click)="close()" class="exit-container">
-                <img src="../../../assets/svg/abstract/exit.svg" alt="Icon">
+            <div class="exit-container">
+                <ion-back-button defaultHref="/app" color="light" icon="close" text=""></ion-back-button>
+                <!--<img src="../../../assets/svg/abstract/exit.svg" alt="Icon">-->
             </div>
             <div class="ion-margin-bottom">
                 <ion-input [(ngModel)]="name" placeholder="Ürün Başlığı"></ion-input>

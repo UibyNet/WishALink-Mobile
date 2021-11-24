@@ -13,7 +13,7 @@
 
         <div class="profile">
             <div class="avatar">
-                <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
+                <img [src]="userData == null || userData.profilePictureUrl != null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
                     alt="">
             </div>
             <div class="name">

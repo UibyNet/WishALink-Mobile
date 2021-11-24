@@ -40,6 +40,7 @@ export class AppService {
     lastPaymentRequest: CheckoutPaymentRequestDTO;
 
     private _kpayMember: MemberDTO;
+    private _isNotificationsChecking: boolean = false;
 
     get unreadNotificationsCount() {
         return this.userNotifications.filter(x => !x.isRead).length
@@ -294,11 +295,14 @@ export class AppService {
         });
     }
 
+
     checkNotifications() {
+        if(this._isNotificationsChecking === true) return;
+        this._isNotificationsChecking = true;
         this.getNotifications().then(v => this.void());
         setInterval(() => {
             this.getNotifications().then((v) => this.void());
-        }, 60000);
+        }, 10000);
     }
 
     getNotifications() {

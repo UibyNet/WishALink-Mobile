@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { ModalController, NavController } from '@ionic/angular';
+import { ActionSheetController, ModalController, NavController } from '@ionic/angular';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { NotificationComponent } from 'src/app/components/notification/notification.component';
@@ -25,9 +25,10 @@ export class ProfilePage implements OnInit {
     isMe: boolean = false;
     userId: number
     currentUser: SocialUserListModel
-    categories: CategoryListModel[]
-    activities: ActivityListModel[];
+    categories: CategoryListModel[] = [];
+    activities: ActivityListModel[] = [];
     selectedSegment: string = 'categories';
+    profilePictureUrl: string
 
     constructor(
         private zone: NgZone,
@@ -39,7 +40,8 @@ export class ProfilePage implements OnInit {
         private activityApiService: ActivityApiService,
         private categoryApiService: CategoryApiService,
         private navController: NavController,
-        private modalController: ModalController
+        private modalController: ModalController,
+        private actionSheetController: ActionSheetController
     ) {
     }
 
@@ -54,21 +56,22 @@ export class ProfilePage implements OnInit {
 
         this.isMe = this.userId == this.appService.user.id;
 
+        this.appService.checkNotifications();
+
         if (this.isMe && this.appService.userInfo) {
+            this.profilePictureUrl = this.appService.userInfo.profilePictureUrl;
+
             this.currentUser = this.appService.userInfo;
 
-            if(this.appService.userCategories) {
+            if (this.appService.userCategories) {
                 this.onUserCategoriesLoad(this.appService.userCategories)
             }
-            
-            if(this.appService.userActivities) {
+
+            if (this.appService.userActivities) {
                 this.onUserActivitiesLoad(this.appService.userActivities)
             }
         }
-        else {
-            this.getUser();
-        }
-        
+
         this.ionViewDidEnter();
     }
 
@@ -86,6 +89,8 @@ export class ProfilePage implements OnInit {
                 })
             }
         })
+        
+        this.getUser(false);
     }
 
     ionViewWillLeave() {
@@ -129,7 +134,8 @@ export class ProfilePage implements OnInit {
 
     onUserInfoLoad(v: SocialUserListModel) {
         this.zone.run(() => {
-            this.currentUser = v
+            this.currentUser = v;
+            this.profilePictureUrl = v.profilePictureUrl;
             this.appService.toggleLoader(false)
             if (this.isMe) {
                 this.appService.userInfo = v;
@@ -178,7 +184,7 @@ export class ProfilePage implements OnInit {
     onUserActivitiesLoad(v: ActivityListModel[]): void {
         this.zone.run(() => {
             this.activities = v
-            if(this.isMe) {
+            if (this.isMe) {
                 this.appService.userActivities = v;
             }
         })
@@ -187,7 +193,7 @@ export class ProfilePage implements OnInit {
     onUserCategoriesLoad(v: CategoryListModel[]) {
         this.zone.run(() => {
             this.categories = v
-            if(this.isMe) {
+            if (this.isMe) {
                 this.appService.userCategories = v;
             }
         })
@@ -214,14 +220,14 @@ export class ProfilePage implements OnInit {
     }
 
     openCommunity(segment: string) {
-        this.router.navigate(['app', 'profile', this.currentUser.id, 'community'], {queryParams: { segment : segment}, state: {userData: this.currentUser}});
+        this.router.navigate(['app', 'profile', this.currentUser.id, 'community'], { queryParams: { segment: segment }, state: { userData: this.currentUser } });
     }
 
     openActivityEdit(activity: ActivityListModel) {
-        
-        if(activity.createdBy.id != this.appService.user.id) return;
+
+        if (activity.createdBy.id != this.appService.user.id) return;
         debugger;
-        
+
         this.router.navigate(['/app/activity/create'], {
             queryParams: {
                 activityId: activity.id,
@@ -237,5 +243,65 @@ export class ProfilePage implements OnInit {
         }
 
         return null;
+    }
+
+    async presentActionSheet() {
+        const actionSheet = await this.actionSheetController.create({
+            header: '',
+            mode: 'md',
+            cssClass: 'my-custom-class',
+            buttons: [
+                {
+                    text: 'Profil resmini değiştir',
+                    cssClass: 'changeProfilePicture',
+                    icon: 'image',
+                    handler: () => {
+                        this.changePicture();
+                    }
+                },
+                {
+                    text: 'Profil resmini kaldır',
+                    cssClass: 'changeProfilePicture',
+                    icon: 'trash',
+                    handler: () => {
+                        this.profileApiService.removeprofilepicture()
+                            .subscribe(
+                                v => this.onProfilePictureChanged(null),
+                                e => this.onError(e)
+                            )
+                    }
+                },
+            ]
+        });
+        await actionSheet.present();
+
+        const { role } = await actionSheet.onDidDismiss();
+    }
+
+    onProfilePictureChanged(v: SocialUserListModel) {
+        this.zone.run(() => {
+            if (v != null) {
+                this.appService.userInfo = v;
+                this.profilePictureUrl = v.profilePictureUrl;
+            } else {
+                this.profilePictureUrl = '';
+                this.appService.userInfo.profilePictureUrl = '';
+            }
+        })
+    }
+
+    private changePicture() {
+
+        this.appService.getImage()
+            .then(
+                (imgData) => {
+                    this.profilePictureUrl = `data:image/jpeg;base64,${imgData.photo.base64String}`;
+                    this.profileApiService.changeprofilepicture({ fileName: 'avatar.jpg', data: imgData.blob })
+                        .subscribe(
+                            v => this.onProfilePictureChanged(v),
+                            e => this.onError(e)
+                        )
+                }
+            );
     }
 }
