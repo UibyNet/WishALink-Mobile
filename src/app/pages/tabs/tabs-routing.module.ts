@@ -93,7 +93,11 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ]
-  }
+  },
+  {
+    path: 'campaign',
+    loadChildren: () => import('./campaign/campaign.module').then( m => m.CampaignPageModule)
+  },
 ];
 
 @NgModule({
