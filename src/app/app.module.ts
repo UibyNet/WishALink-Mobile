@@ -19,6 +19,7 @@ import {
     SocialApiService,
     CategoryApiService,
     PostApiService,
+    CampaignApiService,
     ActivityApiService, NotificationApiService, CommonApiService
 } from './services/api-wishalink.service';
 import { SharedComponentsModule } from './components/shared-components.module';
@@ -60,6 +61,7 @@ const maskConfig: Partial<IConfig> = {
         SocialApiService,
         CategoryApiService,
         PostApiService,
+        CampaignApiService,
         NotificationApiService,
         ActivityApiService,
         CommonApiService,

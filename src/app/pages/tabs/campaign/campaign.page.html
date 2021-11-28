@@ -10,36 +10,16 @@
 </ion-header>
 
 <ion-content>
-    <ion-card routerLink="/app/campaign/campaign-detail">
-        <img src="../../../../assets/landing/suvari-3-adet-ayakkabi.jpeg"/>
+    <ion-card *ngFor="let item of campaign" (click)="openDetail(item)">
+        <img [src]="item.mediaUrl"/>
         <ion-card-header class="is-relative">
-            <ion-card-title>3 al 2 öde</ion-card-title>
-            <ion-card-subtitle>24/24/2022 ~ 18/01/2022</ion-card-subtitle>
-          <div class="campaign-open">
-              <ion-button slot="end" fill="clear" color="dark">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-              </ion-button>
-          </div>
+            <ion-card-title>{{item.name}}</ion-card-title>
+            <ion-card-subtitle class="mt-1">{{item.subTitle}}</ion-card-subtitle>
+            <div class="campaign-open">
+                <ion-button slot="end" fill="clear" color="dark">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </ion-button>
+            </div>
         </ion-card-header>
-
-        <ion-card-content>
-            Suvari markasında seçili ürünlerde 3 al 2 öde kampanyası başlamıştır
-        </ion-card-content>
-    </ion-card>
-    <ion-card>
-        <img src="../../../../assets/landing/LG-Black-Friday-Shopee.jpeg"/>
-        <ion-card-header class="is-relative">
-            <ion-card-title>"Black Friday" özel</ion-card-title>
-            <ion-card-subtitle>24/24/2022 ~ 18/01/2022</ion-card-subtitle>
-          <div class="campaign-open">
-              <ion-button slot="end" fill="clear" color="dark">
-                  <ion-icon name="arrow-forward-outline"></ion-icon>
-              </ion-button>
-          </div>
-        </ion-card-header>
-
-        <ion-card-content>
-            Teknoloji ürünlerinde 56% ya varan indirimleri kaçırmayın
-        </ion-card-content>
     </ion-card>
 </ion-content>

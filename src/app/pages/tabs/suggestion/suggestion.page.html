@@ -1,7 +1,11 @@
 <ion-header mode="ios">
   <div class="shrinkable">
     <ion-toolbar mode="ios">
-      <ion-buttons slot="start"> </ion-buttons>
+      <ion-buttons slot="start">
+        <ion-button routerLink="/app/campaign">
+          <ion-icon class="gift-icon" name="gift-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
       <ion-title>Wish A Link</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="openNotification()">
