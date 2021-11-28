@@ -954,7 +954,7 @@ export class CampaignApiService {
      * @param page (optional) 
      * @return Success
      */
-    list(page: number | undefined): Observable<Campaign[]> {
+    list(page: number | undefined): Observable<CampaignListModel[]> {
         let url_ = this.baseUrl + "/api/campaign/list?";
         if (page === null)
             throw new Error("The parameter 'page' cannot be null.");
@@ -977,14 +977,14 @@ export class CampaignApiService {
                 try {
                     return this.processList(<any>response_);
                 } catch (e) {
-                    return <Observable<Campaign[]>><any>_observableThrow(e);
+                    return <Observable<CampaignListModel[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<Campaign[]>><any>_observableThrow(response_);
+                return <Observable<CampaignListModel[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processList(response: HttpResponseBase): Observable<Campaign[]> {
+    protected processList(response: HttpResponseBase): Observable<CampaignListModel[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -998,7 +998,7 @@ export class CampaignApiService {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(Campaign.fromJS(item));
+                    result200!.push(CampaignListModel.fromJS(item));
             }
             else {
                 result200 = <any>null;
@@ -1024,7 +1024,7 @@ export class CampaignApiService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<Campaign[]>(<any>null);
+        return _observableOf<CampaignListModel[]>(<any>null);
     }
 }
 
@@ -4169,32 +4169,16 @@ export interface IAddress {
     country?: Country;
 }
 
-export class Campaign implements ICampaign {
+export class CampaignListModel implements ICampaignListModel {
     id?: number;
-    createdOn?: moment.Moment | undefined;
-    createdById?: number | undefined;
-    createdBy?: User;
-    updatedOn?: moment.Moment | undefined;
-    updatedById?: number | undefined;
-    updatedBy?: User;
-    deletedOn?: moment.Moment | undefined;
-    deletedById?: number | undefined;
-    deletedBy?: User;
-    name!: string;
-    slug?: string | undefined;
+    name?: string | undefined;
     subTitle?: string | undefined;
-    seoTitle?: string | undefined;
-    metaTitle?: string | undefined;
-    metaKeywords?: string | undefined;
-    metaDescription?: string | undefined;
     body?: string | undefined;
-    mediaId?: number | undefined;
-    media?: Media;
-    isPublished?: boolean;
-    publishedOn?: moment.Moment | undefined;
-    publishedTill?: moment.Moment | undefined;
+    startDate?: string | undefined;
+    endDate?: string | undefined;
+    mediaUrl?: string | undefined;
 
-    constructor(data?: ICampaign) {
+    constructor(data?: ICampaignListModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4206,34 +4190,18 @@ export class Campaign implements ICampaign {
     init(_data?: any) {
         if (_data) {
             this.id = _data["Id"];
-            this.createdOn = _data["CreatedOn"] ? moment(_data["CreatedOn"].toString()) : <any>undefined;
-            this.createdById = _data["CreatedById"];
-            this.createdBy = _data["CreatedBy"] ? User.fromJS(_data["CreatedBy"]) : <any>undefined;
-            this.updatedOn = _data["UpdatedOn"] ? moment(_data["UpdatedOn"].toString()) : <any>undefined;
-            this.updatedById = _data["UpdatedById"];
-            this.updatedBy = _data["UpdatedBy"] ? User.fromJS(_data["UpdatedBy"]) : <any>undefined;
-            this.deletedOn = _data["DeletedOn"] ? moment(_data["DeletedOn"].toString()) : <any>undefined;
-            this.deletedById = _data["DeletedById"];
-            this.deletedBy = _data["DeletedBy"] ? User.fromJS(_data["DeletedBy"]) : <any>undefined;
             this.name = _data["Name"];
-            this.slug = _data["Slug"];
             this.subTitle = _data["SubTitle"];
-            this.seoTitle = _data["SeoTitle"];
-            this.metaTitle = _data["MetaTitle"];
-            this.metaKeywords = _data["MetaKeywords"];
-            this.metaDescription = _data["MetaDescription"];
             this.body = _data["Body"];
-            this.mediaId = _data["MediaId"];
-            this.media = _data["Media"] ? Media.fromJS(_data["Media"]) : <any>undefined;
-            this.isPublished = _data["IsPublished"];
-            this.publishedOn = _data["PublishedOn"] ? moment(_data["PublishedOn"].toString()) : <any>undefined;
-            this.publishedTill = _data["PublishedTill"] ? moment(_data["PublishedTill"].toString()) : <any>undefined;
+            this.startDate = _data["StartDate"];
+            this.endDate = _data["EndDate"];
+            this.mediaUrl = _data["MediaUrl"];
         }
     }
 
-    static fromJS(data: any): Campaign {
+    static fromJS(data: any): CampaignListModel {
         data = typeof data === 'object' ? data : {};
-        let result = new Campaign();
+        let result = new CampaignListModel();
         result.init(data);
         return result;
     }
@@ -4241,56 +4209,24 @@ export class Campaign implements ICampaign {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
-        data["CreatedOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
-        data["CreatedById"] = this.createdById;
-        data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
-        data["UpdatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>undefined;
-        data["UpdatedById"] = this.updatedById;
-        data["UpdatedBy"] = this.updatedBy ? this.updatedBy.toJSON() : <any>undefined;
-        data["DeletedOn"] = this.deletedOn ? this.deletedOn.toISOString() : <any>undefined;
-        data["DeletedById"] = this.deletedById;
-        data["DeletedBy"] = this.deletedBy ? this.deletedBy.toJSON() : <any>undefined;
         data["Name"] = this.name;
-        data["Slug"] = this.slug;
         data["SubTitle"] = this.subTitle;
-        data["SeoTitle"] = this.seoTitle;
-        data["MetaTitle"] = this.metaTitle;
-        data["MetaKeywords"] = this.metaKeywords;
-        data["MetaDescription"] = this.metaDescription;
         data["Body"] = this.body;
-        data["MediaId"] = this.mediaId;
-        data["Media"] = this.media ? this.media.toJSON() : <any>undefined;
-        data["IsPublished"] = this.isPublished;
-        data["PublishedOn"] = this.publishedOn ? this.publishedOn.toISOString() : <any>undefined;
-        data["PublishedTill"] = this.publishedTill ? this.publishedTill.toISOString() : <any>undefined;
+        data["StartDate"] = this.startDate;
+        data["EndDate"] = this.endDate;
+        data["MediaUrl"] = this.mediaUrl;
         return data; 
     }
 }
 
-export interface ICampaign {
+export interface ICampaignListModel {
     id?: number;
-    createdOn?: moment.Moment | undefined;
-    createdById?: number | undefined;
-    createdBy?: User;
-    updatedOn?: moment.Moment | undefined;
-    updatedById?: number | undefined;
-    updatedBy?: User;
-    deletedOn?: moment.Moment | undefined;
-    deletedById?: number | undefined;
-    deletedBy?: User;
-    name: string;
-    slug?: string | undefined;
+    name?: string | undefined;
     subTitle?: string | undefined;
-    seoTitle?: string | undefined;
-    metaTitle?: string | undefined;
-    metaKeywords?: string | undefined;
-    metaDescription?: string | undefined;
     body?: string | undefined;
-    mediaId?: number | undefined;
-    media?: Media;
-    isPublished?: boolean;
-    publishedOn?: moment.Moment | undefined;
-    publishedTill?: moment.Moment | undefined;
+    startDate?: string | undefined;
+    endDate?: string | undefined;
+    mediaUrl?: string | undefined;
 }
 
 export class Category implements ICategory {
@@ -6145,6 +6081,8 @@ export class User implements IUser {
     lockoutEnabled?: boolean;
     accessFailedCount?: number;
     userGuid?: string | undefined;
+    kpayMemberId?: string | undefined;
+    kpayUsername?: string | undefined;
     version?: number;
     isActive?: boolean;
     isDeleted?: boolean;
@@ -6197,6 +6135,8 @@ export class User implements IUser {
             this.lockoutEnabled = _data["LockoutEnabled"];
             this.accessFailedCount = _data["AccessFailedCount"];
             this.userGuid = _data["UserGuid"];
+            this.kpayMemberId = _data["KpayMemberId"];
+            this.kpayUsername = _data["KpayUsername"];
             this.version = _data["Version"];
             this.isActive = _data["IsActive"];
             this.isDeleted = _data["IsDeleted"];
@@ -6277,6 +6217,8 @@ export class User implements IUser {
         data["LockoutEnabled"] = this.lockoutEnabled;
         data["AccessFailedCount"] = this.accessFailedCount;
         data["UserGuid"] = this.userGuid;
+        data["KpayMemberId"] = this.kpayMemberId;
+        data["KpayUsername"] = this.kpayUsername;
         data["Version"] = this.version;
         data["IsActive"] = this.isActive;
         data["IsDeleted"] = this.isDeleted;
@@ -6350,6 +6292,8 @@ export interface IUser {
     lockoutEnabled?: boolean;
     accessFailedCount?: number;
     userGuid?: string | undefined;
+    kpayMemberId?: string | undefined;
+    kpayUsername?: string | undefined;
     version?: number;
     isActive?: boolean;
     isDeleted?: boolean;
