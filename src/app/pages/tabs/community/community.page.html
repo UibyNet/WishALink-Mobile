@@ -46,7 +46,7 @@
 </ion-header>
 
 <ion-content #scrollAreaCommunity [scrollEvents]="true" [fullscreen]="true">
-    <div *ngIf="selectedSegment === 'follower'" class="content">
+    <div *ngIf="selectedSegment === 'follower'" class="content mw-500-tablet">
         <div *ngFor="let user of followerList" class="profile-list-item">
             <div class="person-info" (click)="selectedUser(user.id)">
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
@@ -63,7 +63,7 @@
             eden herkesi burada göreceksin.
         </div>
     </div>
-    <div *ngIf="selectedSegment === 'following'" class="content">
+    <div *ngIf="selectedSegment === 'following'" class="content mw-500-tablet">
         <div *ngFor="let user of followingList" class="profile-list-item">
             <div class="person-info" (click)="selectedUser(user.id)">
                 <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>

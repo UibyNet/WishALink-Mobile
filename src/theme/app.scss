@@ -178,6 +178,11 @@ ion-header {
     margin: 0 auto;
     width: 80%;
     text-align: center;
+    @media screen and (min-width: 768px) {
+      max-width: 500px;
+      //margin: auto;
+    }
+
 
     input {
 
@@ -195,6 +200,10 @@ ion-content {
       min-height: 100%;
       display: flex;
       flex-direction: column;
+      @media screen and (min-width: 768px) {
+        max-width: 500px;
+        margin: auto;
+      }
 
       .bottom-container {
         border-top-right-radius: 32px;
@@ -272,9 +281,26 @@ ion-content {
   font-weight: 900 !important;
   color: var(--ion-color-tertiary);
 }
-ion-card-title{
+
+ion-card-title {
   font-size: 1.1em;
 }
-ion-card-subtitle{
+
+ion-card-subtitle {
   font-size: .9em;
+}
+
+
+.mw-500-tablet{
+  @media screen and (min-width: 768px) {
+    max-width: 500px;
+    margin: auto;
+  }
+}
+.w-500-tablet{
+  @media screen and (min-width: 768px) {
+    width: 500px;
+    margin: auto;
+  }
+
 }

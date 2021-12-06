@@ -81,6 +81,11 @@
   @media (max-width: 320px) {
     padding: 0 0 38% !important;
   }
+  @media screen and (min-width: 768px) {
+    max-width: 500px;
+    margin: auto;
+  }
+
 
   .profile-list-item {
     padding: 4px 0;
@@ -125,6 +130,7 @@
         border-radius: 50px;
         overflow: hidden;
         background: transparent;
+
         img {
           height: 100%;
           width: 100%;
@@ -134,9 +140,11 @@
     }
   }
 }
-ion-content{
+
+ion-content {
   --padding-top: var(--ion-safe-area-top);
 }
+
 .profile-header.fixed {
   position: fixed;
   width: 100%;
@@ -146,8 +154,9 @@ ion-content{
   top: 0;
   padding-top: var(--ion-safe-area-top);
 }
-.fixed{
-  span{
+
+.fixed {
+  span {
     padding-top: var(--ion-safe-area-top);
   }
 }
