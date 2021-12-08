@@ -1,8 +1,8 @@
 {
   "appId": "com.wishalink",
   "appName": "Wish A Link",
-  "versionName": "1.2.6",
-  "versionCode": 10206,
+  "versionName": "1.2.7",
+  "versionCode": 10207,
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
