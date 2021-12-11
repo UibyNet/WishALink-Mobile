@@ -146,9 +146,9 @@ export class AddProductPage implements OnInit {
     }
 
     onActivitiesLoad(v: ActivityListModel[]): void {
-        if (v.length === 0) {
-            this.showAlert()
-        }
+        // if (v.length === 0) {
+        //     this.showAlert()
+        // }
         this.activities = v;
     }
 
@@ -174,6 +174,7 @@ export class AddProductPage implements OnInit {
     }
 
     onError(e: any): void {
+        console.log(e)
         this.isLoading = false
         this.appService.showErrorAlert(e);
     }

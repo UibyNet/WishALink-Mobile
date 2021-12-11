@@ -34,7 +34,7 @@
                 <div class="ion-margin-bottom">
                     <ion-input [(ngModel)]="size" placeholder="Beden veya Kapasite"></ion-input>
                 </div>
-                <div class="ion-margin-bottom">
+                <div  class="ion-margin-bottom">
                     <ion-select [(ngModel)]="activityId" placeholder="Etkinlik" okText="Tamam" cancelText="İptal">
                         <ion-select-option *ngFor="let activity of activities" [value]="activity.id">{{ activity.name }}</ion-select-option>
                     </ion-select>

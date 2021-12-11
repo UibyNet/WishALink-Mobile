@@ -30,7 +30,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Wish a Link&apos;i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Wish a Link rehberinize erişmek istiyor.</string>
+	<string>Wish a Link rehberinizdeki arkadaşlarınıza kolayca davet gönderebilmeniz için rehberinize erişmek istiyor.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Wish a Link&apos;i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
