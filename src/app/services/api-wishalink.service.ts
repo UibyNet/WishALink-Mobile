@@ -2770,6 +2770,72 @@ export class PostApiService {
     }
 
     /**
+     * @param postId (optional) 
+     * @return Success
+     */
+    checkaspurchased(postId: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/post/checkaspurchased?";
+        if (postId === null)
+            throw new Error("The parameter 'postId' cannot be null.");
+        else if (postId !== undefined)
+            url_ += "postId=" + encodeURIComponent("" + postId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCheckaspurchased(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCheckaspurchased(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCheckaspurchased(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData400)) {
+                result400 = [] as any;
+                for (let item of resultData400)
+                    result400!.push(ErrorDto.fromJS(item));
+            }
+            else {
+                result400 = <any>null;
+            }
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param url (optional) 
      * @return Success
      */
@@ -5115,12 +5181,16 @@ export class Post implements IPost {
     size?: string | undefined;
     description?: string | undefined;
     activity?: Activity;
-    activityId?: number;
+    activityId?: number | undefined;
     media?: Media;
     mediaId?: number | undefined;
     categories?: PostCategory[] | undefined;
     tags?: PostTag[] | undefined;
     likes?: PostLike[] | undefined;
+    isPurchased?: boolean;
+    purchasedById?: number | undefined;
+    purchasedBy?: User;
+    purchasedOn?: moment.Moment | undefined;
 
     constructor(data?: IPost) {
         if (data) {
@@ -5169,6 +5239,10 @@ export class Post implements IPost {
                 for (let item of _data["Likes"])
                     this.likes!.push(PostLike.fromJS(item));
             }
+            this.isPurchased = _data["IsPurchased"];
+            this.purchasedById = _data["PurchasedById"];
+            this.purchasedBy = _data["PurchasedBy"] ? User.fromJS(_data["PurchasedBy"]) : <any>undefined;
+            this.purchasedOn = _data["PurchasedOn"] ? moment(_data["PurchasedOn"].toString()) : <any>undefined;
         }
     }
 
@@ -5217,6 +5291,10 @@ export class Post implements IPost {
             for (let item of this.likes)
                 data["Likes"].push(item.toJSON());
         }
+        data["IsPurchased"] = this.isPurchased;
+        data["PurchasedById"] = this.purchasedById;
+        data["PurchasedBy"] = this.purchasedBy ? this.purchasedBy.toJSON() : <any>undefined;
+        data["PurchasedOn"] = this.purchasedOn ? this.purchasedOn.toISOString() : <any>undefined;
         return data; 
     }
 }
@@ -5240,12 +5318,16 @@ export interface IPost {
     size?: string | undefined;
     description?: string | undefined;
     activity?: Activity;
-    activityId?: number;
+    activityId?: number | undefined;
     media?: Media;
     mediaId?: number | undefined;
     categories?: PostCategory[] | undefined;
     tags?: PostTag[] | undefined;
     likes?: PostLike[] | undefined;
+    isPurchased?: boolean;
+    purchasedById?: number | undefined;
+    purchasedBy?: User;
+    purchasedOn?: moment.Moment | undefined;
 }
 
 export class PostCategory implements IPostCategory {
@@ -5493,6 +5575,8 @@ export class PostListModel implements IPostListModel {
     createdBy?: SocialUserListModel;
     createdOn?: string | undefined;
     category?: CategoryListModel;
+    isPurchased?: boolean;
+    purchasedBy?: SocialUserListModel;
 
     constructor(data?: IPostListModel) {
         if (data) {
@@ -5521,6 +5605,8 @@ export class PostListModel implements IPostListModel {
             this.createdBy = _data["CreatedBy"] ? SocialUserListModel.fromJS(_data["CreatedBy"]) : <any>undefined;
             this.createdOn = _data["CreatedOn"];
             this.category = _data["Category"] ? CategoryListModel.fromJS(_data["Category"]) : <any>undefined;
+            this.isPurchased = _data["IsPurchased"];
+            this.purchasedBy = _data["PurchasedBy"] ? SocialUserListModel.fromJS(_data["PurchasedBy"]) : <any>undefined;
         }
     }
 
@@ -5549,6 +5635,8 @@ export class PostListModel implements IPostListModel {
         data["CreatedBy"] = this.createdBy ? this.createdBy.toJSON() : <any>undefined;
         data["CreatedOn"] = this.createdOn;
         data["Category"] = this.category ? this.category.toJSON() : <any>undefined;
+        data["IsPurchased"] = this.isPurchased;
+        data["PurchasedBy"] = this.purchasedBy ? this.purchasedBy.toJSON() : <any>undefined;
         return data; 
     }
 }
@@ -5570,6 +5658,8 @@ export interface IPostListModel {
     createdBy?: SocialUserListModel;
     createdOn?: string | undefined;
     category?: CategoryListModel;
+    isPurchased?: boolean;
+    purchasedBy?: SocialUserListModel;
 }
 
 export class PostTag implements IPostTag {
