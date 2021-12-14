@@ -71,7 +71,7 @@ export class ProfilePage implements OnInit {
                 this.onUserActivitiesLoad(this.appService.userActivities)
             }
         }
-
+        console.log(this.userId)
         this.ionViewDidEnter();
     }
 

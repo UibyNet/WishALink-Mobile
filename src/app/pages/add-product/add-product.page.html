@@ -34,7 +34,7 @@
                 <div class="ion-margin-bottom">
                     <ion-input [(ngModel)]="size" placeholder="Beden veya Kapasite"></ion-input>
                 </div>
-                <div  class="ion-margin-bottom">
+                <div *ngIf="!hasActivities" class="ion-margin-bottom">
                     <ion-select [(ngModel)]="activityId" placeholder="Etkinlik" okText="Tamam" cancelText="İptal">
                         <ion-select-option *ngFor="let activity of activities" [value]="activity.id">{{ activity.name }}</ion-select-option>
                     </ion-select>
@@ -55,8 +55,12 @@
                     <ion-input [(ngModel)]="description" placeholder="Açıklama"></ion-input>
                 </div>
                 <div>
-                    <ion-button *ngIf="postId == 0" color="primary" fill="outline" expand="block" [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Güncelleniyor...' : 'Kaydet'}}</ion-button>
-                    <ion-button *ngIf="postId > 0" color="primary" fill="outline" expand="block" [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Kaydediliyor...' : 'Güncelle'}}</ion-button>
+                    <ion-button *ngIf="postId == 0" color="primary" fill="outline" expand="block" [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Kaydediliyor...' : 'Kaydet'}}</ion-button>
+                    <ion-button class="mb-1" *ngIf="postId > 0" color="primary" fill="outline" expand="block" [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Güncelleniyor...' : 'Güncelle'}}</ion-button>
+
+                </div>
+                <div *ngIf="postId > 0" class="mt-3 w-500-tablet ion-text-center">
+                    <ion-button class="ion-text-capitalize"  color="danger" fill="outline" expand="block" [disabled]="isLoading" (click)="deletePost()">{{ isLoading ? 'Siliniyor...' : 'Ürünü Sil'}}</ion-button>
                 </div>
             </div>
 

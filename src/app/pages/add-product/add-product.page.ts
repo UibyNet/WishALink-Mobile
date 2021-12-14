@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AlertController, NavController} from '@ionic/angular';
 import {
@@ -35,6 +35,7 @@ export class AddProductPage implements OnInit {
     activityId: number;
     categoryId: number;
     isLoading: boolean = false
+    hasActivities: boolean = false
 
     constructor(
         private route: ActivatedRoute,
@@ -43,14 +44,17 @@ export class AddProductPage implements OnInit {
         private activityApiService: ActivityApiService,
         private navController: NavController,
         private alertController: AlertController,
-        private router: Router
+        private router: Router,
+        private zone: NgZone
     ) {
     }
+
     ionViewWillEnter() {
         this.appService.toggleStatusBar('dark');
         this.appService.setStatusBarBackground('primary')
 
     }
+
     ngOnInit() {
         const categoryId = this.route.snapshot.paramMap.get('categoryId');
         this.categoryId = parseInt(categoryId)
@@ -59,7 +63,7 @@ export class AddProductPage implements OnInit {
         this.postId = parseInt(postId)
 
         const post = this.router.getCurrentNavigation().extras.state as PostListModel;
-        if(post != undefined) {
+        if (post != undefined) {
             this.postId = post.id;
             this.url = post.url;
             this.brand = post.brand;
@@ -67,9 +71,8 @@ export class AddProductPage implements OnInit {
             this.color = post.color;
             this.size = post.size;
             this.name = post.name;
-            this.activityId = post.activity.id;       
-        }        
-
+            this.activityId = post.activity.id;
+        }
         this.activityApiService.list(this.appService.user.id)
             .subscribe(
                 v => this.onActivitiesLoad(v),
@@ -111,21 +114,20 @@ export class AddProductPage implements OnInit {
         model.categoryId = this.categoryId;
         model.mediaId = this.mediaId
 
-        if(this.postId > 0) {
+        if (this.postId > 0) {
             model.id = this.postId;
             this.postApiService.update(model)
-            .subscribe(
-                v => this.onSave(v),
-                e => this.onError(e)
-            )
-        }
-        else {
-        
+                .subscribe(
+                    v => this.onSave(v),
+                    e => this.onError(e)
+                )
+        } else {
+
             this.postApiService.create(model)
-            .subscribe(
-                v => this.onSave(v),
-                e => this.onError(e)
-            )
+                .subscribe(
+                    v => this.onSave(v),
+                    e => this.onError(e)
+                )
         }
     }
 
@@ -146,23 +148,33 @@ export class AddProductPage implements OnInit {
     }
 
     onActivitiesLoad(v: ActivityListModel[]): void {
-        // if (v.length === 0) {
-        //     this.showAlert()
-        // }
-        this.activities = v;
+        if (v.length === 0) {
+            this.showAlert()
+        }
+        this.zone.run(() => {
+            this.hasActivities = true
+            this.activities = v;
+            console.log(
+                this.activities
+            )
+        })
     }
 
     async showAlert() {
         const alert = await this.alertController.create({
             header: 'Uyarı !',
-            subHeader: 'Ürün eklemek için en az bir etkinlik oluşturmalısınız.',
+            subHeader: 'Etkinliğiniz bulunmamaktadır.',
             backdropDismiss: false,
-            buttons: [{
-                text: 'Etkinlik Ekle',
-                handler: () => {
-                    this.router.navigate(['/app/activity/create'], {queryParams: {activityId: 0}});
-                }
-            }]
+            buttons: [
+                {
+                    text: 'Etkinlik Ekle',
+                    handler: () => {
+                        this.router.navigate(['/app/activity/create'], {queryParams: {activityId: 0}});
+                    }
+                },
+                {
+                    text: 'İptal',
+                }]
         });
 
         await alert.present();
@@ -181,5 +193,16 @@ export class AddProductPage implements OnInit {
 
     close() {
         this.navController.back();
+    }
+
+    deletePost() {
+        this.postApiService.delete(this.postId).subscribe(
+            v => this.onDeleted(v),
+            e => this.onError(e)
+        )
+    }
+
+    onDeleted(v: void) {
+
     }
 }

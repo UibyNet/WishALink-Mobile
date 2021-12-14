@@ -1,17 +1,17 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {
     AuthApiService,
     ForgotModel,
     ProfileApiService,
     VerifyModel
 } from 'src/app/services/api-wishalink.service';
-import { AppService } from 'src/app/services/app.service';
-import { ModalController } from "@ionic/angular";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { debounce } from "rxjs/operators";
-import { Subject } from "rxjs";
-import { CountrySelectorComponent } from 'src/app/components/country-selector/country-selector.component';
+import {AppService} from 'src/app/services/app.service';
+import {ModalController} from "@ionic/angular";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {debounce} from "rxjs/operators";
+import {Subject} from "rxjs";
+import {CountrySelectorComponent} from 'src/app/components/country-selector/country-selector.component';
 
 @Component({
     selector: 'app-forgot',
@@ -21,7 +21,7 @@ import { CountrySelectorComponent } from 'src/app/components/country-selector/co
 })
 export class ForgotPage implements OnInit {
 
-    selectedCountry = { dialCode: '90', isoCode: 'tr', phoneMask: '000 000 00 00' };
+    selectedCountry = {dialCode: '90', isoCode: 'tr', phoneMask: '000 000 00 00'};
     stepper = 1;
     intPhoneNumber: any;
     otp: string;
@@ -74,7 +74,8 @@ export class ForgotPage implements OnInit {
     resetPassword() {
         const model = new ForgotModel();
         model.phoneNumber = this.phoneNumber;
-
+        console.log(model)
+        return
         this.isLoading = true;
         this.authService.forgot(model)
             .subscribe(

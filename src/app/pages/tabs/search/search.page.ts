@@ -21,6 +21,7 @@ export class SearchPage implements OnInit {
     userData: SocialUserListModel
     searchResultPeople: SocialUserListModel[]
     contacts: Contact[] = []
+    profilePictureUrl: string
 
     constructor(
         public appService: AppService,
