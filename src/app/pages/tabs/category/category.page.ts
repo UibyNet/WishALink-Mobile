@@ -70,6 +70,7 @@ export class CategoryPage implements OnInit {
   onPostsLoad(v: PostListModel[]): void {
     this.zone.run(() => {
       this.posts = v;
+
       console.log(this.posts)
     })
   }

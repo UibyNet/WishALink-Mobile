@@ -71,7 +71,7 @@ export class AddProductPage implements OnInit {
             this.color = post.color;
             this.size = post.size;
             this.name = post.name;
-            this.activityId = post.activity.id;
+            // this.activityId = post.activity.id;
         }
         this.activityApiService.list(this.appService.user.id)
             .subscribe(
@@ -187,6 +187,7 @@ export class AddProductPage implements OnInit {
 
     onError(e: any): void {
         console.log(e)
+        this.appService.toggleLoader(false)
         this.isLoading = false
         this.appService.showErrorAlert(e);
     }
@@ -196,13 +197,19 @@ export class AddProductPage implements OnInit {
     }
 
     deletePost() {
-        this.postApiService.delete(this.postId).subscribe(
-            v => this.onDeleted(v),
-            e => this.onError(e)
-        )
+        this.appService.toggleLoader(true).then(res => {
+            this.postApiService.delete(this.postId).subscribe(
+                v => this.onDeleted(v),
+                e => this.onError(e)
+            )
+        })
     }
 
     onDeleted(v: void) {
+        this.zone.run(() => {
+            this.appService.toggleLoader(false)
+            this.router.navigate(['app/category/' + this.categoryId])
+        })
 
     }
 }
