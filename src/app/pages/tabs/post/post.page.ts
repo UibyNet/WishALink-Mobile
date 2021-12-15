@@ -1,9 +1,9 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import { PostApiService, PostLikeModel, PostListModel } from 'src/app/services/api-wishalink.service';
-import { AppService } from 'src/app/services/app.service';
-import { Browser } from '@capacitor/browser';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NavController} from '@ionic/angular';
+import {PostApiService, PostLikeModel, PostListModel} from 'src/app/services/api-wishalink.service';
+import {AppService} from 'src/app/services/app.service';
+import {Browser} from '@capacitor/browser';
 
 @Component({
     selector: 'app-post',
@@ -15,6 +15,7 @@ export class PostPage implements OnInit {
     isStrangerPost: boolean = false;
     postId: number;
     isLoading: boolean = false;
+    disabled: boolean = false
 
     constructor(
         private zone: NgZone,
@@ -35,13 +36,25 @@ export class PostPage implements OnInit {
     ngOnInit() {
         this.postId = parseInt(this.route.snapshot.params.id);
         const post = this.router.getCurrentNavigation().extras.state as PostListModel;
-
+        console.log('postid', post)
         if (post == null) {
             this.loadPost();
-        }
-        else {
+        } else {
             this.onPostLoad(post);
         }
+        this.postCheck()
+    }
+
+    changeEvent(data) {
+        console.log('dataa', data)
+        this.postCheck()
+    }
+
+    postCheck() {
+        this.postApiService.checkaspurchased(this.postId).subscribe(
+            v => this.onCheckPurchased(v),
+            e => this.onErrorPurchased(e)
+        )
     }
 
     loadPost() {
@@ -64,7 +77,7 @@ export class PostPage implements OnInit {
     }
 
     async redirectToUrl(url: string) {
-        await Browser.open({ url: url });
+        await Browser.open({url: url});
     }
 
     close() {
@@ -73,7 +86,7 @@ export class PostPage implements OnInit {
 
     openEditProduct() {
         console.log(this.post)
-        this.router.navigate(['add-product', this.post.category.id, this.post.id], { state: this.post })
+        this.router.navigate(['add-product', this.post.category.id, this.post.id], {state: this.post})
     }
 
 
@@ -92,9 +105,17 @@ export class PostPage implements OnInit {
 
     onPostLike(v: PostLikeModel): void {
         this.zone.run(() => {
-          this.isLoading = false;
-          this.post.isUserLike = v.isUserLike;
-          this.post.likeCount = v.likeCount;
+            this.isLoading = false;
+            this.post.isUserLike = v.isUserLike;
+            this.post.likeCount = v.likeCount;
         })
-      }
+    }
+
+    onErrorPurchased(e: any) {
+        this.disabled = true
+    }
+
+    onCheckPurchased(v: void) {
+        this.disabled = false
+    }
 }

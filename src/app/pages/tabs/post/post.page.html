@@ -1,72 +1,82 @@
 <ion-header mode="ios" trasculent="true" class="back-only ion-no-border">
-  <div class="shrinkable">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button color="dark" text=""></ion-back-button>
-      </ion-buttons>
-      <ion-buttons slot="end">
-        <ion-button (click)="openEditProduct()" fill="clear" *ngIf="isStrangerPost === false">
-          <ion-icon name="create-outline" slot="icon-only"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </div>
+    <div class="shrinkable">
+        <ion-toolbar>
+            <ion-buttons slot="start">
+                <ion-back-button color="dark" text=""></ion-back-button>
+            </ion-buttons>
+            <ion-buttons slot="end">
+                <ion-button (click)="openEditProduct()" fill="clear" *ngIf="isStrangerPost === false">
+                    <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </div>
 </ion-header>
 
 <ion-content class="" fullscreen="true">
-  <ion-grid class="ion-no-padding">
-    <ion-row>
-      <ion-col>
-        <img class="w-100" [src]="post?.mediaUrl" alt="">
-        <ion-button class="external-link" (click)="redirectToUrl(post?.url)" size="small" *ngIf="post?.url.indexOf('http') > -1"
-          color="primary">
-          <ion-icon name="open-outline" slot="icon-only"></ion-icon>
-          Ürüne Git
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button routerLink="/app/profile/{{post?.createdBy.id}}" fill="clear">
-          {{ post?.createdBy.fullName }}
-        </ion-button>
-      </ion-col>
-      
-      <ion-col size="3" class="ion-text-right">
-        <ion-button class="like-button" fill="clear" color="dark" (click)="togglePostLike($event)" [disabled]="isLoading">
-          <ion-icon [name]="post?.isUserLike ? 'heart' : 'heart-outline'" [color]="post?.isUserLike ? 'danger' : 'dark'"></ion-icon>
-          {{ post?.likeCount }}
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <h2 class="px-3 py-0 mb-2">{{ post?.name }}</h2>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="px-3 mb-3 description">
-        {{ post?.description }}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="px-3">
-        <ion-badge class="product-tag" color="light" *ngIf="post?.brand != null && post?.brand.length > 0">{{
-          post?.brand
-          }}</ion-badge>
-        <ion-badge class="product-tag" color="light" *ngIf="post?.model != null && post?.model.length > 0">{{
-          post?.model
-          }}</ion-badge>
-        <ion-badge class="product-tag" color="light" *ngIf="post?.color != null && post?.color.length > 0">{{
-          post?.color
-          }}</ion-badge>
-        <ion-badge class="product-tag" color="light" *ngIf="post?.size != null && post?.size.length > 0">{{
-          post?.size }}
-        </ion-badge>
-        <ion-badge class="product-tag" color="light" *ngIf="post?.keywords != null && post?.keywords.length > 0">{{
-          post?.keywords }}</ion-badge>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col>
+                <img class="w-100" [src]="post?.mediaUrl" alt="">
+                <ion-button class="external-link" (click)="redirectToUrl(post?.url)" size="small" *ngIf="post?.url.indexOf('http') > -1"
+                            color="primary">
+                    <ion-icon name="open-outline" slot="icon-only"></ion-icon>
+                    Ürüne Git
+                </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-button routerLink="/app/profile/{{post?.createdBy.id}}" fill="clear">
+                    {{ post?.createdBy.fullName }}
+                </ion-button>
+            </ion-col>
+
+            <ion-col size="3" class="ion-text-right">
+                <ion-button class="like-button" fill="clear" color="dark" (click)="togglePostLike($event)" [disabled]="isLoading">
+                    <ion-icon [name]="post?.isUserLike ? 'heart' : 'heart-outline'" [color]="post?.isUserLike ? 'danger' : 'dark'"></ion-icon>
+                    {{ post?.likeCount }}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <h2 class="px-3 py-0 mb-2">{{ post?.name }}</h2>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="px-3 mb-3 description">
+                {{ post?.description }}
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="px-3">
+                <ion-badge class="product-tag" color="light" *ngIf="post?.brand != null && post?.brand.length > 0">{{
+                    post?.brand
+                    }}</ion-badge>
+                <ion-badge class="product-tag" color="light" *ngIf="post?.model != null && post?.model.length > 0">{{
+                    post?.model
+                    }}</ion-badge>
+                <ion-badge class="product-tag" color="light" *ngIf="post?.color != null && post?.color.length > 0">{{
+                    post?.color
+                    }}</ion-badge>
+                <ion-badge class="product-tag" color="light" *ngIf="post?.size != null && post?.size.length > 0">{{
+                    post?.size }}
+                </ion-badge>
+                <ion-badge class="product-tag" color="light" *ngIf="post?.keywords != null && post?.keywords.length > 0">{{
+                    post?.keywords }}</ion-badge>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-list class="mt-1">
+                    <ion-item>
+                        <ion-label>Bu ürünü aldım</ion-label>
+                        <ion-checkbox [disabled]="disabled" (ionChange)="changeEvent($event)"  color="success" slot="start"></ion-checkbox>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
 </ion-content>

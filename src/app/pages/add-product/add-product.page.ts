@@ -149,7 +149,7 @@ export class AddProductPage implements OnInit {
 
     onActivitiesLoad(v: ActivityListModel[]): void {
         if (v.length === 0) {
-            this.showAlert()
+            // this.showAlert()
         }
         this.zone.run(() => {
             this.hasActivities = true
