@@ -71,8 +71,8 @@
             <ion-col>
                 <ion-list class="mt-1">
                     <ion-item>
-                        <ion-label>Bu ürünü aldım</ion-label>
-                        <ion-checkbox [disabled]="disabled" (ionChange)="changeEvent($event)"  color="success" slot="start"></ion-checkbox>
+                        <ion-label style="font-weight: bold">{{post.isPurchased ? 'Ürün zaten Alındı':'Bu ürünü aldım' }} </ion-label>
+                        <ion-checkbox [disabled]="post.isPurchased=== true" (ionChange)="changeEvent($event)" color="success" slot="start"></ion-checkbox>
                     </ion-item>
                 </ion-list>
             </ion-col>

@@ -36,22 +36,22 @@ export class PostPage implements OnInit {
     ngOnInit() {
         this.postId = parseInt(this.route.snapshot.params.id);
         const post = this.router.getCurrentNavigation().extras.state as PostListModel;
-        console.log('postid', post)
         if (post == null) {
             this.loadPost();
         } else {
             this.onPostLoad(post);
         }
-        this.postCheck()
+        console.log(this.post)
     }
 
     changeEvent(data) {
         console.log('dataa', data)
-        this.postCheck()
+        this.purchased()
     }
 
-    postCheck() {
-        this.postApiService.checkaspurchased(this.postId).subscribe(
+    purchased() {
+        console.log('66',this.postId)
+        this.postApiService.markaspurchased(this.postId).subscribe(
             v => this.onCheckPurchased(v),
             e => this.onErrorPurchased(e)
         )
@@ -112,10 +112,18 @@ export class PostPage implements OnInit {
     }
 
     onErrorPurchased(e: any) {
-        this.disabled = true
+        this.zone.run(() => {
+            console.log('girdi')
+            console.log('post', this.post)
+            this.post.isPurchased = true
+        })
     }
 
     onCheckPurchased(v: void) {
-        this.disabled = false
+        this.zone.run(() => {
+            console.log('girdi')
+            console.log('post', this.post)
+            this.post.isPurchased = true
+        })
     }
 }
