@@ -70,9 +70,13 @@
         <ion-row>
             <ion-col>
                 <ion-list class="mt-1">
-                    <ion-item>
-                        <ion-label style="font-weight: bold">{{post.isPurchased ? 'Ürün zaten Alındı':'Bu ürünü aldım' }} </ion-label>
-                        <ion-checkbox [disabled]="post.isPurchased=== true" (ionChange)="changeEvent($event)" color="success" slot="start"></ion-checkbox>
+                    <ion-item *ngIf="isStrangerPost === false && post.isPurchased">
+                        <ion-label>Ürün <a routerLink="/app/profile/{{post?.purchasedBy.id}}">{{post.purchasedBy?.fullName }}</a> tarafından alındı.</ion-label>
+                        <ion-checkbox [checked]="true" [disabled]="post.isPurchased=== true" color="success" slot="start"></ion-checkbox>
+                    </ion-item>
+                    <ion-item *ngIf="isStrangerPost === true">
+                        <ion-label>{{post.isPurchased ? 'Ürün alındı':'Bu ürünü aldım' }} </ion-label>
+                        <ion-checkbox [checked]="post.isPurchased" [disabled]="post.isPurchased=== true" (ionChange)="changeEvent($event)" color="success" slot="start"></ion-checkbox>
                     </ion-item>
                 </ion-list>
             </ion-col>

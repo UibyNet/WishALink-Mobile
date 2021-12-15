@@ -43,7 +43,7 @@
     </div>
     <div class="top-tabs">
         <div class="tab-container">
-            <ion-segment [value]="selectedSegment">
+            <ion-segment [value]="selectedSegment" (ionChange)="onSegmentChanged($event)">
                 <ion-segment-button value="categories" [routerLink]="currentUrl" [queryParams]="{segment: 'categories'}">
                     <ion-label>Kategoriler</ion-label>
                 </ion-segment-button>

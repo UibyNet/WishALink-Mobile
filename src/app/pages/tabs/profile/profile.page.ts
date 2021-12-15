@@ -1,6 +1,6 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { ActionSheetController, ModalController, NavController } from '@ionic/angular';
+import { ActionSheetController, IonContent, ModalController, NavController } from '@ionic/angular';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { NotificationComponent } from 'src/app/components/notification/notification.component';
@@ -20,6 +20,9 @@ import { AppService } from "../../../services/app.service";
     styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+
+    @ViewChild(IonContent) content: IonContent;
+
     currentUrl: string;
     routerSubscription: Subscription;
     isMe: boolean = false;
@@ -207,7 +210,9 @@ export class ProfilePage implements OnInit {
     }
 
     onSegmentChanged(e) {
-
+        this.zone.run(()=>{
+            this.content.scrollToTop();
+        })
     }
 
     async openNotification() {

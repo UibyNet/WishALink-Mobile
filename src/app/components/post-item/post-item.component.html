@@ -20,6 +20,10 @@
           <ion-icon [name]="item.isUserLike ? 'heart' : 'heart-outline'" [color]="item.isUserLike ? 'danger' : 'dark'"></ion-icon>
           {{ item.likeCount }}
         </ion-button>
+        <ion-button *ngIf="item.isPurchased" fill="clear" color="dark" (click)="togglePostLike($event)" [disabled]="isLoading">
+          <ion-icon name="checkmark-done-outline" color="success"></ion-icon>
+          Alındı
+        </ion-button>
         <ion-button fill="clear" color="dark" (click)="openPostDetail($event, true)" *ngIf="item.url.indexOf('http') > -1">
           <ion-icon name="open-outline"></ion-icon>
           Ürüne Git
