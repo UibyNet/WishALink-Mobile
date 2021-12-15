@@ -2773,8 +2773,8 @@ export class PostApiService {
      * @param postId (optional) 
      * @return Success
      */
-    checkaspurchased(postId: number | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/post/checkaspurchased?";
+    markaspurchased(postId: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/post/markaspurchased?";
         if (postId === null)
             throw new Error("The parameter 'postId' cannot be null.");
         else if (postId !== undefined)
@@ -2789,11 +2789,11 @@ export class PostApiService {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCheckaspurchased(response_);
+            return this.processMarkaspurchased(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCheckaspurchased(<any>response_);
+                    return this.processMarkaspurchased(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -2802,7 +2802,7 @@ export class PostApiService {
         }));
     }
 
-    protected processCheckaspurchased(response: HttpResponseBase): Observable<void> {
+    protected processMarkaspurchased(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -5577,6 +5577,7 @@ export class PostListModel implements IPostListModel {
     category?: CategoryListModel;
     isPurchased?: boolean;
     purchasedBy?: SocialUserListModel;
+    isFollowingUserPost?: boolean;
 
     constructor(data?: IPostListModel) {
         if (data) {
@@ -5607,6 +5608,7 @@ export class PostListModel implements IPostListModel {
             this.category = _data["Category"] ? CategoryListModel.fromJS(_data["Category"]) : <any>undefined;
             this.isPurchased = _data["IsPurchased"];
             this.purchasedBy = _data["PurchasedBy"] ? SocialUserListModel.fromJS(_data["PurchasedBy"]) : <any>undefined;
+            this.isFollowingUserPost = _data["IsFollowingUserPost"];
         }
     }
 
@@ -5637,6 +5639,7 @@ export class PostListModel implements IPostListModel {
         data["Category"] = this.category ? this.category.toJSON() : <any>undefined;
         data["IsPurchased"] = this.isPurchased;
         data["PurchasedBy"] = this.purchasedBy ? this.purchasedBy.toJSON() : <any>undefined;
+        data["IsFollowingUserPost"] = this.isFollowingUserPost;
         return data; 
     }
 }
@@ -5660,6 +5663,7 @@ export interface IPostListModel {
     category?: CategoryListModel;
     isPurchased?: boolean;
     purchasedBy?: SocialUserListModel;
+    isFollowingUserPost?: boolean;
 }
 
 export class PostTag implements IPostTag {
