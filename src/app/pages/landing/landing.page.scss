@@ -28,7 +28,7 @@
 
 section {
   &.dark-bg {
-    background-color: var(--ion-color-secondary);
+    background-color: var(--ion-color-primary);
   }
 
   &.what {
@@ -80,7 +80,7 @@ section {
       right: 0;
       left: 0;
       display: block;
-      background-color: var(--ion-color-secondary);
+      background-color: var(--ion-color-primary);
     }
 
     h2 {
@@ -93,7 +93,7 @@ section {
       }
 
       span {
-        color: var(--ion-color-secondary);
+        color: var(--ion-color-primary);
       }
     }
 
@@ -157,7 +157,7 @@ section {
       width: 100%;
       height: 44%;
       display: block;
-      background-color: var(--ion-color-secondary);
+      background-color: var(--ion-color-primary);
       position: absolute;
       bottom: 0;
       right: 0;

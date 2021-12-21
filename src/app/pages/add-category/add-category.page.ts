@@ -1,8 +1,8 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {CategoryApiService, CategoryListModel} from "../../services/api-wishalink.service";
-import {NavController} from '@ionic/angular';
-import {AppService} from 'src/app/services/app.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { CategoryApiService, CategoryListModel } from "../../services/api-wishalink.service";
+import { NavController } from '@ionic/angular';
+import { AppService } from 'src/app/services/app.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-add-category',
@@ -135,15 +135,20 @@ export class AddCategoryPage implements OnInit {
     }
 
     selectImage() {
-        this.appService.getImage()
-            .then(
-                (imgData) => {
-                    this.zone.run(() => {
-                        this.catImageBlob = imgData.blob;
-                        this.catImage = `data:image/jpeg;base64,${imgData.photo.base64String}`;
-                    })
-                }
-            );
+        if (this.appService.isMobile) {
+            this.appService.getImage()
+                .then(
+                    (imgData) => {
+                        this.zone.run(() => {
+                            this.catImageBlob = imgData.blob;
+                            this.catImage = `data:image/jpeg;base64,${imgData.photo.base64String}`;
+                        })
+                    }
+                );
+        }
+        else {
+            
+        }
     }
 
     goBack() {

@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController, Platform } from '@ionic/angular';
 import { Keyboard } from '@capacitor/keyboard';
@@ -11,7 +11,7 @@ import { AppService } from 'src/app/services/app.service';
 @Component({
     selector: 'app-tabs',
     templateUrl: './tabs.page.html',
-    styleUrls: ['./tabs.page.scss'],
+    styleUrls: ['./tabs.page.scss']
 })
 export class TabsPage implements OnInit {
     isKeyboardOpen: boolean = false;

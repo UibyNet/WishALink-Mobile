@@ -18,6 +18,9 @@ import { AppService } from "../../../services/app.service";
     selector: 'app-profile',
     templateUrl: './profile.page.html',
     styleUrls: ['./profile.page.scss'],
+    host: {
+        '(window:resize)': 'onWindowResize($event)'
+    }
 })
 export class ProfilePage implements OnInit {
 
@@ -32,6 +35,7 @@ export class ProfilePage implements OnInit {
     activities: ActivityListModel[] = [];
     selectedSegment: string = 'categories';
     profilePictureUrl: string
+    categoryColSize: number = 4;
 
     constructor(
         private zone: NgZone,
@@ -76,6 +80,24 @@ export class ProfilePage implements OnInit {
         }
         console.log(this.userId)
         this.ionViewDidEnter();
+        this.onWindowResize(null)
+    }
+
+    onWindowResize(e) {
+        this.zone.run(() => {
+            if (window.innerWidth > 1200) {
+                this.categoryColSize = 3;
+            }
+            else if (window.innerWidth > 1024) {
+                this.categoryColSize = 4;
+            }
+            else if (window.innerWidth > 768) {
+                this.categoryColSize = 5;
+            }
+            console.log(this.categoryColSize);
+            
+        })
+
     }
 
     ionViewWillEnter() {
@@ -92,7 +114,7 @@ export class ProfilePage implements OnInit {
                 })
             }
         })
-        
+
         this.getUser(false);
     }
 
@@ -210,7 +232,7 @@ export class ProfilePage implements OnInit {
     }
 
     onSegmentChanged(e) {
-        this.zone.run(()=>{
+        this.zone.run(() => {
             this.content.scrollToTop();
         })
     }

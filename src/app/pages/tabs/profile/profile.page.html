@@ -59,14 +59,14 @@
     <div *ngIf="selectedSegment == 'categories'" class="content">
         <ion-grid>
             <ion-row>
-                <ion-col *ngIf="isMe" class="ion-text-center new-category" size="4" routerLink="/add-category/0">
+                <ion-col *ngIf="isMe" class="ion-text-center new-category" [size]="categoryColSize" routerLink="/add-category/0">
                     <div class="card">
                         <ion-icon name="add-outline"></ion-icon>
                     </div>
                     <div class="product-title">Yeni</div>
                     <div class="product-amount">Kategori</div>
                 </ion-col>
-                <ion-col *ngFor="let category of categories" routerLink="/app/category/{{category.id}}" [state]="category" class="ion-text-center" size="4">
+                <ion-col *ngFor="let category of categories" routerLink="/app/category/{{category.id}}" [state]="category" class="ion-text-center" [size]="categoryColSize">
                     <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}">
                     </div>
                     <div class="product-title">{{ category.name }}</div>
