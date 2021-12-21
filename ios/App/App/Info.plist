@@ -19,7 +19,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -28,13 +30,15 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Wish a Link&apos;i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
+	<string>Wish a Link'i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Wish a Link rehberinizdeki arkadaşlarınıza kolayca davet gönderebilmeniz için rehberinize erişmek istiyor.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Wish a Link konumunuza erişmek istiyor</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Wish a Link&apos;i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
+	<string>Wish a Link'i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Wish a Link&apos;i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
+	<string>Wish a Link'i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -56,9 +60,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Wish a Link konumunuza erişmek istiyor</string>
 </dict>
 </plist>

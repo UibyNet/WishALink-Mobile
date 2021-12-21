@@ -73,6 +73,7 @@ export class AddProductPage implements OnInit {
             this.name = post.name;
             // this.activityId = post.activity.id;
         }
+        console.log(this.appService.user.id)
         this.activityApiService.list(this.appService.user.id)
             .subscribe(
                 v => this.onActivitiesLoad(v),
@@ -148,15 +149,19 @@ export class AddProductPage implements OnInit {
     }
 
     onActivitiesLoad(v: ActivityListModel[]): void {
-        if (v.length === 0) {
-            // this.showAlert()
-        }
+        console.log('acti', v)
+
         this.zone.run(() => {
-            this.hasActivities = true
+            if (v.length === 0) {
+                // this.showAlert()
+                this.hasActivities = false
+            }
+            else{
+                this.hasActivities = true
+
+            }
             this.activities = v;
-            console.log(
-                this.activities
-            )
+            console.log(this.hasActivities)
         })
     }
 

@@ -22,7 +22,8 @@
   background: #FFFFFF;
   padding: 48px 1.5rem 160px;
   position: relative;
-  button{
+
+  button {
     width: 100%;
     background: transparent;
     height: 56px;
@@ -31,18 +32,28 @@
     font-size: 20px;
     color: #6A40D6;
   }
+
   ion-datetime {
-    border: 1px solid #6A40D6;
-    border-radius: 16px;
+    border: 1px solid var(--ion-color-light);
+    //border-radius: 16px;
     height: 56px;
-    padding:1em 1rem !important;
+    padding: 1em 1rem !important;
+
+    &.has-focus {
+      border-color: red;
+    }
   }
 
   ion-input {
-    border: 1px solid #6A40D6;
-    border-radius: 16px;
+    //border: 1px solid #6A40D6;
+    //border-radius: 16px;
+    border: 1px solid var(--ion-color-light);
     height: 56px;
-    padding:0 1rem !important;
+    padding: 0 1rem !important;
+
+    &.has-focus:not(.ng-dirty) {
+      border-color: var(--ion-color-primary) !important;
+    }
   }
 
   .exit-container {
@@ -60,15 +71,49 @@
     top: -23px;
   }
 }
-.mb-32{
+
+.mb-32 {
   margin-bottom: 32px;
 }
-.toogle-container{
+
+.toogle-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #6A40D6;
-  border-radius: 16px;
+  border: 1px solid var(--ion-color-light);
+  //border-radius: 16px;
   height: 56px;
-  padding:0 1rem !important;
+  padding: 0 1rem !important;
+}
+
+input {
+  font-family: var(--ion-font-family);
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  width: 100%;
+  height: 52px;
+  border-width: 1px;
+  border-color: var(--ion-color-light);
+  border-radius: 0;
+  border-style: solid;
+  outline: none !important;
+
+  &:enabled:hover:not(.ng-dirty) {
+    border-color: var(--ion-color-primary);
+  }
+
+  &:enabled:focus {
+    border-color: var(--ion-color-primary);
+  }
+
+  &.ng-dirty.ng-invalid:focus {
+    border-color: var(--ion-color-primary);
+  }
 }

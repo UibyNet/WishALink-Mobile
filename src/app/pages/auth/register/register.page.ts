@@ -1,11 +1,19 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthApiService, CategoryApiService, CategoryListModel, ProfileApiService, TokenModel, UserModel, VerifyModel } from 'src/app/services/api-wishalink.service';
-import { AppService } from 'src/app/services/app.service';
-import { ModalController } from '@ionic/angular';
-import { CountrySelectorComponent } from 'src/app/components/country-selector/country-selector.component';
-import { Router } from '@angular/router';
-import { PrivacyPolicyComponent } from 'src/app/components/privacy-policy/privacy-policy.component';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {
+    AuthApiService,
+    CategoryApiService,
+    CategoryListModel,
+    ProfileApiService,
+    TokenModel,
+    UserModel,
+    VerifyModel
+} from 'src/app/services/api-wishalink.service';
+import {AppService} from 'src/app/services/app.service';
+import {ModalController} from '@ionic/angular';
+import {CountrySelectorComponent} from 'src/app/components/country-selector/country-selector.component';
+import {Router} from '@angular/router';
+import {PrivacyPolicyComponent} from 'src/app/components/privacy-policy/privacy-policy.component';
 
 @Component({
     selector: 'app-register',
@@ -17,7 +25,7 @@ export class RegisterPage implements OnInit {
     categories: CategoryListModel[] = [];
     selectedCategories = [];
     checkbox: boolean = false
-    selectedCountry = { dialCode: '90', isoCode: 'tr', phoneMask: '000 000 00 00' };
+    selectedCountry = {dialCode: '90', isoCode: 'tr', phoneMask: '000 000 00 00'};
 
     isLoading: boolean = false;
     otp: string;
@@ -101,8 +109,8 @@ export class RegisterPage implements OnInit {
         model.phoneNumber = this.phoneNumber;
         model.otp = this.otp;
 
-        this.oldPassword = this.otp + '';
 
+        this.oldPassword = this.otp + '';
 
         this.authService.verify(model)
             .subscribe(
@@ -122,15 +130,17 @@ export class RegisterPage implements OnInit {
         this.otp = this.password
         this.isLoading = true;
 
+
         this.profileService.changepassword(this.oldPassword, this.otp)
             .subscribe(
                 v => this.onPasswordChange(),
-                e => this.onError(e)
+                e => this.onError('hatasds')
             )
     }
 
     onPasswordChange(): void {
         this.zone.run(() => {
+            this.appService.accessToken = this.appService.tempAccessToken;
             this.isLoading = false;
             this.stepper++;
         });
@@ -143,6 +153,7 @@ export class RegisterPage implements OnInit {
                 this.stepper++;
             } else {
                 this.appService.accessToken = v.token;
+
                 this.stepper += 2;
             }
         });
@@ -151,7 +162,8 @@ export class RegisterPage implements OnInit {
     onVerify(v: TokenModel): void {
         this.zone.run(() => {
             this.isLoading = false;
-            this.appService.accessToken = v.token;
+            this.appService.tempAccessToken = v.token;
+            // this.appService.accessToken = v.token;
             this.stepper++;
         });
 
@@ -161,6 +173,7 @@ export class RegisterPage implements OnInit {
                 e => this.onError(e)
             )
     }
+
     onCategoriesLoad(v: CategoryListModel[]): void {
         this.categories = v;
     }
@@ -194,8 +207,7 @@ export class RegisterPage implements OnInit {
                     v => this.onCategoriesSave(),
                     e => this.onError(e)
                 )
-        }
-        else {
+        } else {
             this.zone.run(() => {
                 this.router.navigate(['/app']);
             });

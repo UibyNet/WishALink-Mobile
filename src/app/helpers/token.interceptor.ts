@@ -37,7 +37,7 @@ export class TokenInterceptor {
     if (request.url.indexOf(this.wishApiBaseUrl) > -1) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.appService.accessToken}`
+          Authorization: `Bearer ${this.appService.accessToken == undefined || this.appService.accessToken == '' ? this.appService.tempAccessToken : this.appService.accessToken }`
         }
       });
     }

@@ -14,7 +14,7 @@
             <div class="mw-500-tablet">
 
                 <div class="ion-margin-bottom">
-                    <ion-input [(ngModel)]="name" placeholder="Ürün Başlığı"></ion-input>
+                    <input [(ngModel)]="name" placeholder="Ürün Başlığı">
                 </div>
                 <div class="ion-margin-bottom">
                     <ion-input [(ngModel)]="url" (ionChange)="onLinkChange()" placeholder="Ürün linki"></ion-input>
@@ -23,18 +23,18 @@
                     <img [src]="mediaUrl" alt="">
                 </div>
                 <div class="ion-margin-bottom">
-                    <ion-input [(ngModel)]="brand" placeholder="Marka"></ion-input>
+                    <input [(ngModel)]="brand" placeholder="Marka">
                 </div>
                 <div class="ion-margin-bottom">
-                    <ion-input [(ngModel)]="model" placeholder="Model"></ion-input>
+                    <input [(ngModel)]="model" placeholder="Model">
                 </div>
                 <div class="ion-margin-bottom">
-                    <ion-input [(ngModel)]="color" placeholder="Renk"></ion-input>
+                    <input [(ngModel)]="color" placeholder="Renk">
                 </div>
                 <div class="ion-margin-bottom">
-                    <ion-input [(ngModel)]="size" placeholder="Beden veya Kapasite"></ion-input>
+                    <input [(ngModel)]="size" placeholder="Beden veya Kapasite">
                 </div>
-                <div *ngIf="!hasActivities" class="ion-margin-bottom">
+                <div *ngIf="hasActivities" class="ion-margin-bottom">
                     <ion-select [(ngModel)]="activityId" placeholder="Etkinlik" okText="Tamam" cancelText="İptal">
                         <ion-select-option *ngFor="let activity of activities" [value]="activity.id">{{ activity.name }}</ion-select-option>
                     </ion-select>
@@ -52,7 +52,7 @@
                 </div>
               -->
                 <div class="mb-32">
-                    <ion-input [(ngModel)]="description" placeholder="Açıklama"></ion-input>
+                    <input [(ngModel)]="description" placeholder="Açıklama">
                 </div>
                 <div>
                     <ion-button *ngIf="postId == 0" color="primary" fill="outline" expand="block" [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Kaydediliyor...' : 'Kaydet'}}</ion-button>

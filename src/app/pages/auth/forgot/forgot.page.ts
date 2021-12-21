@@ -55,8 +55,10 @@ export class ForgotPage implements OnInit {
     // }
 
     ngOnInit() {
-        this.resetPasswordForm = this.formBuilder.group({
-            phoneNumberMasked: ['', [Validators.required, Validators.minLength(1)]],
+        this.zone.run(() => {
+            this.resetPasswordForm = this.formBuilder.group({
+                phoneNumberMasked: ['', [Validators.required, Validators.minLength(1)]],
+            })
         })
     }
 
@@ -75,7 +77,6 @@ export class ForgotPage implements OnInit {
         const model = new ForgotModel();
         model.phoneNumber = this.phoneNumber;
         console.log(model)
-        return
         this.isLoading = true;
         this.authService.forgot(model)
             .subscribe(
@@ -110,7 +111,8 @@ export class ForgotPage implements OnInit {
             .subscribe(
                 v => {
                     if (v != undefined && v.token != undefined) {
-                        this.appService.accessToken = v.token;
+                        // this.appService.accessToken = v.token;
+                        this.appService.tempAccessToken = v.token
                         this.onForgot();
                     }
                 },
@@ -130,6 +132,7 @@ export class ForgotPage implements OnInit {
 
     onPasswordChange(): void {
         this.zone.run(() => {
+            this.appService.accessToken = this.appService.tempAccessToken
             this.isLoading = false;
             this.router.navigate(['/app'])
         });

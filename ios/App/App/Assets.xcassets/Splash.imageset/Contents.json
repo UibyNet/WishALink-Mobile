@@ -14,21 +14,6 @@
       "filename" : "LaunchImage~iphone-320x480-5.png",
       "idiom" : "universal",
       "scale" : "3x"
-    },
-    {
-      "filename" : "LaunchImage~iphone-320x480.png",
-      "idiom" : "iphone",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "LaunchImage~iphone-320x480-1.png",
-      "idiom" : "iphone",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "LaunchImage~iphone-320x480-2.png",
-      "idiom" : "iphone",
-      "scale" : "3x"
     }
   ],
   "info" : {
@@ -36,6 +21,7 @@
     "version" : 1
   },
   "properties" : {
-    "auto-scaling" : "auto"
+    "auto-scaling" : "auto",
+    "compression-type" : "automatic"
   }
 }

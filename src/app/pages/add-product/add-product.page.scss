@@ -15,55 +15,65 @@
     }
   }
 }
-.calendar-background{
+
+.calendar-background {
   position: fixed;
   background: rgba(0, 0, 0, 0.4);;
   width: 100%;
   height: 100%;
   z-index: 3;
 }
+
 .main-content {
   border-top-right-radius: 32px;
   border-top-left-radius: 32px;
   background: #FFFFFF;
   padding: 48px 1.5rem;
   position: relative;
+
   ::ng-deep .p-calendar {
     width: 100% !important;
     height: 56px;
-    .p-datepicker{
+
+    .p-datepicker {
       border: 1px solid #6A40D6;
       border-radius: 1rem;
       padding: 1rem 1.25rem;
-      table th > span{
+
+      table th > span {
         font-size: 14px;
         line-height: 24px;
         letter-spacing: 0.38px;
         color: var(--ion-color-medium);
       }
-      table td > span.p-highlight{
+
+      table td > span.p-highlight {
         background: #1E90FF;
         color: #FFFFFF;
       }
-      .p-datepicker-title{
+
+      .p-datepicker-title {
         font-size: 20px;
         line-height: 24px;
         letter-spacing: 0.38px;
         color: #6A40D6;
       }
-       table td > span{
-         font-size: 16px;
-         line-height: 24px;
-         letter-spacing: 0.38px;
-         color: #000000;
-       }
+
+      table td > span {
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.38px;
+        color: #000000;
+      }
     }
-    input{
+
+    input {
       padding: 0 1rem;
       border: 1px solid #6A40D6;
       border-radius: 1rem;
       box-shadow: unset;
-      &::placeholder{
+
+      &::placeholder {
         color: #BDBDBD !important;
       }
     }
@@ -99,6 +109,7 @@
     border: 1px solid #6A40D6;
     border-radius: 16px;
     overflow: hidden;
+
     img {
       width: auto;
       height: 100%;
@@ -116,17 +127,24 @@
   }
 
   ion-input {
-    border: 1px solid #6A40D6;
-    border-radius: 16px;
+    border: 1px solid var(--ion-color-light);
+    //border-radius: 16px;
     height: 56px;
     padding: 0 1rem !important;
+    --placeholder-opacity: unset !important;
+    --placeholder-color:#757575 !important;
+    &.has-focus:not(.ng-dirty) {
+      border-color: var(--ion-color-primary) !important;
+    }
+
   }
 
   ion-select {
-    border: 1px solid #6A40D6;
-    border-radius: 16px;
+    border: 1px solid var(--ion-color-light);
     height: 56px;
     padding: 1.2rem 1rem !important;
+    --placeholder-opacity: unset !important;
+    --placeholder-color: #757575 !important;
   }
 
 
@@ -148,4 +166,36 @@
 
 .mb-32 {
   margin-bottom: 32px;
+}
+
+input {
+  font-family: var(--ion-font-family);
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  width: 100%;
+  height: 52px;
+  border-width: 1px;
+  border-color: var(--ion-color-light);
+  border-radius: 0;
+  border-style: solid;
+  outline: none !important;
+
+  &:enabled:hover:not(.ng-dirty) {
+    border-color: var(--ion-color-primary);
+  }
+
+  &:enabled:focus {
+    border-color: var(--ion-color-primary);
+  }
+
+  &.ng-dirty.ng-invalid:focus {
+    border-color: var(--ion-color-primary);
+  }
 }

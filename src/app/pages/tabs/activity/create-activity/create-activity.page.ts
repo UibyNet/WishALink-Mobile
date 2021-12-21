@@ -78,7 +78,6 @@ export class CreateActivityPage implements OnInit {
         model.endDate = moment(this.endDate).format('DD.MM.YYYY HH:mm');
         model.isHidden = this.isHidden;
         model.description = this.description;
-
         if (this.activityId > 0) {
             model.id = this.activityId;
             this.activityApiService.update(model)
