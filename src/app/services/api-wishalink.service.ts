@@ -4243,6 +4243,7 @@ export class CampaignListModel implements ICampaignListModel {
     startDate?: string | undefined;
     endDate?: string | undefined;
     mediaUrl?: string | undefined;
+    externalLink?: string | undefined;
 
     constructor(data?: ICampaignListModel) {
         if (data) {
@@ -4262,6 +4263,7 @@ export class CampaignListModel implements ICampaignListModel {
             this.startDate = _data["StartDate"];
             this.endDate = _data["EndDate"];
             this.mediaUrl = _data["MediaUrl"];
+            this.externalLink = _data["ExternalLink"];
         }
     }
 
@@ -4281,6 +4283,7 @@ export class CampaignListModel implements ICampaignListModel {
         data["StartDate"] = this.startDate;
         data["EndDate"] = this.endDate;
         data["MediaUrl"] = this.mediaUrl;
+        data["ExternalLink"] = this.externalLink;
         return data; 
     }
 }
@@ -4293,6 +4296,7 @@ export interface ICampaignListModel {
     startDate?: string | undefined;
     endDate?: string | undefined;
     mediaUrl?: string | undefined;
+    externalLink?: string | undefined;
 }
 
 export class Category implements ICategory {
@@ -5395,6 +5399,7 @@ export class PostEditModel implements IPostEditModel {
     size?: string | undefined;
     description?: string | undefined;
     tags?: string | undefined;
+    media?: string | undefined;
 
     constructor(data?: IPostEditModel) {
         if (data) {
@@ -5419,6 +5424,7 @@ export class PostEditModel implements IPostEditModel {
             this.size = _data["Size"];
             this.description = _data["Description"];
             this.tags = _data["Tags"];
+            this.media = _data["Media"];
         }
     }
 
@@ -5443,6 +5449,7 @@ export class PostEditModel implements IPostEditModel {
         data["Size"] = this.size;
         data["Description"] = this.description;
         data["Tags"] = this.tags;
+        data["Media"] = this.media;
         return data; 
     }
 }
@@ -5460,6 +5467,7 @@ export interface IPostEditModel {
     size?: string | undefined;
     description?: string | undefined;
     tags?: string | undefined;
+    media?: string | undefined;
 }
 
 export class PostLike implements IPostLike {
