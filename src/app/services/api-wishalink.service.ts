@@ -2564,21 +2564,84 @@ export class PostApiService {
     }
 
     /**
-     * @param body (optional) 
+     * @param id (optional) 
+     * @param mediaId (optional) 
+     * @param activityId (optional) 
+     * @param categoryId (optional) 
+     * @param name (optional) 
+     * @param url (optional) 
+     * @param brand (optional) 
+     * @param model (optional) 
+     * @param color (optional) 
+     * @param size (optional) 
+     * @param description (optional) 
+     * @param tags (optional) 
+     * @param media (optional) 
      * @return Success
      */
-    create(body: PostEditModel | undefined): Observable<PostListModel> {
+    create(id: number | undefined, mediaId: number | undefined, activityId: number | undefined, categoryId: number | undefined, name: string | undefined, url: string | undefined, brand: string | undefined, model: string | undefined, color: string | undefined, size: string | undefined, description: string | undefined, tags: string | undefined, media: FileParameter | undefined): Observable<PostListModel> {
         let url_ = this.baseUrl + "/api/post/create";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (id === null || id === undefined)
+            throw new Error("The parameter 'id' cannot be null.");
+        else
+            content_.append("Id", id.toString());
+        if (mediaId === null || mediaId === undefined)
+            throw new Error("The parameter 'mediaId' cannot be null.");
+        else
+            content_.append("MediaId", mediaId.toString());
+        if (activityId === null || activityId === undefined)
+            throw new Error("The parameter 'activityId' cannot be null.");
+        else
+            content_.append("ActivityId", activityId.toString());
+        if (categoryId === null || categoryId === undefined)
+            throw new Error("The parameter 'categoryId' cannot be null.");
+        else
+            content_.append("CategoryId", categoryId.toString());
+        if (name === null || name === undefined)
+            throw new Error("The parameter 'name' cannot be null.");
+        else
+            content_.append("Name", name.toString());
+        if (url === null || url === undefined)
+            throw new Error("The parameter 'url' cannot be null.");
+        else
+            content_.append("Url", url.toString());
+        if (brand === null || brand === undefined)
+            throw new Error("The parameter 'brand' cannot be null.");
+        else
+            content_.append("Brand", brand.toString());
+        if (model === null || model === undefined)
+            throw new Error("The parameter 'model' cannot be null.");
+        else
+            content_.append("Model", model.toString());
+        if (color === null || color === undefined)
+            throw new Error("The parameter 'color' cannot be null.");
+        else
+            content_.append("Color", color.toString());
+        if (size === null || size === undefined)
+            throw new Error("The parameter 'size' cannot be null.");
+        else
+            content_.append("Size", size.toString());
+        if (description === null || description === undefined)
+            throw new Error("The parameter 'description' cannot be null.");
+        else
+            content_.append("Description", description.toString());
+        if (tags === null || tags === undefined)
+            throw new Error("The parameter 'tags' cannot be null.");
+        else
+            content_.append("Tags", tags.toString());
+        if (media === null || media === undefined)
+            throw new Error("The parameter 'media' cannot be null.");
+        else
+            content_.append("Media", media.data, media.fileName ? media.fileName : "Media");
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
                 "Accept": "text/plain"
             })
         };
@@ -2634,21 +2697,84 @@ export class PostApiService {
     }
 
     /**
-     * @param body (optional) 
+     * @param id (optional) 
+     * @param mediaId (optional) 
+     * @param activityId (optional) 
+     * @param categoryId (optional) 
+     * @param name (optional) 
+     * @param url (optional) 
+     * @param brand (optional) 
+     * @param model (optional) 
+     * @param color (optional) 
+     * @param size (optional) 
+     * @param description (optional) 
+     * @param tags (optional) 
+     * @param media (optional) 
      * @return Success
      */
-    update(body: PostEditModel | undefined): Observable<PostListModel> {
+    update(id: number | undefined, mediaId: number | undefined, activityId: number | undefined, categoryId: number | undefined, name: string | undefined, url: string | undefined, brand: string | undefined, model: string | undefined, color: string | undefined, size: string | undefined, description: string | undefined, tags: string | undefined, media: FileParameter | undefined): Observable<PostListModel> {
         let url_ = this.baseUrl + "/api/post/update";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
+        const content_ = new FormData();
+        if (id === null || id === undefined)
+            throw new Error("The parameter 'id' cannot be null.");
+        else
+            content_.append("Id", id.toString());
+        if (mediaId === null || mediaId === undefined)
+            throw new Error("The parameter 'mediaId' cannot be null.");
+        else
+            content_.append("MediaId", mediaId.toString());
+        if (activityId === null || activityId === undefined)
+            throw new Error("The parameter 'activityId' cannot be null.");
+        else
+            content_.append("ActivityId", activityId.toString());
+        if (categoryId === null || categoryId === undefined)
+            throw new Error("The parameter 'categoryId' cannot be null.");
+        else
+            content_.append("CategoryId", categoryId.toString());
+        if (name === null || name === undefined)
+            throw new Error("The parameter 'name' cannot be null.");
+        else
+            content_.append("Name", name.toString());
+        if (url === null || url === undefined)
+            throw new Error("The parameter 'url' cannot be null.");
+        else
+            content_.append("Url", url.toString());
+        if (brand === null || brand === undefined)
+            throw new Error("The parameter 'brand' cannot be null.");
+        else
+            content_.append("Brand", brand.toString());
+        if (model === null || model === undefined)
+            throw new Error("The parameter 'model' cannot be null.");
+        else
+            content_.append("Model", model.toString());
+        if (color === null || color === undefined)
+            throw new Error("The parameter 'color' cannot be null.");
+        else
+            content_.append("Color", color.toString());
+        if (size === null || size === undefined)
+            throw new Error("The parameter 'size' cannot be null.");
+        else
+            content_.append("Size", size.toString());
+        if (description === null || description === undefined)
+            throw new Error("The parameter 'description' cannot be null.");
+        else
+            content_.append("Description", description.toString());
+        if (tags === null || tags === undefined)
+            throw new Error("The parameter 'tags' cannot be null.");
+        else
+            content_.append("Tags", tags.toString());
+        if (media === null || media === undefined)
+            throw new Error("The parameter 'media' cannot be null.");
+        else
+            content_.append("Media", media.data, media.fileName ? media.fileName : "Media");
 
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
                 "Accept": "text/plain"
             })
         };
@@ -5384,90 +5510,6 @@ export interface IPostCategory {
     postId?: number;
     category?: Category;
     categoryId?: number;
-}
-
-export class PostEditModel implements IPostEditModel {
-    id?: number;
-    mediaId?: number | undefined;
-    activityId?: number | undefined;
-    categoryId?: number;
-    name?: string | undefined;
-    url?: string | undefined;
-    brand?: string | undefined;
-    model?: string | undefined;
-    color?: string | undefined;
-    size?: string | undefined;
-    description?: string | undefined;
-    tags?: string | undefined;
-    media?: string | undefined;
-
-    constructor(data?: IPostEditModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.mediaId = _data["MediaId"];
-            this.activityId = _data["ActivityId"];
-            this.categoryId = _data["CategoryId"];
-            this.name = _data["Name"];
-            this.url = _data["Url"];
-            this.brand = _data["Brand"];
-            this.model = _data["Model"];
-            this.color = _data["Color"];
-            this.size = _data["Size"];
-            this.description = _data["Description"];
-            this.tags = _data["Tags"];
-            this.media = _data["Media"];
-        }
-    }
-
-    static fromJS(data: any): PostEditModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new PostEditModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["MediaId"] = this.mediaId;
-        data["ActivityId"] = this.activityId;
-        data["CategoryId"] = this.categoryId;
-        data["Name"] = this.name;
-        data["Url"] = this.url;
-        data["Brand"] = this.brand;
-        data["Model"] = this.model;
-        data["Color"] = this.color;
-        data["Size"] = this.size;
-        data["Description"] = this.description;
-        data["Tags"] = this.tags;
-        data["Media"] = this.media;
-        return data; 
-    }
-}
-
-export interface IPostEditModel {
-    id?: number;
-    mediaId?: number | undefined;
-    activityId?: number | undefined;
-    categoryId?: number;
-    name?: string | undefined;
-    url?: string | undefined;
-    brand?: string | undefined;
-    model?: string | undefined;
-    color?: string | undefined;
-    size?: string | undefined;
-    description?: string | undefined;
-    tags?: string | undefined;
-    media?: string | undefined;
 }
 
 export class PostLike implements IPostLike {
