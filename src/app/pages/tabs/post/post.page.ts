@@ -16,6 +16,8 @@ export class PostPage implements OnInit {
     postId: number;
     isLoading: boolean = false;
     disabled: boolean = false
+    canPurchase: boolean;
+    currentUserId: number;
 
     constructor(
         private zone: NgZone,
@@ -34,6 +36,7 @@ export class PostPage implements OnInit {
     }
 
     ngOnInit() {
+        this.currentUserId = this.appService.user.id;
         this.postId = parseInt(this.route.snapshot.params.id);
         const post = this.router.getCurrentNavigation().extras.state as PostListModel;
         if (post == null) {
@@ -50,7 +53,6 @@ export class PostPage implements OnInit {
     }
 
     purchased() {
-        console.log('66',this.postId)
         this.postApiService.markaspurchased(this.postId).subscribe(
             v => this.onCheckPurchased(v),
             e => this.onErrorPurchased(e)
@@ -68,7 +70,8 @@ export class PostPage implements OnInit {
     onPostLoad(v: PostListModel) {
         this.zone.run(() => {
             this.post = v;
-            this.isStrangerPost = v.createdBy?.id != this.appService.user.id;
+            this.isStrangerPost = v.createdBy?.id != this.currentUserId;
+            this.canPurchase = !v.isPurchased || (v.isPurchased && v.purchasedBy.id == this.currentUserId);
         })
     }
 
@@ -113,17 +116,13 @@ export class PostPage implements OnInit {
 
     onErrorPurchased(e: any) {
         this.zone.run(() => {
-            console.log('girdi')
-            console.log('post', this.post)
-            this.post.isPurchased = true
+            this.appService.showErrorAlert(e);
         })
     }
 
-    onCheckPurchased(v: void) {
+    onCheckPurchased(v: PostListModel) {
         this.zone.run(() => {
-            console.log('girdi')
-            console.log('post', this.post)
-            this.post.isPurchased = true
+            this.post.isPurchased = v.isPurchased;
         })
     }
 }

@@ -1,15 +1,16 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AlertController, NavController} from '@ionic/angular';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, NavController } from '@ionic/angular';
 import {
     ActivityApiService,
     ActivityListModel,
+    CommonApiService,
     MetaInfoModel,
     PostApiService,
     PostEditModel,
     PostListModel
 } from 'src/app/services/api-wishalink.service';
-import {AppService} from 'src/app/services/app.service';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
     selector: 'app-add-product',
@@ -19,29 +20,32 @@ import {AppService} from 'src/app/services/app.service';
 export class AddProductPage implements OnInit {
 
     postId: number = 0;
-    url: string;
-    brand: string;
-    model: string;
-    color: string;
-    size: string;
+    url: string = '';
+    brand: string = '';
+    model: string = '';
+    color: string = '';
+    size: string = '';
+    description: string = '';
     date: Date;
     activity: string;
-    description: string;
     isOpenCalendar: boolean = false;
     mediaUrl: string;
     mediaId: number;
     activities: ActivityListModel[];
     name: string;
-    activityId: number;
+    activityId: number = 0;
     categoryId: number;
     isLoading: boolean = false
     hasActivities: boolean = false
+    postImage: string;
+    postImageBlob: Blob;
 
     constructor(
         private route: ActivatedRoute,
         private appService: AppService,
         private postApiService: PostApiService,
         private activityApiService: ActivityApiService,
+        private commonApiService: CommonApiService,
         private navController: NavController,
         private alertController: AlertController,
         private router: Router,
@@ -103,7 +107,15 @@ export class AddProductPage implements OnInit {
             this.appService.showAlert('Ürün başlığı girmeniz gerekmektedir.')
             return
         }
+
+        if (this.mediaId == 0 && this.postImageBlob == null) {
+            this.appService.showToast("Lütfen ürün görseli ekleyin.");
+            this.isLoading = false
+            return;
+        }
+
         const model = new PostEditModel();
+        model.id = this.postId;
         model.name = this.name;
         model.url = this.url;
         model.brand = this.brand;
@@ -113,10 +125,10 @@ export class AddProductPage implements OnInit {
         model.description = this.description;
         model.activityId = this.activityId;
         model.categoryId = this.categoryId;
-        model.mediaId = this.mediaId
+        model.mediaId = this.mediaId;
+        model.tags = '';
 
         if (this.postId > 0) {
-            model.id = this.postId;
             this.postApiService.update(model)
                 .subscribe(
                     v => this.onSave(v),
@@ -156,7 +168,7 @@ export class AddProductPage implements OnInit {
                 // this.showAlert()
                 this.hasActivities = false
             }
-            else{
+            else {
                 this.hasActivities = true
 
             }
@@ -174,7 +186,7 @@ export class AddProductPage implements OnInit {
                 {
                     text: 'Etkinlik Ekle',
                     handler: () => {
-                        this.router.navigate(['/app/activity/create'], {queryParams: {activityId: 0}});
+                        this.router.navigate(['/app/activity/create'], { queryParams: { activityId: 0 } });
                     }
                 },
                 {
@@ -186,15 +198,21 @@ export class AddProductPage implements OnInit {
     }
 
     onFetch(v: MetaInfoModel): void {
-        this.mediaUrl = v.mediaUrl;
-        this.mediaId = v.mediaId;
+        if (v.mediaId > 0) {
+            this.mediaUrl = v.mediaUrl;
+            this.mediaId = v.mediaId;
+            this.postImage = null;
+            this.postImageBlob = null;
+        }
     }
 
     onError(e: any): void {
-        console.log(e)
-        this.appService.toggleLoader(false)
-        this.isLoading = false
-        this.appService.showErrorAlert(e);
+        this.zone.run(() => {
+            console.log(e)
+            this.appService.toggleLoader(false)
+            this.isLoading = false
+            this.appService.showErrorAlert(e);
+        })
     }
 
     close() {
@@ -216,5 +234,35 @@ export class AddProductPage implements OnInit {
             this.router.navigate(['app/category/' + this.categoryId])
         })
 
+    }
+
+    selectImage() {
+        if (this.appService.isMobile) {
+            this.appService.getImage()
+                .then(
+                    (imgData) => {
+                        this.zone.run(() => {
+                            if (imgData != null && imgData.photo != null && imgData.photo.base64String != null && imgData.photo.base64String.length > 0) {
+                                this.postImageBlob = imgData.blob;
+                                this.postImage = `data:image/jpeg;base64,${imgData.photo.base64String}`;
+                                this.mediaId = 0;
+                                this.mediaUrl = null;
+                                this.saveImage();
+                            }
+                        })
+                    }
+                );
+        }
+        else {
+
+        }
+    }
+
+    saveImage() {
+        this.commonApiService.uploadmedia({ fileName: '', data: this.postImageBlob })
+            .subscribe(
+                v => { this.mediaId = v.id; },
+                e => this.appService.showErrorAlert(e)
+            )
     }
 }

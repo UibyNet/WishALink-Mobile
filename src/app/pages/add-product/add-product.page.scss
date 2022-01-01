@@ -116,6 +116,35 @@
     }
   }
 
+  .image-container {
+    --border-radius: 0;
+    --border-width: 1px;
+    --border-color: var(--ion-color-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20vh;
+    padding: 0;
+
+    .select-image {
+      color: #b7b7b7;
+      text-transform: none;
+
+      ion-icon {
+        font-size: 4em;
+        margin-bottom: .2em;
+      }
+    }
+
+    .image {
+      height: 100%;
+
+      img {
+        height: 100%;
+      }
+    }
+  }
+
   button {
     width: 100%;
     background: transparent;

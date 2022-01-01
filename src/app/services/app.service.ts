@@ -246,52 +246,78 @@ export class AppService {
                 promptLabelPicture: 'Fotoğraf Çek'
             };
 
-            Camera.checkPermissions().then(
-                p => {
-                    if (p.camera == "granted" && p.photos == "granted") {
-                        Camera.getPhoto(cameraOptions)
-                            .then(v => {
-                                resolve(v)
-                            })
-                            .catch(() => {
-                                reject()
-                            })
-                    } else {
+            if(this.platform.is('capacitor')) {
+                Camera.checkPermissions().then(
+                    p => {
+                        if (p.camera == "granted" && p.photos == "granted") {
+                            Camera.getPhoto(cameraOptions)
+                                .then(v => {
+                                    resolve(v)
+                                })
+                                .catch(() => {
+                                    reject()
+                                })
+                        } else {
+                            Camera.requestPermissions({ permissions: ['camera', 'photos'] })
+                                .then(
+                                    cp => {
+                                        if (p.camera == "granted" && p.photos == "granted") {
+                                            Camera.getPhoto(cameraOptions)
+                                                .then(v => {
+                                                    resolve(v)
+                                                })
+                                                .catch(() => {
+                                                    reject()
+                                                })
+                                        } else {
+                                            reject('Kamera ve fotoğraflara erişim izni vermeniz gerekli.')
+                                        }
+                                    },
+                                    e => reject('Kamera ve fotoğraflara erişim izni vermeniz gerekli.' + JSON.stringify(e))
+                                )
+                        }
+                    },
+                    e => {
                         Camera.requestPermissions({ permissions: ['camera', 'photos'] })
                             .then(
                                 cp => {
-                                    if (p.camera == "granted" && p.photos == "granted") {
-                                        Camera.getPhoto(cameraOptions)
-                                            .then(v => {
-                                                resolve(v)
-                                            })
-                                            .catch(() => {
-                                                reject()
-                                            })
-                                    } else {
-                                        reject('Kamera ve fotoğraflara erişim izni vermeniz gerekli.')
-                                    }
+                                    Camera.getPhoto(cameraOptions)
+                                        .then(v => {
+                                            resolve(v)
+                                        })
+                                        .catch(() => {
+                                            reject()
+                                        })
                                 },
-                                e => reject('Kamera ve fotoğraflara erişim izni vermeniz gerekli.' + JSON.stringify(e))
+                                e => reject('Kamera ve fotoğraflara erişim izni vermeniz gerekli!')
                             )
                     }
-                },
-                e => {
-                    Camera.requestPermissions({ permissions: ['camera', 'photos'] })
-                        .then(
-                            cp => {
-                                Camera.getPhoto(cameraOptions)
-                                    .then(v => {
-                                        resolve(v)
-                                    })
-                                    .catch(() => {
-                                        reject()
-                                    })
-                            },
-                            e => reject('Kamera ve fotoğraflara erişim izni vermeniz gerekli!')
-                        )
+                )
+            }
+            else {
+                var input = document.createElement('input');
+                input.type = 'file';
+                input.id = 'file-selector-' + (new Date()).getTime();
+
+                input.onchange = e => { 
+                    var target:any = e.target; 
+                    var selectedFiles: any[] = target.files;
+                    if(selectedFiles != null && selectedFiles.length > 0) {
+                        var selectedFile: File = selectedFiles[0];
+
+                        const fileReader = getFileReader();
+                        fileReader.readAsDataURL(selectedFile)
+                        fileReader.onload = function(e) {
+                            var base64String = fileReader.result as string;
+                            var cleanString = base64String.substring(base64String.indexOf(',') + 1)
+                            resolve({base64String: cleanString} as Photo)
+                        }
+                    } 
                 }
-            )
+
+                input.click();
+            }
+            
 
         });
     }

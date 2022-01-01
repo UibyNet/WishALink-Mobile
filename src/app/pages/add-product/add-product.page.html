@@ -19,9 +19,20 @@
                 <div class="ion-margin-bottom">
                     <ion-input [(ngModel)]="url" (ionChange)="onLinkChange()" placeholder="Ürün linki"></ion-input>
                 </div>
-                <div *ngIf="mediaUrl != undefined && mediaUrl.length>0" class="ion-margin-bottom product-image">
-                    <img [src]="mediaUrl" alt="">
-                </div>
+                <ion-button (click)="selectImage()" fill="outline" class="image-container ion-margin-bottom">
+                    <div *ngIf="postImage == null && (mediaUrl == null || mediaUrl.length == 0)" class="select-image">
+                        <div>
+                            <ion-icon name="image-outline"></ion-icon>
+                        </div>
+                        <div>Ürün görseli seçin</div>
+                    </div>
+                    <div class="image" *ngIf="postImage">
+                        <img [src]="postImage" alt="">
+                    </div>
+                    <div class="image" *ngIf="mediaUrl != undefined && mediaUrl.length>0">
+                        <img [src]="mediaUrl" alt="">
+                    </div>
+                </ion-button>
                 <div class="ion-margin-bottom">
                     <input [(ngModel)]="brand" placeholder="Marka">
                 </div>
@@ -36,7 +47,8 @@
                 </div>
                 <div *ngIf="hasActivities" class="ion-margin-bottom">
                     <ion-select [(ngModel)]="activityId" placeholder="Etkinlik" okText="Tamam" cancelText="İptal">
-                        <ion-select-option *ngFor="let activity of activities" [value]="activity.id">{{ activity.name }}</ion-select-option>
+                        <ion-select-option *ngFor="let activity of activities" [value]="activity.id">{{ activity.name }}
+                        </ion-select-option>
                     </ion-select>
                 </div>
                 <!--
@@ -55,12 +67,17 @@
                     <input [(ngModel)]="description" placeholder="Açıklama">
                 </div>
                 <div>
-                    <ion-button *ngIf="postId == 0" color="primary" fill="outline" expand="block" [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Kaydediliyor...' : 'Kaydet'}}</ion-button>
-                    <ion-button class="mb-1" *ngIf="postId > 0" color="primary" fill="outline" expand="block" [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Güncelleniyor...' : 'Güncelle'}}</ion-button>
+                    <ion-button *ngIf="postId == 0" color="primary" fill="outline" expand="block" [disabled]="isLoading"
+                        (click)="savePost()">{{ isLoading ? 'Kaydediliyor...' : 'Kaydet'}}</ion-button>
+                    <ion-button class="mb-1" *ngIf="postId > 0" color="primary" fill="outline" expand="block"
+                        [disabled]="isLoading" (click)="savePost()">{{ isLoading ? 'Güncelleniyor...' : 'Güncelle'}}
+                    </ion-button>
 
                 </div>
                 <div *ngIf="postId > 0" class="mt-3 w-500-tablet ion-text-center">
-                    <ion-button class="ion-text-capitalize"  color="danger" fill="outline" expand="block" [disabled]="isLoading" (click)="deletePost()">{{ isLoading ? 'Siliniyor...' : 'Ürünü Sil'}}</ion-button>
+                    <ion-button class="rounded ion-text-capitalize" color="danger" fill="outline" expand="block"
+                        [disabled]="isLoading" (click)="deletePost()">{{ isLoading ? 'Siliniyor...' : 'Ürünü Sil'}}
+                    </ion-button>
                 </div>
             </div>
 

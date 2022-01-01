@@ -76,7 +76,7 @@
                     </ion-item>
                     <ion-item *ngIf="isStrangerPost === true">
                         <ion-label>{{post.isPurchased ? 'Ürün alındı':'Bu ürünü aldım' }} </ion-label>
-                        <ion-checkbox [checked]="post.isPurchased" [disabled]="post.isPurchased=== true" (ionChange)="changeEvent($event)" color="success" slot="start"></ion-checkbox>
+                        <ion-checkbox [checked]="post.isPurchased" [disabled]="!canPurchase" (ionChange)="changeEvent($event)" color="success" slot="start"></ion-checkbox>
                     </ion-item>
                 </ion-list>
             </ion-col>

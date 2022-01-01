@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { CategoryApiService, CategoryListModel } from "../../services/api-wishalink.service";
+import { CategoryApiService, CategoryEditModel, CategoryListModel, CommonApiService } from "../../services/api-wishalink.service";
 import { NavController } from '@ionic/angular';
 import { AppService } from 'src/app/services/app.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,6 +18,7 @@ export class AddCategoryPage implements OnInit {
     catImageBlob: Blob = new Blob();
     categoryId: number = 0;
     isLoading: boolean = false
+    mediaId: number;
 
     constructor(
         private zone: NgZone,
@@ -25,6 +26,7 @@ export class AddCategoryPage implements OnInit {
         private route: ActivatedRoute,
         private appService: AppService,
         private categoryApiService: CategoryApiService,
+        private commonApiService: CommonApiService,
         private navController: NavController,
     ) {
     }
@@ -60,26 +62,28 @@ export class AddCategoryPage implements OnInit {
             this.isLoading = false
             return;
         }
-        if (this.catImageBlob == null) {
+        if (this.mediaId == null || this.mediaId == 0) {
             this.appService.showToast("Lütfen kategori görseli ekleyin.");
             this.isLoading = false
             return;
         }
+
+        const model = new CategoryEditModel();
+        model.id = this.categoryId;
+        model.name = this.categoryName;
+        model.order = 0;
+        model.mediaId = this.mediaId;
+        model.isHidden = this.isHidden;
+
         this.appService.toggleLoader(true).then(() => {
             if (this.categoryId > 0) {
-                this.categoryApiService.update(this.categoryId, this.categoryName, 0, this.isHidden, {
-                    fileName: '',
-                    data: this.catImageBlob
-                })
+                this.categoryApiService.update(model)
                     .subscribe(
                         v => this.onUpdate(v),
                         e => this.onError(e)
                     )
             } else {
-                this.categoryApiService.create(0, this.categoryName, 0, this.isHidden, {
-                    fileName: '',
-                    data: this.catImageBlob
-                })
+                this.categoryApiService.create(model)
                     .subscribe(
                         v => this.onSave(v),
                         e => this.onError(e)
@@ -142,6 +146,7 @@ export class AddCategoryPage implements OnInit {
                         this.zone.run(() => {
                             this.catImageBlob = imgData.blob;
                             this.catImage = `data:image/jpeg;base64,${imgData.photo.base64String}`;
+                            this.saveImage();
                         })
                     }
                 );
@@ -149,6 +154,14 @@ export class AddCategoryPage implements OnInit {
         else {
             
         }
+    }
+
+    saveImage() {
+        this.commonApiService.uploadmedia({fileName: '', data: this.catImageBlob})
+            .subscribe(
+                v => { this.mediaId = v.id; },
+                e => this.appService.showErrorAlert(e)
+            )
     }
 
     goBack() {
