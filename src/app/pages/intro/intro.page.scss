@@ -43,6 +43,18 @@ ion-content {
 
 }
 
+.lang-selector {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  ion-button {
+    --color: #b4aeea;
+  } 
+  ion-item {
+    width: 0 !important;
+  }
+}
+
 ::ng-deep .action-sheet-group.sc-ion-action-sheet-md:first-child {
   border-top-right-radius: 16px;
   border-top-left-radius: 16px;

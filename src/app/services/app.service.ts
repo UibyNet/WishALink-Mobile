@@ -2,7 +2,9 @@ import { Injectable, InjectionToken, NgZone } from "@angular/core";
 import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
 import { StatusBar, StatusBarBackgroundColorOptions, Style } from "@capacitor/status-bar";
 import { AlertController, LoadingController, Platform, ToastController } from "@ionic/angular";
+import {TranslateService} from '@ngx-translate/core';
 import jwt_decode from 'jwt-decode';
+import * as moment from "moment";
 import { LocalUser } from "../models/localuser";
 import { Order } from "../models/order";
 import { KpayBackendMemberApiService, MemberDTO } from "./api-kpay-backend.service";
@@ -60,7 +62,8 @@ export class AppService {
         private loadingController: LoadingController,
         private toastController: ToastController,
         private alertController: AlertController,
-        private memberApiService: KpayBackendMemberApiService
+        private memberApiService: KpayBackendMemberApiService,
+        private translate: TranslateService
     ) {
     }
 
@@ -99,6 +102,26 @@ export class AppService {
 
     set accessToken(v: string) {
         localStorage.setItem("access_token", v);
+    }
+
+    get currentLanguage():string {
+        let lang = localStorage.getItem("user_lang");
+
+        if(lang == undefined || lang.length == 0) {
+            const browserLang = this.translate.getBrowserLang();
+            lang = browserLang.match(/tr|en/) ? browserLang : 'tr';
+            localStorage.setItem("user_lang", lang);
+        }
+
+        return lang;
+    }
+
+    set currentLanguage(v: string) {
+        localStorage.setItem("user_lang", v);
+
+        this.translate.use(v);
+        moment.locale(v);
+
     }
 
 

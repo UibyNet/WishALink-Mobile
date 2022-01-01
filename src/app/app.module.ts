@@ -1,11 +1,13 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -34,6 +36,9 @@ const maskConfig: Partial<IConfig> = {
     validation: false,
 };
 
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/lang/', '.json');
+}
 
 @NgModule({
     declarations: [
@@ -50,7 +55,14 @@ const maskConfig: Partial<IConfig> = {
         AppRoutingModule,
         AppPipesModule,
         SharedComponentsModule,
-        CardModule
+        CardModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [
         InAppBrowser,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } from '@capacitor/push-notifications';
 import { Config, Platform } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { AppService } from './services/app.service';
 
@@ -13,11 +14,15 @@ export class AppComponent implements OnInit {
   constructor(
     public appService: AppService,
     private config: Config,
-    private platform: Platform
-  ) { }
+    private platform: Platform,
+    public translate: TranslateService
+  ) {
+    translate.addLangs(['tr', 'en']);
+    translate.setDefaultLang('tr');
+    this.translate.use(this.appService.currentLanguage);
+   }
 
   ngOnInit(): void {
-    moment.locale("tr");
     
     if (!this.appService.isMobile) {
       this.config.set('navAnimation', null);

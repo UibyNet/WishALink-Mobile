@@ -13,11 +13,14 @@ import {Share} from '@capacitor/share';
 })
 export class SettingsPage implements OnInit {
 
+    currentLang: string;
+
     constructor(
         public appService: AppService,
         private navController: NavController,
         private modalController: ModalController,
     ) {
+        this.currentLang = this.appService.currentLanguage;
     }
 
     userData: SocialUserListModel
@@ -45,6 +48,10 @@ export class SettingsPage implements OnInit {
             text: 'Wish a link i paylas',
             url: 'http://wishalink.com/',
         })
+    }
+
+    changeLang() {
+        this.appService.currentLanguage = this.currentLang;
     }
 
     logout() {

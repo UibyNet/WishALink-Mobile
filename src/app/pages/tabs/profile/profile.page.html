@@ -28,11 +28,11 @@
             <div class="community">
                 <div class="follower" (click)="openCommunity('follower')">
                     <div class="number">{{currentUser == null ? 0 : currentUser.followersCount}}</div>
-                    <div class="text">Takipçi</div>
+                    <div class="text">{{ 'Follower' | translate }}</div>
                 </div>
                 <div class="following" (click)="openCommunity('following')">
                     <div class="number">{{currentUser == null ? 0 : currentUser.followingsCount}}</div>
-                    <div class="text">Takip</div>
+                    <div class="text">{{ 'Following' | translate }}</div>
                 </div>
             </div>
             <div *ngIf="!isMe" (click)="toggleUserFollow()" [ngClass]="{'active':!currentUser?.isFollowing}"

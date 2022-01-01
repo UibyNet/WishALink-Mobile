@@ -8,6 +8,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage as ProfilePage } from './profile.page';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { SharedDirectivesModule } from 'src/app/directives/shared-directives.mod
     FormsModule,
     IonicModule,
     ProfilePageRoutingModule,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    TranslateModule
   ],
   declarations: [ProfilePage]
 })

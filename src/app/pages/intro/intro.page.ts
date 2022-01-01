@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActionSheetController, IonSelect } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/services/app.service';
 import { SplashScreen } from '@capacitor/splash-screen';
@@ -12,12 +12,16 @@ import { SplashScreen } from '@capacitor/splash-screen';
 export class IntroPage implements OnInit {
 
     isLoggedIn: boolean = true;
+    currentLang: string;
+
+    @ViewChild('langSelector', { static : false }) langSelect: IonSelect ;
 
     constructor(
         private appService: AppService,
         private router: Router,
         public actionSheetController: ActionSheetController,
     ) {
+        this.currentLang = this.appService.currentLanguage;
     }
 
     ionViewWillEnter() {
@@ -68,6 +72,14 @@ export class IntroPage implements OnInit {
 
         const { role } = await actionSheet.onDidDismiss();
         console.log('onDidDismiss resolved with role', role);
+    }
+
+    changeLang() {
+        this.appService.currentLanguage = this.currentLang;
+    }
+
+    openLangSelector() {
+        this.langSelect.open();
     }
 
 }
