@@ -218,6 +218,7 @@ export class ProfilePage implements OnInit {
     onUserCategoriesLoad(v: CategoryListModel[]) {
         this.zone.run(() => {
             this.categories = v
+            console.log('user Cat',this.categories)
             if (this.isMe) {
                 this.appService.userCategories = v;
             }

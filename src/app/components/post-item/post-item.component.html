@@ -8,12 +8,12 @@
       <div class="post-creator">
         <span (click)="openCreator($event)">{{ item.createdBy.fullName }}</span>
       </div>
-      <div class="post-tags">
-        <ion-badge class="post-tag" color="light" fill="outline" *ngIf="item.brand != null && item.brand.length > 0">{{item.brand}} </ion-badge>
-        <ion-badge class="post-tag" color="light" fill="outline" *ngIf="item.model != null && item.model.length > 0"> {{item.model }}</ion-badge>
-        <ion-badge class="post-tag" color="light" fill="outline" *ngIf="item.color != null && item.color.length > 0"> {{item.color }}</ion-badge>
-        <ion-badge class="post-tag" color="light" fill="outline" *ngIf="item.size != null && item.size.length > 0">{{ item.size}} </ion-badge>
-        <ion-badge class="post-tag" color="light" fill="outline" *ngIf="item.keywords != null && item.keywords.length > 0">{{item.keywords }}</ion-badge>
+      <div style="flex-wrap: wrap" class="post-tags d-flex ">
+        <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.brand != null && item.brand.length > 0">{{item.brand}} </ion-badge>
+        <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.model != null && item.model.length > 0"> {{item.model }}</ion-badge>
+        <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.color != null && item.color.length > 0"> {{item.color }}</ion-badge>
+        <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.size != null && item.size.length > 0">{{ item.size}} </ion-badge>
+        <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.keywords != null && item.keywords.length > 0">{{item.keywords }}</ion-badge>
       </div>
       <div class="post-actions">
         <ion-button fill="clear" color="dark" (click)="togglePostLike($event)" [disabled]="isLoading">
