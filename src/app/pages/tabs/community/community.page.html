@@ -13,19 +13,19 @@
         <div class="profile">
             <div class="avatar">
                 <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
-                    alt="">
+                     alt="">
             </div>
             <div class="name">
-                <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
+                <span>{{userData == null ? '&nbsp;' : userData.fullName}}</span>
             </div>
             <div class="community">
                 <div class="follower">
                     <div class="number">{{userData == null ? 0 : userData.followersCount}}</div>
-                    <div class="text">Takipçi</div>
+                    <div class="text">{{'Follower' | translate}}</div>
                 </div>
                 <div class="following">
                     <div class="number">{{userData == null ? 0 : userData.followingsCount}}</div>
-                    <div class="text">Takip</div>
+                    <div class="text">{{'Following' | translate}}</div>
                 </div>
             </div>
         </div>
@@ -35,10 +35,10 @@
 
             <ion-segment [value]="selectedSegment">
                 <ion-segment-button value="follower" [routerLink]="currentUrl" [queryParams]="{segment: 'follower'}">
-                    <ion-label>Takipçi</ion-label>
+                    <ion-label>{{'Follower' | translate}}</ion-label>
                 </ion-segment-button>
                 <ion-segment-button value="following" [routerLink]="currentUrl" [queryParams]="{segment: 'following'}">
-                    <ion-label>Takip</ion-label>
+                    <ion-label>{{'Following' | translate}}</ion-label>
                 </ion-segment-button>
             </ion-segment>
         </div>
@@ -53,14 +53,13 @@
                 <div class="name">{{user?.fullName}}</div>
             </div>
             <div (click)="unfollowUser(user,'reloadFollower')" *ngIf="user.isFollowing" class="follow-info active">
-                {{ user.isBusy ? '...' : 'Takibi Bırak'}}
+                {{ user.isBusy ? '...' : ('Unfollow' | translate)}}
             </div>
             <div (click)="followUser(user)" *ngIf="!user.isFollowing" class="follow-info">
-                {{ user.isBusy ? '...' : 'Takip Et'}}
+                {{ user.isBusy ? '...' : ('Follow' | translate)}}
             </div>
         </div>
-        <div *ngIf="followerList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">Seni takip
-            eden herkesi burada göreceksin.
+        <div *ngIf="followerList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">{{'NoFollower' | translate}}
         </div>
     </div>
     <div *ngIf="selectedSegment === 'following'" class="content mw-500-tablet">
@@ -70,11 +69,10 @@
                 <div class="name">{{user?.fullName}}</div>
             </div>
             <div (click)="unfollowUser(user,'reloadFollowing')" class="follow-info active">
-                {{ user.isBusy ? '...' : 'Takibi Bırak'}}
+                {{ user.isBusy ? '...' : ('Unfollow' | translate)}}
             </div>
         </div>
-        <div *ngIf="followingList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">Takip
-            ettiğin kişileri burada göreceksin.
+        <div *ngIf="followingList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656;">{{'NoFollowing' | translate}}
         </div>
     </div>
 </ion-content>

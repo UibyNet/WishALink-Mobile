@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActionSheetController, IonSelect } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { AppService } from 'src/app/services/app.service';
-import { SplashScreen } from '@capacitor/splash-screen';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActionSheetController, IonSelect} from '@ionic/angular';
+import {Router} from '@angular/router';
+import {AppService} from 'src/app/services/app.service';
+import {SplashScreen} from '@capacitor/splash-screen';
 
 @Component({
     selector: 'app-intro',
@@ -14,7 +14,7 @@ export class IntroPage implements OnInit {
     isLoggedIn: boolean = true;
     currentLang: string;
 
-    @ViewChild('langSelector', { static : false }) langSelect: IonSelect ;
+    @ViewChild('langSelector', {static: false}) langSelect: IonSelect;
 
     constructor(
         private appService: AppService,
@@ -32,8 +32,7 @@ export class IntroPage implements OnInit {
             if (this.appService.isLoggedIn) {
                 this.router.navigate(['app']);
             }
-        }
-        else {
+        } else {
             this.router.navigate(['landing']);
         }
     }
@@ -53,14 +52,14 @@ export class IntroPage implements OnInit {
             cssClass: 'my-custom-class',
             buttons: [
                 {
-                    text: 'Giriş Yap',
+                    text: this.appService.translateWithParam('Login').translatedData,
                     cssClass: 'login',
                     handler: () => {
                         this.router.navigate(['login']);
                     }
                 },
                 {
-                    text: 'Üye Ol',
+                    text: this.appService.translateWithParam('Register').translatedData,
                     cssClass: 'register',
                     handler: () => {
                         this.router.navigate(['register']);
@@ -70,7 +69,7 @@ export class IntroPage implements OnInit {
         });
         await actionSheet.present();
 
-        const { role } = await actionSheet.onDidDismiss();
+        const {role} = await actionSheet.onDidDismiss();
         console.log('onDidDismiss resolved with role', role);
     }
 

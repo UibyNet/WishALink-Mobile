@@ -8,6 +8,7 @@ import { CampaignPageRoutingModule } from './campaign-routing.module';
 
 import { CampaignPage } from './campaign.page';
 import {AppPipesModule} from "../../../pipes/pipes.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {AppPipesModule} from "../../../pipes/pipes.module";
         FormsModule,
         IonicModule,
         CampaignPageRoutingModule,
-        AppPipesModule
+        AppPipesModule,
+        TranslateModule
     ],
   declarations: [CampaignPage]
 })

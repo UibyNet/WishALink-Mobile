@@ -1,73 +1,73 @@
 <ion-header mode="ios" class="ion-no-border">
-  <div class="shrinkable">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="/app/settings" text="" color="dark"></ion-back-button>
-      </ion-buttons>
-      <ion-title>Kartlarım</ion-title>
-      <ion-buttons slot="end">
-        <ion-button color="primary" (click)="openCard(0)">
-          <ion-icon name="add-outline" slot="icon-only"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </div>
+    <div class="shrinkable">
+        <ion-toolbar>
+            <ion-buttons slot="start">
+                <ion-back-button defaultHref="/app/settings" text="" color="dark"></ion-back-button>
+            </ion-buttons>
+            <ion-title>{{ 'MyCards' | translate}}</ion-title>
+            <ion-buttons slot="end">
+                <ion-button color="primary" (click)="openCard(0)">
+                    <ion-icon name="add-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </div>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="cards != undefined && cards.length > 0">
-    <div class="gridcard-color fivePhasesFadeIn" *ngFor="let card of cards">
-      <ion-grid (click)="showActions(card)" [class.cardON]="card.cardID == member?.defaultCard"
-        [class.cardOFF]="card.cardID != member?.defaultCard">
-        <ion-row>
-          <ion-col class="state">
-            <div [class.msgON]="card.cardID == member?.defaultCard" [class.msgOFF]="card.cardID != member?.defaultCard">
+    <div *ngIf="cards != undefined && cards.length > 0">
+        <div class="gridcard-color fivePhasesFadeIn" *ngFor="let card of cards">
+            <ion-grid (click)="showActions(card)" [class.cardON]="card.cardID == member?.defaultCard"
+                      [class.cardOFF]="card.cardID != member?.defaultCard">
+                <ion-row>
+                    <ion-col class="state">
+                        <div [class.msgON]="card.cardID == member?.defaultCard" [class.msgOFF]="card.cardID != member?.defaultCard">
               <span [class.ON]="card.cardID == member?.defaultCard"
-                [class.OFF]="card.cardID != member?.defaultCard"></span>
-              {{card.bankName}}
-            </div>
-          </ion-col>
-          <ion-col class="logo">
-            <img class="brand" src="../../../../assets/svg/payment/{{ card.familyName.toLowerCase() }}.png" />
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="2" class="chip">
-            <img src="../../../../assets/svg/payment/chip.png" />
-          </ion-col>
-          <ion-col size="10" class="ccnumber"> {{card?.pAN}} </ion-col>
-        </ion-row>
-        <ion-row class="digits">
-          <ion-col class="number"> </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6" class="date">{{card.cardHolder}} </ion-col>
-          <ion-col szie="6" class="logo">
-            <img class="brand logo-white"
-              src="../../../../assets/svg/payment/{{ card.creditCardType.toLowerCase() }}.png" />
-          </ion-col>
-          <!-- <ion-col class="bank"> {{card.familyName}} </ion-col> -->
-        </ion-row>
-      </ion-grid>
+                    [class.OFF]="card.cardID != member?.defaultCard"></span>
+                            {{card.bankName}}
+                        </div>
+                    </ion-col>
+                    <ion-col class="logo">
+                        <img class="brand" src="../../../../assets/svg/payment/{{ card.familyName.toLowerCase() }}.png"/>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="2" class="chip">
+                        <img src="../../../../assets/svg/payment/chip.png"/>
+                    </ion-col>
+                    <ion-col size="10" class="ccnumber"> {{card?.pAN}} </ion-col>
+                </ion-row>
+                <ion-row class="digits">
+                    <ion-col class="number"></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="6" class="date">{{card.cardHolder}} </ion-col>
+                    <ion-col szie="6" class="logo">
+                        <img class="brand logo-white"
+                             src="../../../../assets/svg/payment/{{ card.creditCardType.toLowerCase() }}.png"/>
+                    </ion-col>
+                    <!-- <ion-col class="bank"> {{card.familyName}} </ion-col> -->
+                </ion-row>
+            </ion-grid>
+        </div>
     </div>
-  </div>
 
-  <div class="no-cards" *ngIf="cards == undefined || cards.length == 0">
-    <div class="icon ion-text-center">
-      <img src="../../../../../assets/svg/logo/ccard.svg" alt="" />
+    <div class="no-cards" *ngIf="cards == undefined || cards.length == 0">
+        <div class="icon ion-text-center">
+            <img src="../../../../../assets/svg/logo/ccard.svg" alt=""/>
+        </div>
+        <div class="ion-text-center mb-3">
+            <ion-note>{{ 'NoCardFound' | translate}}</ion-note>
+        </div>
+        <div class="ion-text-center" (click)="openCard(0)">
+            <ion-button color="primary">{{'AddNewCard' | translate}}</ion-button>
+        </div>
     </div>
-    <div class="ion-text-center mb-3">
-      <ion-note>Kayıtlı kredi kartı bulunamadı!</ion-note>
-    </div>
-    <div class="ion-text-center" (click)="openCard(0)">
-      <ion-button color="primary">Yeni Kart Ekle</ion-button>
-    </div>
-  </div>
 </ion-content>
 <ion-footer>
-  <ion-note>
-    KpayGO altında saklayacağınız kart saklama hizmeti
-    <img src="../../../../assets/svg/logo/paytr.svg" alt="" /> kuruluşu tarafından
-    sağlanmaktadır.
-  </ion-note>
+    <ion-note>
+        {{'KpayGoNoteFirst' | translate}}
+        <img src="../../../../assets/svg/logo/paytr.svg" alt=""/>
+        {{'KpayGoNoteSecond' | translate}}
+    </ion-note>
 </ion-footer>

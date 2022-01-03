@@ -11,6 +11,7 @@ import {NavbarComponent} from './web/navbar/navbar.component';
 import {PrivacyPolicyComponent} from "./privacy-policy/privacy-policy.component";
 import {AppPipesModule} from "../pipes/pipes.module";
 import { PostItemComponent } from './post-item/post-item.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { PostItemComponent } from './post-item/post-item.component';
         IonicModule,
         RouterModule,
         ScrollingModule,
-        AppPipesModule
+        AppPipesModule,
+        TranslateModule
     ],
     exports: [
         CountrySelectorComponent,

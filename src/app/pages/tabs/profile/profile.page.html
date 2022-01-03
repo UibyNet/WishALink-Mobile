@@ -17,13 +17,13 @@
         <div class="profile">
             <div class="avatar">
                 <img [src]="profilePictureUrl == null || profilePictureUrl.length == 0 ? '../../../../assets/svg/home/avatar.png' : profilePictureUrl"
-                    alt="">
+                     alt="">
                 <div *ngIf="isMe" (click)="presentActionSheet()" class="options">
                     <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
                 </div>
             </div>
             <div class="name">
-                <span>{{currentUser == null? '&nbsp;' : currentUser.fullName}}</span>
+                <span>{{currentUser == null ? '&nbsp;' : currentUser.fullName}}</span>
             </div>
             <div class="community">
                 <div class="follower" (click)="openCommunity('follower')">
@@ -36,8 +36,8 @@
                 </div>
             </div>
             <div *ngIf="!isMe" (click)="toggleUserFollow()" [ngClass]="{'active':!currentUser?.isFollowing}"
-                class="my-2 badge-container mx-auto font-9 d-flex ion-justify-content-center ion-align-items-center">
-                {{currentUser?.isFollowing ? 'Takibi Bırak' : 'Takip Et'}}
+                 class="my-2 badge-container mx-auto font-9 d-flex ion-justify-content-center ion-align-items-center">
+                {{currentUser?.isFollowing ? ('Unfollow' | translate) : ('Follow' | translate)}}
             </div>
         </div>
     </div>
@@ -45,10 +45,10 @@
         <div class="tab-container">
             <ion-segment [value]="selectedSegment" (ionChange)="onSegmentChanged($event)">
                 <ion-segment-button value="categories" [routerLink]="currentUrl" [queryParams]="{segment: 'categories'}">
-                    <ion-label>Kategoriler</ion-label>
+                    <ion-label>{{ 'Categories' | translate }}</ion-label>
                 </ion-segment-button>
                 <ion-segment-button value="activities" [routerLink]="currentUrl" [queryParams]="{segment: 'activities'}">
-                    <ion-label>Etkinlikler</ion-label>
+                    <ion-label>{{ 'Events' | translate }}</ion-label>
                 </ion-segment-button>
             </ion-segment>
         </div>
@@ -63,14 +63,14 @@
                     <div class="card">
                         <ion-icon name="add-outline"></ion-icon>
                     </div>
-                    <div class="product-title">Yeni</div>
-                    <div class="product-amount">Kategori</div>
+                    <div class="product-title">{{ 'New' | translate }}</div>
+                    <div class="product-amount">{{ 'Category' | translate }}</div>
                 </ion-col>
                 <ion-col *ngFor="let category of categories" routerLink="/app/category/{{category.id}}" [state]="category" class="ion-text-center" [size]="categoryColSize">
                     <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}">
                     </div>
                     <div class="product-title">{{ category.name }}</div>
-                    <div class="product-amount">{{ category.postCount }} ürün</div>
+                    <div class="product-amount">{{ category.postCount }} {{ 'Product' | translate }}</div>
                 </ion-col>
             </ion-row>
         </ion-grid>
@@ -79,7 +79,7 @@
                 <ion-icon name="alert-outline"></ion-icon>
             </div>
             <div class="ion-margin-top info-text mt-4 ion-text-center">
-                Kullanıcının ürünü bulunmamaktadır.
+                {{'NoProduct' | translate}}
             </div>
         </div>
     </div>
@@ -87,7 +87,7 @@
         <ion-list class="activities">
             <ion-item detail="false" *ngIf="isMe" routerLink="/app/activity/create" [queryParams]="{activityId: 0}">
                 <ion-label>
-                    <h2>Ektinlik Ekle</h2>
+                    <h2>{{ 'AddEvent' | translate}}</h2>
                 </ion-label>
                 <span>
                     <ion-icon name="add-outline"></ion-icon>
@@ -106,7 +106,7 @@
                 <ion-icon name="alert-outline"></ion-icon>
             </div>
             <div class="ion-margin-top info-text mt-4 ion-text-center">
-                Kullanıcının etkinliği bulunmamaktadır.
+                {{'NoEvents' | translate}}
             </div>
         </div>
     </div>

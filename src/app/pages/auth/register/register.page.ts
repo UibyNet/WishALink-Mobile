@@ -122,10 +122,10 @@ export class RegisterPage implements OnInit {
     setPassword() {
         console.log('password', this.password)
         if (this.password !== this.rePassword) {
-            return this.appService.showErrorAlert('Parolalar uyuşmuyor')
+            return this.appService.showErrorAlert(this.appService.translateWithParam('PasswordsNotMatch').translatedData)
         }
         if (this.password == null || this.password == 'undefined') {
-            return this.appService.showErrorAlert('Lütfen şifrenizi kontrol edin')
+            return this.appService.showErrorAlert(this.appService.translateWithParam('CheckYourPassword').translatedData)
         }
         this.otp = this.password
         this.isLoading = true;
@@ -134,7 +134,7 @@ export class RegisterPage implements OnInit {
         this.profileService.changepassword(this.oldPassword, this.otp)
             .subscribe(
                 v => this.onPasswordChange(),
-                e => this.onError('hatasds')
+                e => this.onError('')
             )
     }
 

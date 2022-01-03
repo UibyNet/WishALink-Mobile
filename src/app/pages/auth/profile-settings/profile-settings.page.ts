@@ -90,7 +90,7 @@ export class ProfileSettingsPage implements OnInit {
             cssClass: 'my-custom-class',
             buttons: [
                 {
-                    text: 'Profil resmini değiştir',
+                    text: this.appService.translateWithParam('ChangeProfilePicture').translatedData,
                     cssClass: 'changeProfilePicture',
                     icon: 'image',
                     handler: () => {
@@ -98,7 +98,7 @@ export class ProfileSettingsPage implements OnInit {
                     }
                 },
                 {
-                    text: 'Profil resmini kaldır',
+                    text: this.appService.translateWithParam('RemoveProfilePicture').translatedData,
                     cssClass: 'changeProfilePicture',
                     icon: 'trash',
                     handler: () => {

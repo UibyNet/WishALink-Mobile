@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { CreateActivityPageRoutingModule } from './create-activity-routing.module';
 
 import { CreateActivityPage } from './create-activity.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    CreateActivityPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        CreateActivityPageRoutingModule,
+        TranslateModule
+    ],
   declarations: [CreateActivityPage]
 })
 export class CreateActivityPageModule {}

@@ -26,31 +26,31 @@
                     <div class="icon" slot="start">
                         <ion-icon name="person-add-outline"></ion-icon>
                     </div>
-                    <ion-label><h2>Arkadaşına Öner</h2></ion-label>
+                    <ion-label><h2>  {{ 'Settings.Invite' | translate }}</h2></ion-label>
                 </ion-item>
                 <ion-item button detail="true" routerLink="/change-password">
                     <div class="icon" slot="start">
                         <ion-icon name="lock-closed-outline"></ion-icon>
                     </div>
-                    <ion-label><h2>Şifreyi Değiştir</h2></ion-label>
+                    <ion-label><h2>{{ 'Settings.PasswordChange' | translate }}</h2></ion-label>
                 </ion-item>
                 <ion-item button detail="true" routerLink="/change-phone-number">
                     <div class="icon" slot="start">
                         <ion-icon name="call-outline"></ion-icon>
                     </div>
-                    <ion-label><h2>Numarayı Değiştir</h2></ion-label>
+                    <ion-label><h2>{{ 'Settings.ChangeNumber' | translate }}</h2></ion-label>
                 </ion-item>
                 <ion-item button detail="true" routerLink="/app/wallet/cards">
                     <div class="icon" slot="start">
                         <ion-icon name="card-outline"></ion-icon>
                     </div>
-                    <ion-label><h2>Kayıtlı Kartlar</h2></ion-label>
+                    <ion-label><h2>{{ 'Settings.SavedCards' | translate }}</h2></ion-label>
                 </ion-item>
                 <ion-item button detail="true" routerLink="/app/wallet/history">
                     <div class="icon" slot="start">
                         <ion-icon name="receipt-outline"></ion-icon>
                     </div>
-                    <ion-label><h2>Ödeme geçmişi</h2></ion-label>
+                    <ion-label><h2>{{ 'Settings.PaymentHistory' | translate }}</h2></ion-label>
                 </ion-item>
                 <!--
                 <ion-item button detail="true" routerLink="/change-notifications-setting">
@@ -70,18 +70,18 @@
                     <div class="icon" slot="start">
                         <ion-icon name="globe-outline"></ion-icon>
                     </div>
-                    <ion-label><h2>Dili Değiştir</h2></ion-label>
+                    <ion-label><h2>{{ 'Settings.Translate' | translate }}</h2></ion-label>
                     <ion-select placeholder="Select One" (ionChange)="changeLang()" [(ngModel)]="currentLang"
-                        okText="Tamam" cancelText="İptal">
+                                okText="{{'Ok'|translate}}" cancelText="{{'Cancel'|translate}}">
                         <ion-select-option value="tr">Türkçe</ion-select-option>
                         <ion-select-option value="en">English</ion-select-option>
-                      </ion-select>
+                    </ion-select>
                 </ion-item>
                 <ion-item button detail="true" (click)="logout()">
                     <div class="icon" slot="start">
                         <ion-icon name="exit-outline"></ion-icon>
                     </div>
-                    <ion-label><h2>Çıkış Yap</h2></ion-label>
+                    <ion-label><h2>{{ 'Settings.Logout' | translate }}</h2></ion-label>
                 </ion-item>
             </ion-list>
         </div>

@@ -8,15 +8,17 @@ import { CommunityPageRoutingModule } from './community-routing.module';
 
 import { CommunityPage } from './community.page';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    CommunityPageRoutingModule,
-    SharedDirectivesModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        CommunityPageRoutingModule,
+        SharedDirectivesModule,
+        TranslateModule
+    ],
   declarations: [CommunityPage]
 })
 export class CommunityPageModule {}

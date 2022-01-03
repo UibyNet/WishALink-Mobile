@@ -10,6 +10,7 @@ import { CodeInputModule } from 'angular-code-input';
 
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 import { NgxMaskModule } from 'ngx-mask';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { NgxMaskModule } from 'ngx-mask';
         CodeInputModule,
         ChangePhoneNumberPageRoutingModule,
         SharedDirectivesModule,
-        NgxMaskModule
+        NgxMaskModule,
+        TranslateModule
     ],
     declarations: [ChangePhoneNumberPage]
 })

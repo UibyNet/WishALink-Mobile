@@ -15,7 +15,7 @@
     <div *ngIf="stepper===1" class="page-container">
         <div class="lead">
             <h2>
-                Şifrenizi sıfırlamak için lütfen telefon numaranızı girin
+                {{('ResetPasswordTitle' | translate)}}
                 <div class="vertical-dots">
                     <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
                 </div>
@@ -31,8 +31,8 @@
                                 <span>+{{selectedCountry.dialCode}}</span>
                             </button>
                             <input type="tel" class="p-inputtext" (ngModelChange)="checkNumberStatus($event)"
-                                formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
-                                placeholder="Telefon">
+                                   formControlName="phoneNumberMasked" [mask]="selectedCountry.phoneMask"
+                                   placeholder="{{('Phone' | translate)}}">
                             <div class="number-status">
                                 <ion-spinner *ngIf="spinLoader" name="crescent"></ion-spinner>
                                 <ion-icon *ngIf="!spinLoader && isVal" [color]="iconColor" [name]="iconName"></ion-icon>
@@ -41,9 +41,9 @@
                     </ion-item>
                     <div class="ion-padding py-1">
                         <ion-button color="primary" expand="block" type="submit"
-                            [disabled]="isLoading || !resetPasswordForm.valid">
+                                    [disabled]="isLoading || !resetPasswordForm.valid">
                             <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
-                            <span *ngIf="!isLoading">Şifre Gönder</span>
+                            <span *ngIf="!isLoading">{{('SendCode' | translate)}}</span>
                         </ion-button>
                     </div>
                 </form>
@@ -53,10 +53,10 @@
     <div *ngIf="stepper === 2" class="page-container">
         <div class="lead">
             <h2>
-                Wish a Link’e hoş geldiniz
+                {{('WelcomeTitle' | translate)}}
             </h2>
             <h3>
-                Lütfen ‘’Onay Kodunu’’ giriniz
+                {{('PleaseWriteCode' | translate)}}
                 <div class="vertical-dots">
                     <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
                 </div>
@@ -68,14 +68,14 @@
                 <div>
                     <div class="code-container">
                         <code-input class="code-input" [isCodeHidden]="false" [codeLength]="4"
-                            (codeChanged)="onCodeChanged($event)" (codeCompleted)="onCodeCompleted($event)">
+                                    (codeChanged)="onCodeChanged($event)" (codeCompleted)="onCodeCompleted($event)">
                         </code-input>
                     </div>
                 </div>
                 <div class="ion-padding py-1">
                     <ion-button color="primary" expand="block" type="button" (click)="verify()" [disabled]="isLoading">
                         <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
-                        <span *ngIf="!isLoading">Devam Et</span>
+                        <span *ngIf="!isLoading">{{('Continue' | translate)}}</span>
                     </ion-button>
                 </div>
             </div>
@@ -84,10 +84,10 @@
     <div *ngIf="stepper === 3" class="page-container">
         <div class="lead">
             <h2>
-                Şifrenizi oluşturunuz
+                {{('CreatePasswordTitle' | translate)}}
             </h2>
             <h3>
-                Hesabınızın güvenliğini sağlamak için dört basamaklı bir parola oluşturunuz
+                {{('SecureAccountTitle' | translate)}}
                 <div class="vertical-dots">
                     <img src="../../../assets/svg/register/register-horizontal-dots.svg" alt="Icon">
                 </div>
@@ -98,14 +98,14 @@
                 <div>
                     <div class="code-container">
                         <code-input class="code-input" [isCodeHidden]="true" [codeLength]="4"
-                            (codeChanged)="onCodeChanged($event)" (codeCompleted)="onCodeCompleted($event)">
+                                    (codeChanged)="onCodeChanged($event)" (codeCompleted)="onCodeCompleted($event)">
                         </code-input>
                     </div>
                 </div>
                 <div class="ion-padding py-1">
                     <ion-button color="primary" expand="block" type="button" (click)="setPassword()">
                         <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
-                        <span *ngIf="!isLoading">Kaydet</span>
+                        <span *ngIf="!isLoading">{{('Save' | translate)}}</span>
                     </ion-button>
                 </div>
             </div>

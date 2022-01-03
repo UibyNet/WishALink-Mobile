@@ -1,14 +1,14 @@
-import { Injectable, InjectionToken, NgZone } from "@angular/core";
-import { Camera, CameraDirection, CameraResultType, Photo } from '@capacitor/camera';
-import { StatusBar, StatusBarBackgroundColorOptions, Style } from "@capacitor/status-bar";
-import { AlertController, LoadingController, Platform, ToastController } from "@ionic/angular";
+import {Injectable, InjectionToken, NgZone} from "@angular/core";
+import {Camera, CameraDirection, CameraResultType, Photo} from '@capacitor/camera';
+import {StatusBar, StatusBarBackgroundColorOptions, Style} from "@capacitor/status-bar";
+import {AlertController, LoadingController, Platform, ToastController} from "@ionic/angular";
 import {TranslateService} from '@ngx-translate/core';
 import jwt_decode from 'jwt-decode';
 import * as moment from "moment";
-import { LocalUser } from "../models/localuser";
-import { Order } from "../models/order";
-import { KpayBackendMemberApiService, MemberDTO } from "./api-kpay-backend.service";
-import { CheckoutPaymentRequestDTO } from "./api-kpay-fixedqrpayment.service";
+import {LocalUser} from "../models/localuser";
+import {Order} from "../models/order";
+import {KpayBackendMemberApiService, MemberDTO} from "./api-kpay-backend.service";
+import {CheckoutPaymentRequestDTO} from "./api-kpay-fixedqrpayment.service";
 import {
     ActivityListModel,
     CategoryListModel,
@@ -67,6 +67,12 @@ export class AppService {
     ) {
     }
 
+    translateWithParam(param) {
+        return {
+            translatedData: this.translate.instant(param)
+        }
+    }
+
     public get isLoggedIn(): boolean {
         return this.user != null;
     }
@@ -104,10 +110,10 @@ export class AppService {
         localStorage.setItem("access_token", v);
     }
 
-    get currentLanguage():string {
+    get currentLanguage(): string {
         let lang = localStorage.getItem("user_lang");
 
-        if(lang == undefined || lang.length == 0) {
+        if (lang == undefined || lang.length == 0) {
             const browserLang = this.translate.getBrowserLang();
             lang = browserLang.match(/tr|en/) ? browserLang : 'tr';
             localStorage.setItem("user_lang", lang);
@@ -140,13 +146,13 @@ export class AppService {
 
     toggleStatusBar(style: 'dark' | 'light') {
         if (this.platform.is('capacitor')) {
-            StatusBar.setStyle({ style: style == 'dark' ? Style.Dark : Style.Light });
+            StatusBar.setStyle({style: style == 'dark' ? Style.Dark : Style.Light});
         }
     }
 
     setStatusBarBackground(color: 'light' | 'primary') {
         if (this.platform.is('capacitor')) {
-            StatusBar.setBackgroundColor({ color: color === 'light' ? '#FFFFFF' : '#6A40D6' })
+            StatusBar.setBackgroundColor({color: color === 'light' ? '#FFFFFF' : '#6A40D6'})
         }
     }
 
@@ -182,7 +188,7 @@ export class AppService {
             message,
             buttons: [
                 {
-                    text: "Tamam",
+                    text: this.translateWithParam('Ok').translatedData,
                     role: "cancel",
                     handler: () => {
                     },
@@ -220,8 +226,7 @@ export class AppService {
         return new Promise((resolve, reject) => {
             if (this._kpayMember != null && this._kpayMember.memberID != null && this._kpayMember.memberID.length > 0) {
                 resolve(this._kpayMember);
-            }
-            else {
+            } else {
                 this.memberApiService.getMember(this.user.kpayUsername)
                     .subscribe(
                         v => {
@@ -243,13 +248,13 @@ export class AppService {
                 .then(async (photo: Photo) => {
                     const base64Response = await fetch(`data:image/jpeg;base64,${photo.base64String}`);
                     const blob = await base64Response.blob();
-                    resolve({ photo, blob });
+                    resolve({photo, blob});
                 })
                 .catch((error) => {
                     console.log('Select image error: ' + JSON.stringify(error));
                     reject(error);
                 })
-                ;
+            ;
         });
     }
 
@@ -269,7 +274,7 @@ export class AppService {
                 promptLabelPicture: 'Fotoğraf Çek'
             };
 
-            if(this.platform.is('capacitor')) {
+            if (this.platform.is('capacitor')) {
                 Camera.checkPermissions().then(
                     p => {
                         if (p.camera == "granted" && p.photos == "granted") {
@@ -281,7 +286,7 @@ export class AppService {
                                     reject()
                                 })
                         } else {
-                            Camera.requestPermissions({ permissions: ['camera', 'photos'] })
+                            Camera.requestPermissions({permissions: ['camera', 'photos']})
                                 .then(
                                     cp => {
                                         if (p.camera == "granted" && p.photos == "granted") {
@@ -301,7 +306,7 @@ export class AppService {
                         }
                     },
                     e => {
-                        Camera.requestPermissions({ permissions: ['camera', 'photos'] })
+                        Camera.requestPermissions({permissions: ['camera', 'photos']})
                             .then(
                                 cp => {
                                     Camera.getPhoto(cameraOptions)
@@ -316,38 +321,37 @@ export class AppService {
                             )
                     }
                 )
-            }
-            else {
+            } else {
                 var input = document.createElement('input');
                 input.type = 'file';
                 input.id = 'file-selector-' + (new Date()).getTime();
 
-                input.onchange = e => { 
-                    var target:any = e.target; 
+                input.onchange = e => {
+                    var target: any = e.target;
                     var selectedFiles: any[] = target.files;
-                    if(selectedFiles != null && selectedFiles.length > 0) {
+                    if (selectedFiles != null && selectedFiles.length > 0) {
                         var selectedFile: File = selectedFiles[0];
 
                         const fileReader = getFileReader();
                         fileReader.readAsDataURL(selectedFile)
-                        fileReader.onload = function(e) {
+                        fileReader.onload = function (e) {
                             var base64String = fileReader.result as string;
                             var cleanString = base64String.substring(base64String.indexOf(',') + 1)
                             resolve({base64String: cleanString} as Photo)
                         }
-                    } 
+                    }
                 }
 
                 input.click();
             }
-            
+
 
         });
     }
 
 
     checkNotifications() {
-        if(this._isNotificationsChecking === true) return;
+        if (this._isNotificationsChecking === true) return;
         this._isNotificationsChecking = true;
         this.getNotifications().then(v => this.void());
         setInterval(() => {

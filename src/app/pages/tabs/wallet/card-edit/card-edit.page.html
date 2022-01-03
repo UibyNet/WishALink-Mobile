@@ -1,106 +1,116 @@
 <ion-header mode="ios" class="ion-no-border">
-  <div class="shrinkable">
-    <ion-toolbar>
-      <ion-buttons slot="start" *ngIf="!isModal">
-        <ion-back-button defaultHref="/app/wallet/cards" color="dark" text=""></ion-back-button>
-      </ion-buttons>
-      <ion-title>Yeni Kart Ekle</ion-title>
-      <ion-buttons slot="end" *ngIf="isModal">
-        <ion-button (click)="dismissModal()">
-          <ion-icon slot="icon-only" name="close"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </div>
+    <div class="shrinkable">
+        <ion-toolbar>
+            <ion-buttons slot="start" *ngIf="!isModal">
+                <ion-back-button defaultHref="/app/wallet/cards" color="dark" text=""></ion-back-button>
+            </ion-buttons>
+            <ion-title>{{'AddNewCard.Title' | translate}}</ion-title>
+            <ion-buttons slot="end" *ngIf="isModal">
+                <ion-button (click)="dismissModal()">
+                    <ion-icon slot="icon-only" name="close"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </div>
 </ion-header>
 
 <ion-content>
-  <div #content class="payment-card-container mw-500-tablet page-content" #paymentCardContainer>
-    <div class="card-container mt-3"></div>
-    <form [formGroup]="cardForm" card container=".card-container" [card-width]="cardWidth" [placeholders]="placeholders"
-      formatting="true" debug="true">
+    <div #content class="payment-card-container mw-500-tablet page-content" #paymentCardContainer>
+        <div class="card-container mt-3"></div>
+        <form [formGroup]="cardForm" card container=".card-container" [card-width]="cardWidth" [placeholders]="placeholders"
+              formatting="true" debug="true">
 
-      <ion-slides #cardSlides pager="false" [options]="slideOpts">
-        <ion-slide>
-          <ion-item>
-            <ion-label position="stacked">Kart Numarası</ion-label>
-            <div class="validation-message">
-              <p *ngIf="cardForm.controls.number.errors?.required">Geçerli bir ad giriniz.</p>
-              <p *ngIf="cardForm.controls.number.errors?.minlength">Geçerli bir ad giriniz. (Min 3 karakter)</p>
-              <p *ngIf="cardForm.controls.number.errors?.maxlength">Geçerli bir ad giriniz. (Max 30 karakter)</p>
-            </div>
-            <input #inputNumber autofocus="true" type="tel" name="number" formControlName="number"
-              [placeholder]="placeholders.number" (focus)="onFocus($event)" (input)="onChange('number', $event)"
-              card-number />
-          </ion-item>
-        </ion-slide>
-        <ion-slide>
-          <ion-item>
-            <ion-label position="stacked">Kart Üzerindeki İsim</ion-label>
-            <div class="validation-message">
-              <p *ngIf="cardForm.controls.name.errors?.required">Geçerli bir ad giriniz.</p>
-              <p *ngIf="cardForm.controls.name.errors?.minlength">Geçerli bir ad giriniz. (Min 3 karakter)</p>
-              <p *ngIf="cardForm.controls.name.errors?.maxlength">Geçerli bir ad giriniz. (Max 30 karakter)</p>
-            </div>
-            <input #inputName type="text" name="name" formControlName="name" [placeholder]="placeholders.name"
-              (focus)="onFocus($event)" (input)="onChange('name', $event)" card-name />
-          </ion-item>
-        </ion-slide>
-        <ion-slide>
-          <ion-item>
-            <ion-label position="stacked">Son Kullanma Tarihi</ion-label>
-            <div class="validation-message">
-              <p *ngIf="cardForm.controls.expiry.errors?.required">Geçerli bir ad giriniz.</p>
-              <p *ngIf="cardForm.controls.expiry.errors?.minlength">Geçerli bir ad giriniz. (Min 3 karakter)</p>
-              <p *ngIf="cardForm.controls.expiry.errors?.maxlength">Geçerli bir ad giriniz. (Max 30 karakter)</p>
-            </div>
-            <ion-datetime cancelText="İptal" doneText="Tamam" displayFormat="MM/YYYY" [min]="minCardDate"
-              [max]="maxCardDate" [value]="curCardDate" (ionChange)="onDateChange($event)">
-            </ion-datetime>
-            <input hidden type="tel" name="expiry" formControlName="expiry" [placeholder]="placeholders.expiry"
-              (focus)="onFocus($event)" (input)="onChange('expiry', $event)" card-expiry />
-          </ion-item>
-        </ion-slide>
-        <ion-slide>
-          <ion-item>
-            <ion-label position="stacked">Güvenlik Kodu</ion-label>
-            <div class="validation-message">
-              <p *ngIf="cardForm.controls.cvc.errors?.required">Geçerli bir ad giriniz.</p>
-              <p *ngIf="cardForm.controls.cvc.errors?.minlength">Geçerli bir ad giriniz. (Min 3 karakter)</p>
-              <p *ngIf="cardForm.controls.cvc.errors?.maxlength">Geçerli bir ad giriniz. (Max 30 karakter)</p>
-            </div>
-            <input #inputCvc type="tel" name="cvc" formControlName="cvc" [placeholder]="placeholders.cvc"
-              (focus)="onFocus($event)" (input)="onChange('cvc', $event)" card-cvc />
-          </ion-item>
-        </ion-slide>
-        <ion-slide>
-          <ion-item>
-            <ion-label position="stacked">Bu Karta Bir İsim Ver</ion-label>
-            <div class="validation-message">
-              <p *ngIf="cardForm.controls.alias.errors?.required">Geçerli bir isim giriniz.</p>
-              <p *ngIf="cardForm.controls.alias.errors?.minlength">Geçerli bir isim giriniz. (Min 3 karakter)</p>
-              <p *ngIf="cardForm.controls.alias.errors?.maxlength">Geçerli bir isim giriniz. (Max 30 karakter)</p>
-            </div>
-            <input #inputAlias type="text" name="alias" formControlName="alias" [placeholder]="placeholders.alias"
-              (focus)="onFocus($event)" (input)="onChange('alias', $event)" />
-          </ion-item>
-        </ion-slide>
-      </ion-slides>
+            <ion-slides #cardSlides pager="false" [options]="slideOpts">
+                <ion-slide>
+                    <ion-item>
+                        <ion-label position="stacked">{{'CardNumber' | translate}}</ion-label>
+                        <div class="validation-message">
+                            <p *ngIf="cardForm.controls.number.errors?.required">{{'InvalidName' | translate}}</p>
+                            <p *ngIf="cardForm.controls.number.errors?.minlength">{{'InvalidName' | translate}} (Min 3
+                                {{'character' | translate}})</p>
+                            <p *ngIf="cardForm.controls.number.errors?.maxlength">{{'InvalidName' | translate}} (Max 30
+                                {{'character' | translate}})</p>
+                        </div>
+                        <input #inputNumber autofocus="true" type="tel" name="number" formControlName="number"
+                               [placeholder]="placeholders.number" (focus)="onFocus($event)" (input)="onChange('number', $event)"
+                               card-number/>
+                    </ion-item>
+                </ion-slide>
+                <ion-slide>
+                    <ion-item>
+                        <ion-label position="stacked">{{'CardName' | translate}}</ion-label>
+                        <div class="validation-message">
+                            <p *ngIf="cardForm.controls.name.errors?.required">{{'InvalidName' | translate}}</p>
+                            <p *ngIf="cardForm.controls.name.errors?.minlength">{{'InvalidName' | translate}} (Min 3
+                                {{'character' | translate}})</p>
+                            <p *ngIf="cardForm.controls.name.errors?.maxlength">{{'InvalidName' | translate}} (Max 30
+                                {{'character' | translate}})</p>
+                        </div>
+                        <input #inputName type="text" name="name" formControlName="name" [placeholder]="placeholders.name"
+                               (focus)="onFocus($event)" (input)="onChange('name', $event)" card-name/>
+                    </ion-item>
+                </ion-slide>
+                <ion-slide>
+                    <ion-item>
+                        <ion-label position="stacked">{{'CardLastDate' | translate}}</ion-label>
+                        <div class="validation-message">
+                            <p *ngIf="cardForm.controls.expiry.errors?.required">{{'InvalidName' | translate}}</p>
+                            <p *ngIf="cardForm.controls.expiry.errors?.minlength">{{'InvalidName' | translate}} (Min 3
+                                {{'character' | translate}})</p>
+                            <p *ngIf="cardForm.controls.expiry.errors?.maxlength">{{'InvalidName' | translate}} (Max 30
+                                {{'character' | translate}})</p>
+                        </div>
+                        <ion-datetime cancelText="İptal" doneText="Tamam" displayFormat="MM/YYYY" [min]="minCardDate"
+                                      [max]="maxCardDate" [value]="curCardDate" (ionChange)="onDateChange($event)">
+                        </ion-datetime>
+                        <input hidden type="tel" name="expiry" formControlName="expiry" [placeholder]="placeholders.expiry"
+                               (focus)="onFocus($event)" (input)="onChange('expiry', $event)" card-expiry/>
+                    </ion-item>
+                </ion-slide>
+                <ion-slide>
+                    <ion-item>
+                        <ion-label position="stacked">{{'CardCvv' | translate}}</ion-label>
+                        <div class="validation-message">
+                            <p *ngIf="cardForm.controls.cvc.errors?.required">{{'InvalidName' | translate}}</p>
+                            <p *ngIf="cardForm.controls.cvc.errors?.minlength">{{'InvalidName' | translate}} (Min 3
+                                {{'character' | translate}})</p>
+                            <p *ngIf="cardForm.controls.cvc.errors?.maxlength">{{'InvalidName' | translate}} (Max 30
+                                {{'character' | translate}})</p>
+                        </div>
+                        <input #inputCvc type="tel" name="cvc" formControlName="cvc" [placeholder]="placeholders.cvc"
+                               (focus)="onFocus($event)" (input)="onChange('cvc', $event)" card-cvc/>
+                    </ion-item>
+                </ion-slide>
+                <ion-slide>
+                    <ion-item>
+                        <ion-label position="stacked">{{'GiveCardName' | translate}}</ion-label>
+                        <div class="validation-message">
+                            <p *ngIf="cardForm.controls.alias.errors?.required">{{'InvalidName' | translate}}</p>
+                            <p *ngIf="cardForm.controls.alias.errors?.minlength">{{'InvalidName' | translate}} (Min 3
+                                {{'character' | translate}})</p>
+                            <p *ngIf="cardForm.controls.alias.errors?.maxlength">{{'InvalidName' | translate}} (Max 30
+                                {{'character' | translate}})</p>
+                        </div>
+                        <input #inputAlias type="text" name="alias" formControlName="alias" [placeholder]="placeholders.alias"
+                               (focus)="onFocus($event)" (input)="onChange('alias', $event)"/>
+                    </ion-item>
+                </ion-slide>
+            </ion-slides>
 
-      <ion-button [color]="currentSlideIndex == 5 ? 'success' : 'primary'" size="block" [disabled]="isNextDisabled"
-        (click)="nextStep()">
-        {{ currentSlideIndex == 5 ? 'Kaydet' : 'Sonraki Adım'}}
-      </ion-button>
+            <ion-button [color]="currentSlideIndex == 5 ? 'success' : 'primary'" size="block" [disabled]="isNextDisabled"
+                        (click)="nextStep()">
+                {{ currentSlideIndex == 5 ? ('Save' | translate) : ('NextStep' | translate)}}
+            </ion-button>
 
-    </form>
-    <!--
-    <ng-payment-card ccNumMissingTxt="Kart numarası gerekli" ccNumTooShortTxt="Kart numarası çok kısa"
-      ccNumTooLongTxt="Kart numarası çok uzun" ccNumContainsLettersTxt="Kart numarası sadece rakam içerebilir"
-      ccNumChecksumInvalidTxt="Kart numarası geçersiz" cardHolderMissingTxt="Kart üzerindeki isim gerekli"
-      cardHolderTooLongTxt="Kart üzerindeki isim çok uzun" expirationMonthMissingTxt="Son kullanım ayı gerekli"
-      expirationYearMissingTxt="Son kullanım yılı gerekli" ccvMissingTxt="Güvenlik kodu (CCV) gerekli"
-      ccvNumTooShortTxt="Güvenlik kodu (CCV) çok kısa" ccvNumTooLongTxt="Güvenlik kodu (CCV) çok uzun"
-      ccvContainsLettersTxt="Güvenlik kodu (CCV) sadece rakam içerebilir" (formSaved)="save($event)"></ng-payment-card>
-    -->
-  </div>
+        </form>
+        <!--
+        <ng-payment-card ccNumMissingTxt="Kart numarası gerekli" ccNumTooShortTxt="Kart numarası çok kısa"
+          ccNumTooLongTxt="Kart numarası çok uzun" ccNumContainsLettersTxt="Kart numarası sadece rakam içerebilir"
+          ccNumChecksumInvalidTxt="Kart numarası geçersiz" cardHolderMissingTxt="Kart üzerindeki isim gerekli"
+          cardHolderTooLongTxt="Kart üzerindeki isim çok uzun" expirationMonthMissingTxt="Son kullanım ayı gerekli"
+          expirationYearMissingTxt="Son kullanım yılı gerekli" ccvMissingTxt="Güvenlik kodu (CCV) gerekli"
+          ccvNumTooShortTxt="Güvenlik kodu (CCV) çok kısa" ccvNumTooLongTxt="Güvenlik kodu (CCV) çok uzun"
+          ccvContainsLettersTxt="Güvenlik kodu (CCV) sadece rakam içerebilir" (formSaved)="save($event)"></ng-payment-card>
+        -->
+    </div>
 </ion-content>

@@ -1,31 +1,31 @@
 <ion-header>
-  <ion-grid class="ion-no-padding">
-    <ion-row>
-      <ion-col>
-        <ion-searchbar mode="ios" placeholder="Ülke ara..." debounce="100" (ionChange)="filterCountries($event)">
-        </ion-searchbar>
-      </ion-col>
-      <ion-col class="ion-text-right" size="auto">
-        <ion-button fill="clear" (click)="closeModal()">
-          <ion-icon name="close" slot="icon-only"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col>
+                <ion-searchbar mode="ios" placeholder="{{'SearchCountry' | translate}}" debounce="100" (ionChange)="filterCountries($event)">
+                </ion-searchbar>
+            </ion-col>
+            <ion-col class="ion-text-right" size="auto">
+                <ion-button fill="clear" (click)="closeModal()">
+                    <ion-icon name="close" slot="icon-only"></ion-icon>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-header>
 
 <ion-content>
-  <ion-list style="height: 100%;  width: 100%;">
-    <ion-radio-group value="selectedCountry" style="height: 100%;  width: 100%;">
-      <cdk-virtual-scroll-viewport itemSize="15" class="example-viewport" style="height: 100%;  width: 100%;">
-        <ion-item *cdkVirtualFor="let country of countries" (click)="selectCountry(country)">
-          <ion-label style="max-width: 70vw;">
-            <span class="mr-2 flag-icon flag-icon-{{country.isoCode}}"></span>
-            <span>{{country.name}}</span>
-          </ion-label>
-          <ion-radio slot="end" [value]="country.dialCode"></ion-radio>
-        </ion-item>
-      </cdk-virtual-scroll-viewport>
-    </ion-radio-group>
-  </ion-list>
+    <ion-list style="height: 100%;  width: 100%;">
+        <ion-radio-group value="selectedCountry" style="height: 100%;  width: 100%;">
+            <cdk-virtual-scroll-viewport itemSize="15" class="example-viewport" style="height: 100%;  width: 100%;">
+                <ion-item *cdkVirtualFor="let country of countries" (click)="selectCountry(country)">
+                    <ion-label style="max-width: 70vw;">
+                        <span class="mr-2 flag-icon flag-icon-{{country.isoCode}}"></span>
+                        <span>{{country.name}}</span>
+                    </ion-label>
+                    <ion-radio slot="end" [value]="country.dialCode"></ion-radio>
+                </ion-item>
+            </cdk-virtual-scroll-viewport>
+        </ion-radio-group>
+    </ion-list>
 </ion-content>

@@ -5,35 +5,35 @@
                 <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
             </span>
             <div
-                class="page-title ion-justify-content-center d-flex ion-align-items-center ion-margin-top ion-text-center">
-                Profil ayarları
+                    class="page-title ion-justify-content-center d-flex ion-align-items-center ion-margin-top ion-text-center">
+                {{'ProfileSetting.Title' | translate}}
             </div>
         </div>
         <div class="main-content pt-3 px-4">
             <div class="img-container-absolute">
                 <img [src]="profilePictureUrl == null || profilePictureUrl.length == 0 ? '../../../../assets/svg/home/avatar.png' : profilePictureUrl"
-                alt="">
+                     alt="">
                 <div (click)="presentActionSheet()" class="options">
                     <img src="../../../../assets/svg/abstract/add.svg" alt="Icon">
                 </div>
             </div>
             <div class="arrange-button ion-text-center mb-4 mt-6" hidden>
-                <button class="font-9">Düzenle</button>
+                <button class="font-9">{{'Arrange' | translate}}</button>
             </div>
             <form [formGroup]="updateForm" (ngSubmit)="updateUserData()" class="input-container mb-5">
                 <ion-item>
-                    <input class="p-inputtext" formControlName="firstName" placeholder="Ad" />
+                    <input class="p-inputtext" formControlName="firstName" placeholder="{{'Name' | translate}}"/>
                 </ion-item>
                 <ion-item>
-                    <input class="p-inputtext" formControlName="lastName" placeholder="Soyad" />
+                    <input class="p-inputtext" formControlName="lastName" placeholder="{{'Surname' | translate}}"/>
                 </ion-item>
                 <ion-item>
-                    <input class="p-inputtext" formControlName="email" placeholder="E-posta" />
+                    <input class="p-inputtext" formControlName="email" placeholder="{{'Email' | translate}}"/>
                 </ion-item>
                 <div class="ion-text-center">
                     <ion-item>
                         <ion-button type="submit" [disabled]="isLoading || !updateForm.valid" class="success"
-                            color="primary" expand="block">{{isLoading ? 'Lütfen bekleyiniz...' : 'Kaydet'}}
+                                    color="primary" expand="block">{{isLoading ? ('PleaseWait' | translate) : ('Save' | translate)}}
                         </ion-button>
                     </ion-item>
 

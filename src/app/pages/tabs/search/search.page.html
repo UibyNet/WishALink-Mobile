@@ -25,18 +25,18 @@
             <div class="community">
                 <div class="follower">
                     <div class="number">{{userData == null ? 0 : userData.followersCount}}</div>
-                    <div class="text">Takipçi</div>
+                    <div class="text">{{ 'Follower' | translate }}</div>
                 </div>
                 <div class="following">
                     <div class="number">{{userData == null ? 0 : userData.followingsCount}}</div>
-                    <div class="text">Takip</div>
+                    <div class="text">{{ 'Following' | translate }}</div>
                 </div>
             </div>
         </div>
     </div>
     <div class="search-bar">
         <ion-searchbar mode="ios" debounce="500" (ionChange)="searchUser($event)" (ionFocus)="onSearchFocus()"
-            (ionBlur)="onSearchBlur()" placeholder="Arama Yap"></ion-searchbar>
+            (ionBlur)="onSearchBlur()" placeholder="{{ 'Search' | translate }}"></ion-searchbar>
     </div>
 </ion-header>
 
@@ -52,7 +52,7 @@
                     <div class="name">{{user?.fullName}}</div>
                 </div>
                 <div (click)="followAction(user)" [ngClass]="{'active':!user.isFollowing }" class="follow-info">
-                    {{ user.isBusy ? '...' : (user.isFollowing ? 'Takibi Bırak' : 'Takip Et')}}
+                    {{ user.isBusy ? '...' : (user.isFollowing ? ('Unfollow' | translate) : ('Follow' | translate))}}
                 </div>
             </div>
         </div>

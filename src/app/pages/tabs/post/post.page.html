@@ -21,7 +21,7 @@
                 <ion-button class="external-link" (click)="redirectToUrl(post?.url)" size="small" *ngIf="post?.url.indexOf('http') > -1"
                             color="primary">
                     <ion-icon name="open-outline" slot="icon-only"></ion-icon>
-                    Ürüne Git
+                    {{ 'GoToProduct' | translate }}
                 </ion-button>
             </ion-col>
         </ion-row>
@@ -71,11 +71,15 @@
             <ion-col>
                 <ion-list class="mt-1">
                     <ion-item *ngIf="isStrangerPost === false && post.isPurchased">
-                        <ion-label>Ürün <a routerLink="/app/profile/{{post?.purchasedBy.id}}">{{post.purchasedBy?.fullName }}</a> tarafından alındı.</ion-label>
+                        <ion-label>{{ 'Product' | translate }}
+                            {{'ReceivedBy' | translate}}
+                            <a routerLink="/app/profile/{{post?.purchasedBy.id}}">{{post.purchasedBy?.fullName }}</a>
+                            {{'ReceivedByTr' | translate}}
+                        </ion-label>
                         <ion-checkbox [checked]="true" [disabled]="post.isPurchased=== true" color="success" slot="start"></ion-checkbox>
                     </ion-item>
                     <ion-item *ngIf="isStrangerPost === true">
-                        <ion-label>{{post.isPurchased ? 'Ürün alındı':'Bu ürünü aldım' }} </ion-label>
+                        <ion-label>{{post.isPurchased ? ('ProductReceived' | translate) : ('BoughtProduct' | translate) }} </ion-label>
                         <ion-checkbox [checked]="post.isPurchased" [disabled]="!canPurchase" (ionChange)="changeEvent($event)" color="success" slot="start"></ion-checkbox>
                     </ion-item>
                 </ion-list>

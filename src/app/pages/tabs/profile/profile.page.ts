@@ -1,9 +1,9 @@
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { ActionSheetController, IonContent, ModalController, NavController } from '@ionic/angular';
+import {Component, OnInit, NgZone, ViewChild} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {ActionSheetController, IonContent, ModalController, NavController} from '@ionic/angular';
 import * as moment from 'moment';
-import { Subscription } from 'rxjs';
-import { NotificationComponent } from 'src/app/components/notification/notification.component';
+import {Subscription} from 'rxjs';
+import {NotificationComponent} from 'src/app/components/notification/notification.component';
 import {
     ActivityApiService,
     ActivityListModel,
@@ -12,7 +12,7 @@ import {
     SocialApiService,
     SocialUserListModel
 } from "../../../services/api-wishalink.service";
-import { AppService } from "../../../services/app.service";
+import {AppService} from "../../../services/app.service";
 
 @Component({
     selector: 'app-profile',
@@ -56,8 +56,7 @@ export class ProfilePage implements OnInit {
         const id = this.route.snapshot.paramMap.get('id');
         if (id == 'me') {
             this.userId = this.appService.user.id;
-        }
-        else {
+        } else {
             this.userId = parseInt(id)
         }
 
@@ -87,15 +86,13 @@ export class ProfilePage implements OnInit {
         this.zone.run(() => {
             if (window.innerWidth > 1200) {
                 this.categoryColSize = 3;
-            }
-            else if (window.innerWidth > 1024) {
+            } else if (window.innerWidth > 1024) {
                 this.categoryColSize = 4;
-            }
-            else if (window.innerWidth > 768) {
+            } else if (window.innerWidth > 768) {
                 this.categoryColSize = 5;
             }
             console.log(this.categoryColSize);
-            
+
         })
 
     }
@@ -218,7 +215,7 @@ export class ProfilePage implements OnInit {
     onUserCategoriesLoad(v: CategoryListModel[]) {
         this.zone.run(() => {
             this.categories = v
-            console.log('user Cat',this.categories)
+            console.log('user Cat', this.categories)
             if (this.isMe) {
                 this.appService.userCategories = v;
             }
@@ -248,7 +245,10 @@ export class ProfilePage implements OnInit {
     }
 
     openCommunity(segment: string) {
-        this.router.navigate(['app', 'profile', this.currentUser.id, 'community'], { queryParams: { segment: segment }, state: { userData: this.currentUser } });
+        this.router.navigate(['app', 'profile', this.currentUser.id, 'community'], {
+            queryParams: {segment: segment},
+            state: {userData: this.currentUser}
+        });
     }
 
     openActivityEdit(activity: ActivityListModel) {
@@ -280,7 +280,7 @@ export class ProfilePage implements OnInit {
             cssClass: 'my-custom-class',
             buttons: [
                 {
-                    text: 'Profil resmini değiştir',
+                    text: this.appService.translateWithParam('ChangeProfilePicture').translatedData,
                     cssClass: 'changeProfilePicture',
                     icon: 'image',
                     handler: () => {
@@ -288,7 +288,7 @@ export class ProfilePage implements OnInit {
                     }
                 },
                 {
-                    text: 'Profil resmini kaldır',
+                    text: this.appService.translateWithParam('RemoveProfilePicture').translatedData,
                     cssClass: 'changeProfilePicture',
                     icon: 'trash',
                     handler: () => {
@@ -303,7 +303,7 @@ export class ProfilePage implements OnInit {
         });
         await actionSheet.present();
 
-        const { role } = await actionSheet.onDidDismiss();
+        const {role} = await actionSheet.onDidDismiss();
     }
 
     onProfilePictureChanged(v: SocialUserListModel) {
@@ -324,7 +324,7 @@ export class ProfilePage implements OnInit {
             .then(
                 (imgData) => {
                     this.profilePictureUrl = `data:image/jpeg;base64,${imgData.photo.base64String}`;
-                    this.profileApiService.changeprofilepicture({ fileName: 'avatar.jpg', data: imgData.blob })
+                    this.profileApiService.changeprofilepicture({fileName: 'avatar.jpg', data: imgData.blob})
                         .subscribe(
                             v => this.onProfilePictureChanged(v),
                             e => this.onError(e)

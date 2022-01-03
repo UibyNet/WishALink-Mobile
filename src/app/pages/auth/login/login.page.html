@@ -12,8 +12,7 @@
     <div *ngIf="stepper===1" class="page-container">
         <div class="lead">
             <h2>
-                Wish a Link’e hoş geldiniz<br>
-                lütfen giriş yapınız
+                {{('WelcomePleaseLogin' | translate)}}
                 <div class="vertical-dots">
                     <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
                 </div>
@@ -29,21 +28,22 @@
                                 <span>+{{selectedCountry.dialCode}}</span>
                             </button>
                             <input type="tel" formControlName="phoneNumberMasked" type="tel"
-                                [mask]="selectedCountry.phoneMask" placeholder="Telefon">
+                                   [mask]="selectedCountry.phoneMask" placeholder="{{('Phone' | translate)}}">
                         </div>
                     </ion-item>
                     <ion-item>
-                        <input formControlName="password" type="password" pattern="[0-9]*" inputmode="numeric" placeholder="Şifre">
+                        <input formControlName="password" type="password" pattern="[0-9]*" inputmode="numeric" placeholder="{{('Password' | translate)}}">
                     </ion-item>
                     <div class="ion-padding py-1">
                         <ion-button color="primary" expand="block" type="submit" type="submit" [disabled]="isLoading || !loginForm.valid">
                             <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
-                            <span *ngIf="!isLoading">Giriş Yap</span>
+                            <span *ngIf="!isLoading">{{('Login' | translate)}}</span>
                         </ion-button>
                     </div>
                     <div class="ion-padding py-1">
-                        <ion-button color="primary" expand="block" type="button" (click)="goForgot()" class="ion-text-capitalize" fill="clear" type="button">Şifremi
-                            Unuttum</ion-button>
+                        <ion-button color="primary" expand="block" type="button" (click)="goForgot()" class="ion-text-capitalize" fill="clear" type="button">
+                            {{('ForgotPassword' | translate)}}
+                        </ion-button>
                     </div>
                 </form>
             </div>
