@@ -1,6 +1,6 @@
 <ion-router-outlet></ion-router-outlet>
 
-<div class="bottom-nav-container" [ngClass]="{'d-none':isKeyboardOpen}">
+<div class="bottom-nav-container" [hidden]="appService.isTabBarHidden" [ngClass]="{'d-none':isKeyboardOpen}">
     <div class="nav-inner">
         <div class="left-inner">
             <!--

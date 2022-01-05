@@ -139,21 +139,16 @@ export class AddCategoryPage implements OnInit {
     }
 
     selectImage() {
-        if (this.appService.isMobile) {
-            this.appService.getImage()
-                .then(
-                    (imgData) => {
-                        this.zone.run(() => {
-                            this.catImageBlob = imgData.blob;
-                            this.catImage = `data:image/jpeg;base64,${imgData.photo.base64String}`;
-                            this.saveImage();
-                        })
-                    }
-                );
-        }
-        else {
-            
-        }
+        this.appService.getImage()
+        .then(
+            (imgData) => {
+                this.zone.run(() => {
+                    this.catImageBlob = imgData.blob;
+                    this.catImage = `data:image/jpeg;base64,${imgData.photo.base64String}`;
+                    this.saveImage();
+                })
+            }
+        );
     }
 
     saveImage() {

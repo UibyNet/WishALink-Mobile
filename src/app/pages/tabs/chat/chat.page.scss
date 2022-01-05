@@ -1,0 +1,85 @@
+.chat-container {
+  position: relative;
+  height: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+
+  ion-split-pane {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    contain: strict;
+
+    .room-list {
+      flex-basis: 300px;
+      flex-grow: 0;
+      flex-shrink: 0;
+
+      ion-item.active {
+        --background: #ebebeb;
+      }
+    }
+
+    .room {
+      flex: 1;
+      position: relative;
+
+      ion-content {
+        ion-list {
+          .message-item {
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            padding-top: 8px;
+            padding-bottom: 8px;
+
+            .message-balloon {
+              max-width: 80%;
+              border-radius: 10px;
+              background-color: #ebebeb;
+              padding: 6px 7px 8px 9px;
+
+              .time {
+                font-size: 11px;
+                line-height: 15px;
+                color: rgba(0, 0, 0, 0.45);
+                white-space: nowrap;
+              }
+            }
+
+            &.my {
+              align-items: flex-end;
+
+              .message-balloon {
+                border-radius: 10px;
+                background-color: #dcf8c6;
+              }
+            }
+          }
+        }
+      }
+
+      ion-footer {
+        background: #f0f0f0;
+
+        .compose {
+          display: flex;
+          flex-direction: row;
+
+          ion-input {
+            --padding-start: 8px;
+          }
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .plt-desktop {
+  .chat-container {
+    margin-top: 24px;
+    height: calc(100% - 24px);
+  }
+}
