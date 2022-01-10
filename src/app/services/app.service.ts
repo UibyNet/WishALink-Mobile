@@ -44,7 +44,6 @@ export class AppService {
     private _kpayMember: MemberDTO;
     private _isNotificationsChecking: boolean = false;
     tempAccessToken: string;
-    isTabBarHidden: boolean = false;
 
     get unreadNotificationsCount() {
         return this.userNotifications.filter(x => !x.isRead).length

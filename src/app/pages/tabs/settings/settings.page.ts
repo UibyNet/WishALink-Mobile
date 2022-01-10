@@ -1,63 +1,67 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {ModalController, NavController} from '@ionic/angular';
-import {AppService} from 'src/app/services/app.service';
-import {SocialUserListModel} from "../../../services/api-wishalink.service";
-import {NotificationComponent} from "../../../components/notification/notification.component";
-import {Share} from '@capacitor/share';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { ModalController, NavController } from "@ionic/angular";
+import { AppService } from "src/app/services/app.service";
+import { SocialUserListModel } from "../../../services/api-wishalink.service";
+import { NotificationComponent } from "../../../components/notification/notification.component";
+import { Share } from "@capacitor/share";
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.page.html',
-    styleUrls: ['./settings.page.scss'],
+  selector: "app-settings",
+  templateUrl: "./settings.page.html",
+  styleUrls: ["./settings.page.scss"],
 })
 export class SettingsPage implements OnInit {
+  currentLang: string;
+  profilePictureUrl: string;
+  constructor(
+    public appService: AppService,
+    private navController: NavController,
+    private modalController: ModalController
+  ) {
+    this.currentLang = this.appService.currentLanguage;
+  }
 
-    currentLang: string;
+  userData: SocialUserListModel;
 
-    constructor(
-        public appService: AppService,
-        private navController: NavController,
-        private modalController: ModalController,
-    ) {
-        this.currentLang = this.appService.currentLanguage;
+  ngOnInit() {
+    if (this.appService.userInfo) {
+      this.userData = this.appService.userInfo;
+      this.profilePictureUrl = this.appService.userInfo.profilePictureUrl;
+      console.log("user", this.userData);
     }
+  }
+  ionViewWillEnter() {
+    this.appService.toggleStatusBar("dark");
+    this.appService.setStatusBarBackground("primary");
+  }
+  async openNotification() {
+    const modal = await this.modalController.create({
+      component: NotificationComponent,
+      cssClass: "notification-custom",
+    });
 
-    userData: SocialUserListModel
+    return await modal.present();
+  }
 
-    ngOnInit() {
-        this.userData = this.appService.userInfo
-    }
-    ionViewWillEnter() {
-        this.appService.toggleStatusBar('dark');
-        this.appService.setStatusBarBackground('primary')
+  async shareApp() {
+    await Share.share({
+      title: "Wish A Link",
+      text: "Wish a link i paylas",
+      url: "http://wishalink.com/",
+    });
+  }
 
-    }
-    async openNotification() {
-        const modal = await this.modalController.create({
-            component: NotificationComponent,
-            cssClass: 'notification-custom'
-        })
+  changeLang() {
+    this.appService.currentLanguage = this.currentLang;
+  }
 
-        return await modal.present();
-    }
-
-    async shareApp() {
-        await Share.share({
-            title: 'Wish A Link',
-            text: 'Wish a link i paylas',
-            url: 'http://wishalink.com/',
-        })
-    }
-
-    changeLang() {
-        this.appService.currentLanguage = this.currentLang;
-    }
-
-    logout() {
-        this.appService.logout();
-        setTimeout(() => {
-            this.navController.navigateRoot('/login');
-        }, 200);
-    }
+  logout() {
+    this.appService.logout();
+    setTimeout(() => {
+      this.navController.navigateRoot("/login").then(() => {
+        window.location.reload();
+      });
+    }, 200);
+  }
 }

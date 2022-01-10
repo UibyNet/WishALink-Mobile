@@ -183,9 +183,7 @@ ion-header {
       //margin: auto;
     }
 
-
     input {
-
       font-size: 1.1em !important;
       font-weight: 500 !important;
     }
@@ -215,6 +213,12 @@ ion-content {
       }
 
       .lead {
+        @media (min-width: 768px) {
+          padding: 1em 0 1em !important;
+          h2 {
+            color: #000 !important;
+          }
+        }
         padding: 1em 0 4em;
         position: relative;
 
@@ -242,7 +246,6 @@ ion-content {
       }
     }
   }
-
 
   .center-spinner {
     position: absolute;
@@ -272,7 +275,6 @@ ion-content {
     ion-toolbar:first-of-type {
       padding-top: 0;
     }
-
   }
 }
 
@@ -287,20 +289,18 @@ ion-card-title {
 }
 
 ion-card-subtitle {
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
-
-.mw-500-tablet{
+.mw-500-tablet {
   @media screen and (min-width: 768px) {
     max-width: 500px;
     margin: auto;
   }
 }
-.w-500-tablet{
+.w-500-tablet {
   @media screen and (min-width: 768px) {
     width: 500px;
     margin: auto;
   }
-
 }

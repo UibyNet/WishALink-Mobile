@@ -1,71 +1,96 @@
 <ion-header mode="ios" shrink-header [scrollArea]="scrollArea">
-    <div class="shrinkable">
-        <ion-toolbar mode="ios">
-            <ion-buttons slot="end" hidden>
-                <ion-button style="padding-bottom: 4px" routerLink="/app/campaign">
-                    <ion-icon class="gift-icon" name="gift-outline"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-            <ion-buttons slot="end">
-                <ion-button (click)="openNotification()">
-                    <img src="../../../../assets/svg/home/notification.svg" alt="Icon">
-                    <ion-badge *ngIf="appService.unreadNotificationsCount > 0">{{appService.unreadNotificationsCount}}</ion-badge>
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
+  <div *ngIf="!appService.isMobile" class="header-top"></div>
 
-        <div class="profile">
-            <div class="avatar">
-                <img [src]="userData == null || userData.profilePictureUrl != null ?userData.profilePictureUrl : '../../../../assets/svg/home/avatar.png' "
-                    alt="">
-            </div>
-            <div class="name">
-                <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
-            </div>
-            <div class="community">
-                <div class="follower">
-                    <div class="number">{{userData == null ? 0 : userData.followersCount}}</div>
-                    <div class="text">{{ 'Follower' | translate }}</div>
-                </div>
-                <div class="following">
-                    <div class="number">{{userData == null ? 0 : userData.followingsCount}}</div>
-                    <div class="text">{{ 'Following' | translate }}</div>
-                </div>
-            </div>
+  <div class="shrinkable">
+    <ion-toolbar *ngIf="appService.isMobile" mode="ios">
+      <ion-buttons slot="end">
+        <ion-button style="padding-bottom: 4px" routerLink="/app/campaign">
+          <ion-icon class="gift-icon" name="gift-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button (click)="openNotification()">
+          <img src="../../../../assets/svg/home/notification.svg" alt="Icon" />
+          <ion-badge *ngIf="appService.unreadNotificationsCount > 0"
+            >{{appService.unreadNotificationsCount}}</ion-badge
+          >
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <div class="profile">
+      <div class="avatar">
+        <img
+          [src]="profilePictureUrl == null || profilePictureUrl.length == 0 ? '../../../../assets/svg/home/avatar.png' : profilePictureUrl"
+          alt=""
+        />
+      </div>
+      <div class="name">
+        <span>{{userData == null? '&nbsp;' : userData.fullName}}</span>
+      </div>
+      <div class="community">
+        <div class="follower">
+          <div class="number">
+            {{userData == null ? 0 : userData.followersCount}}
+          </div>
+          <div class="text">{{ 'Follower' | translate }}</div>
         </div>
+        <div class="following">
+          <div class="number">
+            {{userData == null ? 0 : userData.followingsCount}}
+          </div>
+          <div class="text">{{ 'Following' | translate }}</div>
+        </div>
+      </div>
     </div>
-    <div class="search-bar">
-        <ion-searchbar mode="ios" debounce="500" (ionChange)="searchUser($event)" (ionFocus)="onSearchFocus()"
-            (ionBlur)="onSearchBlur()" placeholder="{{ 'Search' | translate }}"></ion-searchbar>
-    </div>
+  </div>
+  <div *ngIf="appService.isMobile" class="search-bar">
+    <ion-searchbar
+      mode="ios"
+      debounce="500"
+      (ionChange)="searchUser($event)"
+      (ionFocus)="onSearchFocus()"
+      (ionBlur)="onSearchBlur()"
+      placeholder="{{ 'Search' | translate }}"
+    ></ion-searchbar>
+  </div>
 </ion-header>
 
 <ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true">
-    <div class="content">
-        <div *ngIf="isSearching" class="center-spinner">
-            <ion-spinner name="crescent" color="medium"></ion-spinner>
-        </div>
-        <div *ngIf="searchResultPeople">
-            <div *ngFor="let user of searchResultPeople" class="profile-list-item">
-                <div (click)="selectedUser(user.id)" class="person-info">
-                    <div class="img-container"><img [src]="user?.profilePictureUrl" alt="Img"></div>
-                    <div class="name">{{user?.fullName}}</div>
-                </div>
-                <div (click)="followAction(user)" [ngClass]="{'active':!user.isFollowing }" class="follow-info">
-                    {{ user.isBusy ? '...' : (user.isFollowing ? ('Unfollow' | translate) : ('Follow' | translate))}}
-                </div>
-            </div>
-        </div>
-        <div *ngIf="searchResultPeople == undefined || searchResultPeople.length == 0">
-            <div *ngFor="let user of contacts" class="profile-list-item">
-                <div class="person-info">
-                    <div class="img-container"><img src="../../../../assets/svg/home/avatar.png" alt="Img"></div>
-                    <div class="name">{{user?.displayName}}</div>
-                </div>
-                <div (click)="share(user)" class="follow-info">
-                    Davet Et
-                </div>
-            </div>
-        </div>
+  <div class="content">
+    <div *ngIf="isSearching" class="center-spinner">
+      <ion-spinner name="crescent" color="medium"></ion-spinner>
     </div>
+    <div *ngIf="searchResultPeople">
+      <div *ngFor="let user of searchResultPeople" class="profile-list-item">
+        <div (click)="selectedUser(user.id)" class="person-info">
+          <div class="img-container">
+            <img [src]="user?.profilePictureUrl" alt="Img" />
+          </div>
+          <div class="name">{{user?.fullName}}</div>
+        </div>
+        <div
+          (click)="followAction(user)"
+          [ngClass]="{'active':!user.isFollowing }"
+          class="follow-info"
+        >
+          {{ user.isBusy ? '...' : (user.isFollowing ? ('Unfollow' | translate)
+          : ('Follow' | translate))}}
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="searchResultPeople == undefined || searchResultPeople.length == 0"
+    >
+      <div *ngFor="let user of contacts" class="profile-list-item">
+        <div class="person-info">
+          <div class="img-container">
+            <img src="../../../../assets/svg/home/avatar.png" alt="Img" />
+          </div>
+          <div class="name">{{user?.displayName}}</div>
+        </div>
+        <div (click)="share(user)" class="follow-info">Davet Et</div>
+      </div>
+    </div>
+  </div>
 </ion-content>

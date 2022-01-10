@@ -1,170 +1,199 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
-import {AppService} from "../../../services/app.service";
-import {SocialApiService, SocialUserListModel} from "../../../services/api-wishalink.service";
-import {Router} from "@angular/router";
-import {NotificationComponent} from "../../../components/notification/notification.component";
-import {ModalController, Platform} from "@ionic/angular";
-import {Contact, Contacts} from '@capacitor-community/contacts'
-import { Share } from '@capacitor/share';
+import {
+  Component,
+  ElementRef,
+  NgZone,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { AppService } from "../../../services/app.service";
+import {
+  SocialApiService,
+  SocialUserListModel,
+} from "../../../services/api-wishalink.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NotificationComponent } from "../../../components/notification/notification.component";
+import { ModalController, Platform } from "@ionic/angular";
+import { Contact, Contacts } from "@capacitor-community/contacts";
+import { Share } from "@capacitor/share";
 
 @Component({
-    selector: 'app-search',
-    templateUrl: './search.page.html',
-    styleUrls: ['./search.page.scss'],
+  selector: "app-search",
+  templateUrl: "./search.page.html",
+  styleUrls: ["./search.page.scss"],
 })
 export class SearchPage implements OnInit {
-    @ViewChild('profileHeader', {static: false}) profileHeaderEl: ElementRef;
+  @ViewChild("profileHeader", { static: false }) profileHeaderEl: ElementRef;
 
-    isSearchFocused: boolean;
-    isSearching: boolean;
+  isSearchFocused: boolean;
+  isSearching: boolean;
 
-    userData: SocialUserListModel
-    searchResultPeople: SocialUserListModel[]
-    contacts: Contact[] = []
-    profilePictureUrl: string
+  userData: SocialUserListModel;
+  searchResultPeople: SocialUserListModel[];
+  contacts: Contact[] = [];
+  profilePictureUrl: string;
+  searchText: string;
+  constructor(
+    public appService: AppService,
+    private socialApiService: SocialApiService,
+    private router: Router,
+    private modalController: ModalController,
+    private zone: NgZone,
+    private platform: Platform,
+    private route: ActivatedRoute
+  ) {}
 
-    constructor(
-        public appService: AppService,
-        private socialApiService: SocialApiService,
-        private router: Router,
-        private modalController: ModalController,
-        private zone: NgZone,
-        private platform: Platform
-    ) {
-    }
-
-    ngOnInit() {
-        this.userData = this.appService.userInfo
-        this.searchResultPeople = []
-        this.getContacts()
-    }
-
-    ionViewWillEnter() {
-        this.appService.toggleStatusBar('light')
-        this.appService.setStatusBarBackground('light')
-
-    }
-
-    getContacts() {
-        if(this.platform.is('capacitor')) {
-            Contacts.getPermissions().then(v => {
-                if(v.granted) {
-                    Contacts.getContacts().then(result => {
-                        for (const contact of result.contacts) {
-                            this.contacts.push(contact)
-                        }
-                    });
-                }
-            })
-            
-        }
-    }
-
-    searchUser(event: any) {
-        const value = event.target.value;
-        if (value != '') {
-            this.isSearching = true;
-            this.socialApiService.searchusers(value).subscribe(
-                v => this.onSearchResult(v),
-                e => this.onError(e)
-            )
+  ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      if (params && params.text) {
+        this.searchText = params.text;
+        if (this.searchText != "") {
+          this.isSearching = true;
+          this.socialApiService.searchusers(this.searchText).subscribe(
+            (v) => this.onSearchResult(v),
+            (e) => this.onError(e)
+          );
         } else {
-            this.searchResultPeople = []
+          this.searchResultPeople = [];
         }
+      }
+    });
+
+    if (this.appService.userInfo) {
+      this.userData = this.appService.userInfo;
+      this.profilePictureUrl = this.appService.userInfo.profilePictureUrl;
+      console.log("user", this.userData);
     }
 
-    onSearchResult(v: SocialUserListModel[]) {
-        this.zone.run(() => {
-            this.isSearching = false;
-            this.searchResultPeople = v
-            this.appService.toggleLoader(false)
-        })
+    this.searchResultPeople = [];
+    this.getContacts();
+  }
 
-    }
+  ionViewWillEnter() {
+    this.appService.toggleStatusBar("light");
+    this.appService.setStatusBarBackground("light");
+  }
 
-    followAction(user) {
-        if (user.isBusy) return;
-
-        user.isBusy = true;
-        switch (user.isFollowing) {
-            case true:
-                this.socialApiService.unfollow(user.id).subscribe(
-                    v => {
-                        user.isBusy = false;
-                        this.onUnfollow(v, user.id)
-                    },
-                    e => {
-                        user.isBusy = false;
-                        this.onError(e);
-                    }
-                )
-                break;
-            case false:
-                this.socialApiService.follow(user.id).subscribe(
-                    v => {
-                        user.isBusy = false;
-                        this.onFollow(v, user.id)
-                    },
-                    e => {
-                        user.isBusy = false;
-                        this.onError(e);
-                    }
-                )
-                break;
+  getContacts() {
+    if (this.platform.is("capacitor")) {
+      Contacts.getPermissions().then((v) => {
+        if (v.granted) {
+          Contacts.getContacts().then((result) => {
+            for (const contact of result.contacts) {
+              this.contacts.push(contact);
+            }
+          });
         }
+      });
     }
+  }
 
-    onError(e: any) {
-        this.zone.run(() => {
-            this.isSearching = false;
-            this.appService.toggleLoader(false)
-            this.appService.showAlert(e)
-        })
+  searchUser(event: any) {
+    const value = event.target.value;
 
+    if (value != "") {
+      this.isSearching = true;
+      this.socialApiService.searchusers(value).subscribe(
+        (v) => this.onSearchResult(v),
+        (e) => this.onError(e)
+      );
+    } else {
+      this.searchResultPeople = [];
     }
+  }
 
-    selectedUser(id: number) {
-        this.router.navigate(['/app/profile', id])
+  onSearchResult(v: SocialUserListModel[]) {
+    this.zone.run(() => {
+      this.isSearching = false;
+      this.searchResultPeople = v;
+      console.log(this.searchResultPeople);
+
+      this.appService.toggleLoader(false);
+    });
+  }
+
+  followAction(user) {
+    if (user.isBusy) return;
+
+    user.isBusy = true;
+    switch (user.isFollowing) {
+      case true:
+        this.socialApiService.unfollow(user.id).subscribe(
+          (v) => {
+            user.isBusy = false;
+            this.onUnfollow(v, user.id);
+          },
+          (e) => {
+            user.isBusy = false;
+            this.onError(e);
+          }
+        );
+        break;
+      case false:
+        this.socialApiService.follow(user.id).subscribe(
+          (v) => {
+            user.isBusy = false;
+            this.onFollow(v, user.id);
+          },
+          (e) => {
+            user.isBusy = false;
+            this.onError(e);
+          }
+        );
+        break;
     }
+  }
 
-    onUnfollow(v: number, userId: number) {
-        this.zone.run(() => {
-            this.searchResultPeople.filter(x => x.id === userId)[0].isFollowing = false;
-            this.appService.userInfo.followingsCount = v
-        })
+  onError(e: any) {
+    this.zone.run(() => {
+      this.isSearching = false;
+      this.appService.toggleLoader(false);
+      this.appService.showAlert(e);
+    });
+  }
 
-    }
+  selectedUser(id: number) {
+    this.router.navigate(["/app/profile", id]);
+  }
 
-    async openNotification() {
-        const modal = await this.modalController.create({
-            component: NotificationComponent,
-            cssClass: 'notification-custom'
-        })
+  onUnfollow(v: number, userId: number) {
+    this.zone.run(() => {
+      this.searchResultPeople.filter((x) => x.id === userId)[0].isFollowing =
+        false;
+      this.appService.userInfo.followingsCount = v;
+    });
+  }
 
-        return await modal.present();
-    }
+  async openNotification() {
+    const modal = await this.modalController.create({
+      component: NotificationComponent,
+      cssClass: "notification-custom",
+    });
 
-    onFollow(v: number, userId: number) {
-        this.zone.run(() => {
-            this.searchResultPeople.filter(x => x.id === userId)[0].isFollowing = true;
-            this.appService.userInfo.followingsCount = v
-        })
-    }
+    return await modal.present();
+  }
 
-    onSearchFocus() {
-        this.isSearchFocused = true;
-    }
+  onFollow(v: number, userId: number) {
+    this.zone.run(() => {
+      this.searchResultPeople.filter((x) => x.id === userId)[0].isFollowing =
+        true;
+      this.appService.userInfo.followingsCount = v;
+    });
+  }
 
-    onSearchBlur() {
-        this.isSearchFocused = false;
-    }
+  onSearchFocus() {
+    this.isSearchFocused = true;
+  }
 
-    async share(contact: Contact) {
-        await Share.share({
-            title: 'Wish a Link',
-            text: 'Wish a Link uygulamasını indirerek heyecana ortak ol!',
-            url: 'http://wishalink.com/',
-            dialogTitle: contact.displayName + ' Davet Et',
-        });
-    }
+  onSearchBlur() {
+    this.isSearchFocused = false;
+  }
+
+  async share(contact: Contact) {
+    await Share.share({
+      title: "Wish a Link",
+      text: "Wish a Link uygulamasını indirerek heyecana ortak ol!",
+      url: "http://wishalink.com/",
+      dialogTitle: contact.displayName + " Davet Et",
+    });
+  }
 }

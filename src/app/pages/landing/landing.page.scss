@@ -1,4 +1,6 @@
 .hero {
+  margin-top: 80px !important;
+
   position: relative;
   height: 50vh;
   background-position: center center;
@@ -168,7 +170,7 @@ section {
       position: relative;
 
       .img-container {
-          width: 100%;
+        width: 100%;
         padding: 2em auto;
 
         img {

@@ -1,8 +1,26 @@
-.campaign-open{
+.campaign-open {
   position: absolute;
   bottom: 0;
   right: -4px;
-  ion-icon{
-    color: #6940D6;
+  ion-icon {
+    color: #6940d6;
+  }
+}
+.header-top {
+  margin-top: 5em;
+}
+
+@media screen and (min-width: 768px) {
+  ion-card {
+    max-width: 45%;
+    margin: auto;
+    margin-bottom: 3%;
+  }
+}
+@media screen and (min-width: 1280px) {
+  ion-card {
+    max-width: 38%;
+    margin: auto;
+    margin-bottom: 3%;
   }
 }

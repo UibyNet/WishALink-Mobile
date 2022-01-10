@@ -1,4 +1,19 @@
 :host {
+  @media (max-width: 1000px) {
+    ion-searchbar {
+      // display: none;
+      max-width: 350px;
+    }
+  }
+  @media (max-width: 800px) {
+    ion-searchbar {
+      // display: none;
+      max-width: 200px;
+    }
+  }
+  ion-searchbar {
+    --background: white;
+  }
   ion-header {
     color: var(--ion-color-medium);
     font-size: 0.9em;
@@ -19,7 +34,13 @@
       color: var(--ion-color-medium);
     }
   }
-
+  .btn-log {
+    --color: #6a40d6 !important;
+    --background: white;
+  }
+  .btn-log:hover {
+    --color: white !important;
+  }
   .social-btn {
     --border-radius: 2em;
     --padding-top: 0;
@@ -37,9 +58,9 @@
   }
 
   .logo {
-      max-height: 4em;
-      margin: 0 1em;
-      cursor: pointer;
+    max-height: 4em;
+    margin: 0 1em;
+    cursor: pointer;
   }
 
   ion-grid {
@@ -57,5 +78,3 @@
     }
   }
 }
-
-

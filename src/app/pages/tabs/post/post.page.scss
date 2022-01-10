@@ -1,5 +1,21 @@
+.header-top {
+  margin-top: 5em;
+}
 ion-grid {
   padding-bottom: 110px;
+
+  @media (min-width: 768px) {
+    max-width: 75%;
+    margin: auto;
+
+    .mobile-center {
+      text-align: center;
+      img {
+        width: auto;
+        height: 450px;
+      }
+    }
+  }
 }
 
 a {
@@ -92,22 +108,21 @@ a {
 
   ion-icon {
     font-size: 1.2em;
-    margin-right: .4em;
+    margin-right: 0.4em;
   }
 }
 
 ion-badge {
-  margin-right: .6em;
+  margin-right: 0.6em;
   font-weight: 500;
 }
 
 .like-button {
   ion-icon {
-    margin-right: .2em;
+    margin-right: 0.2em;
   }
 }
 
 .description {
   font-weight: 500;
 }
-

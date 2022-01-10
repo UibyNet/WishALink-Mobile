@@ -3,7 +3,56 @@
   left: 10%;
   top: 79%;
 }
+.mobile {
+  position: relative;
+  padding: 4em;
+  background: white;
+  @media (max-width: 1024px) {
+    padding: 2em;
+  }
+  .div-store {
+    padding-top: 4em;
+  }
+  .right {
+    padding-top: 10%;
+  }
 
+  .bottom-fixed {
+    height: 40%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: block;
+  }
+
+  h2 {
+    font-weight: 500;
+    font-size: 1.6em;
+    line-height: 1.4em;
+    margin-bottom: 1.4em;
+    @media (max-width: 1024px) {
+      font-size: 1.2em;
+    }
+
+    span {
+      color: var(--ion-color-primary);
+    }
+  }
+
+  p {
+    font-weight: 100;
+    font-size: 15px;
+    line-height: 1.4em;
+    text-align: center;
+    color: #959595;
+    margin: 0.5em 3em;
+  }
+
+  a {
+    margin-right: 1em;
+  }
+}
 /*
 .login-container {
   height: 72%;

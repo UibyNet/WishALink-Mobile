@@ -1,57 +1,119 @@
-<ion-header mode="ios">
-    <div class="shrinkable">
-        <ion-toolbar mode="ios">
-            <ion-buttons slot="start">
-                <ion-button routerLink="/app/campaign">
-                    <ion-icon class="gift-icon" name="gift-outline"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-            <ion-title>Wish A Link</ion-title>
-            <ion-buttons slot="end">
-                <ion-button (click)="openNotification()">
-                    <img src="../../../../assets/svg/home/notification.svg" alt="Icon"/>
-                    <ion-badge *ngIf="appService.unreadNotificationsCount > 0">{{appService.unreadNotificationsCount}}</ion-badge>
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-
-        <div hidden class="profile">
-            <div class="avatar">
-                <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl" alt=""/>
-            </div>
-            <div class="name mb-2">{{'Discover' | translate}}</div>
-            <div hidden class="info">{{ suggestions != undefined && suggestions.length > 0 ? suggestions.length : 0 }}
-                Ürün
-            </div>
-        </div>
-    </div>
-</ion-header>
-
-<ion-content #scrollArea [scrollEvents]="true" [fullscreen]="true" [scrollX]="false" [scrollY]="false">
+<div *ngIf="!appService.isMobile" class="header-top">
+  <ion-content
+    #scrollArea
+    [scrollEvents]="true"
+    [fullscreen]="true"
+    [scrollX]="false"
+    [scrollY]="false"
+  >
     <div *ngIf="suggestions == undefined" class="center-spinner">
-        <ion-spinner name="crescent" color="medium"></ion-spinner>
+      <ion-spinner name="crescent" color="medium"></ion-spinner>
     </div>
 
-    <virtual-scroller #scroll [items]="suggestions" (vsEnd)="loadMoreSuggestions($event)">
-        <app-post-item *ngFor="let item of scroll.viewPortItems" [item]="item">
-        </app-post-item>
+    <virtual-scroller
+      class="list-center"
+      #scroll
+      [items]="suggestions"
+      (vsEnd)="loadMoreSuggestions($event)"
+    >
+      <app-post-item *ngFor="let item of scroll.viewPortItems" [item]="item">
+      </app-post-item>
     </virtual-scroller>
 
     <div *ngIf="isLoading" class="ion-text-center loader">
-        <ion-spinner></ion-spinner>
+      <ion-spinner></ion-spinner>
     </div>
 
     <!--
-    <div style="position: relative; height: 100%;  width: 100%;">
-
-      <cdk-virtual-scroll-viewport hidden itemSize="15" style="height: 100%;  width: 100%;">
-        <app-post-item *cdkVirtualFor="let item of suggestions; let i = index;" [item]="item" [index]="i"></app-post-item>
-      </cdk-virtual-scroll-viewport>
-    </div>
-    -->
+          <div style="position: relative; height: 100%;  width: 100%;">
+      
+            <cdk-virtual-scroll-viewport hidden itemSize="15" style="height: 100%;  width: 100%;">
+              <app-post-item *cdkVirtualFor="let item of suggestions; let i = index;" [item]="item" [index]="i"></app-post-item>
+            </cdk-virtual-scroll-viewport>
+          </div>
+          -->
     <!--
-    <ion-infinite-scroll class="mt-3" threshold="100px" (ionInfinite)="loadSuggestions($event)">
-      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-    -->
-</ion-content>
+          <ion-infinite-scroll class="mt-3" threshold="100px" (ionInfinite)="loadSuggestions($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+          -->
+  </ion-content>
+</div>
+<div *ngIf="appService.isMobile">
+  <ion-header mode="ios">
+    <div class="shrinkable">
+      <ion-toolbar mode="ios">
+        <ion-buttons slot="start">
+          <ion-button routerLink="/app/campaign">
+            <ion-icon class="gift-icon" name="gift-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title>Wish A Link</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="openNotification()">
+            <img
+              src="../../../../assets/svg/home/notification.svg"
+              alt="Icon"
+            />
+            <ion-badge *ngIf="appService.unreadNotificationsCount > 0"
+              >{{appService.unreadNotificationsCount}}</ion-badge
+            >
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+
+      <div hidden class="profile">
+        <div class="avatar">
+          <img
+            [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
+            alt=""
+          />
+        </div>
+        <div class="name mb-2">{{'Discover' | translate}}</div>
+        <div hidden class="info">
+          {{ suggestions != undefined && suggestions.length > 0 ?
+          suggestions.length : 0 }} Ürün
+        </div>
+      </div>
+    </div>
+  </ion-header>
+
+  <ion-content
+    #scrollArea
+    [scrollEvents]="true"
+    [fullscreen]="true"
+    [scrollX]="false"
+    [scrollY]="false"
+  >
+    <div *ngIf="suggestions == undefined" class="center-spinner">
+      <ion-spinner name="crescent" color="medium"></ion-spinner>
+    </div>
+
+    <virtual-scroller
+      #scroll
+      [items]="suggestions"
+      (vsEnd)="loadMoreSuggestions($event)"
+    >
+      <app-post-item *ngFor="let item of scroll.viewPortItems" [item]="item">
+      </app-post-item>
+    </virtual-scroller>
+
+    <div *ngIf="isLoading" class="ion-text-center loader">
+      <ion-spinner></ion-spinner>
+    </div>
+
+    <!--
+          <div style="position: relative; height: 100%;  width: 100%;">
+      
+            <cdk-virtual-scroll-viewport hidden itemSize="15" style="height: 100%;  width: 100%;">
+              <app-post-item *cdkVirtualFor="let item of suggestions; let i = index;" [item]="item" [index]="i"></app-post-item>
+            </cdk-virtual-scroll-viewport>
+          </div>
+          -->
+    <!--
+          <ion-infinite-scroll class="mt-3" threshold="100px" (ionInfinite)="loadSuggestions($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText=""> </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+          -->
+  </ion-content>
+</div>

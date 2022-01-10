@@ -22,7 +22,7 @@ import {
     CategoryApiService,
     PostApiService,
     CampaignApiService,
-    ActivityApiService, NotificationApiService, CommonApiService, ChatApiService
+    ActivityApiService, NotificationApiService, CommonApiService
 } from './services/api-wishalink.service';
 import { SharedComponentsModule } from './components/shared-components.module';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
@@ -31,7 +31,6 @@ import { KpayCcpaymentCCPaymentApiService, KPAY_CCPAYMENT_API_URL } from './serv
 import { KpayFixedqrPayment_RequestApiService, KPAY_FIXEDQR_API_URL } from './services/api-kpay-fixedqr.service';
 import { KpayFixedqrPaymentPayment_RequestApiService, KPAY_FIXEDQRPAYMENT_API_URL } from './services/api-kpay-fixedqrpayment.service';
 import { CardModule } from 'ngx-card';
-import { ChatService } from './services/chat.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -69,8 +68,6 @@ export function createTranslateLoader(http: HttpClient) {
         InAppBrowser,
         BarcodeScanner,
         AppService,
-        ChatService,
-        ChatApiService,
         AuthApiService,
         ProfileApiService,
         SocialApiService,
@@ -94,8 +91,8 @@ export function createTranslateLoader(http: HttpClient) {
         { provide: KPAY_CCPAYMENT_API_URL, useValue: "https://api.kpay.com.tr/CCPayment/V1" },
         { provide: KPAY_FIXEDQR_API_URL, useValue: "https://api.kpay.com.tr/FixedQR/V1" },
         { provide: KPAY_FIXEDQRPAYMENT_API_URL, useValue: "https://api.kpay.com.tr/FixedQRPayment/V1" },
-        //{ provide: WISH_API_URL, useValue: "https://panel.wishalink.com" },
-        { provide: WISH_API_URL, useValue: "https://localhost:44301" },
+        { provide: WISH_API_URL, useValue: "https://panel.wishalink.com" },
+        //{ provide: WISH_API_URL, useValue: "https://localhost:44301" },
     ],
     bootstrap: [AppComponent],
 })

@@ -1,3 +1,6 @@
+.header-top {
+  margin-top: 8em;
+}
 .top-container {
   padding: 26px;
   height: auto;
@@ -7,16 +10,16 @@
   .search-bar {
     ion-searchbar {
       height: 56px;
-      border: 1px solid #6A40D6;
+      border: 1px solid #6a40d6;
       border-radius: 16px;
     }
 
     ::ng-deep input {
-      background: #FFFFFF;
+      background: #ffffff;
     }
 
     ::ng-deep ion-icon {
-      color: #1E90FF;
+      color: #1e90ff;
     }
   }
 
@@ -39,8 +42,7 @@
         margin-right: 6px;
         font-size: 14px;
         line-height: 16px;
-        color: #6A40D6;
-
+        color: #6a40d6;
       }
 
       .follower {
@@ -61,7 +63,7 @@
       overflow: hidden;
       margin: 2rem auto 1rem;
       border-radius: 100px;
-      background: #FFFFFF;
+      background: #ffffff;
 
       img {
         width: 100%;
@@ -82,10 +84,9 @@
     padding: 0 0 38% !important;
   }
   @media screen and (min-width: 768px) {
-    max-width: 500px;
+    max-width: 1000px;
     margin: auto;
   }
-
 
   .profile-list-item {
     padding: 4px 0;
@@ -96,9 +97,9 @@
     margin-bottom: 8px;
 
     .follow-info {
-      background: #FFFFFF;
-      color: #6A40D6;
-      border: 1px solid #6A40D6;
+      background: #ffffff;
+      color: #6a40d6;
+      border: 1px solid #6a40d6;
       border-radius: 2em;
       width: 80px;
       height: 24px;
@@ -109,9 +110,9 @@
       white-space: nowrap;
 
       &.active {
-        background: #1E90FF;
+        background: #1e90ff;
         color: #ffff;
-        border: 1px solid #1E90FF;
+        border: 1px solid #1e90ff;
       }
     }
 

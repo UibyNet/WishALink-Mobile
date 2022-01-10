@@ -1,52 +1,225 @@
 <ion-header mode="ios" trasculent="true" class="dark back-only ion-no-border">
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
-                <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-            </div>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <div *ngIf="stepper === 1" routerLink="/intro" class="back-button">
+        <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon" />
+      </div>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="dark" fullscreen="true">
-    <div *ngIf="stepper===1" class="page-container">
-        <div class="lead">
-            <h2>
-                {{('WelcomePleaseLogin' | translate)}}
-                <div class="vertical-dots">
-                    <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
-                </div>
-            </h2>
-        </div>
-        <div class="bottom-container">
-            <div class="bottom-content">
-                <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
-                    <ion-item>
-                        <div class="input-group">
-                            <button class="p-button" (click)="showCountrySelector()" type="button">
-                                <i class="flag-icon flag-icon-{{selectedCountry.isoCode}}"></i>
+  <div *ngIf="!appService.isMobile">
+    <section id="mobile" class="mobile">
+      <div class="container">
+        <div class="bottom-fixed dark-bg"></div>
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col
+              class="d-flex ion-align-items-center"
+              size="12"
+              size-lg="5"
+              class="ion-text-center"
+            >
+              <img src="../../../assets/landing/mobile.png" alt="" />
+            </ion-col>
+            <ion-col class="d-flex right" size="12" size-lg="7">
+              <div>
+                <div>
+                  <div *ngIf="stepper===1" class="page-container">
+                    <div class="lead">
+                      <h2>
+                        {{('WelcomePleaseLogin' | translate)}}
+                        <!-- <div class="vertical-dots">
+                          <img
+                            src="../../../assets/svg/login/vertical-dots.svg"
+                            alt="Icon"
+                          />
+                        </div> -->
+                      </h2>
+                    </div>
+                    <div class="bottom-container">
+                      <div class="bottom-content">
+                        <form
+                          [formGroup]="loginForm"
+                          (ngSubmit)="login()"
+                          novalidate
+                        >
+                          <ion-item>
+                            <div class="input-group">
+                              <button
+                                class="p-button"
+                                (click)="showCountrySelector()"
+                                type="button"
+                              >
+                                <i
+                                  class="flag-icon flag-icon-{{selectedCountry.isoCode}}"
+                                ></i>
                                 <span>+{{selectedCountry.dialCode}}</span>
-                            </button>
-                            <input type="tel" formControlName="phoneNumberMasked" type="tel"
-                                   [mask]="selectedCountry.phoneMask" placeholder="{{('Phone' | translate)}}">
-                        </div>
-                    </ion-item>
-                    <ion-item>
-                        <input formControlName="password" type="password" pattern="[0-9]*" inputmode="numeric" placeholder="{{('Password' | translate)}}">
-                    </ion-item>
-                    <div class="ion-padding py-1">
-                        <ion-button color="primary" expand="block" type="submit" type="submit" [disabled]="isLoading || !loginForm.valid">
-                            <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
-                            <span *ngIf="!isLoading">{{('Login' | translate)}}</span>
-                        </ion-button>
+                              </button>
+                              <input
+                                type="tel"
+                                formControlName="phoneNumberMasked"
+                                type="tel"
+                                [mask]="selectedCountry.phoneMask"
+                                placeholder="{{('Phone' | translate)}}"
+                              />
+                            </div>
+                          </ion-item>
+                          <ion-item>
+                            <input
+                              formControlName="password"
+                              type="password"
+                              pattern="[0-9]*"
+                              inputmode="numeric"
+                              placeholder="{{('Password' | translate)}}"
+                            />
+                          </ion-item>
+                          <div class="ion-padding py-1">
+                            <ion-button
+                              color="tertiary"
+                              expand="block"
+                              type="submit"
+                              type="submit"
+                              [disabled]="isLoading || !loginForm.valid"
+                            >
+                              <ion-spinner
+                                name="lines-small"
+                                *ngIf="isLoading"
+                              ></ion-spinner>
+                              <span *ngIf="!isLoading"
+                                >{{('Login' | translate)}}</span
+                              >
+                            </ion-button>
+                          </div>
+                          <div class="ion-padding py-1">
+                            <ion-button
+                              color="primary"
+                              expand="block"
+                              type="button"
+                              (click)="goForgot()"
+                              class="ion-text-capitalize"
+                              fill="clear"
+                              type="button"
+                            >
+                              {{('ForgotPassword' | translate)}}
+                            </ion-button>
+                          </div>
+                          <div class="ion-padding py-1">
+                            <p>
+                              Mobil uygulamamızı kullanarak, Kullanım
+                              Koşullarımızı ve Gizlilik Politikamızı kabul etmiş
+                              olursunuz.
+                            </p>
+                          </div>
+                          <div class="ion-padding py-1">
+                            <ion-button
+                              color="tertiary"
+                              expand="block"
+                              type="button"
+                              (click)="goForgot()"
+                              class="ion-text-capitalize"
+                              fill="clear"
+                              type="button"
+                            >
+                              Hesabınız yok mu? <br />
+                              Uygulamadan kayıt olabilirsiniz.
+                            </ion-button>
+                          </div>
+                        </form>
+                      </div>
                     </div>
-                    <div class="ion-padding py-1">
-                        <ion-button color="primary" expand="block" type="button" (click)="goForgot()" class="ion-text-capitalize" fill="clear" type="button">
-                            {{('ForgotPassword' | translate)}}
-                        </ion-button>
-                    </div>
-                </form>
+                  </div>
+                </div>
+                <div class="div-store">
+                  <a href="#app-store">
+                    <img src="../../../assets/landing/app-store.png" alt="" />
+                  </a>
+                  <a href="#google-play">
+                    <img src="../../../assets/landing/google-play.png" alt="" />
+                  </a>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </section>
+  </div>
+
+  <div *ngIf="appService.isMobile">
+    <div *ngIf="stepper===1" class="page-container">
+      <div class="lead">
+        <h2>
+          {{('WelcomePleaseLogin' | translate)}}
+          <div class="vertical-dots">
+            <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon" />
+          </div>
+        </h2>
+      </div>
+      <div class="bottom-container">
+        <div class="bottom-content">
+          <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+            <ion-item>
+              <div class="input-group">
+                <button
+                  class="p-button"
+                  (click)="showCountrySelector()"
+                  type="button"
+                >
+                  <i
+                    class="flag-icon flag-icon-{{selectedCountry.isoCode}}"
+                  ></i>
+                  <span>+{{selectedCountry.dialCode}}</span>
+                </button>
+                <input
+                  type="tel"
+                  formControlName="phoneNumberMasked"
+                  type="tel"
+                  [mask]="selectedCountry.phoneMask"
+                  placeholder="{{('Phone' | translate)}}"
+                />
+              </div>
+            </ion-item>
+            <ion-item>
+              <input
+                formControlName="password"
+                type="password"
+                pattern="[0-9]*"
+                inputmode="numeric"
+                placeholder="{{('Password' | translate)}}"
+              />
+            </ion-item>
+            <div class="ion-padding py-1">
+              <ion-button
+                color="primary"
+                expand="block"
+                type="submit"
+                type="submit"
+                [disabled]="isLoading || !loginForm.valid"
+              >
+                <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+                <span *ngIf="!isLoading">{{('Login' | translate)}}</span>
+              </ion-button>
             </div>
+            <div class="ion-padding py-1">
+              <ion-button
+                color="primary"
+                expand="block"
+                type="button"
+                (click)="goForgot()"
+                class="ion-text-capitalize"
+                fill="clear"
+                type="button"
+              >
+                {{('ForgotPassword' | translate)}}
+              </ion-button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
+
+  <app-footer *ngIf="!appService.isMobile"></app-footer>
 </ion-content>

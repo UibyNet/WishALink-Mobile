@@ -1,3 +1,21 @@
-ion-card-content{
+ion-card-content {
   color: #898989;
+}
+.header-top {
+  margin-top: 5em;
+}
+
+ion-content {
+  @media screen and (min-width: 768px) {
+    div {
+      text-align: center;
+      max-width: 75%;
+      margin: auto;
+      margin-bottom: 3%;
+    }
+    img {
+      width: auto;
+      height: 450px;
+    }
+  }
 }

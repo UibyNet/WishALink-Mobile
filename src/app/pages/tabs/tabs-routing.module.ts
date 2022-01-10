@@ -41,15 +41,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'chat/:id',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('./chat/chat.module').then(m => m.ChatPageModule)
-          }
-        ]
-      },
-      {
         path: 'search',
         children: [
           {

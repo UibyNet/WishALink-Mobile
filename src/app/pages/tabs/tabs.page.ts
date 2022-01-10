@@ -19,12 +19,12 @@ export class TabsPage implements OnInit {
 
     constructor(
         public router: Router,
-        public appService: AppService,
         private zone: NgZone,
         private platform: Platform,
         private navController: NavController,
         private alertController: AlertController,
         private barcodeScanner: BarcodeScanner,
+        private appService: AppService,
         private paymentRequestApiService: KpayFixedqrPaymentPayment_RequestApiService
     ) {
     }

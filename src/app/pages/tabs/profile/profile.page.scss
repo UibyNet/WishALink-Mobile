@@ -1,3 +1,6 @@
+.header-top {
+  margin-top: 5em;
+}
 .top-container {
   padding: 26px;
   height: auto;
@@ -110,19 +113,18 @@
 }
 
 .content {
-
   max-width: 1080px;
   margin: 0 auto;
 
   .product-amount {
-    font-size: .8em;
+    font-size: 0.8em;
     color: var(--ion-color-medium);
     margin-bottom: 1rem;
   }
 
   .product-title {
     margin-bottom: 3px;
-    font-size: .9em;
+    font-size: 0.9em;
   }
 
   .card {
@@ -197,7 +199,7 @@
   background: #ffffff;
   border: 1px solid #6a40d6;
   color: #6a40d6;
-  font-size: .9em;
+  font-size: 0.9em;
 
   &.active {
     background: #1e90ff;
@@ -205,6 +207,6 @@
     border: 1px solid #1e90ff;
   }
 }
-.content{
+.content {
   padding-bottom: 100vh;
 }

@@ -1,3 +1,10 @@
+.header-top {
+  margin-top: 5em;
+}
+.mobile-list {
+  max-width: 80%;
+  margin: auto;
+}
 .top-container {
   padding: 26px;
   height: auto;
@@ -124,6 +131,10 @@
         background: #ffffff;
         color: #6a40d6;
         border: 1px solid #6a40d6;
+
+        @media (min-width: 768px) {
+          padding: 17px 60px !important;
+        }
       }
     }
 
@@ -136,6 +147,10 @@
       }
 
       .img-container {
+        @media (min-width: 768px) {
+          height: 50px;
+          width: 50px;
+        }
         height: 40px;
         margin-right: 8px;
         width: 40px;
