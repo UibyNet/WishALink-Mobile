@@ -14,9 +14,9 @@ export class CardListPage implements OnInit {
   cards: CardDTO[];
 
   constructor(
+    public appService: AppService,
     private zone: NgZone,
     private router: Router,
-    private appService: AppService,
     private cardApiService: KpayBackendCardApiService,
     private memberApiService: KpayBackendMemberApiService,
     private actionSheetController: ActionSheetController,

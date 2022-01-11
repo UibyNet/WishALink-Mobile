@@ -44,6 +44,7 @@ export class AppService {
     private _kpayMember: MemberDTO;
     private _isNotificationsChecking: boolean = false;
     tempAccessToken: string;
+    isTabBarHidden: boolean = false;
 
     get unreadNotificationsCount() {
         return this.userNotifications.filter(x => !x.isRead).length
@@ -207,7 +208,7 @@ export class AppService {
             message = message.message;
         }
 
-        await this.showAlert(message);
+        await this.showToast(message, "bottom");
     }
 
     async showToast(

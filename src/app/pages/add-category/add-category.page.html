@@ -1,6 +1,7 @@
 <ion-content>
     <div class="main">
         <div class="top-container">
+            <div *ngIf="!appService.isMobile" class="header-top"></div>
             <div class="page-title ion-margin-top ion-text-center">
                 {{'Category' | translate}} {{ categoryId > 0 ? ('Arrange' | translate) : ('Create' | translate)}}
             </div>

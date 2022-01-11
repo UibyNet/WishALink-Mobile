@@ -1,5 +1,5 @@
-<ion-header mode="ios" shrink-header [scrollArea]="scrollAreaCommunity">
-  <div *ngIf="!appService.isMobile" class="header-top"></div>
+<ion-header mode="ios" shrink-header [scrollArea]="scrollAreaCommunity" *ngIf="appService.isMobile">
+  <div class="header-top"></div>
 
   <div class="shrinkable">
     <ion-toolbar mode="ios">
@@ -13,10 +13,7 @@
 
     <div class="profile">
       <div class="avatar">
-        <img
-          [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
-          alt=""
-        />
+        <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl" alt="" />
       </div>
       <div class="name">
         <span>{{userData == null ? '&nbsp;' : userData.fullName}}</span>
@@ -40,18 +37,10 @@
   <div class="top-tabs">
     <div class="tab-container">
       <ion-segment [value]="selectedSegment">
-        <ion-segment-button
-          value="follower"
-          [routerLink]="currentUrl"
-          [queryParams]="{segment: 'follower'}"
-        >
+        <ion-segment-button value="follower" [routerLink]="currentUrl" [queryParams]="{segment: 'follower'}">
           <ion-label>{{'Follower' | translate}}</ion-label>
         </ion-segment-button>
-        <ion-segment-button
-          value="following"
-          [routerLink]="currentUrl"
-          [queryParams]="{segment: 'following'}"
-        >
+        <ion-segment-button value="following" [routerLink]="currentUrl" [queryParams]="{segment: 'following'}">
           <ion-label>{{'Following' | translate}}</ion-label>
         </ion-segment-button>
       </ion-segment>
@@ -59,28 +48,59 @@
   </div>
 </ion-header>
 
-<ion-content #scrollAreaCommunity [scrollEvents]="true" [fullscreen]="true">
+<ion-content #scrollAreaCommunity [scrollEvents]="appService.isMobile" [fullscreen]="appService.isMobile">
+  <div class="profile-header" *ngIf="!appService.isMobile">
+    <div class="">
+      <div class="profile">
+        <div class="avatar">
+          <img [src]="userData == null ? '../../../../assets/svg/home/avatar.png' : userData.profilePictureUrl"
+            alt="" />
+        </div>
+        <div class="name">
+          <span>{{userData == null ? '&nbsp;' : userData.fullName}}</span>
+        </div>
+        <div class="community">
+          <div class="follower clickable">
+            <div class="number">
+              {{userData == null ? 0 : userData.followersCount}}
+            </div>
+            <div class="text">{{'Follower' | translate}}</div>
+          </div>
+          <div class="following clickable">
+            <div class="number">
+              {{userData == null ? 0 : userData.followingsCount}}
+            </div>
+            <div class="text">{{'Following' | translate}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="top-tabs">
+      <div class="tab-container">
+        <ion-segment [value]="selectedSegment">
+          <ion-segment-button value="follower" [routerLink]="currentUrl" [queryParams]="{segment: 'follower'}">
+            <ion-label>{{'Follower' | translate}}</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="following" [routerLink]="currentUrl" [queryParams]="{segment: 'following'}">
+            <ion-label>{{'Following' | translate}}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+    </div>
+  </div>
   <div *ngIf="selectedSegment === 'follower'" class="content">
     <div *ngIf="!appService.isMobile" class="mobile-list">
       <div *ngFor="let user of followerList" class="profile-list-item">
-        <div class="person-info" (click)="selectedUser(user.id)">
+        <div class="person-info clickable" (click)="selectedUser(user.id)" >
           <div class="img-container">
             <img [src]="user?.profilePictureUrl" alt="Img" />
           </div>
           <div class="name">{{user?.fullName}}</div>
         </div>
-        <div
-          (click)="unfollowUser(user,'reloadFollower')"
-          *ngIf="user.isFollowing"
-          class="follow-info active"
-        >
+        <div (click)="unfollowUser(user,'reloadFollower')" *ngIf="user.isFollowing" class="follow-info clickable active">
           {{ user.isBusy ? '...' : ('Unfollow' | translate)}}
         </div>
-        <div
-          (click)="followUser(user)"
-          *ngIf="!user.isFollowing"
-          class="follow-info"
-        >
+        <div (click)="followUser(user)" *ngIf="!user.isFollowing" class="follow-info clickable">
           {{ user.isBusy ? '...' : ('Follow' | translate)}}
         </div>
       </div>
@@ -88,76 +108,54 @@
 
     <div class="content mw-500-tablet" *ngIf="appService.isMobile">
       <div *ngFor="let user of followerList" class="profile-list-item">
-        <div class="person-info" (click)="selectedUser(user.id)">
+        <div class="person-info clickable" (click)="selectedUser(user.id)">
           <div class="img-container">
             <img [src]="user?.profilePictureUrl" alt="Img" />
           </div>
           <div class="name">{{user?.fullName}}</div>
         </div>
-        <div
-          (click)="unfollowUser(user,'reloadFollower')"
-          *ngIf="user.isFollowing"
-          class="follow-info active"
-        >
+        <div (click)="unfollowUser(user,'reloadFollower')" *ngIf="user.isFollowing" class="follow-info clickable active">
           {{ user.isBusy ? '...' : ('Unfollow' | translate)}}
         </div>
-        <div
-          (click)="followUser(user)"
-          *ngIf="!user.isFollowing"
-          class="follow-info"
-        >
+        <div (click)="followUser(user)" *ngIf="!user.isFollowing" class="follow-info clickable">
           {{ user.isBusy ? '...' : ('Follow' | translate)}}
         </div>
       </div>
     </div>
 
-    <div
-      *ngIf="followerList?.length == 0"
-      class="ion-margin-top ion-text-center"
-      style="color: #565656"
-    >
+    <div *ngIf="followerList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656">
       {{'NoFollower' | translate}}
     </div>
   </div>
   <div *ngIf="selectedSegment === 'following'" class="content">
     <div *ngIf="!appService.isMobile" class="mobile-list">
       <div *ngFor="let user of followingList" class="profile-list-item">
-        <div class="person-info" (click)="selectedUser(user.id)">
+        <div class="person-info clickable" (click)="selectedUser(user.id)">
           <div class="img-container">
             <img [src]="user?.profilePictureUrl" alt="Img" />
           </div>
           <div class="name">{{user?.fullName}}</div>
         </div>
-        <div
-          (click)="unfollowUser(user,'reloadFollowing')"
-          class="follow-info active"
-        >
+        <div (click)="unfollowUser(user,'reloadFollowing')" class="follow-info clickable active">
           {{ user.isBusy ? '...' : ('Unfollow' | translate)}}
         </div>
       </div>
     </div>
     <div class="content mw-500-tablet" *ngIf="appService.isMobile">
       <div *ngFor="let user of followingList" class="profile-list-item">
-        <div class="person-info" (click)="selectedUser(user.id)">
+        <div class="person-info clickable" (click)="selectedUser(user.id)">
           <div class="img-container">
             <img [src]="user?.profilePictureUrl" alt="Img" />
           </div>
           <div class="name">{{user?.fullName}}</div>
         </div>
-        <div
-          (click)="unfollowUser(user,'reloadFollowing')"
-          class="follow-info active"
-        >
+        <div (click)="unfollowUser(user,'reloadFollowing')" class="follow-info clickable active">
           {{ user.isBusy ? '...' : ('Unfollow' | translate)}}
         </div>
       </div>
     </div>
 
-    <div
-      *ngIf="followingList?.length == 0"
-      class="ion-margin-top ion-text-center"
-      style="color: #565656"
-    >
+    <div *ngIf="followingList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656">
       {{'NoFollowing' | translate}}
     </div>
   </div>

@@ -8,6 +8,7 @@ import { CampaignDetailPageRoutingModule } from './campaign-detail-routing.modul
 
 import { CampaignDetailPage } from './campaign-detail.page';
 import {AppPipesModule} from "../../../../pipes/pipes.module";
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {AppPipesModule} from "../../../../pipes/pipes.module";
         FormsModule,
         IonicModule,
         CampaignDetailPageRoutingModule,
-        AppPipesModule
+        AppPipesModule,
+        SharedDirectivesModule
     ],
   declarations: [CampaignDetailPage]
 })

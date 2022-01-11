@@ -64,10 +64,11 @@
         </div>
     </div>
 </ion-content>
-<ion-footer>
+<ion-footer [class.pb-3]="!appService.isMobile">
     <ion-note>
         {{'KpayGoNoteFirst' | translate}}
         <img src="../../../../assets/svg/logo/paytr.svg" alt=""/>
         {{'KpayGoNoteSecond' | translate}}
     </ion-note>
 </ion-footer>
+

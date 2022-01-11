@@ -41,6 +41,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'chat/:id',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./chat/chat.module').then(m => m.ChatPageModule)
+          }
+        ]
+      },
+      {
         path: 'search',
         children: [
           {
@@ -96,7 +105,7 @@ const routes: Routes = [
   },
   {
     path: 'campaign',
-    loadChildren: () => import('./campaign/campaign.module').then( m => m.CampaignPageModule)
+    loadChildren: () => import('./campaign/campaign.module').then(m => m.CampaignPageModule)
   },
 ];
 

@@ -11,6 +11,7 @@ import { CodeInputModule } from 'angular-code-input';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 import { NgxMaskModule } from 'ngx-mask';
 import {TranslateModule} from "@ngx-translate/core";
+import { SharedComponentsModule } from 'src/app/components/shared-components.module';
 
 @NgModule({
     imports: [
@@ -21,6 +22,7 @@ import {TranslateModule} from "@ngx-translate/core";
         CodeInputModule,
         LoginPageRoutingModule,
         SharedDirectivesModule,
+        SharedComponentsModule,
         NgxMaskModule,
         TranslateModule
     ],

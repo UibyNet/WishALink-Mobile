@@ -34,6 +34,10 @@ export class SettingsPage implements OnInit {
   ionViewWillEnter() {
     this.appService.toggleStatusBar("dark");
     this.appService.setStatusBarBackground("primary");
+
+    if (!this.appService.isMobile) {
+      this.navController.navigateForward('/app/settings/profile-settings')
+    }
   }
   async openNotification() {
     const modal = await this.modalController.create({

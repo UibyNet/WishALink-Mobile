@@ -124,3 +124,15 @@ ion-item {
 //input{
 //  border-radius: 12px;
 //}
+
+::ng-deep {
+  .plt-desktop {
+    .main {
+      background-color: initial;
+
+    }
+    .page-title {
+      color:rgb(0, 0, 0) !important;
+    }
+  }
+}

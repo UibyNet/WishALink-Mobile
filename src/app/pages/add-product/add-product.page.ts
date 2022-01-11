@@ -41,8 +41,8 @@ export class AddProductPage implements OnInit {
     postImageBlob: Blob;
 
     constructor(
+        public appService: AppService,
         private route: ActivatedRoute,
-        private appService: AppService,
         private postApiService: PostApiService,
         private activityApiService: ActivityApiService,
         private commonApiService: CommonApiService,

@@ -13,8 +13,8 @@ export class CampaignPage implements OnInit {
     campaign: CampaignListModel[] = []
 
     constructor(
+        public appService: AppService,
         private campaignService: CampaignApiService,
-        private appService: AppService,
         private zone: NgZone,
         private router: Router
     ) {

@@ -22,7 +22,10 @@ import {
     CategoryApiService,
     PostApiService,
     CampaignApiService,
-    ActivityApiService, NotificationApiService, CommonApiService
+    ActivityApiService, 
+    NotificationApiService, 
+    CommonApiService,
+    ChatApiService
 } from './services/api-wishalink.service';
 import { SharedComponentsModule } from './components/shared-components.module';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
@@ -31,6 +34,7 @@ import { KpayCcpaymentCCPaymentApiService, KPAY_CCPAYMENT_API_URL } from './serv
 import { KpayFixedqrPayment_RequestApiService, KPAY_FIXEDQR_API_URL } from './services/api-kpay-fixedqr.service';
 import { KpayFixedqrPaymentPayment_RequestApiService, KPAY_FIXEDQRPAYMENT_API_URL } from './services/api-kpay-fixedqrpayment.service';
 import { CardModule } from 'ngx-card';
+import { ChatService } from './services/chat.service';
 
 const maskConfig: Partial<IConfig> = {
     validation: false,
@@ -68,6 +72,7 @@ export function createTranslateLoader(http: HttpClient) {
         InAppBrowser,
         BarcodeScanner,
         AppService,
+        ChatService,
         AuthApiService,
         ProfileApiService,
         SocialApiService,
@@ -77,6 +82,7 @@ export function createTranslateLoader(http: HttpClient) {
         NotificationApiService,
         ActivityApiService,
         CommonApiService,
+        ChatApiService,
 
         KpayBackendCardApiService,
         KpayBackendMemberApiService,

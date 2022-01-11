@@ -4,21 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PostPageRoutingModule } from './post-routing.module';
+import { ChatPageRoutingModule } from './chat-routing.module';
 
-import { PostPage } from './post.page';
+import { ChatPage } from './chat.page';
 import {TranslateModule} from "@ngx-translate/core";
-import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        PostPageRoutingModule,
-        TranslateModule,
-        SharedDirectivesModule
+        ChatPageRoutingModule,
+        TranslateModule
     ],
-  declarations: [PostPage]
+  declarations: [ChatPage]
 })
-export class PostPageModule {}
+export class ChatPageModule {}

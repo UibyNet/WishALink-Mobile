@@ -18,10 +18,10 @@ export class CategoryPage implements OnInit {
   categoryId: number;
 
   constructor(
+    public appService: AppService,
     private zone: NgZone,
     private router: Router,
     private route: ActivatedRoute,
-    private appService: AppService,
     private categoryApiService: CategoryApiService,
     private postApiService: PostApiService,
     private navController: NavController

@@ -11,8 +11,8 @@ import {Router} from "@angular/router";
 export class ChangePasswordPage implements OnInit {
 
     constructor(
+        public appService: AppService,
         private profileApiService: ProfileApiService,
-        private appService: AppService,
         private router: Router,
     ) {
     }

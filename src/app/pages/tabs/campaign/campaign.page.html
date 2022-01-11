@@ -2,13 +2,9 @@
   <div *ngIf="!appService.isMobile" class="header-top"></div>
 
   <div class="shrinkable">
-    <ion-toolbar>
+    <ion-toolbar responsive-toolbar>
       <ion-buttons slot="start">
-        <ion-back-button
-          default-href=".."
-          color="dark"
-          text=""
-        ></ion-back-button>
+        <ion-back-button default-href=".." color="dark" text=""></ion-back-button>
       </ion-buttons>
       <ion-title>{{'Campaign' | translate}}</ion-title>
     </ion-toolbar>
@@ -16,16 +12,22 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let item of campaign" (click)="openDetail(item)">
-    <img [src]="item.mediaUrl" />
-    <ion-card-header class="is-relative">
-      <ion-card-title>{{item.name}}</ion-card-title>
-      <ion-card-subtitle class="mt-1">{{item.subTitle}}</ion-card-subtitle>
-      <div class="campaign-open">
-        <ion-button slot="end" fill="clear" color="dark">
-          <ion-icon name="arrow-forward-outline"></ion-icon>
-        </ion-button>
-      </div>
-    </ion-card-header>
-  </ion-card>
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size="12" size-md="6" *ngFor="let item of campaign">
+        <ion-card class="clickable" (click)="openDetail(item)">
+          <img [src]="item.mediaUrl" />
+          <ion-card-header class="is-relative">
+            <ion-card-title>{{item.name}}</ion-card-title>
+            <ion-card-subtitle class="mt-1">{{item.subTitle}}</ion-card-subtitle>
+            <div class="campaign-open">
+              <ion-button slot="end" fill="clear" color="dark">
+                <ion-icon name="arrow-forward-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

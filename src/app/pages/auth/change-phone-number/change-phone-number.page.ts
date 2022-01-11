@@ -26,9 +26,9 @@ export class ChangePhoneNumberPage implements OnInit {
     }
 
     constructor(
+        public appService: AppService,
         private zone: NgZone,
         private router: Router,
-        private appService: AppService,
         private authService: AuthApiService,
         private profileService: ProfileApiService,
         private formBuilder: FormBuilder,

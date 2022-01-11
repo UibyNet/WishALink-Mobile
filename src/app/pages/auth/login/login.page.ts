@@ -39,9 +39,9 @@ export class LoginPage implements OnInit {
   }
 
   constructor(
+    public appService: AppService,
     private zone: NgZone,
     private router: Router,
-    private appService: AppService,
     private authService: AuthApiService,
     private formBuilder: FormBuilder,
     private modalController: ModalController
@@ -135,6 +135,10 @@ export class LoginPage implements OnInit {
 
   goForgot() {
     this.router.navigateByUrl("/forgot");
+  }
+
+  goRegister() {
+    this.router.navigateByUrl("/register");
   }
 
   showToolbar = false;

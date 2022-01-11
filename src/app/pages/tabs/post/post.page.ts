@@ -20,10 +20,10 @@ export class PostPage implements OnInit {
     currentUserId: number;
 
     constructor(
+        public appService: AppService,
         private zone: NgZone,
         private router: Router,
         private route: ActivatedRoute,
-        private appService: AppService,
         private postApiService: PostApiService,
         private navController: NavController
     ) {

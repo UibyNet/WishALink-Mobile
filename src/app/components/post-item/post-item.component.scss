@@ -50,7 +50,7 @@ ion-item {
         margin-top: 0.3em;
         white-space: nowrap;
         width: 100%;
-        overflow-x: scroll;
+        overflow-x: auto;
         flex-wrap: wrap;
         .post-tag {
           --padding-top: 4px;

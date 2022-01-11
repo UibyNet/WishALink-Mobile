@@ -12,7 +12,7 @@ import { NavigationExtras, Router } from "@angular/router";
 export class NavbarComponent implements OnInit {
   input: string;
   constructor(
-    private appService: AppService,
+    public appService: AppService,
     private modalController: ModalController,
     private router: Router
   ) {
@@ -50,9 +50,10 @@ export class NavbarComponent implements OnInit {
     return await modal.present();
   }
   searchFunc(e) {
+    const text = e.target.value;
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        text: e,
+        text: text,
       },
     };
     this.router.navigate(["app/search"], navigationExtras);

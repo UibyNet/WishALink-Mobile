@@ -7,12 +7,14 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ParallaxPageDirective } from './parallax-page.directive';
 import { ParallaxHeaderDirective } from './parallax-header.directive';
 import { ShrinkHeaderDirective } from './shrink-header.directive';
+import { ResponsiveToolbarDirective } from './responsive-toolbar.directive';
 
 @NgModule({
   declarations: [
     ParallaxPageDirective,
     ParallaxHeaderDirective,
     ShrinkHeaderDirective,
+    ResponsiveToolbarDirective
   ],
   imports: [
     FormsModule,
@@ -24,7 +26,8 @@ import { ShrinkHeaderDirective } from './shrink-header.directive';
   exports: [
     ParallaxPageDirective,
     ParallaxHeaderDirective,
-    ShrinkHeaderDirective
+    ShrinkHeaderDirective,
+    ResponsiveToolbarDirective
   ]
 })
 export class SharedDirectivesModule { }

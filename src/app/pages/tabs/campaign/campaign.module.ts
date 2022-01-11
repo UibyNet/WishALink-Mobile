@@ -9,6 +9,7 @@ import { CampaignPageRoutingModule } from './campaign-routing.module';
 import { CampaignPage } from './campaign.page';
 import {AppPipesModule} from "../../../pipes/pipes.module";
 import {TranslateModule} from "@ngx-translate/core";
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import {TranslateModule} from "@ngx-translate/core";
         IonicModule,
         CampaignPageRoutingModule,
         AppPipesModule,
-        TranslateModule
+        TranslateModule,
+        SharedDirectivesModule
     ],
   declarations: [CampaignPage]
 })

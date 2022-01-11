@@ -117,7 +117,7 @@
                               color="tertiary"
                               expand="block"
                               type="button"
-                              (click)="goForgot()"
+                              (click)="goRegister()"
                               class="ion-text-capitalize"
                               fill="clear"
                               type="button"
@@ -132,10 +132,10 @@
                   </div>
                 </div>
                 <div class="div-store">
-                  <a href="#app-store">
+                  <a href="https://apps.apple.com/tr/app/wish-a-link/id1590155127" target="_blank">
                     <img src="../../../assets/landing/app-store.png" alt="" />
                   </a>
-                  <a href="#google-play">
+                  <a href="https://play.google.com/store/apps/details?id=com.wishalink" target="_blank">
                     <img src="../../../assets/landing/google-play.png" alt="" />
                   </a>
                 </div>
@@ -147,7 +147,7 @@
     </section>
   </div>
 
-  <div *ngIf="appService.isMobile">
+  <div class="mobile-container" *ngIf="appService.isMobile">
     <div *ngIf="stepper===1" class="page-container">
       <div class="lead">
         <h2>

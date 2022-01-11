@@ -2,6 +2,7 @@
     <div *ngIf="isOpenCalendar" class="calendar-background"></div>
     <div class="main">
         <div class="top-container">
+            <div *ngIf="!appService.isMobile" class="header-top"></div>
             <div class="page-title ion-margin-top ion-text-center">
                 {{'AddProduct' | translate}}
             </div>
@@ -17,14 +18,15 @@
                     <input [(ngModel)]="name" placeholder="{{'ProductTitle' | translate}}">
                 </div>
                 <div class="ion-margin-bottom">
-                    <ion-input [(ngModel)]="url" (ionChange)="onLinkChange()" placeholder="{{'ProductUrl' | translate}}"></ion-input>
+                    <ion-input [(ngModel)]="url" (ionChange)="onLinkChange()"
+                        placeholder="{{'ProductUrl' | translate}}"></ion-input>
                 </div>
                 <ion-button (click)="selectImage()" fill="outline" class="image-container ion-margin-bottom">
                     <div *ngIf="postImage == null && (mediaUrl == null || mediaUrl.length == 0)" class="select-image">
                         <div>
                             <ion-icon name="image-outline"></ion-icon>
                         </div>
-                        <div>{{'ProductImage' | translate  }}</div>
+                        <div>{{'ProductImage' | translate }}</div>
                     </div>
                     <div class="image" *ngIf="postImage">
                         <img [src]="postImage" alt="">
@@ -46,7 +48,8 @@
                     <input [(ngModel)]="size" placeholder="{{'SizeCapacity' | translate}}">
                 </div>
                 <div *ngIf="hasActivities" class="ion-margin-bottom">
-                    <ion-select [(ngModel)]="activityId" placeholder="{{'Event' | translate}}" okText="{{'Ok' | translate}}" cancelText="{{'Cancel' | translate}}">
+                    <ion-select [(ngModel)]="activityId" placeholder="{{'Event' | translate}}"
+                        okText="{{'Ok' | translate}}" cancelText="{{'Cancel' | translate}}">
                         <ion-select-option *ngFor="let activity of activities" [value]="activity.id">{{ activity.name }}
                         </ion-select-option>
                     </ion-select>
@@ -56,15 +59,17 @@
                 </div>
                 <div>
                     <ion-button *ngIf="postId == 0" color="primary" fill="outline" expand="block" [disabled]="isLoading"
-                                (click)="savePost()">{{ isLoading ? ('Saving' | translate) : ('Save' | translate)}}</ion-button>
+                        (click)="savePost()">{{ isLoading ? ('Saving' | translate) : ('Save' | translate)}}</ion-button>
                     <ion-button class="mb-1" *ngIf="postId > 0" color="primary" fill="outline" expand="block"
-                                [disabled]="isLoading" (click)="savePost()">{{ isLoading ? ('Updating' | translate) : ('Update' | translate)}}
+                        [disabled]="isLoading" (click)="savePost()">{{ isLoading ? ('Updating' | translate) : ('Update'
+                        | translate)}}
                     </ion-button>
 
                 </div>
                 <div *ngIf="postId > 0" class="mt-3 w-500-tablet ion-text-center">
                     <ion-button class="rounded ion-text-capitalize" color="danger" fill="outline" expand="block"
-                                [disabled]="isLoading" (click)="deletePost()">{{ isLoading ? ('Deleting' | translate) : ('DeleteProduct' | translate)}}
+                        [disabled]="isLoading" (click)="deletePost()">{{ isLoading ? ('Deleting' | translate) :
+                        ('DeleteProduct' | translate)}}
                     </ion-button>
                 </div>
             </div>

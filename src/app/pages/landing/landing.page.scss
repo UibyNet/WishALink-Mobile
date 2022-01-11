@@ -1,6 +1,4 @@
 .hero {
-  margin-top: 80px !important;
-
   position: relative;
   height: 50vh;
   background-position: center center;
@@ -26,6 +24,11 @@
       font-size: 1.4em;
     }
   }
+}
+
+ion-content {
+  top: 3.6em;
+  height: calc(100% - 3.6em);
 }
 
 section {

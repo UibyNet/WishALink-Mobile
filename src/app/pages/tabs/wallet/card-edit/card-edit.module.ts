@@ -23,4 +23,4 @@ import {TranslateModule} from "@ngx-translate/core";
     ],
   declarations: [CardEditPage]
 })
-export class CardEditPageModule { }
+export class CardEditPageModule {}

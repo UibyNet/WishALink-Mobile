@@ -1,121 +1,125 @@
 <ion-content>
-  <ion-split-pane
-    class="header-top"
-    contentId="main"
-    *ngIf="!appService.isMobile"
-  >
-    <!--  our side menu  -->
-    <ion-menu contentId="main">
-      <ion-content>
-        <ion-list>
-          <ion-item button detail="true">
-            <div routerLink="/profile-settings">
-              <div>
-                <div>
+  <div class="desktop-settings" *ngIf="!appService.isMobile">
+    <div class="header-top"></div>
+    <div class="desktop-settings-content">
+      <ion-split-pane contentId="settings">
+        <ion-menu contentId="settings">
+          <ion-content>
+            <ion-list>
+              <ion-item button detail="true" *ngIf="appService.isMobile">
+                <div routerLink="/app/settings/profile-settings">
+                  <div>
+                    <div>
+                      <img
+                        [src]="profilePictureUrl == null || profilePictureUrl.length == 0 ? '../../../../assets/svg/home/avatar.png' : profilePictureUrl"
+                        alt="" />
+                    </div>
+                    <div class="name-text">{{userData?.fullName}}</div>
+                  </div>
+                </div>
+              </ion-item>
+
+              <ion-item class="pt-3" button detail="true" routerLink="/app/settings/profile-settings" *ngIf="!appService.isMobile">
+                <ion-avatar>
                   <img
                     [src]="profilePictureUrl == null || profilePictureUrl.length == 0 ? '../../../../assets/svg/home/avatar.png' : profilePictureUrl"
-                    alt=""
-                  />
+                    alt="" />
+                </ion-avatar>
+                <ion-label>
+                  <h2>{{userData?.fullName}}</h2>
+                </ion-label>
+              </ion-item>
+
+              <ion-item button detail="true" (click)="shareApp()">
+                <div class="icon" slot="start">
+                  <ion-icon name="person-add-outline"></ion-icon>
                 </div>
-                <div class="name-text">{{userData?.fullName}}</div>
-              </div>
-            </div>
-          </ion-item>
-
-          <ion-item button detail="true" (click)="shareApp()">
-            <div class="icon" slot="start">
-              <ion-icon name="person-add-outline"></ion-icon>
-            </div>
-            <ion-label><h2>{{ 'Settings.Invite' | translate }}</h2></ion-label>
-          </ion-item>
-          <ion-item button detail="true" routerLink="/change-password">
-            <div class="icon" slot="start">
-              <ion-icon name="lock-closed-outline"></ion-icon>
-            </div>
-            <ion-label
-              ><h2>{{ 'Settings.PasswordChange' | translate }}</h2></ion-label
-            >
-          </ion-item>
-          <ion-item button detail="true" routerLink="/change-phone-number">
-            <div class="icon" slot="start">
-              <ion-icon name="call-outline"></ion-icon>
-            </div>
-            <ion-label
-              ><h2>{{ 'Settings.ChangeNumber' | translate }}</h2></ion-label
-            >
-          </ion-item>
-          <ion-item button detail="true" routerLink="/app/wallet/cards">
-            <div class="icon" slot="start">
-              <ion-icon name="card-outline"></ion-icon>
-            </div>
-            <ion-label
-              ><h2>{{ 'Settings.SavedCards' | translate }}</h2></ion-label
-            >
-          </ion-item>
-          <ion-item button detail="true" routerLink="/app/wallet/history">
-            <div class="icon" slot="start">
-              <ion-icon name="receipt-outline"></ion-icon>
-            </div>
-            <ion-label
-              ><h2>{{ 'Settings.PaymentHistory' | translate }}</h2></ion-label
-            >
-          </ion-item>
-          <!--
-              <ion-item button detail="true" routerLink="/change-notifications-setting">
-                  <div class="icon" slot="start">
-                      <ion-icon name="notifications-outline"></ion-icon>
-                  </div>
-                  <ion-label><h2>Bildirim Ayarları</h2></ion-label>
+                <ion-label>
+                  <h2>{{ 'Settings.Invite' | translate }}</h2>
+                </ion-label>
               </ion-item>
-              <ion-item button detail="true" routerLink="/change-account-setting">
-                  <div class="icon" slot="start">
-                      <ion-icon name="person-outline"></ion-icon>
-                  </div>
-                  <ion-label><h2>Hesap Ayarları</h2></ion-label>
+              <ion-item button detail="true" routerLink="/app/settings/change-password">
+                <div class="icon" slot="start">
+                  <ion-icon name="lock-closed-outline"></ion-icon>
+                </div>
+                <ion-label>
+                  <h2>{{ 'Settings.PasswordChange' | translate }}</h2>
+                </ion-label>
               </ion-item>
-              -->
-          <ion-item button detail="false">
-            <div class="icon" slot="start">
-              <ion-icon name="globe-outline"></ion-icon>
-            </div>
-            <ion-label
-              ><h2>{{ 'Settings.Translate' | translate }}</h2></ion-label
-            >
-            <ion-select
-              placeholder="Select One"
-              (ionChange)="changeLang()"
-              [(ngModel)]="currentLang"
-              okText="{{'Ok'|translate}}"
-              cancelText="{{'Cancel'|translate}}"
-            >
-              <ion-select-option value="tr">Türkçe</ion-select-option>
-              <ion-select-option value="en">English</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <ion-item button detail="true" (click)="logout()">
-            <div class="icon" slot="start">
-              <ion-icon name="exit-outline"></ion-icon>
-            </div>
-            <ion-label><h2>{{ 'Settings.Logout' | translate }}</h2></ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ion-menu>
+              <ion-item button detail="true" routerLink="/app/settings/change-phone-number">
+                <div class="icon" slot="start">
+                  <ion-icon name="call-outline"></ion-icon>
+                </div>
+                <ion-label>
+                  <h2>{{ 'Settings.ChangeNumber' | translate }}</h2>
+                </ion-label>
+              </ion-item>
+              <ion-item button detail="true" routerLink="/app/settings/wallet/cards">
+                <div class="icon" slot="start">
+                  <ion-icon name="card-outline"></ion-icon>
+                </div>
+                <ion-label>
+                  <h2>{{ 'Settings.SavedCards' | translate }}</h2>
+                </ion-label>
+              </ion-item>
+              <ion-item button detail="true" routerLink="/app/settings/wallet/history">
+                <div class="icon" slot="start">
+                  <ion-icon name="receipt-outline"></ion-icon>
+                </div>
+                <ion-label>
+                  <h2>{{ 'Settings.PaymentHistory' | translate }}</h2>
+                </ion-label>
+              </ion-item>
+              <!--
+                  <ion-item button detail="true" routerLink="/change-notifications-setting">
+                      <div class="icon" slot="start">
+                          <ion-icon name="notifications-outline"></ion-icon>
+                      </div>
+                      <ion-label><h2>Bildirim Ayarları</h2></ion-label>
+                  </ion-item>
+                  <ion-item button detail="true" routerLink="/change-account-setting">
+                      <div class="icon" slot="start">
+                          <ion-icon name="person-outline"></ion-icon>
+                      </div>
+                      <ion-label><h2>Hesap Ayarları</h2></ion-label>
+                  </ion-item>
+                  -->
+              <ion-item button detail="false">
+                <div class="icon" slot="start">
+                  <ion-icon name="globe-outline"></ion-icon>
+                </div>
+                <ion-label>
+                  <h2>{{ 'Settings.Translate' | translate }}</h2>
+                </ion-label>
+                <ion-select placeholder="Select One" (ionChange)="changeLang()" [(ngModel)]="currentLang"
+                  okText="{{'Ok'|translate}}" cancelText="{{'Cancel'|translate}}">
+                  <ion-select-option value="tr">Türkçe</ion-select-option>
+                  <ion-select-option value="en">English</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item button detail="true" (click)="logout()">
+                <div class="icon" slot="start">
+                  <ion-icon name="exit-outline"></ion-icon>
+                </div>
+                <ion-label>
+                  <h2>{{ 'Settings.Logout' | translate }}</h2>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-content>
+        </ion-menu>
 
-    <!-- the main content -->
-    <ion-router-outlet id="main"></ion-router-outlet>
-  </ion-split-pane>
+        <!-- the main content -->
+        <ion-router-outlet id="settings"></ion-router-outlet>
+      </ion-split-pane>
+    </div>
+  </div>
+
   <div *ngIf="appService.isMobile" class="dark main">
     <div class="top-container">
       <span hidden (click)="openNotification()" class="notification-content">
-        <img
-          src="../../../../assets/svg/tabs/notification-light.svg"
-          alt="Icon"
-        />
-        <div
-          *ngIf="appService.unreadNotificationsCount > 0"
-          class="badge-notification"
-        >
+        <img src="../../../../assets/svg/tabs/notification-light.svg" alt="Icon" />
+        <div *ngIf="appService.unreadNotificationsCount > 0" class="badge-notification">
           {{appService.unreadNotificationsCount}}
         </div>
       </span>
@@ -127,16 +131,12 @@
           <div class="img-container">
             <img
               [src]="profilePictureUrl == null || profilePictureUrl.length == 0 ? '../../../../assets/svg/home/avatar.png' : profilePictureUrl"
-              alt=""
-            />
+              alt="" />
           </div>
           <div class="name-text">{{userData?.fullName}}</div>
         </div>
         <div>
-          <img
-            src="../../../../assets/svg/abstract/right-arrow-blue.svg"
-            alt="Icon"
-          />
+          <img src="../../../../assets/svg/abstract/right-arrow-blue.svg" alt="Icon" />
         </div>
       </div>
     </div>
@@ -146,39 +146,41 @@
           <div class="icon" slot="start">
             <ion-icon name="person-add-outline"></ion-icon>
           </div>
-          <ion-label><h2>{{ 'Settings.Invite' | translate }}</h2></ion-label>
+          <ion-label>
+            <h2>{{ 'Settings.Invite' | translate }}</h2>
+          </ion-label>
         </ion-item>
         <ion-item button detail="true" routerLink="/change-password">
           <div class="icon" slot="start">
             <ion-icon name="lock-closed-outline"></ion-icon>
           </div>
-          <ion-label
-            ><h2>{{ 'Settings.PasswordChange' | translate }}</h2></ion-label
-          >
+          <ion-label>
+            <h2>{{ 'Settings.PasswordChange' | translate }}</h2>
+          </ion-label>
         </ion-item>
         <ion-item button detail="true" routerLink="/change-phone-number">
           <div class="icon" slot="start">
             <ion-icon name="call-outline"></ion-icon>
           </div>
-          <ion-label
-            ><h2>{{ 'Settings.ChangeNumber' | translate }}</h2></ion-label
-          >
+          <ion-label>
+            <h2>{{ 'Settings.ChangeNumber' | translate }}</h2>
+          </ion-label>
         </ion-item>
         <ion-item button detail="true" routerLink="/app/wallet/cards">
           <div class="icon" slot="start">
             <ion-icon name="card-outline"></ion-icon>
           </div>
-          <ion-label
-            ><h2>{{ 'Settings.SavedCards' | translate }}</h2></ion-label
-          >
+          <ion-label>
+            <h2>{{ 'Settings.SavedCards' | translate }}</h2>
+          </ion-label>
         </ion-item>
         <ion-item button detail="true" routerLink="/app/wallet/history">
           <div class="icon" slot="start">
             <ion-icon name="receipt-outline"></ion-icon>
           </div>
-          <ion-label
-            ><h2>{{ 'Settings.PaymentHistory' | translate }}</h2></ion-label
-          >
+          <ion-label>
+            <h2>{{ 'Settings.PaymentHistory' | translate }}</h2>
+          </ion-label>
         </ion-item>
         <!--
                 <ion-item button detail="true" routerLink="/change-notifications-setting">
@@ -198,14 +200,11 @@
           <div class="icon" slot="start">
             <ion-icon name="globe-outline"></ion-icon>
           </div>
-          <ion-label><h2>{{ 'Settings.Translate' | translate }}</h2></ion-label>
-          <ion-select
-            placeholder="Select One"
-            (ionChange)="changeLang()"
-            [(ngModel)]="currentLang"
-            okText="{{'Ok'|translate}}"
-            cancelText="{{'Cancel'|translate}}"
-          >
+          <ion-label>
+            <h2>{{ 'Settings.Translate' | translate }}</h2>
+          </ion-label>
+          <ion-select placeholder="Select One" (ionChange)="changeLang()" [(ngModel)]="currentLang"
+            okText="{{'Ok'|translate}}" cancelText="{{'Cancel'|translate}}">
             <ion-select-option value="tr">Türkçe</ion-select-option>
             <ion-select-option value="en">English</ion-select-option>
           </ion-select>
@@ -214,7 +213,9 @@
           <div class="icon" slot="start">
             <ion-icon name="exit-outline"></ion-icon>
           </div>
-          <ion-label><h2>{{ 'Settings.Logout' | translate }}</h2></ion-label>
+          <ion-label>
+            <h2>{{ 'Settings.Logout' | translate }}</h2>
+          </ion-label>
         </ion-item>
       </ion-list>
     </div>

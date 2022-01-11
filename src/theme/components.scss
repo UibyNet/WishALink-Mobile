@@ -2,6 +2,18 @@
   font-family: var(--ion-font-family);
 }
 
+.clickable {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  &:hover {
+    opacity: 0.9;
+  }
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
 ion-button {
   font-size: 1em;
   font-weight: 600;

@@ -9,11 +9,13 @@ import {
 import * as moment from "moment";
 import { Subscription } from "rxjs";
 import { NotificationComponent } from "src/app/components/notification/notification.component";
+import { ChatService } from "src/app/services/chat.service";
 import {
   ActivityApiService,
   ActivityListModel,
   CategoryApiService,
   CategoryListModel,
+  ChatApiService,
   ProfileApiService,
   SocialApiService,
   SocialUserListModel,
@@ -47,6 +49,8 @@ export class ProfilePage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public appService: AppService,
+    private chatService: ChatService,
+    private chatApiService: ChatApiService,
     private profileApiService: ProfileApiService,
     private socialApiService: SocialApiService,
     private activityApiService: ActivityApiService,
@@ -155,6 +159,20 @@ export class ProfilePage implements OnInit {
       );
     }
   }
+
+  sendMessage() {
+    this.chatApiService.getorcreateroom(this.userId, this.chatService.connectionId)
+        .subscribe(
+            v => {
+                this.zone.run(()=>{
+                    if(this.chatService.rooms.find(x => x.id == v.id) == null) {
+                        this.chatService.rooms.push(v);
+                    }
+                    this.router.navigate(['app', 'chat', v.id]);
+                })
+            }
+        )
+}
 
   onUserInfoLoad(v: SocialUserListModel) {
     this.zone.run(() => {
