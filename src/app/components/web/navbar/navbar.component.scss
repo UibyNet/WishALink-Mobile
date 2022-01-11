@@ -1,4 +1,20 @@
 :host {
+  @media (max-width: 900px) {
+    .sizePadding {
+      padding-right: 25px;
+    }
+  }
+  .lang-selector {
+    position: absolute;
+    right: 1em;
+    top: 0.5em;
+    ion-button {
+      //--color: #b4aeea;
+    }
+    ion-item {
+      width: 0 !important;
+    }
+  }
   @media (max-width: 1000px) {
     ion-searchbar {
       // display: none;
@@ -58,20 +74,20 @@
 
     ion-badge {
       position: absolute;
-      top: .2em;
-      right: -.2em;
+      top: 0.2em;
+      right: -0.2em;
       color: var(--ion-color-primary);
       background: #ffffff;
       font-size: 0.6em;
       width: 1.4em;
       height: 1.4em;
-      padding: .2em;
+      padding: 0.2em;
     }
   }
 
   .logo {
     max-height: 3.4em;
-    margin: .4em 1em .4em 0;
+    margin: 0.4em 1em 0.4em 0;
     cursor: pointer;
   }
 
@@ -93,6 +109,6 @@
 
 ::ng-deep {
   .searchbar-input {
-    font-size: .9em !important;
+    font-size: 0.9em !important;
   }
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { AppService } from "src/app/services/app.service";
-import { ModalController } from "@ionic/angular";
+import { IonSelect, ModalController } from "@ionic/angular";
 import { NotificationComponent } from "src/app/components/notification/notification.component";
 import { NavigationExtras, Router } from "@angular/router";
 
@@ -11,6 +11,9 @@ import { NavigationExtras, Router } from "@angular/router";
 })
 export class NavbarComponent implements OnInit {
   input: string;
+  currentLang: string;
+
+  @ViewChild("langSelector", { static: false }) langSelect: IonSelect;
   constructor(
     public appService: AppService,
     private modalController: ModalController,
@@ -57,5 +60,12 @@ export class NavbarComponent implements OnInit {
       },
     };
     this.router.navigate(["app/search"], navigationExtras);
+  }
+  changeLang() {
+    this.appService.currentLanguage = this.currentLang;
+  }
+
+  openLangSelector() {
+    this.langSelect.open();
   }
 }
