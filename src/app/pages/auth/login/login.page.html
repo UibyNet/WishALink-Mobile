@@ -13,7 +13,7 @@
     <section id="mobile" class="mobile">
       <div class="container">
         <div class="bottom-fixed dark-bg"></div>
-        <ion-grid class="ion-no-padding">
+        <ion-grid style="max-width: 1024px" class="ion-no-padding">
           <ion-row>
             <ion-col
               class="d-flex ion-align-items-center"
@@ -21,14 +21,23 @@
               size-lg="5"
               class="ion-text-center"
             >
-              <img src="../../../assets/landing/mobile.png" alt="" />
+              <img
+                style="max-width: 80%"
+                src="../../../assets/landing/mobile.png"
+                alt=""
+              />
             </ion-col>
-            <ion-col class="d-flex right" size="12" size-lg="7">
+            <ion-col
+              style="padding: 0 !important"
+              class="d-flex right"
+              size="12"
+              size-lg="7"
+            >
               <div>
                 <div>
                   <div *ngIf="stepper===1" class="page-container">
-                    <div class="lead">
-                      <h2>
+                    <div style="padding: 2em 0 !important" class="lead">
+                      <h2 style="font-size: 1.2em">
                         {{('WelcomePleaseLogin' | translate)}}
                         <!-- <div class="vertical-dots">
                           <img
@@ -38,7 +47,7 @@
                         </div> -->
                       </h2>
                     </div>
-                    <div class="bottom-container">
+                    <div style="padding: 0 !important" class="bottom-container">
                       <div class="bottom-content">
                         <form
                           [formGroup]="loginForm"
@@ -106,11 +115,7 @@
                             </ion-button>
                           </div>
                           <div class="ion-padding py-1">
-                            <p>
-                              Mobil uygulamamızı kullanarak, Kullanım
-                              Koşullarımızı ve Gizlilik Politikamızı kabul etmiş
-                              olursunuz.
-                            </p>
+                            <p>{{('WelcomeApproveContract' | translate)}}</p>
                           </div>
                           <div class="ion-padding py-1">
                             <ion-button
@@ -122,8 +127,8 @@
                               fill="clear"
                               type="button"
                             >
-                              Hesabınız yok mu? <br />
-                              Uygulamadan kayıt olabilirsiniz.
+                              {{('WelcomeRegister' | translate)}} <br />
+                              {{('WelcomeRegisterInfo' | translate)}}
                             </ion-button>
                           </div>
                         </form>
@@ -131,12 +136,26 @@
                     </div>
                   </div>
                 </div>
-                <div class="div-store">
-                  <a href="https://apps.apple.com/tr/app/wish-a-link/id1590155127" target="_blank">
-                    <img src="../../../assets/landing/app-store.png" alt="" />
+                <div style="text-align: center" class="div-store">
+                  <a
+                    href="https://apps.apple.com/tr/app/wish-a-link/id1590155127"
+                    target="_blank"
+                  >
+                    <img
+                      style="max-width: 33%"
+                      src="../../../assets/landing/app-store.png"
+                      alt=""
+                    />
                   </a>
-                  <a href="https://play.google.com/store/apps/details?id=com.wishalink" target="_blank">
-                    <img src="../../../assets/landing/google-play.png" alt="" />
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.wishalink"
+                    target="_blank"
+                  >
+                    <img
+                      style="max-width: 33%"
+                      src="../../../assets/landing/google-play.png"
+                      alt=""
+                    />
                   </a>
                 </div>
               </div>

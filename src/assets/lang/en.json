@@ -17,6 +17,7 @@
   "Follow": "Follow",
   "Unfollow": "Unfollow",
   "Message": "Message",
+  "Messenger": "Messages", 
   "NoProduct": "The user does not have any products.",
   "NoEvents": "The user does not have any events.",
   "Product": "Product",
@@ -132,7 +133,10 @@
   "RepeatPasswordNew": "Password (Repeat)",
   "AddYourInterest" : "Add your interests",
   "PasswordsNotMatch": "Passwords do not match",
-  "CheckYourPassword" : "Please check your password"
+  "CheckYourPassword" : "Please check your password",
+  "WelcomeRegister" : "Don't have an account?",
+  "WelcomeRegisterInfo" : "You can register from the app.",
+  "WelcomeApproveContract" : "By using our mobile app, you agree to our Terms of Use and Privacy Policy."
 
 
 }

@@ -160,19 +160,30 @@ export class ProfilePage implements OnInit {
     }
   }
 
+  goMessage() {
+    this.chatApiService
+      .getorcreateroom(this.userId, this.chatService.connectionId)
+      .subscribe((v) => {
+        this.zone.run(() => {
+          if (this.chatService.rooms.find((x) => x.id == v.id) == null) {
+            this.chatService.rooms.push(v);
+          }
+          this.router.navigate(["app", "chat", 0]);
+        });
+      });
+  }
   sendMessage() {
-    this.chatApiService.getorcreateroom(this.userId, this.chatService.connectionId)
-        .subscribe(
-            v => {
-                this.zone.run(()=>{
-                    if(this.chatService.rooms.find(x => x.id == v.id) == null) {
-                        this.chatService.rooms.push(v);
-                    }
-                    this.router.navigate(['app', 'chat', v.id]);
-                })
-            }
-        )
-}
+    this.chatApiService
+      .getorcreateroom(this.userId, this.chatService.connectionId)
+      .subscribe((v) => {
+        this.zone.run(() => {
+          if (this.chatService.rooms.find((x) => x.id == v.id) == null) {
+            this.chatService.rooms.push(v);
+          }
+          this.router.navigate(["app", "chat", v.id]);
+        });
+      });
+  }
 
   onUserInfoLoad(v: SocialUserListModel) {
     this.zone.run(() => {

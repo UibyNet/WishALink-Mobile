@@ -17,6 +17,7 @@
   "Follow": "Takip Et",
   "Unfollow": "Takibi Bırak",
   "Message": "Mesaj",
+  "Messenger": "Mesajlarım",
   "NoProducts": "Kullanıcının ürünü bulunmamaktadır.",
   "NoEvents": "Kullanıcının etkinligi bulunmamaktadır.",
   "Product": "Ürün",
@@ -132,5 +133,9 @@
   "RepeatPasswordNew": "Parola (Tekrar)",
   "AddYourInterest" : " İlgi alanlarınızı ekleyiniz",
   "PasswordsNotMatch": "Parolalar uyuşmuyor",
-  "CheckYourPassword" : "Lütfen şifrenizi kontrol edin"
+  "CheckYourPassword" : "Lütfen şifrenizi kontrol edin",
+  "WelcomeRegister" : "Hesabınız yok mu?",
+  "WelcomeRegisterInfo" : "Uygulamadan kayıt olabilirsiniz.",
+  "WelcomeApproveContract" : "Mobil uygulamamızı kullanarak, Kullanım Koşullarımızı ve Gizlilik Politikamızı kabul etmiş olursunuz."
+
 }
