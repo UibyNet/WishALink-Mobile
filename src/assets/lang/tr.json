@@ -128,14 +128,17 @@
   "TrAgreement": "şartlarını okudum ve kabul ediyorum.",
   "Next": "İleri",
   "SmsPassword": "SMS şifrenizi giriniz",
-  "CreateWishALinkPassword" : "Wish A Link şifrenizi oluşturun",
+  "CreateWishALinkPassword": "Wish A Link şifrenizi oluşturun",
   "SecureAccountMessage": "Hesabınızın güvenliğini sağlamak için parola oluşturunuz",
   "RepeatPasswordNew": "Parola (Tekrar)",
-  "AddYourInterest" : " İlgi alanlarınızı ekleyiniz",
+  "AddYourInterest": " İlgi alanlarınızı ekleyiniz",
   "PasswordsNotMatch": "Parolalar uyuşmuyor",
-  "CheckYourPassword" : "Lütfen şifrenizi kontrol edin",
-  "WelcomeRegister" : "Hesabınız yok mu?",
-  "WelcomeRegisterInfo" : "Uygulamadan kayıt olabilirsiniz.",
-  "WelcomeApproveContract" : "Mobil uygulamamızı kullanarak, Kullanım Koşullarımızı ve Gizlilik Politikamızı kabul etmiş olursunuz."
-
+  "CheckYourPassword": "Lütfen şifrenizi kontrol edin",
+  "WelcomeRegister": "Hesabınız yok mu?",
+  "WelcomeRegisterInfo": "Uygulamadan kayıt olabilirsiniz.",
+  "WelcomeApproveContract": "Mobil uygulamamızı kullanarak, Kullanım Koşullarımızı ve Gizlilik Politikamızı kabul etmiş olursunuz.",
+  "ContactUs": "Bize Yazın",
+  "Send": "Gönder",
+  "TextMessage": "Mesajınız...",
+  "Share": "Paylaş"
 }

@@ -7,6 +7,7 @@ ion-grid {
 
     .mobile-center {
       text-align: center;
+
       img {
         width: auto;
         height: 450px;
@@ -97,6 +98,16 @@ a {
   margin-top: 2.4rem;
 }
 */
+.share-link {
+  position: absolute;
+  left: 1em;
+  bottom: 1em;
+
+  ion-icon {
+    font-size: 1.2em;
+    margin-right: 0.4em;
+  }
+}
 
 .external-link {
   position: absolute;

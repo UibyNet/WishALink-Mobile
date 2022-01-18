@@ -13,7 +13,7 @@
     <div class="page-container">
         <div class="lead" [class.m-4]="!appService.isMobile">
             <h2>
-                {{'Settings.PasswordChange' | translate}}
+                {{'ContactUs' | translate}}
                 <div class="vertical-dots" *ngIf="appService.isMobile">
                     <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
                 </div>
@@ -23,23 +23,20 @@
             <div class="bottom-content">
                 <div class="input-container mb-3">
                     <ion-item class="mb-3">
-                        <input [(ngModel)]="oldPassword" class="p-inputtext" type="password"
-                            placeholder="{{'CurrentPassword' | translate}}">
+                        <input [value]="userData?.firstName + ' ' + userData?.lastName " class="p-inputtext" type="text" placeholder="{{'Name' | translate}}">
                     </ion-item>
                     <ion-item class="mb-3">
-                        <input [(ngModel)]="newPassword" class="p-inputtext" type="password"
-                            placeholder="{{'NewPassword' | translate}}">
+                        <input [value]="userData?.email" class="p-inputtext" type="text" placeholder="{{'Email' | translate}}">
                     </ion-item>
                     <ion-item>
-                        <input [(ngModel)]="repeatPassword" class="p-inputtext" type="password"
-                            placeholder="{{'RepeatPassword' | translate}}">
+                        <textarea [ngModel]="message" class="p-inputtext" placeholder="{{'TextMessage' | translate}}"></textarea>
                     </ion-item>
                 </div>
                 <div class="ion-padding py-1">
-                    <ion-button color="primary" expand="block" type="button" (click)="changePassword()"
-                        [disabled]="isLoading" class="success">
+                    <ion-button color="primary" expand="block" type="button" (click)="sendMessage()"
+                                [disabled]="isLoading" class="success">
                         <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
-                        <span *ngIf="!isLoading">{{'Update' | translate}}</span>
+                        <span *ngIf="!isLoading">{{'Send' | translate}}</span>
                     </ion-button>
                 </div>
             </div>

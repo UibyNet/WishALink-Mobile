@@ -91,6 +91,14 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'intro-slider',
+    loadChildren: () => import('./pages/intro-slider/intro-slider.module').then( m => m.IntroSliderPageModule)
+  },
+  {
+    path: 'contact-us',
+    loadChildren: () => import('./pages/contact-us/contact-us.module').then( m => m.ContactUsPageModule)
+  },
 ];
 
 @NgModule({

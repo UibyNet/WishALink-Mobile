@@ -4,6 +4,7 @@ import {NavController} from '@ionic/angular';
 import {PostApiService, PostLikeModel, PostListModel} from 'src/app/services/api-wishalink.service';
 import {AppService} from 'src/app/services/app.service';
 import {Browser} from '@capacitor/browser';
+import {Share} from '@capacitor/share';
 
 @Component({
     selector: 'app-post',
@@ -112,6 +113,14 @@ export class PostPage implements OnInit {
             this.post.isUserLike = v.isUserLike;
             this.post.likeCount = v.likeCount;
         })
+    }
+
+    async sharePost() {
+        await Share.share({
+            title: this.post.name,
+            text: this.post.description,
+            url: window.location.href,
+        });
     }
 
     onErrorPurchased(e: any) {
