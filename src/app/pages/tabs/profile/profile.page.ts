@@ -63,6 +63,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get("id");
     if (id == "me") {
+      console.log('girdi')
       this.userId = this.appService.user.id;
     } else {
       this.userId = parseInt(id);

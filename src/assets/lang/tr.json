@@ -140,5 +140,6 @@
   "ContactUs": "Bize Yazın",
   "Send": "Gönder",
   "TextMessage": "Mesajınız...",
-  "Share": "Paylaş"
+  "Share": "Paylaş",
+  "MessageSendSuccess": "Mesajınız gönderildi..."
 }

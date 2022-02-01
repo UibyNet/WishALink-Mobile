@@ -18,6 +18,7 @@ import {
     NotificationApiService,
     SocialUserListModel
 } from "./api-wishalink.service";
+import {Router} from "@angular/router";
 
 @Injectable({
     providedIn: "root",
@@ -58,6 +59,7 @@ export class AppService {
 
     constructor(
         private zone: NgZone,
+        private router: Router,
         private platform: Platform,
         private notificationApiService: NotificationApiService,
         private loadingController: LoadingController,
@@ -84,6 +86,11 @@ export class AppService {
 
         try {
             const token = localStorage.getItem("access_token");
+            const sliderSkip = localStorage.getItem('skipSlider')
+            console.log('sliderSkip', sliderSkip)
+            if (sliderSkip === null) {
+                this.router.navigate(['intro-slider'])
+            }
             if (token != undefined && token.length > 0) {
                 const decoded = jwt_decode(token);
 
@@ -109,6 +116,15 @@ export class AppService {
 
     set accessToken(v: string) {
         localStorage.setItem("access_token", v);
+    }
+
+    get sliderContent(): boolean {
+        const data = localStorage.getItem('skipSlider')
+        return Boolean(data)
+    }
+
+    set sliderContent(v: boolean) {
+        localStorage.setItem('skipSlider', v.toString());
     }
 
     get currentLanguage(): string {
