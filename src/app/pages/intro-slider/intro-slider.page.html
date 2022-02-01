@@ -1,36 +1,99 @@
 <ion-content fullscreen class="ion-padding" scroll-y="false">
-  <ion-slides>
+  <ion-slides pager="true">
     <ion-slide>
       <div class="slide">
-        <img src="" />
-        <h2>Welcome</h2>
+        <img src="../../../assets/landing/logo-lg.png" alt="" />
+
+        <h2>Hoşgeldiniz</h2>
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+          Doğru ve ihtiyaca yönelik hediyeler seçebilmek Size özel birçok
+          özellik ve ayrıcalıklara ulaşmak için
+          <b>Wish a Link’e</b> üye olun.
         </p>
       </div>
+      <ion-item style="padding-top: 25px">
+        <ion-button slot="end" (click)="slideNext()">
+          <ion-icon slot="end" name="arrow-forward"></ion-icon
+        ></ion-button>
+      </ion-item>
     </ion-slide>
 
     <ion-slide>
-      <img src="" />
-      <h2>What is Ionic?</h2>
-      <p>
-        <b>Lorem Ipsum</b>  is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+      <img
+        style="max-width: 55% !important"
+        src="../../../assets/landing/gifts.png"
+        alt=""
+      />
+
+      <p style="padding: 0 30px; font-size: 20px">
+        İstediğiniz konu üzerine listeler oluşturarak tercihlerinize göre hediye
+        seçimlerinde bulunabilir, özel günlerinizde ihtiyacınıza göre hediyeler
+        alabilir ve verebilirsiniz.
       </p>
+      <ion-item style="padding-top: 25px">
+        <ion-button slot="start" (click)="slidePrev()">
+          <ion-icon slot="end" name="arrow-back"></ion-icon
+        ></ion-button>
+        <ion-button slot="end" (click)="slideNext()">
+          <ion-icon slot="end" name="arrow-forward"></ion-icon
+        ></ion-button>
+      </ion-item>
     </ion-slide>
 
     <ion-slide>
-      <img src="" />
-      <h2>What is Appflow?</h2>
-      <p>
-        <b>Appflow</b> is a powerful set of services and features built on top of Ionic Framework that brings a
-        totally new level of app development agility to mobile dev teams.
+      <img
+        style="max-width: 55% !important"
+        src="../../../assets/landing/smartphone.png"
+        alt=""
+      />
+      <p style="padding: 0 35px; font-size: 20px">
+        Doğum günü ve özel günleriniz için hatırlatmalar <b>Wish a Link</b> ile
+        size bildirime hazır. Unutmamanız için heran yanınızdayız.
       </p>
+      <ion-item style="padding-top: 25px">
+        <ion-button slot="start" (click)="slidePrev()">
+          <ion-icon slot="end" name="arrow-back"></ion-icon
+        ></ion-button>
+        <ion-button slot="end" (click)="slideNext()">
+          <ion-icon slot="end" name="arrow-forward"></ion-icon
+        ></ion-button>
+      </ion-item>
     </ion-slide>
 
     <ion-slide>
-      <img src="" />
-      <h2>Ready to Play?</h2>
-      <ion-button fill="clear">Continue <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
+      <img
+        style="
+          background: #816ae2;
+          max-width: 55% !important;
+          border-radius: 10%;
+        "
+        src="../../../assets/landing/comments.png"
+        alt=""
+      />
+      <p style="padding: 0 35px; font-size: 20px">
+        Arkdaşlarınızı takip ederek hediye almayı kolaylaştırır ve Kullandığınız
+        ürünler hakkında yorum yaparak yardımcı olursunuz.
+      </p>
+      <ion-item style="padding-top: 25px">
+        <ion-button slot="start" (click)="slidePrev()">
+          <ion-icon slot="end" name="arrow-back"></ion-icon
+        ></ion-button>
+        <ion-button slot="end" (click)="slideNext()">
+          <ion-icon slot="end" name="arrow-forward"></ion-icon
+        ></ion-button>
+      </ion-item>
+    </ion-slide>
+
+    <ion-slide>
+      <img
+        style="max-width: 55% !important"
+        src="../../../assets/landing/vote.png"
+        alt=""
+      />
+      <h2>Şimdi Üye Olmaya Hazırsın</h2>
+      <ion-button (click)="login()"
+        >Devam <ion-icon slot="end" name="arrow-forward"></ion-icon
+      ></ion-button>
     </ion-slide>
   </ion-slides>
 </ion-content>
