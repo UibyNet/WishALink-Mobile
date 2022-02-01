@@ -86,11 +86,11 @@ export class AppService {
 
         try {
             const token = localStorage.getItem("access_token");
-            const sliderSkip = localStorage.getItem('skipSlider')
-            console.log('sliderSkip', sliderSkip)
-            if (sliderSkip === null) {
-                this.router.navigate(['intro-slider'])
-            }
+            // const sliderSkip = localStorage.getItem('skipSlider')
+            // console.log('sliderSkip', sliderSkip)
+            // if (sliderSkip === null) {
+            //     this.router.navigate(['intro-slider'])
+            // }
             if (token != undefined && token.length > 0) {
                 const decoded = jwt_decode(token);
 

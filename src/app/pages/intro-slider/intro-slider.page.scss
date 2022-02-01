@@ -1,11 +1,18 @@
 ion-slides {
-  height: 98%;
+  height: 100%;
+  ion-item{
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+  }
 }
-
+::ng-deep .swiper-pagination-bullet-active {
+  background: #ffffff !important;
+}
 .swiper-slide {
   display: block;
   background: #6a40d6;
-  border-radius: 20px;
+  //border-radius: 20px;
 }
 
 .swiper-slide h2 {
