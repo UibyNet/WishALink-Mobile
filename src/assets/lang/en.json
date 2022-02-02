@@ -140,5 +140,6 @@
   "ContactUs": "Contact Us",
   "Send": "Send",
   "TextMessage": "Your message...",
-  "Share": "Share"
+  "Share": "Share",
+  "MessageSendSuccess": "Your message has been sent..."
 }

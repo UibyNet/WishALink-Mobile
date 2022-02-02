@@ -37,7 +37,7 @@ export class LoginPage implements OnInit {
       .match(/\d/g)
       ?.join("");
   }
-
+  /*
   constructor(
     public appService: AppService,
     private zone: NgZone,
@@ -60,6 +60,81 @@ export class LoginPage implements OnInit {
       this.router.navigate(["app"]);
     }
   }
+  onCodeChanged(code: string) {}
+
+  onCodeCompleted(code: string) {
+    this.otp = code;
+  }
+
+  login() {
+    const model = new LoginModel();
+    model.phoneNumber = this.phoneNumber;
+    model.password = this.loginForm.get("password").value.trim();
+
+    this.isLoading = true;
+    this.authService.login(model).subscribe(
+      (v) => this.onLogin(v),
+      (e) => this.onError(e)
+    );
+  }
+
+  onLogin(v: TokenModel): void {
+    this.zone.run(() => {
+      this.isLoading = false;
+
+      if (v.isNeedVerify) {
+        this.stepper++;
+      } else if (v.token != null && v.token.length > 0) {
+        this.appService.accessToken = v.token;
+        //this.navbar.canUser();
+        this.router.navigate(["app"]).then(() => {
+          window.location.reload();
+    selectedCountry = {
+        dialCode: "90",
+        isoCode: "tr",
+        phoneMask: "000 000 00 00",
+    };
+    stepper = 1;
+    intPhoneNumber: any;
+    password: string;
+    otp: string;
+    isLoading: boolean = false;
+    loginForm: FormGroup;
+
+    get phoneNumber(): string {
+        return (
+            this.selectedCountry.dialCode +
+            this.loginForm.get("phoneNumberMasked").value.trim()
+        )
+            .match(/\d/g)
+            ?.join("");
+    }
+    */
+
+  constructor(
+    public appService: AppService,
+    private zone: NgZone,
+    private router: Router,
+    private authService: AuthApiService,
+    private formBuilder: FormBuilder,
+    private modalController: ModalController
+  ) {}
+
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      phoneNumberMasked: ["", [Validators.required, Validators.minLength(1)]],
+      password: ["", [Validators.required, Validators.minLength(1)]],
+    });
+  }
+
+  ionViewWillEnter() {
+    if (this.appService.isLoggedIn) {
+      this.router.navigate(["app"]);
+    }
+    this.appService.toggleStatusBar("dark");
+    this.appService.setStatusBarBackground("primary");
+  }
+
   onCodeChanged(code: string) {}
 
   onCodeCompleted(code: string) {
