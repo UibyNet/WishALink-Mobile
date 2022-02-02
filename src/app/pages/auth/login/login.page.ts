@@ -47,12 +47,6 @@ export class LoginPage implements OnInit {
     private modalController: ModalController
   ) {}
 
-  // ionViewWillEnter() {
-  //     if (this.appService.isLoggedIn) {
-  //         this.router.navigate(['app']);
-  //     }
-  // }
-
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       phoneNumberMasked: ["", [Validators.required, Validators.minLength(1)]],
@@ -62,6 +56,9 @@ export class LoginPage implements OnInit {
   ionViewWillEnter() {
     this.appService.toggleStatusBar("dark");
     this.appService.setStatusBarBackground("primary");
+    if (this.appService.isLoggedIn) {
+      this.router.navigate(["app"]);
+    }
   }
   onCodeChanged(code: string) {}
 

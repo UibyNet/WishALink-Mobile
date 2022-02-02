@@ -47,12 +47,26 @@
           translate)}}
         </div>
         <div
+          *ngIf="isMe"
+          (click)="goMessage()"
+          class="clickable my-2 badge-container ml-2 font-9 d-flex ion-justify-content-center ion-align-items-center"
+        >
+          {{ 'Messenger' | translate }}
+        </div>
+        <div
+          *ngIf="!isMe"
+          (click)="sendMessage()"
+          class="clickable my-2 badge-container ml-2 font-9 d-flex ion-justify-content-center ion-align-items-center"
+        >
+          {{ 'Message' | translate }}
+        </div>
+        <!-- <div
           *ngIf="!isMe"
           (click)="sendMessage()"
           class="my-2 badge-container ml-2 font-9 d-flex ion-justify-content-center ion-align-items-center"
         >
           {{ 'Message' | translate }}
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

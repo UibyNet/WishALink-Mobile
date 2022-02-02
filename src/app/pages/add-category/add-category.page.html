@@ -1,47 +1,86 @@
 <ion-content>
-    <div class="main">
-        <div class="top-container">
-            <div *ngIf="!appService.isMobile" class="header-top"></div>
-            <div class="page-title ion-margin-top ion-text-center">
-                {{'Category' | translate}} {{ categoryId > 0 ? ('Arrange' | translate) : ('Create' | translate)}}
-            </div>
-        </div>
-        <div class="main-content">
-            <div class="w-500-tablet">
-                <div class="exit-container">
-                    <ion-back-button defaultHref="/app" color="light" icon="close" text=""></ion-back-button>
-                </div>
-                <div class="ion-margin-bottom">
-                    <ion-input [(ngModel)]="categoryName" (ionChange)="onAutoFormatChangedCategoryName()" placeholder="{{'CategoryName' | translate}}"></ion-input>
-                </div>
-                <ion-button (click)="selectImage()" fill="outline" class="image-container ion-margin-bottom">
-                    <div *ngIf="catImage == null" class="select-image">
-                        <div>
-                            <ion-icon name="image-outline"></ion-icon>
-                        </div>
-                        <div>{{'SelectCategoryImage' | translate}}</div>
-                    </div>
-                    <div class="image" *ngIf="catImage">
-                        <img [src]="catImage" alt="">
-                    </div>
-                </ion-button>
-                <div class="toogle-container ion-margin-bottom">
-                    <div>{{'HideCategory' | translate}}</div>
-                    <div>
-                        <ion-toggle [(ngModel)]="isHidden" color="primary"></ion-toggle>
-                    </div>
-                </div>
-            </div>
-            <div class="w-500-tablet">
-                <ion-button color="primary" expand="block" fill="outline" [disabled]="isLoading" *ngIf="!(categoryId > 0)" (click)="saveCategory()">{{isLoading ? ('Saving' | translate) : ('Save' | translate)}}</ion-button>
-                <ion-button color="primary" expand="block" fill="outline" [disabled]="isLoading" *ngIf="categoryId > 0" (click)="saveCategory()"> {{isLoading ? ('Updating' | translate) : ('Update' | translate)}}</ion-button>
-            </div>
-
-            <div *ngIf="categoryId > 0" class="mt-3 w-500-tablet ion-text-center">
-                <ion-button class="rounded ion-text-capitalize" color="danger" expand="block" fill="outline" (click)="deleteCategory()">
-                    {{'DeleteCategory' | translate}}
-                </ion-button>
-            </div>
-        </div>
+  <div class="main">
+    <div class="top-container">
+      <div *ngIf="!appService.isMobile" class="header-top"></div>
+      <div class="page-title ion-margin-top ion-text-center">
+        {{'Category' | translate}} {{ categoryId > 0 ? ('Arrange' | translate) :
+        ('Create' | translate)}}
+      </div>
     </div>
+    <div class="main-content">
+      <div class="w-500-tablet">
+        <div class="exit-container">
+          <ion-back-button
+            defaultHref="/app"
+            color="light"
+            icon="close"
+            text=""
+          ></ion-back-button>
+        </div>
+        <div class="ion-margin-bottom">
+          <ion-input
+            [(ngModel)]="categoryName"
+            (ionChange)="onAutoFormatChangedCategoryName()"
+            placeholder="{{'CategoryName' | translate}}"
+          ></ion-input>
+        </div>
+        <ion-button
+          (click)="selectImage()"
+          fill="outline"
+          class="image-container ion-margin-bottom"
+        >
+          <div *ngIf="catImage == null" class="select-image">
+            <div>
+              <ion-icon name="image-outline"></ion-icon>
+            </div>
+            <div>{{'SelectCategoryImage' | translate}}</div>
+          </div>
+          <div class="image" *ngIf="catImage">
+            <img [src]="catImage" alt="" />
+          </div>
+        </ion-button>
+        <div class="toogle-container ion-margin-bottom">
+          <div>{{'HideCategory' | translate}}</div>
+          <div>
+            <ion-toggle [(ngModel)]="isHidden" color="primary"></ion-toggle>
+          </div>
+        </div>
+      </div>
+      <div class="w-500-tablet">
+        <ion-button
+          color="primary"
+          expand="block"
+          fill="outline"
+          [disabled]="isLoading"
+          *ngIf="!(categoryId > 0)"
+          (click)="saveCategory()"
+          >{{isLoading ? ('Saving' | translate) : ('Save' |
+          translate)}}</ion-button
+        >
+        <ion-button
+          color="primary"
+          expand="block"
+          fill="outline"
+          [disabled]="isLoading"
+          *ngIf="categoryId > 0"
+          (click)="saveCategory()"
+        >
+          {{isLoading ? ('Updating' | translate) : ('Update' |
+          translate)}}</ion-button
+        >
+      </div>
+
+      <div *ngIf="categoryId > 0" class="mt-3 w-500-tablet ion-text-center">
+        <ion-button
+          class="rounded ion-text-capitalize"
+          color="danger"
+          expand="block"
+          fill="outline"
+          (click)="deleteCategory()"
+        >
+          {{'DeleteCategory' | translate}}
+        </ion-button>
+      </div>
+    </div>
+  </div>
 </ion-content>
