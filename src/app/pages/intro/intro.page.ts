@@ -42,6 +42,7 @@ export class IntroPage implements OnInit {
     }
 
     ngOnInit() {
+        this.presentActionSheet()
         this.isLoggedIn = this.appService.isLoggedIn;
     }
 

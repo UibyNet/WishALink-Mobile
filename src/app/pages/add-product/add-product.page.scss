@@ -228,3 +228,13 @@ input {
     border-color: var(--ion-color-primary);
   }
 }
+.required-star{
+  color: var(--ion-color-danger);
+  font-size: 2rem;
+  position: absolute;
+  right: 1rem;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
