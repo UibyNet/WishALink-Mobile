@@ -91,6 +91,13 @@
             appService.unreadNotificationsCount
           }}</ion-badge>
         </ion-button>
+        <ion-button (click)="openMessages()" class="social-btn">
+          <ion-icon
+            style="transform: scale(1.4)"
+            slot="icon-only"
+            name="chatbubble-outline"
+          ></ion-icon>
+        </ion-button>
         <ion-button routerLink="/app/settings" fill="clear" class="social-btn">
           <ion-icon
             style="transform: scale(1.4)"

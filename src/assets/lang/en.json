@@ -107,6 +107,7 @@
   "Notifications": "Notifications",
   "Refresh": "Refresh",
   "NoNotification": "You have no notification.",
+  "MarkAsRead" : "Mark As Read",
   "ChangeProfilePicture": "Change your profile picture",
   "RemoveProfilePicture": "Remove profile picture",
   "Login": "Login",

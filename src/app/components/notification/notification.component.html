@@ -1,6 +1,9 @@
 <ion-header mode="ios">
     <div class="shrinkable">
         <ion-toolbar>
+            <ion-buttons slot="start">
+                <ion-button (click)="markAllAsRead()" *ngIf="hasUnreadNotifications">{{('MarkAsRead' | translate)}}</ion-button>
+            </ion-buttons>
             <ion-title style="color: black">{{('Notifications' | translate)}}</ion-title>
             <ion-buttons slot="end">
                 <ion-button (click)="closeModal()">{{('Close' | translate)}}</ion-button>

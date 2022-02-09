@@ -7,8 +7,6 @@
         <ion-button style="padding-bottom: 4px" routerLink="/app/campaign">
           <ion-icon class="gift-icon" name="gift-outline"></ion-icon>
         </ion-button>
-      </ion-buttons>
-      <ion-buttons slot="end">
         <ion-button (click)="openNotification()">
           <img src="../../../../assets/svg/home/notification.svg" alt="Icon" />
           <ion-badge *ngIf="appService.unreadNotificationsCount > 0"

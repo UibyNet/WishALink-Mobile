@@ -4,8 +4,8 @@ import { AuthGuard } from "./helpers/auth.guard";
 
 const routes: Routes = [
   {
-    path: "",
-    redirectTo: "intro-slider",
+    path:  "",
+    redirectTo: "startup",
     pathMatch: "full",
   },
   {
@@ -33,7 +33,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: "change-phone-number",
+    path: "change-phone-numbfer",
     loadChildren: () =>
       import(
         "./pages/auth/change-phone-number/change-phone-number.module"
@@ -132,7 +132,16 @@ const routes: Routes = [
         (m) => m.ContactUsPageModule
       ),
   },
+  {
+    path: "startup",
+    loadChildren: () =>
+      import("./pages/startup/startup.module").then(
+        (m) => m.StartupPageModule
+      ),
+  },
 ];
+
+
 
 @NgModule({
   imports: [

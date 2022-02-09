@@ -68,4 +68,8 @@ export class NavbarComponent implements OnInit {
   openLangSelector() {
     this.langSelect.open();
   }
+
+  openMessages() {
+    this.router.navigate(["app", "chat", 0]);
+  }
 }

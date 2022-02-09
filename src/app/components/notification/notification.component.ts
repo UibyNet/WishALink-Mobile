@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, Optional} from '@angular/core';
+import {Component, Inject, NgZone, OnInit, Optional} from '@angular/core';
 import {NotificationApiService, Notification, WISH_API_URL} from "../../services/api-wishalink.service";
 import {AppService} from "../../services/app.service";
 import {ModalController} from "@ionic/angular";
@@ -14,9 +14,13 @@ export class NotificationComponent implements OnInit {
     
     notifications: Notification[];
     apiBaseUrl: string;
+    get hasUnreadNotifications() {
+        return this.notifications.filter(x => !x.isRead).length > 0;
+    } 
 
     constructor(
         private router: Router,
+        private zone: NgZone,
         private appService: AppService,
         private modalController: ModalController,
         @Optional() @Inject(WISH_API_URL) baseUrl?: string,
@@ -83,5 +87,17 @@ export class NotificationComponent implements OnInit {
         this.modalController.dismiss();
         this.appService.markNotificationAsRead(notification);
         this.router.navigateByUrl('/app/profile/' + this.getTargetUserId(notification))
+    }
+
+    markAllAsRead() {
+        const unreadNotifications = this.notifications?.filter(x => !x.isRead);
+        if(unreadNotifications != null && unreadNotifications.length > 0) {
+            unreadNotifications.forEach((notification) => {
+                this.appService.markNotificationAsRead(notification);
+                this.zone.run(()=>{
+                    notification.isRead = true;
+                })
+            })
+        }
     }
 }

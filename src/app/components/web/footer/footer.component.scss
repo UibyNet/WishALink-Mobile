@@ -34,10 +34,10 @@
 
   ion-grid {
     margin: 0 auto;
-    max-width: 1440px;
+    max-width: 1024px;
     ion-row {
-      padding-left: 1em;
-      padding-right: 1em;
+      padding-left: 0;
+      padding-right: 0;
     }
 
     .left {
