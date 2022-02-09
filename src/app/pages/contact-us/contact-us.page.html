@@ -1,45 +1,128 @@
-<ion-header mode="ios" trasculent="true" class="dark back-only ion-no-border"
-            *ngIf="appService.isMobile">
+<div *ngIf="appService.isMobile">
+  <ion-header mode="ios" trasculent="true" class="dark back-only ion-no-border">
     <ion-toolbar>
-        <ion-buttons slot="start">
-            <div routerLink="/app/settings" routerDirection="back" class="back-button">
-                <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon">
-            </div>
-        </ion-buttons>
+      <ion-buttons slot="start">
+        <div
+          routerLink="/app/settings"
+          routerDirection="back"
+          class="back-button"
+        >
+          <img src="../../../assets/svg/abstract/back-icon.svg" alt="Icon" />
+        </div>
+      </ion-buttons>
     </ion-toolbar>
-</ion-header>
+  </ion-header>
 
-<ion-content [class.dark]="appService.isMobile" fullscreen="true">
+  <ion-content [class.dark]="appService.isMobile" fullscreen="true">
     <div class="page-container">
-        <div class="lead" [class.m-4]="!appService.isMobile">
-            <h2>
-                {{'ContactUs' | translate}}
-                <div class="vertical-dots" *ngIf="appService.isMobile">
-                    <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon">
-                </div>
-            </h2>
+      <div class="lead" [class.m-4]="!appService.isMobile">
+        <h2>
+          {{'ContactUs' | translate}}
+          <div class="vertical-dots" *ngIf="appService.isMobile">
+            <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon" />
+          </div>
+        </h2>
+      </div>
+      <div class="bottom-container">
+        <div class="bottom-content">
+          <div class="input-container mb-3">
+            <ion-item class="mb-3">
+              <input
+                [value]="userData?.firstName + ' ' + userData?.lastName "
+                class="p-inputtext"
+                type="text"
+                placeholder="{{'Name' | translate}}"
+              />
+            </ion-item>
+            <ion-item class="mb-3">
+              <input
+                [value]="userData?.email"
+                class="p-inputtext"
+                type="text"
+                placeholder="{{'Email' | translate}}"
+              />
+            </ion-item>
+            <ion-item>
+              <textarea
+                [ngModel]="message"
+                class="p-inputtext"
+                placeholder="{{'TextMessage' | translate}}"
+              ></textarea>
+            </ion-item>
+          </div>
+          <div class="ion-padding py-1">
+            <ion-button
+              color="primary"
+              expand="block"
+              type="button"
+              (click)="sendMessage()"
+              [disabled]="isLoading"
+              class="success"
+            >
+              <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+              <span *ngIf="!isLoading">{{'Send' | translate}}</span>
+            </ion-button>
+          </div>
         </div>
-        <div class="bottom-container">
-            <div class="bottom-content">
-                <div class="input-container mb-3">
-                    <ion-item class="mb-3">
-                        <input [value]="userData?.firstName + ' ' + userData?.lastName " class="p-inputtext" type="text" placeholder="{{'Name' | translate}}">
-                    </ion-item>
-                    <ion-item class="mb-3">
-                        <input [value]="userData?.email" class="p-inputtext" type="text" placeholder="{{'Email' | translate}}">
-                    </ion-item>
-                    <ion-item>
-                        <textarea [ngModel]="message" class="p-inputtext" placeholder="{{'TextMessage' | translate}}"></textarea>
-                    </ion-item>
-                </div>
-                <div class="ion-padding py-1">
-                    <ion-button color="primary" expand="block" type="button" (click)="sendMessage()"
-                                [disabled]="isLoading" class="success">
-                        <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
-                        <span *ngIf="!isLoading">{{'Send' | translate}}</span>
-                    </ion-button>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-</ion-content>
+  </ion-content>
+</div>
+
+<div *ngIf="!appService.isMobile">
+  <div class="header-top"></div>
+  <ion-content [class.dark]="appService.isMobile" fullscreen="true">
+    <div class="page-container list-web">
+      <div class="lead" [class.m-4]="!appService.isMobile">
+        <h2>
+          {{'ContactUs' | translate}}
+          <div class="vertical-dots" *ngIf="appService.isMobile">
+            <img src="../../../assets/svg/login/vertical-dots.svg" alt="Icon" />
+          </div>
+        </h2>
+      </div>
+      <div class="bottom-container">
+        <div class="bottom-content">
+          <div class="input-container mb-3">
+            <ion-item class="mb-3">
+              <input
+                [value]="userData?.firstName + ' ' + userData?.lastName "
+                class="p-inputtext"
+                type="text"
+                placeholder="{{'Name' | translate}}"
+              />
+            </ion-item>
+            <ion-item class="mb-3">
+              <input
+                [value]="userData?.email"
+                class="p-inputtext"
+                type="text"
+                placeholder="{{'Email' | translate}}"
+              />
+            </ion-item>
+            <ion-item>
+              <textarea
+                [ngModel]="message"
+                class="p-inputtext"
+                placeholder="{{'TextMessage' | translate}}"
+              ></textarea>
+            </ion-item>
+          </div>
+          <div class="ion-padding py-1">
+            <ion-button
+              color="primary"
+              expand="block"
+              type="button"
+              (click)="sendMessage()"
+              [disabled]="isLoading"
+              class="success"
+            >
+              <ion-spinner name="lines-small" *ngIf="isLoading"></ion-spinner>
+              <span *ngIf="!isLoading">{{'Send' | translate}}</span>
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</div>
