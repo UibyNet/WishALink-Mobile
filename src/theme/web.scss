@@ -4,11 +4,7 @@
   }
 }
 
-/*!
- * smartbanner.js v1.17.0 <https://github.com/ain/smartbanner.js#readme>
- * Copyright © 2021 Ain Tohvri, contributors. Licensed under GPL-3.0.
- */
- .smartbanner {
+.smartbanner {
   position: fixed;
   top: 0;
   left: 0;
@@ -30,7 +26,8 @@
   border: 0;
   text-align: center;
 }
-.smartbanner__exit::before, .smartbanner__exit::after {
+.smartbanner__exit::before,
+.smartbanner__exit::after {
   position: absolute;
   width: 1px;
   height: 12px;
@@ -66,7 +63,8 @@
 .smartbanner__info__title {
   font-size: 14px;
 }
-.smartbanner__info__author, .smartbanner__info__price {
+.smartbanner__info__author,
+.smartbanner__info__price {
   font-size: 12px;
 }
 .smartbanner__button {
@@ -105,14 +103,16 @@
   line-height: 17px;
   text-shadow: 0 1px 1px #000;
 }
-.smartbanner.smartbanner--android .smartbanner__exit::before, .smartbanner.smartbanner--android .smartbanner__exit::after {
+.smartbanner.smartbanner--android .smartbanner__exit::before,
+.smartbanner.smartbanner--android .smartbanner__exit::after {
   top: 3px;
   left: 8px;
   width: 2px;
   height: 11px;
   background: #b1b1b3;
 }
-.smartbanner.smartbanner--android .smartbanner__exit:active, .smartbanner.smartbanner--android .smartbanner__exit:hover {
+.smartbanner.smartbanner--android .smartbanner__exit:active,
+.smartbanner.smartbanner--android .smartbanner__exit:hover {
   color: #eee;
 }
 .smartbanner.smartbanner--android .smartbanner__icon {
@@ -139,7 +139,8 @@
   font-size: 14px;
   font-weight: bold;
 }
-.smartbanner.smartbanner--android .smartbanner__button:active, .smartbanner.smartbanner--android .smartbanner__button:hover {
+.smartbanner.smartbanner--android .smartbanner__button:active,
+.smartbanner.smartbanner--android .smartbanner__button:hover {
   background: none;
 }
 .smartbanner.smartbanner--android .smartbanner__button__label {
@@ -153,8 +154,7 @@
   text-shadow: none;
   text-transform: none;
 }
-.smartbanner.smartbanner--android .smartbanner__button__label:active, .smartbanner.smartbanner--android .smartbanner__button__label:hover {
+.smartbanner.smartbanner--android .smartbanner__button__label:active,
+.smartbanner.smartbanner--android .smartbanner__button__label:hover {
   background: #2ac7e1;
 }
-
-/*# sourceMappingURL=smartbanner.css.map */
