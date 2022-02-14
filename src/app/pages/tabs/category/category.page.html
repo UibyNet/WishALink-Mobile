@@ -46,6 +46,9 @@
         <div class="category-info mb-2">
           {{ posts != undefined && posts.length > 0 ? posts.length : 0 }} Ürün
         </div>
+        <div *ngIf="!appService.isMobile" (click)="shareCategory()" class="clickable my-2 mb-4 badge-container font-9 d-flex ion-justify-content-center ion-align-items-center">
+          {{'Share' | translate}}
+        </div>
       </div>
     </div>
     <ion-item detail="false" *ngIf="!isStrangerCategory" routerLink="/add-product/{{category?.id}}/0"

@@ -1,9 +1,12 @@
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
 ion-grid {
   padding-bottom: 110px;
 
   @media (min-width: 768px) {
-    max-width: 75%;
-    margin: auto;
 
     .mobile-center {
       text-align: center;

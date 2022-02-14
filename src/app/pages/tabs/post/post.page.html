@@ -20,129 +20,131 @@
 </ion-header>
 
 <ion-content class="" fullscreen="true">
-    <ion-grid class="ion-no-padding">
-        <ion-row>
-
-            <ion-col class="mobile-center">
-                <img class="w-100" [src]="post?.mediaUrl" alt=""/>
-                <ion-button (click)="sharePost()" size="small" class="share-link">
-                    <ion-icon name="share-social-outline"></ion-icon>
-                    <span class="ml-1">{{'Share' | translate}}</span>
-                </ion-button>
-                <ion-button
-                        class="external-link"
-                        (click)="redirectToUrl(post?.url)"
-                        size="small"
-                        *ngIf="post?.url.indexOf('http') > -1"
-                        color="primary"
-                >
-                    <ion-icon name="open-outline" slot="icon-only"></ion-icon>
-                    {{ 'GoToProduct' | translate }}
-                </ion-button>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <ion-button
-                        routerLink="/app/profile/{{post?.createdBy.id}}"
-                        fill="clear"
-                >
-                    {{ post?.createdBy.fullName }}
-                </ion-button>
-            </ion-col>
-
-            <ion-col class="ion-text-right ml-2">
-                <ion-button
-                        class="like-button"
-                        fill="clear"
-                        color="dark"
-                        (click)="togglePostLike($event)"
-                        [disabled]="isLoading"
-                >
-                    <ion-icon
-                            [name]="post?.isUserLike ? 'heart' : 'heart-outline'"
-                            [color]="post?.isUserLike ? 'danger' : 'dark'"
-                    ></ion-icon>
-                    {{ post?.likeCount }}
-                </ion-button>
-            </ion-col>
-
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <h2 class="px-3 py-0 mb-2">{{ post?.name }}</h2>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col class="px-3 mb-3 description"> {{ post?.description }} </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col class="px-3">
-                <ion-badge
-                        class="product-tag"
-                        color="light"
-                        *ngIf="post?.brand != null && post?.brand.length > 0"
-                >{{ post?.brand }}</ion-badge
-                >
-                <ion-badge
-                        class="product-tag"
-                        color="light"
-                        *ngIf="post?.model != null && post?.model.length > 0"
-                >{{ post?.model }}</ion-badge
-                >
-                <ion-badge
-                        class="product-tag"
-                        color="light"
-                        *ngIf="post?.color != null && post?.color.length > 0"
-                >{{ post?.color }}</ion-badge
-                >
-                <ion-badge
-                        class="product-tag"
-                        color="light"
-                        *ngIf="post?.size != null && post?.size.length > 0"
-                >{{ post?.size }}
-                </ion-badge>
-                <ion-badge
-                        class="product-tag"
-                        color="light"
-                        *ngIf="post?.keywords != null && post?.keywords.length > 0"
-                >{{ post?.keywords }}</ion-badge
-                >
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <ion-list class="mt-1">
-                    <ion-item *ngIf="isStrangerPost === false && post?.isPurchased">
-                        <ion-label
-                        >{{ 'Product' | translate }} {{'ReceivedBy' | translate}}
-                            <a routerLink="/app/profile/{{post?.purchasedBy.id}}"
-                            >{{post?.purchasedBy?.fullName }}</a
-                            >
-                            {{'ReceivedByTr' | translate}}
-                        </ion-label>
-                        <ion-checkbox
-                                [checked]="true"
-                                [disabled]="post?.isPurchased=== true"
-                                color="success"
-                                slot="start"
-                        ></ion-checkbox>
-                    </ion-item>
-                    <ion-item *ngIf="isStrangerPost === true">
-                        <ion-label
-                        >{{post?.isPurchased ? ('ProductReceived' | translate) :
-                            ('BoughtProduct' | translate) }}
-                        </ion-label>
-                        <ion-checkbox
-                                [checked]="post?.isPurchased"
-                                [disabled]="!canPurchase"
-                                (ionChange)="changeEvent($event)"
-                                color="success"
-                                slot="start"
-                        ></ion-checkbox>
-                    </ion-item>
-                </ion-list>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+    <div class="container">
+        <ion-grid class="ion-no-padding">
+            <ion-row>
+    
+                <ion-col class="mobile-center">
+                    <img class="w-100" [src]="post?.mediaUrl" alt=""/>
+                    <ion-button (click)="sharePost()" size="small" class="share-link">
+                        <ion-icon name="share-social-outline"></ion-icon>
+                        <span class="ml-1">{{'Share' | translate}}</span>
+                    </ion-button>
+                    <ion-button
+                            class="external-link"
+                            (click)="redirectToUrl(post?.url)"
+                            size="small"
+                            *ngIf="post?.url.indexOf('http') > -1"
+                            color="primary"
+                    >
+                        <ion-icon name="open-outline" slot="icon-only"></ion-icon>
+                        {{ 'GoToProduct' | translate }}
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-button
+                            routerLink="/app/profile/{{post?.createdBy.id}}"
+                            fill="clear"
+                    >
+                        {{ post?.createdBy.fullName }}
+                    </ion-button>
+                </ion-col>
+    
+                <ion-col class="ion-text-right ml-2">
+                    <ion-button
+                            class="like-button"
+                            fill="clear"
+                            color="dark"
+                            (click)="togglePostLike($event)"
+                            [disabled]="isLoading"
+                    >
+                        <ion-icon
+                                [name]="post?.isUserLike ? 'heart' : 'heart-outline'"
+                                [color]="post?.isUserLike ? 'danger' : 'dark'"
+                        ></ion-icon>
+                        {{ post?.likeCount }}
+                    </ion-button>
+                </ion-col>
+    
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <h2 class="px-3 py-0 mb-2">{{ post?.name }}</h2>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="px-3 mb-3 description"> {{ post?.description }} </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="px-3">
+                    <ion-badge
+                            class="product-tag"
+                            color="light"
+                            *ngIf="post?.brand != null && post?.brand.length > 0"
+                    >{{ post?.brand }}</ion-badge
+                    >
+                    <ion-badge
+                            class="product-tag"
+                            color="light"
+                            *ngIf="post?.model != null && post?.model.length > 0"
+                    >{{ post?.model }}</ion-badge
+                    >
+                    <ion-badge
+                            class="product-tag"
+                            color="light"
+                            *ngIf="post?.color != null && post?.color.length > 0"
+                    >{{ post?.color }}</ion-badge
+                    >
+                    <ion-badge
+                            class="product-tag"
+                            color="light"
+                            *ngIf="post?.size != null && post?.size.length > 0"
+                    >{{ post?.size }}
+                    </ion-badge>
+                    <ion-badge
+                            class="product-tag"
+                            color="light"
+                            *ngIf="post?.keywords != null && post?.keywords.length > 0"
+                    >{{ post?.keywords }}</ion-badge
+                    >
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-list class="mt-1">
+                        <ion-item *ngIf="isStrangerPost === false && post?.isPurchased">
+                            <ion-label
+                            >{{ 'Product' | translate }} {{'ReceivedBy' | translate}}
+                                <a routerLink="/app/profile/{{post?.purchasedBy.id}}"
+                                >{{post?.purchasedBy?.fullName }}</a
+                                >
+                                {{'ReceivedByTr' | translate}}
+                            </ion-label>
+                            <ion-checkbox
+                                    [checked]="true"
+                                    [disabled]="post?.isPurchased=== true"
+                                    color="success"
+                                    slot="start"
+                            ></ion-checkbox>
+                        </ion-item>
+                        <ion-item *ngIf="isStrangerPost === true">
+                            <ion-label
+                            >{{post?.isPurchased ? ('ProductReceived' | translate) :
+                                ('BoughtProduct' | translate) }}
+                            </ion-label>
+                            <ion-checkbox
+                                    [checked]="post?.isPurchased"
+                                    [disabled]="!canPurchase"
+                                    (ionChange)="changeEvent($event)"
+                                    color="success"
+                                    slot="start"
+                            ></ion-checkbox>
+                        </ion-item>
+                    </ion-list>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
 </ion-content>
