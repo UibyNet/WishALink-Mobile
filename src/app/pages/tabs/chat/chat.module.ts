@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LinkyModule } from 'ngx-linky';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -15,7 +16,8 @@ import {TranslateModule} from "@ngx-translate/core";
         FormsModule,
         IonicModule,
         ChatPageRoutingModule,
-        TranslateModule
+        TranslateModule,
+        LinkyModule
     ],
   declarations: [ChatPage]
 })

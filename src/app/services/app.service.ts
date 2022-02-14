@@ -438,4 +438,10 @@ export class AppService {
     getUniqId(): string {
         return Math.random().toString(36).substr(2, 9).toUpperCase();
     }
+
+    getShareLink(v: string): string {
+        v = v.substring(v.indexOf('://') + 3);
+        v = v.substring(v.indexOf('/') + 1);
+        return 'https://wishalink.com/' + v;
+    }
 }

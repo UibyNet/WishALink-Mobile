@@ -28,7 +28,7 @@
           <div class="input-container mb-3">
             <ion-item class="mb-3">
               <input
-                [value]="userData?.firstName + ' ' + userData?.lastName "
+              [(ngModel)]="userData.firstName"
                 class="p-inputtext"
                 type="text"
                 placeholder="{{'Name' | translate}}"
@@ -36,7 +36,15 @@
             </ion-item>
             <ion-item class="mb-3">
               <input
-                [value]="userData?.email"
+              [(ngModel)]="userData.lastName"
+                class="p-inputtext"
+                type="text"
+                placeholder="{{'Surname' | translate}}"
+              />
+            </ion-item>
+            <ion-item class="mb-3">
+              <input
+                [(ngModel)]="userData.email"
                 class="p-inputtext"
                 type="text"
                 placeholder="{{'Email' | translate}}"
@@ -44,7 +52,7 @@
             </ion-item>
             <ion-item>
               <textarea
-                [ngModel]="message"
+                [(ngModel)]="message"
                 class="p-inputtext"
                 placeholder="{{'TextMessage' | translate}}"
               ></textarea>
@@ -84,17 +92,33 @@
       <div class="bottom-container">
         <div class="bottom-content">
           <div class="input-container mb-3">
+            <ion-grid class="ion-no-padding">
+              <ion-row>
+                <ion-col>
+                  <ion-item class="mb-3">
+                    <input
+                    [(ngModel)]="userData.firstName"
+                      class="p-inputtext"
+                      type="text"
+                      placeholder="{{'Name' | translate}}"
+                    />
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item class="mb-3">
+                    <input
+                    [(ngModel)]="userData.lastName"
+                      class="p-inputtext"
+                      type="text"
+                      placeholder="{{'Surname' | translate}}"
+                    />
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
             <ion-item class="mb-3">
               <input
-                [value]="userData?.firstName + ' ' + userData?.lastName "
-                class="p-inputtext"
-                type="text"
-                placeholder="{{'Name' | translate}}"
-              />
-            </ion-item>
-            <ion-item class="mb-3">
-              <input
-                [value]="userData?.email"
+              [(ngModel)]="userData.email"
                 class="p-inputtext"
                 type="text"
                 placeholder="{{'Email' | translate}}"
@@ -102,7 +126,7 @@
             </ion-item>
             <ion-item>
               <textarea
-                [ngModel]="message"
+                [(ngModel)]="message"
                 class="p-inputtext"
                 placeholder="{{'TextMessage' | translate}}"
               ></textarea>

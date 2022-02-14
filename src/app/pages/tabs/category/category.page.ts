@@ -9,6 +9,7 @@ import {
 import {AppService} from 'src/app/services/app.service';
 import {Browser} from '@capacitor/browser';
 import {NavController} from '@ionic/angular';
+import {Share} from '@capacitor/share';
 
 @Component({
     selector: 'app-category',
@@ -112,5 +113,13 @@ export class CategoryPage implements OnInit {
 
     goBack() {
         this.navController.back();
+    }
+
+    async shareCategory() {
+        await Share.share({
+            title: this.category.name,
+            text: '',
+            url: this.appService.getShareLink(window.location.href),
+        });  
     }
 }

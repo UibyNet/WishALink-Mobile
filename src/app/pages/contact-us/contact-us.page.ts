@@ -19,18 +19,28 @@ export class ContactUsPage implements OnInit {
     ) {
     }
 
+    fullName: string = '';
     contactModel: Contact
-    userData: UserModel
+    userData: UserModel = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        init: null,
+        toJSON: null
+    }
     isLoading: boolean = false;
     message: string
 
     ngOnInit() {
-        this.getUserInfo()
+        if(this.appService.user != null) {
+            this.getUserInfo();
+        }
     }
 
     onUserData(v: UserModel) {
         this.zone.run(() => {
-            this.userData = v
+            this.userData = v;
+            this.fullName = this.userData?.firstName + ' ' + this.userData?.lastName ;
             console.log(this.userData)
         })
     }
@@ -50,6 +60,19 @@ export class ContactUsPage implements OnInit {
     }
 
     sendMessage() {
+        if(
+            !(
+                this.userData.firstName.length > 1 && 
+                this.userData.lastName.length > 1 &&
+                this.userData.email.length > 3 && 
+                this.message.length > 3
+            )
+        ) {
+            this.zone.run(() => {
+                this.appService.showAlert("Bilgileri kontrol edip tekrar deneyiniz.", "Uyarı");
+            })
+            return;
+        }
         const model = new Contact()
         model.firstName = this.userData.firstName
         model.lastName = this.userData.lastName

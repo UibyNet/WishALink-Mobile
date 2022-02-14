@@ -92,7 +92,7 @@
                   [class.my]="message.fromId == currentUserId"
                 >
                   <div class="message-balloon">
-                    {{message.content}}
+                    <span [innerHTML]="message.content | linky"></span>
                     <div class="time">{{ message.createdOn }}</div>
                   </div>
                 </div>

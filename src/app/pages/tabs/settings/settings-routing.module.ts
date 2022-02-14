@@ -29,6 +29,10 @@ const routes: Routes = [
           }
         ]
       },
+      {
+        path: 'contact-us',
+        loadChildren: () => import('../../../pages/contact-us/contact-us.module').then(m => m.ContactUsPageModule)
+      },
     ]
   },
 ];
