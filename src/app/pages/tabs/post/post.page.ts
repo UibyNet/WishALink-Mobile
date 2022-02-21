@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {NavController} from '@ionic/angular';
 import {PostApiService, PostLikeModel, PostListModel} from 'src/app/services/api-wishalink.service';
 import {AppService} from 'src/app/services/app.service';
@@ -40,12 +40,16 @@ export class PostPage implements OnInit {
         this.currentUserId = this.appService.user.id;
         this.postId = parseInt(this.route.snapshot.params.id);
         const post = this.router.getCurrentNavigation().extras.state as PostListModel;
-        if (post == null) {
-            this.loadPost();
-        } else {
+        
+        if(post != null) {
             this.onPostLoad(post);
         }
-        console.log(this.post)
+
+        this.router.events.subscribe((e) => {
+            if (e instanceof NavigationEnd) {
+                this.loadPost();
+            }
+        })
     }
 
     changeEvent(data) {
@@ -119,7 +123,7 @@ export class PostPage implements OnInit {
         await Share.share({
             title: this.post.name,
             text: this.post.description,
-            url: window.location.href,
+            url: this.appService.getShareLink(window.location.href),
         });
     }
 

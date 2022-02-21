@@ -71,7 +71,7 @@ export class AddCategoryPage implements OnInit {
       this.isLoading = false;
       return;
     }
-    if (this.mediaId == null || this.mediaId == 0) {
+    if (this.categoryId == 0 && (this.mediaId == null || this.mediaId == 0)) {
       this.appService.showToast("Lütfen kategori görseli ekleyin.");
       this.isLoading = false;
       return;

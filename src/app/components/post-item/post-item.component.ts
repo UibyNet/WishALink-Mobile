@@ -26,7 +26,7 @@ export class PostItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(moment(this.item.createdOn, 'DD.MM.YYYY HH:mm:ss').isValid()) {
+    if(this.item != null && moment(this.item.createdOn, 'DD.MM.YYYY HH:mm:ss').isValid()) {
       this.postDate = moment(this.item.createdOn, 'DD.MM.YYYY HH:mm:ss').fromNow();
     }
   }

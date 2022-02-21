@@ -25,7 +25,10 @@
                 <img src="{{apiBaseUrl}}/api/profile/picture/{{ getTargetUserId(notification) }}">
             </ion-avatar>
             <ion-label class="ion-text-wrap">
-                {{notification.body}} <span class="time">{{ getNotificationTime(notification) }}</span>
+                <div class="d-flex ion-justify-content-between ion-align-items-start">
+                    <span>{{notification.body}}</span> 
+                    <span class="time">{{ getNotificationTime(notification) }}</span>
+                </div>
             </ion-label>
         </ion-item>
     </ion-list>

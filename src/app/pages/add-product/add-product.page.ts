@@ -38,6 +38,7 @@ export class AddProductPage implements OnInit {
     hasActivities: boolean = false;
     postImage: string;
     postImageBlob: Blob;
+    urlInitial: string;
 
     constructor(
         public appService: AppService,
@@ -69,14 +70,16 @@ export class AddProductPage implements OnInit {
         if (post != undefined) {
             this.postId = post.id;
             this.url = post.url;
+            this.urlInitial = post.url;
             this.brand = post.brand;
             this.model = post.model;
             this.color = post.color;
             this.size = post.size;
             this.name = post.name;
             // this.activityId = post.activity.id;
+            this.mediaUrl = post.mediaUrl;
         }
-        console.log(this.appService.user.id);
+        
         this.activityApiService.list(this.appService.user.id).subscribe(
             (v) => this.onActivitiesLoad(v),
             (e) => this.onError(e)
@@ -148,13 +151,14 @@ export class AddProductPage implements OnInit {
             };
             this.isLoading = false;
             this.appService.showToast("Ürün kaydedildi");
-            // this.navController.back();
-            this.router.navigate(['app/category/' + v.category.id], navigationExtras)
+            this.navController.back();
+            this.navController.navigateBack("app/category/" + this.categoryId + "/" + this.postId);
+            // this.router.navigate(['app/category/' + v.category.id], navigationExtras)
         })
     }
 
     onLinkChange() {
-        if (this.url != undefined && this.url.length > 3) {
+        if (this.url != undefined && this.url.length > 3 && this.urlInitial != this.url) {
             this.postApiService.fetch(this.url).subscribe(
                 (v) => this.onFetch(v),
                 (e) => this.onError(e)
@@ -234,7 +238,7 @@ export class AddProductPage implements OnInit {
     onDeleted(v: void) {
         this.zone.run(() => {
             this.appService.toggleLoader(false);
-            this.router.navigate(["app/category/" + this.categoryId]);
+            this.navController.navigateBack("app/category/" + this.categoryId);
         });
     }
 

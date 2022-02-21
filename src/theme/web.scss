@@ -2,6 +2,24 @@
   .bottom-nav-container {
     display: none !important;
   }
+
+  app-tabs {
+    top: 60px;
+  }
+
+  ion-content {
+    .profile-header {
+      padding-top: 60px;
+    }
+  }
+
+  ion-toolbar {
+    --padding-start: 0 !important;
+    --padding-end: 0 !important;
+    max-width: 1024px;
+    margin: 0 auto;
+    
+  }
 }
 
 .smartbanner {

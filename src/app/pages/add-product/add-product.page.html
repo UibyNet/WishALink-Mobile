@@ -19,7 +19,7 @@
                     <span class="required-star">{{name === '' ? '*' : ''}} </span>
                 </div>
                 <div class="ion-margin-bottom is-relative">
-                    <ion-input [(ngModel)]="url" (ionChange)="onLinkChange()"
+                    <ion-input [(ngModel)]="url" debounce="1000" (ionChange)="onLinkChange()"
                                placeholder="{{'ProductUrl' | translate}}"></ion-input>
                     <span class="required-star">{{url === '' ? '*' : ''}} </span>
                 </div>

@@ -1,5 +1,4 @@
 <div *ngIf="!appService.isMobile">
-  <div class="header-top"></div>
   <ion-content
     #scrollArea
     [scrollEvents]="true"
@@ -11,6 +10,10 @@
       <ion-spinner name="crescent" color="medium"></ion-spinner>
     </div>
 
+    <div *ngIf="isLoading" class="ion-text-center loader">
+      <ion-spinner name="bubbles"></ion-spinner>
+    </div>
+
     <virtual-scroller
       class="list-center"
       #scroll
@@ -20,10 +23,6 @@
       <app-post-item *ngFor="let item of scroll.viewPortItems" [item]="item">
       </app-post-item>
     </virtual-scroller>
-
-    <div *ngIf="isLoading" class="ion-text-center loader">
-      <ion-spinner></ion-spinner>
-    </div>
 
     <!--
           <div style="position: relative; height: 100%;  width: 100%;">

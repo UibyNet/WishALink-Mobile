@@ -1,5 +1,5 @@
 .main {
-  background: #6A40D6;
+  background: #6a40d6;
   height: 50%;
 
   .top-container {
@@ -10,7 +10,7 @@
       width: 100%;
       font-size: 24px;
       line-height: 27px;
-      color: #FFFFFF;
+      color: #ffffff;
       margin-bottom: 24px;
     }
   }
@@ -19,7 +19,7 @@
 .main-content {
   border-top-right-radius: 32px;
   border-top-left-radius: 32px;
-  background: #FFFFFF;
+  background: #ffffff;
   padding: 48px 1.5rem 1rem;
   position: relative;
   display: flex;
@@ -52,7 +52,7 @@
 
       ion-icon {
         font-size: 4em;
-        margin-bottom: .2em;
+        margin-bottom: 0.2em;
       }
     }
 
@@ -74,7 +74,7 @@
     .tab-container {
       display: flex;
       align-items: center;
-      border: 1px solid #1E90FF;
+      border: 1px solid #1e90ff;
       border-radius: 8px;
 
       div {
@@ -86,8 +86,8 @@
         color: var(--ion-color-medium);
 
         &.active {
-          background: #1E90FF;
-          color: #FFFFFF;
+          background: #1e90ff;
+          color: #ffffff;
         }
       }
     }
@@ -97,10 +97,10 @@
     width: 100%;
     background: transparent;
     height: 56px;
-    border: 1px solid #6A40D6;
+    border: 1px solid #6a40d6;
     border-radius: 16px;
     font-size: 20px;
-    color: #6A40D6;
+    color: #6a40d6;
   }
 
   ion-input {
@@ -118,7 +118,7 @@
     width: 48px;
     height: 48px;
     border-radius: 50px;
-    background: #1E90FF;
+    background: #1e90ff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -127,6 +127,11 @@
     position: absolute;
     margin: auto;
     top: -23px;
+
+    ion-back-button {
+      width: 48px;
+      height: 48px;
+    }
   }
 }
 

@@ -1,8 +1,8 @@
-<ion-header mode="ios" shrink-header [scrollArea]="scrollArea" *ngIf="appService.isMobile">
+<ion-header mode="ios">
   <div class="shrinkable">
     <ion-toolbar mode="ios">
       <ion-buttons slot="start">
-        <ion-back-button text="" color="dark"></ion-back-button>
+        <ion-back-button text="" color="dark" defaultHref="/app"></ion-back-button>
       </ion-buttons>
       <ion-buttons slot="end">
         <ion-button *ngIf="!isStrangerCategory" (click)="openEditCategory()">
@@ -14,17 +14,18 @@
       </ion-buttons>
     </ion-toolbar>
 
-    <div class="profile">
+    <div class="profile" *ngIf="appService.isMobile">
       <div class="avatar">
         <img [src]="category == null ? '../../../../assets/svg/home/avatar.png' : category.mediaUrl" alt="" />
       </div>
-      <div class="name mb-2">{{ category == null ? '-' : category.name }}</div>
+      <div class="name mb-2" *ngIf="!isLoading">{{ category == null ? '' : category.name }}</div>
+      <div class="name mb-2" *ngIf="isLoading"><ion-skeleton-text animated style="width: 100px"></ion-skeleton-text></div>
       <div class="category-info mb-2">
         {{ posts != undefined && posts.length > 0 ? posts.length : 0 }} Ürün
       </div>
     </div>
   </div>
-  <ion-item detail="false" *ngIf="!isStrangerCategory" routerLink="/add-product/{{category?.id}}/0"
+  <ion-item detail="false" *ngIf="!isStrangerCategory && appService.isMobile" routerLink="/add-product/{{category?.id}}/0"
     style="border-top: 1px solid var(--ion-color-light);">
     <ion-label>
       <h2>{{'AddProduct' | translate}}</h2>
@@ -35,7 +36,7 @@
   </ion-item>
 </ion-header>
 
-<ion-content #scrollArea [scrollEvents]="appService.isMobile" [fullscreen]="appService.isMobile">
+<ion-content #scrollArea [scrollEvents]="appService.isMobile">
   <div class="profile-header" *ngIf="!appService.isMobile">
     <div class="">
       <div class="profile">
@@ -46,7 +47,8 @@
         <div class="category-info mb-2">
           {{ posts != undefined && posts.length > 0 ? posts.length : 0 }} Ürün
         </div>
-        <div *ngIf="!appService.isMobile" (click)="shareCategory()" class="clickable my-2 mb-4 badge-container font-9 d-flex ion-justify-content-center ion-align-items-center">
+        <div *ngIf="!appService.isMobile" (click)="shareCategory()"
+          class="clickable my-2 mb-4 badge-container font-9 d-flex ion-justify-content-center ion-align-items-center">
           {{'Share' | translate}}
         </div>
       </div>
@@ -68,6 +70,7 @@
       </div>
       <div class="item-container">
         <ion-list>
+          <app-post-item *ngIf="isLoading" [item]="null" [index]="0"></app-post-item>
           <app-post-item *ngFor="let post of posts; let i = index" [item]="post" [index]="i"></app-post-item>
         </ion-list>
       </div>

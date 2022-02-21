@@ -54,7 +54,7 @@ export class AppService {
     private mUser: LocalUser;
 
     get isMobile() {
-        return this.platform.is('capacitor') || this.platform.is('ios') || this.platform.is('android') || this.platform.is('tablet') || this.platform.is('ipad') || this.platform.is('mobile')
+        return this.platform.is('capacitor') || this.platform.is('ios') || this.platform.is('android') || this.platform.is('ipad') || this.platform.is('mobile')
     }
 
     constructor(
@@ -135,6 +135,8 @@ export class AppService {
             lang = browserLang.match(/tr|en/) ? browserLang : 'tr';
             localStorage.setItem("user_lang", lang);
         }
+
+        moment.locale(lang);
 
         return lang;
     }

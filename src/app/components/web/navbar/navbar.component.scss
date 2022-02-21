@@ -67,6 +67,10 @@
     height: 2.4em;
     margin-right: 1em;
 
+    &:last-child {
+      margin-right: 0;
+    }
+
     ion-icon {
       color: #fff;
       font-size: 1.3em;

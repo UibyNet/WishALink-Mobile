@@ -15,6 +15,13 @@ virtual-scroller {
   height: 100%;
 }
 
+.loader{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /*
 .top-container {
   padding: 26px 26px 16px;

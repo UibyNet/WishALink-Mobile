@@ -40,6 +40,7 @@ ion-list {
       .time {
         color: var(--ion-color-medium);
         font-size: 0.9em;
+        white-space: nowrap;
       }
     }
   }

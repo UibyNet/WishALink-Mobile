@@ -64,6 +64,10 @@ export class ChatService {
             this.loadRooms();
         })
 
+        this.connection.on("newRoom", (connectionId: string) => {
+            this.loadRooms();
+        })
+
         this.connection.on("newMessage", (message: MessageModel) => {
             this.addRoomMessage(message);
             

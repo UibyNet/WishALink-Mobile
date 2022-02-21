@@ -27,11 +27,13 @@ ion-item {
       margin-right: 1rem;
       border: 1px solid var(--ion-color-light);
       box-shadow: rgb(0 0 0 / 4%) 0px 1px 6px;
-      img {
+      img, ion-thumbnail {
         object-fit: cover;
         width: 7em;
         height: 7em;
       }
+
+      
     }
 
     .post-info {

@@ -1,73 +1,74 @@
-<ion-item mode="ios" button detail="false" (click)="openPostDetail($event)">
-    <div class="post-inner">
-        <div class="post-image">
-            <img [src]="item.mediaUrl" alt=""/>
-        </div>
-        <div class="post-info">
-            <h2 class="post-title">{{ item.name }}</h2>
-            <div class="post-creator">
-                <span (click)="openCreator($event)">{{ item.createdBy.fullName }}</span>
-            </div>
-            <div style="flex-wrap: wrap" class="post-tags d-flex ">
-                <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.brand != null && item.brand.length > 0">{{item.brand}} </ion-badge>
-                <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.model != null && item.model.length > 0"> {{item.model }}</ion-badge>
-                <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.color != null && item.color.length > 0"> {{item.color }}</ion-badge>
-                <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.size != null && item.size.length > 0">{{ item.size}} </ion-badge>
-                <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.keywords != null && item.keywords.length > 0">{{item.keywords }}</ion-badge>
-            </div>
-            <div class="post-actions">
-                <ion-button fill="clear" color="dark" (click)="togglePostLike($event)" [disabled]="isLoading">
-                    <ion-icon [name]="item.isUserLike ? 'heart' : 'heart-outline'" [color]="item.isUserLike ? 'danger' : 'dark'"></ion-icon>
-                    {{ item.likeCount }}
-                </ion-button>
-                <ion-button *ngIf="item.isPurchased" fill="clear" color="dark" (click)="togglePostLike($event)" [disabled]="isLoading">
-                    <ion-icon name="checkmark-done-outline" color="success"></ion-icon>
-                    {{'Purchased' | translate}}
-                </ion-button>
-                <ion-button fill="clear" color="dark" (click)="openPostDetail($event, true)" *ngIf="item.url.indexOf('http') > -1">
-                    <ion-icon name="open-outline"></ion-icon>
-                    {{'GoToProduct' | translate}}
-                </ion-button>
-                <ion-button fill="clear" color="dark" [disabled]="true">
-                    {{postDate}}
-                </ion-button>
-            </div>
-        </div>
+<ion-item mode="ios" button detail="false" (click)="openPostDetail($event)" *ngIf="item != undefined">
+  <div class="post-inner">
+    <div class="post-image">
+      <img [src]="item.mediaUrl" alt="" />
     </div>
+    <div class="post-info">
+      <h2 class="post-title">{{ item.name }}</h2>
+      <div class="post-creator">
+        <span (click)="openCreator($event)">{{ item.createdBy.fullName }}</span>
+      </div>
+      <div style="flex-wrap: wrap" class="post-tags d-flex ">
+        <ion-badge class="post-tag mb-1" color="light" fill="outline"
+          *ngIf="item.brand != null && item.brand.length > 0">{{item.brand}} </ion-badge>
+        <ion-badge class="post-tag mb-1" color="light" fill="outline"
+          *ngIf="item.model != null && item.model.length > 0"> {{item.model }}</ion-badge>
+        <ion-badge class="post-tag mb-1" color="light" fill="outline"
+          *ngIf="item.color != null && item.color.length > 0"> {{item.color }}</ion-badge>
+        <ion-badge class="post-tag mb-1" color="light" fill="outline" *ngIf="item.size != null && item.size.length > 0">
+          {{ item.size}} </ion-badge>
+        <ion-badge class="post-tag mb-1" color="light" fill="outline"
+          *ngIf="item.keywords != null && item.keywords.length > 0">{{item.keywords }}</ion-badge>
+      </div>
+      <div class="post-actions">
+        <ion-button fill="clear" color="dark" (click)="togglePostLike($event)" [disabled]="isLoading">
+          <ion-icon [name]="item.isUserLike ? 'heart' : 'heart-outline'" [color]="item.isUserLike ? 'danger' : 'dark'">
+          </ion-icon>
+          {{ item.likeCount }}
+        </ion-button>
+        <ion-button *ngIf="item.isPurchased" fill="clear" color="dark" (click)="togglePostLike($event)"
+          [disabled]="isLoading">
+          <ion-icon name="checkmark-done-outline" color="success"></ion-icon>
+          {{'Purchased' | translate}}
+        </ion-button>
+        <ion-button fill="clear" color="dark" (click)="openPostDetail($event, true)"
+          *ngIf="item.url.indexOf('http') > -1">
+          <ion-icon name="open-outline"></ion-icon>
+          {{'GoToProduct' | translate}}
+        </ion-button>
+        <ion-button fill="clear" color="dark" [disabled]="true">
+          {{postDate}}
+        </ion-button>
+      </div>
+    </div>
+  </div>
 </ion-item>
 
-
-<!--
-      <ion-item detail="false" (click)="openPostDetail($event)">
-      <ion-button fill="clear" class="remote-link" *ngIf="index % 2 == 1" [slot]="index % 2 == 1 ? 'end' :'start'"
-        (click)="openPostDetail($event, true)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon" />
-      </ion-button>
-      <div class="img-product-container" [slot]="index % 2 == 1 ? 'end' :'start'">
-        <img [src]="item.mediaUrl" alt="" />
+<ion-item mode="ios" button detail="false" *ngIf="item == undefined">
+  <div class="post-inner">
+    <div class="post-image">
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
+    </div>
+    <div class="post-info">
+      <h2 class="post-title">
+        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+      </h2>
+      <div class="post-creator">
+        <span>
+          <ion-skeleton-text animated style="width: 66%"></ion-skeleton-text>
+        </span>
       </div>
-      <ion-button fill="clear" class="remote-link" *ngIf="index % 2 == 0" [slot]="index % 2 == 1 ? 'start' :'end'"
-        (click)="openPostDetail($event, true)"><img src="../../../assets/svg/abstract/edit.svg" alt="Icon" />
-      </ion-button>
-      <div>
-        <div class="d-flex mb-2">
-          <div class="product-name">{{ item.name }}</div>
-        </div>
-        <div class="">
-          <ion-badge class="product-tag" color="primary" *ngIf="item.brand != null && item.brand.length > 0">
-            {{item.brand}} </ion-badge>
-          <ion-badge class="product-tag" color="primary" *ngIf="item.model != null && item.model.length > 0"> {{
-            item.model }}</ion-badge>
-          <ion-badge class="product-tag" color="primary" *ngIf="item.color != null && item.color.length > 0"> {{
-            item.color }}</ion-badge>
-          <ion-badge class="product-tag" color="primary" *ngIf="item.size != null && item.size.length > 0">{{ item.size
-            }} </ion-badge>
-          <ion-badge class="product-tag" color="primary" *ngIf="item.keywords != null && item.keywords.length > 0">{{
-            item.keywords }}</ion-badge>
-        </div>
-
-        <div class="creator d-flex mt-2" (click)="openCreator($event)">
-          <div class="product-name">{{ item.createdBy.fullName }}</div>
-        </div>
+      <div style="flex-wrap: wrap" class="post-tags d-flex ">
+        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
       </div>
-    </ion-item>
--->
+      <div class="post-actions">
+        <ion-button fill="clear" color="dark" (click)="togglePostLike($event)" [disabled]="isLoading">
+          <ion-icon name="heart-outline" color="dark"></ion-icon>
+          0
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-item>
