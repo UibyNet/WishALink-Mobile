@@ -1,14 +1,36 @@
 var fs = require('fs')
-var config = require('../capacitor.config');
-
+var capacitorConfigFile = './capacitor.config.ts';
 var androidGradleFile = './android/app/build.gradle';
 var iosProjectFile = './ios/App/App.xcodeproj/project.pbxproj';
 
-const versionName = config.versionName;
-const versionCode = config.versionCode;
+fs.readFile(capacitorConfigFile, 'utf8', function (err, data) {
+	if (err) {
+		return console.log(err);
+	}
 
-updateAndroidVersion(versionName, versionCode);
-updateiOSVersion(versionName, versionCode);
+	let versionName = '';
+	let versionCode = '';
+
+	
+	const lines = data.split(/\r?\n/);
+
+	for (let i = 0; i < lines.length; i++) {
+		const line = lines[i];
+
+		if (line.indexOf('versionName:') > -1) {
+			const lineParts = line.split('versionName:');
+			const lineDataParts = lineParts[1].split('"').filter(x => x.length > 1)
+			versionName = lineDataParts[0];
+		}
+		else if (line.indexOf('versionCode:') > -1) {
+			const lineParts = line.split(':');
+			versionCode = lineParts[1].replace(',', '').trim();
+		}
+	}
+
+	updateAndroidVersion(versionName, versionCode);
+	updateiOSVersion(versionName, versionCode);
+});
 
 function updateAndroidVersion(versionName, versionCode) {
 	fs.readFile(androidGradleFile, 'utf8', function (err, data) {
