@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     
     if (!this.appService.isMobile) {
-      this.config.set('navAnimation', null);
-      this.config.set('animated', false);
+      //this.config.set('navAnimation', null);
+      //this.config.set('animated', false);
     }
 
     if (this.platform.is('capacitor')) {

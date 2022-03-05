@@ -151,6 +151,17 @@
           {{ user.isBusy ? '...' : ('Unfollow' | translate)}}
         </div>
       </div>
+      <div *ngFor="let user of followingList" class="profile-list-item">
+        <div class="person-info clickable" (click)="selectedUser(user.id)">
+          <div class="img-container">
+            <img [src]="user?.profilePictureUrl" alt="Img" />
+          </div>
+          <div class="name">{{user?.fullName}}</div>
+        </div>
+        <div (click)="unfollowUser(user,'reloadFollowing')" class="follow-info clickable active">
+          {{ user.isBusy ? '...' : ('Unfollow' | translate)}}
+        </div>
+      </div>
     </div>
 
     <div *ngIf="followingList?.length == 0" class="ion-margin-top ion-text-center" style="color: #565656">

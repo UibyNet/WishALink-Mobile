@@ -21,6 +21,7 @@ android-template/.gradle/
 android-template/app/app.iml
 .gradle/
 .settings/
+.angular/
 .project
 .env
 www/

@@ -5,6 +5,7 @@ import { AppService } from "src/app/services/app.service";
 import { SocialUserListModel } from "../../../services/api-wishalink.service";
 import { NotificationComponent } from "../../../components/notification/notification.component";
 import { Share } from "@capacitor/share";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-settings",
@@ -16,6 +17,7 @@ export class SettingsPage implements OnInit {
   profilePictureUrl: string;
   constructor(
     public appService: AppService,
+    public translate: TranslateService,
     private navController: NavController,
     private modalController: ModalController
   ) {
@@ -51,7 +53,7 @@ export class SettingsPage implements OnInit {
   async shareApp() {
     await Share.share({
       title: "Wish A Link",
-      text: "Wish a link i paylas",
+      text: this.translate.instant('JoinWishALink'),
       url: "http://wishalink.com/",
     });
   }

@@ -1,20 +1,14 @@
 var fs = require('fs')
-var capacitorConfigFile = './capacitor.config.json';
+var config = require('../capacitor.config');
+
 var androidGradleFile = './android/app/build.gradle';
 var iosProjectFile = './ios/App/App.xcodeproj/project.pbxproj';
 
-fs.readFile(capacitorConfigFile, 'utf8', function (err, data) {
-	if (err) {
-		return console.log(err);
-	}
+const versionName = config.versionName;
+const versionCode = config.versionCode;
 
-	const configJson = JSON.parse(data);
-	const versionName = configJson.versionName;
-	const versionCode = configJson.versionCode;
-
-	updateAndroidVersion(versionName, versionCode);
-	updateiOSVersion(versionName, versionCode);
-});
+updateAndroidVersion(versionName, versionCode);
+updateiOSVersion(versionName, versionCode);
 
 function updateAndroidVersion(versionName, versionCode) {
 	fs.readFile(androidGradleFile, 'utf8', function (err, data) {

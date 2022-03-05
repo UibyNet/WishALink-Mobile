@@ -3,7 +3,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { isPlatform, IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -36,9 +36,23 @@ import { KpayFixedqrPaymentPayment_RequestApiService, KPAY_FIXEDQRPAYMENT_API_UR
 import { CardModule } from 'ngx-card';
 import { ChatService } from './services/chat.service';
 
+const isMobile = () => {
+    return isPlatform('capacitor') || isPlatform('ios') || isPlatform('android') || isPlatform('ipad') || isPlatform('mobile')
+}
+
 const maskConfig: Partial<IConfig> = {
     validation: false,
 };
+
+const ionicConig: any = {
+    mode: 'ios',
+    animated: isMobile(),
+};
+console.log(isPlatform('mobileweb'))
+
+if(!isMobile()) {
+    ionicConig.navAnimation = null;
+}
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/lang/', '.json');
@@ -52,9 +66,7 @@ export function createTranslateLoader(http: HttpClient) {
     imports: [
         BrowserModule,
         HttpClientModule,
-        IonicModule.forRoot({
-            mode: 'ios'
-        }),
+        IonicModule.forRoot(ionicConig),
         NgxMaskModule.forRoot(maskConfig),
         AppRoutingModule,
         AppPipesModule,
