@@ -100,4 +100,37 @@ export class NotificationComponent implements OnInit {
             })
         }
     }
+
+    translate(v: string): string {
+        if(v == undefined || v.length == 0) return '';
+
+        const parts = v.split(',');
+        if(parts.length > 1) {
+            const name = parts[0];
+
+            parts.shift();
+            const message = parts.join(',').trim();
+
+            const firstIndex = message.indexOf('\'');
+            const lastIndex = message.lastIndexOf('\'');
+
+            const action = message.substring(lastIndex + 1).trim();
+            const title = message.substring(firstIndex, lastIndex+1).trim();
+
+            if(this.appService.currentLanguage == 'en') {
+                if(action.indexOf('başlıklı bir gönderi paylaştı') > -1) {
+                    v = name + ', shared a post with the title ' + title;
+                }
+                else if(action.indexOf('başlıklı gönderini beğendi') > -1) {
+                    v = name + ', liked your post titled ' + title;
+                }
+                else if(action.indexOf('seni takip etmeye başladı') > -1) {
+                    v = name + ', started following you';
+                }
+            }
+
+        }
+        
+        return v;
+    }
 }
