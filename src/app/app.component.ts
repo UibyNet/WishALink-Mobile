@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } from '@capacitor/push-notifications';
+import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
 import { Config, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import { SplashScreen } from '@capacitor/splash-screen';
+
 import { AppService } from './services/app.service';
 
 @Component({
@@ -23,6 +24,10 @@ export class AppComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
+    setTimeout(async () => {
+      await SplashScreen.hide();
+    }, 100);
     
     if (!this.appService.isMobile) {
       //this.config.set('navAnimation', null);

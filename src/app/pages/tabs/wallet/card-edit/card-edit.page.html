@@ -18,7 +18,7 @@
     <div #content class="payment-card-container mw-500-tablet page-content" #paymentCardContainer>
         <div class="card-container mt-3"></div>
         <form [formGroup]="cardForm" card container=".card-container" [card-width]="cardWidth" [placeholders]="placeholders"
-              formatting="true" debug="true">
+              [formatting]="true" [debug]="true">
 
             <ion-slides #cardSlides pager="false" [options]="slideOpts">
                 <ion-slide>

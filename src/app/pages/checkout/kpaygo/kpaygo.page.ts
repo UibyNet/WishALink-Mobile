@@ -13,7 +13,7 @@ import {
   PaymentSummaryDTO,
 } from "src/app/services/api-kpay-ccpayment.service";
 import { Order } from "src/app/models/order";
-import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { CardEditPage } from "../../tabs/wallet/card-edit/card-edit.page";
 
 @Component({

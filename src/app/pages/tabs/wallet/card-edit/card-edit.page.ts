@@ -12,7 +12,7 @@ import {AppService} from "src/app/services/app.service";
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {IonSlides, ModalController, NavParams} from "@ionic/angular";
 import {CardCreateDTO, CardDTO, KpayBackendCardApiService} from "src/app/services/api-kpay-backend.service";
-import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 declare var Payment: any;
 declare var Card: any;

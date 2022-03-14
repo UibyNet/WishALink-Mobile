@@ -53,6 +53,7 @@
         <div *ngIf="isMe" (click)="goMessage()"
           class="clickable my-2 badge-container ml-2 font-9 d-flex ion-justify-content-center ion-align-items-center">
           {{ 'Messenger' | translate }}
+          <ion-badge *ngIf="unreadMessageCount > 0" class="ml-2 font-9">{{unreadMessageCount}}</ion-badge>
         </div>
         <div *ngIf="!isMe" (click)="sendMessage()"
           class="clickable my-2 badge-container ml-2 font-9 d-flex ion-justify-content-center ion-align-items-center">

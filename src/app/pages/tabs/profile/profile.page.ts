@@ -44,6 +44,10 @@ export class ProfilePage implements OnInit {
   profilePictureUrl: string;
   categoryColSize: number = 4;
 
+  get unreadMessageCount () {
+    return this.chatService.getUnreadMessageCount();
+  }
+
   constructor(
     private zone: NgZone,
     private router: Router,

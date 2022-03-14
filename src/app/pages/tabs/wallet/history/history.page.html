@@ -39,12 +39,12 @@
 
         <ion-item>
             <ion-label>{{'Start' | translate}}</ion-label>
-            <ion-datetime displayFormat="DD MMMM YYYY" placeholder="{{'SelectDate' | translate}}" [(ngModel)]="selectedStartDate" [monthNames]="monthNames" doneText="{{'Ok' | translate}}" cancelText="{{'Canel' | translate}}"></ion-datetime>
+            <ion-datetime displayFormat="DD MMMM YYYY" [(ngModel)]="selectedStartDate" [monthValues]="monthNames" doneText="{{'Ok' | translate}}" cancelText="{{'Canel' | translate}}"></ion-datetime>
         </ion-item>
 
         <ion-item>
             <ion-label>{{'End' | translate}}</ion-label>
-            <ion-datetime displayFormat="DD MMMM YYYY" placeholder="{{'SelectDate' | translate}}" [(ngModel)]="selectedEndDate" [monthNames]="monthNames" doneText="{{'Ok' | translate}}" cancelText="{{'Canel' | translate}}"></ion-datetime>
+            <ion-datetime displayFormat="DD MMMM YYYY" [(ngModel)]="selectedEndDate" [monthValues]="monthNames" doneText="{{'Ok' | translate}}" cancelText="{{'Canel' | translate}}"></ion-datetime>
         </ion-item>
 
         <ion-grid>

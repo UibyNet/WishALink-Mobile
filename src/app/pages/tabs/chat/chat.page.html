@@ -36,6 +36,7 @@
                 <img [src]="room.avatar" />
               </ion-avatar>
               <ion-label>{{room.name}}</ion-label>
+              <ion-badge slot="end" *ngIf="room.unreadMessageCount > 0">{{room.unreadMessageCount}}</ion-badge>
             </ion-item>
           </ion-menu-toggle>
         </ion-content>

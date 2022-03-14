@@ -43,7 +43,7 @@ export class ChatPage implements OnInit {
     private route: ActivatedRoute,
     private appService: AppService,
     private navController: NavController
-  ) {}
+  ) { }
 
   ionViewWillEnter() {
     this.appService.toggleStatusBar("dark");
@@ -86,7 +86,7 @@ export class ChatPage implements OnInit {
     this.appService.isTabBarHidden = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   close() {
     this.navController.back();
@@ -102,10 +102,22 @@ export class ChatPage implements OnInit {
   loadRoom(roomId: number) {
     if (this.currentRoom?.id === roomId) return;
 
+
+
+
     this.zone.run(() => {
       this.resetRoom();
 
       this.currentRoom = this.chatService.rooms.find((x) => x.id == roomId);
+
+      if (this.currentRoom != undefined && this.currentRoom.unreadMessageCount > 0) {
+        this.chatApiService.markmessagesasread(this.currentRoom.id)
+          .subscribe(
+            e => console.log('Mesajlar okundu isaretlendi.')
+          )
+        this.currentRoom.unreadMessageCount = 0;
+      }
+
       if (this.currentRoom != null) {
         this.currentRoomMessages =
           this.chatService.roomMessages[this.currentRoom.id];

@@ -95,6 +95,10 @@ export class ChatService {
                 .sort((a, b) => a.id - b.id)
 
     }
+
+    getUnreadMessageCount() {
+        return this.rooms.map(a => (a.unreadMessageCount ?? 0)).reduce((a, b) => a + b, 0);
+    }
     
     private loadRooms() {
         this.chatApiService.getrooms(this.connectionId)

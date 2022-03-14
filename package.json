@@ -8,8 +8,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ionic build --prod",
+    "build": "ng build",
     "sync": "ionic capacitor sync && node --max-old-space-size=4096 ./api/version.js",
+    "prod": "ionic build --prod && npx cap sync && npx cap update && node --max-old-space-size=4096 ./api/version.js",
     "resources": "cordova-res ios && cordova-res android && node --max-old-space-size=4096 ./api/resources.js",
     "ios-run-l": "ionic capacitor run ios -l --external",
     "android-run-l": "ionic capacitor run android -l --external",
@@ -22,7 +23,8 @@
     "nswag-gen-kpay-fixedqrpayment": "nswag openapi2tsclient /input:https://api.kpay.com.tr/fixedqrpayment/KPay.API.FixedQRPayment.V1.yaml /output:src/app/services/api-kpay-fixedqrpayment.service.ts /Template:Angular /InjectionTokenType:InjectionToken /OperationGenerationMode:MultipleClientsFromFirstTagAndOperationId /ClassName:KpayFixedqrPayment{controller}ApiService /DateTimeType:MomentJS /BaseUrlTokenName:KPAY_FIXEDQRPAYMENT_API_URL && node --max-old-space-size=4096 ./api/api.js",
     "nswag-gen-kpay": "npm run nswag-gen-kpay-backend && npm run nswag-gen-kpay-ccpayment && npm run nswag-gen-kpay-fixedqr && npm run nswag-gen-kpay-fixedqrpayment",
     "nswag-gen-wishalink": "nswag openapi2tsclient /input:https://panel.wishalink.com/apidoc/v1/api.json?key=wishalink /output:src/app/services/api-wishalink.service.ts /Template:Angular /InjectionTokenType:InjectionToken /OperationGenerationMode:MultipleClientsFromPathSegments /ClassName:{controller}ApiService /DateTimeType:MomentJS /BaseUrlTokenName:WISH_API_URL && node --max-old-space-size=4096 ./api/api.js",
-    "nswag-gen-wishalink-local": "nswag openapi2tsclient /input:https://localhost:44301/apidoc/v1/api.json?key=wishalink /output:src/app/services/api-wishalink.service.ts /Template:Angular /InjectionTokenType:InjectionToken /OperationGenerationMode:MultipleClientsFromPathSegments /ClassName:{controller}ApiService /DateTimeType:MomentJS /BaseUrlTokenName:WISH_API_URL && node --max-old-space-size=4096 ./api/api.js"
+    "nswag-gen-wishalink-local": "nswag openapi2tsclient /input:https://localhost:44301/apidoc/v1/api.json?key=wishalink /output:src/app/services/api-wishalink.service.ts /Template:Angular /InjectionTokenType:InjectionToken /OperationGenerationMode:MultipleClientsFromPathSegments /ClassName:{controller}ApiService /DateTimeType:MomentJS /BaseUrlTokenName:WISH_API_URL && node --max-old-space-size=4096 ./api/api.js",
+    "postinstall": "ngcc --properties es5 browser module main --first-only"
   },
   "dependencies": {
     "@angular/cdk": "^13.0.0",
@@ -32,6 +34,8 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "@awesome-cordova-plugins/barcode-scanner": "^5.40.0",
+    "@awesome-cordova-plugins/in-app-browser": "^5.40.0",
     "@capacitor-community/contacts": "^1.1.3",
     "@capacitor/android": "^3.4.3",
     "@capacitor/app": "1.1.1",
@@ -53,9 +57,6 @@
     "@capacitor/status-bar": "1.0.8",
     "@capacitor/storage": "^1.2.5",
     "@capacitor/toast": "^1.0.8",
-    "@ionic-native/barcode-scanner": "^5.36.0",
-    "@ionic-native/core": "^5.36.0",
-    "@ionic-native/in-app-browser": "^5.36.0",
     "@ionic/angular": "^6.0.0",
     "@microsoft/signalr": "^6.0.2",
     "@ngx-translate/core": "^14.0.0",
@@ -64,7 +65,6 @@
     "angular-code-input": "^1.6.0",
     "autolinker": "^3.15.0",
     "cordova-plugin-inappbrowser": "^5.0.0",
-    "cordova-plugin-screen-orientation": "^3.0.2",
     "es6-promise-plugin": "^4.2.2",
     "flag-icon-css": "^4.1.7",
     "ion-bottom-sheet": "^2.0.6",

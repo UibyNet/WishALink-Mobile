@@ -68,6 +68,9 @@ export class NotificationComponent implements OnInit {
             if(data.CreatorId > 0) {
                 return data.CreatorId;
             }
+            if(data.SenderId > 0) {
+                return data.SenderId;
+            }
         }
         return 0;
     }
@@ -75,8 +78,8 @@ export class NotificationComponent implements OnInit {
     getNotificationTime(notification: Notification) {
         if(notification != null && notification.data != null && notification.data.length > 0) {
             var data = JSON.parse(notification.data);
-            if(data.TimeStamp) {
-                var ago = moment(data.TimeStamp).fromNow(true);
+            if(notification.sendDate) {
+                var ago = moment(notification.sendDate).fromNow(true);
                 return ago;
             }
         }
@@ -126,6 +129,9 @@ export class NotificationComponent implements OnInit {
                 }
                 else if(action.indexOf('seni takip etmeye başladı') > -1) {
                     v = name + ', started following you';
+                }
+                else if(action.indexOf('bir mesaj gönderdi') > -1) {
+                    v = name + ', sent a message';
                 }
             }
 

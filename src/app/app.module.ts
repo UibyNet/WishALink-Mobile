@@ -4,10 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { isPlatform, IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { InAppBrowser } from "@ionic-native/in-app-browser/ngx";
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,7 +34,6 @@ import { KpayBackendCardApiService, KpayBackendMemberApiService, KpayBackendPaym
 import { KpayCcpaymentCCPaymentApiService, KPAY_CCPAYMENT_API_URL } from './services/api-kpay-ccpayment.service';
 import { KpayFixedqrPayment_RequestApiService, KPAY_FIXEDQR_API_URL } from './services/api-kpay-fixedqr.service';
 import { KpayFixedqrPaymentPayment_RequestApiService, KPAY_FIXEDQRPAYMENT_API_URL } from './services/api-kpay-fixedqrpayment.service';
-import { CardModule } from 'ngx-card';
 import { ChatService } from './services/chat.service';
 
 const isMobile = () => {
@@ -71,7 +71,6 @@ export function createTranslateLoader(http: HttpClient) {
         AppRoutingModule,
         AppPipesModule,
         SharedComponentsModule,
-        CardModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

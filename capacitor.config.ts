@@ -8,16 +8,16 @@ interface ExtendedCapacitorConfig extends CapacitorConfig {
 const config: ExtendedCapacitorConfig = {
   appId: 'com.wishalink',
   appName: 'Wish A Link',
-  versionName: "1.3.9",
-  versionCode: 10309,
+  versionName: "1.4.1",
+  versionCode: 10401,
   webDir: 'www',
   bundledWebRuntime: false,
   plugins: {
     'SplashScreen': {
       launchShowDuration: 1000,
-      launchAutoHide: false,
+      launchAutoHide: true,
       androidScaleType: 'CENTER_CROP',
-      showSpinner: true,
+      showSpinner: false,
       splashFullScreen: false,
       splashImmersive: false
     }

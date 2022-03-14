@@ -2,7 +2,7 @@ import { Component, NgZone, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController, Platform } from '@ionic/angular';
 import { Keyboard } from '@capacitor/keyboard';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { BarcodeScanner } from '@awesome-cordova-plugins/barcode-scanner/ngx';
 import { CheckoutPaymentRequestDTO, KpayFixedqrPaymentPayment_RequestApiService, QRPaymentModeEnum } from "src/app/services/api-kpay-fixedqrpayment.service";
 import { AlertController } from "@ionic/angular";
 import { Order } from "src/app/models/order";

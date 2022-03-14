@@ -251,7 +251,7 @@ export class AddProductPage implements OnInit {
                 this.mediaUrl = null;
                 this.saveImage();
             });
-        });
+        }).catch(e => this.appService.showAlert(e));
 
         // if (this.appService.isMobile) {
         //     this.appService.getImage()

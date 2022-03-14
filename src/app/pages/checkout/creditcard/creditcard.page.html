@@ -17,10 +17,10 @@
       [formGroup]="cardForm"
       card
       container=".card-container"
-      card-width="350"
+      [card-width]="350"
       [placeholders]="placeholders"
-      formatting="true"
-      debug="true"
+      [formatting]="true"
+      [debug]="true"
     >
       <ion-slides #cardSlides pager="false" [options]="slideOpts">
         <ion-slide>
