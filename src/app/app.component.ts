@@ -21,23 +21,29 @@ export class AppComponent implements OnInit {
     translate.addLangs(['tr', 'en']);
     translate.setDefaultLang('tr');
     this.translate.use(this.appService.currentLanguage);
-   }
+  }
 
   ngOnInit(): void {
 
     setTimeout(async () => {
       await SplashScreen.hide();
     }, 100);
-    
+
     if (!this.appService.isMobile) {
       //this.config.set('navAnimation', null);
       //this.config.set('animated', false);
     }
+    console.log('*****', this.platform.platforms(), this.platform.is('capacitor'))
 
     if (this.platform.is('capacitor')) {
-      window.screen.orientation.lock('portrait');
+      try {
+        window.screen.orientation.lock('portrait');
+      } catch (error) {
+        console.log(error);
 
+      }
       PushNotifications.requestPermissions().then(result => {
+        console.log('***** Izin verildi', result.receive)
         if (result.receive === 'granted') {
           PushNotifications.register();
         } else {

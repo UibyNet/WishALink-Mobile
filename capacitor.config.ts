@@ -8,8 +8,8 @@ interface ExtendedCapacitorConfig extends CapacitorConfig {
 const config: ExtendedCapacitorConfig = {
   appId: 'com.wishalink',
   appName: 'Wish A Link',
-  versionName: "1.4.2",
-  versionCode: 10402,
+  versionName: "1.4.3",
+  versionCode: 10403,
   webDir: 'www',
   bundledWebRuntime: false,
   plugins: {
@@ -20,6 +20,9 @@ const config: ExtendedCapacitorConfig = {
       showSpinner: false,
       splashFullScreen: false,
       splashImmersive: false
+    },
+    PushNotifications: {
+      presentationOptions: ["badge", "sound", "alert"],
     }
   }
 };
