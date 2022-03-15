@@ -123,7 +123,9 @@ export class ChatService {
                     this.isConversationsLoading = false;
 
                     this.zone.run(() => {
-                        this.conversations = v;
+                        const tempConversations = this.conversations.concat(v);
+                        this.conversations = [...new Map(tempConversations.map(item => [item['id'], item])).values()];
+
                         this.onConversationsChanged.emit();
                     })
 

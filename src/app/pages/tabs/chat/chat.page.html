@@ -28,7 +28,7 @@
           <ion-menu-toggle
             menu="chat-menu"
             auto-hide="false"
-            *ngFor="let conversation of chatService.conversations"
+            *ngFor="let conversation of conversations"
             (click)="changeConversation(conversation)"
           >
             <ion-item button [class.active]="this.currentConversation?.id == conversation.id">

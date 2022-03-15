@@ -25,6 +25,7 @@ export class ChatPage implements OnInit {
   @ViewChild("chatContent", { static: false }) private chatContent: any;
   @ViewChild("chatMenu", { static: false }) private chatMenu: any;
 
+  currentConversationId: number;
   currentConversation: ConversationModel;
   currentConversationMessages: MessageModel[];
   currentConversationHasMoreMessages: boolean = false;
@@ -33,6 +34,20 @@ export class ChatPage implements OnInit {
   isSending: boolean;
   isLoading: boolean;
   currentUserId: number;
+
+
+  get conversations() {
+    return this.chatService.conversations.map(x => {
+      const messages = this.chatService.conversationMessages[x.id];
+      if (messages != undefined && messages.length > 0) {
+        x.totalMessageCount = messages.length;
+        x.unreadMessageCount = messages.filter(x => x.receiverId == this.appService.user.id && !x.isRead).length;
+        x.lastMessageDate = messages.sort((a, b) => moment(a.createdOn, 'DD.MM.YYYY HH:mm:ss').unix() - moment(b.createdOn, 'DD.MM.YYYY HH:mm:ss').unix() > 0 ? 1 : -1)[0]?.createdOn ?? '01.01.2000';
+      }
+      return x;
+    })
+      .sort((a, b) => moment(a.lastMessageDate, 'DD.MM.YYYY HH:mm:ss').unix() - moment(b.lastMessageDate, 'DD.MM.YYYY HH:mm:ss').unix() > 0 ? 1 : -1);
+  }
 
   constructor(
     public chatService: ChatService,
@@ -43,31 +58,33 @@ export class ChatPage implements OnInit {
     private route: ActivatedRoute,
     private appService: AppService,
     private navController: NavController
-  ) { }
+  ) {
+  }
 
   ionViewWillEnter() {
+
     this.appService.toggleStatusBar("dark");
     this.appService.setStatusBarBackground("primary");
     this.appService.isTabBarHidden = true;
 
     this.currentUserId = this.appService.user.id;
 
-    const routedConversationId = parseInt(this.route.snapshot.params.id);
+    this.currentConversationId = parseInt(this.route.snapshot.params.id);
 
-    if (routedConversationId > 0) {
-      this.loadConversation(routedConversationId);
+    if (this.currentConversationId > 0) {
+      this.loadConversation(this.currentConversationId);
     } else {
       this.chatMenu.open();
     }
 
     this.location.onUrlChange((u, s) => {
-      var conversationId = parseInt(u.replace("/app/chat/", ""));
-      this.loadConversation(conversationId);
+      this.currentConversationId = parseInt(u.replace("/app/chat/", ""));
+      this.loadConversation(this.currentConversationId);
     });
 
     this.chatService.onConversationsChanged.subscribe(() => {
       if (this.currentConversation == null) {
-        this.loadConversation(routedConversationId);
+        this.loadConversation(this.currentConversationId);
       }
     });
 
@@ -122,6 +139,27 @@ export class ChatPage implements OnInit {
           this.loadMessages();
         }
       }
+      else {
+        if (this.currentConversationId > 0) {
+          this.appService.toggleLoader().then(
+            v => {
+              this.chatApiService
+                .getconversationbyid(this.currentConversationId)
+                .subscribe((v) => {
+                  this.zone.run(() => {
+                    this.appService.toggleLoader(false);
+                    if (this.chatService.conversations.find((x) => x.id == v.id) == null) {
+                      this.chatService.conversations.push(v);
+                    }
+                    this.currentConversation = this.chatService.conversations.find((x) => x.id == conversationId);
+                    this.loadMessages();
+                  });
+                });
+            }
+          )
+        }
+
+      }
 
       setTimeout(() => {
         this.zone.run(() => {
@@ -136,8 +174,11 @@ export class ChatPage implements OnInit {
       this.chatApiService.markmessagesasread(this.currentConversation.id)
         .subscribe(
           v => {
-            this.chatService.onMessagesRead.emit();
-            console.log('Mesajlar okundu isaretlendi.')
+            const messages = this.chatService.conversationMessages[this.currentConversationId];
+            if (messages != null && messages.length > 0) {
+              this.chatService.onMessagesRead.emit();
+              this.chatService.conversationMessages[this.currentConversationId] = messages.map(x => { x.isRead = true; return x });
+            }
           }
         )
       this.currentConversation.unreadMessageCount = 0;

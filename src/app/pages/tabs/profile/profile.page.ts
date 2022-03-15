@@ -67,11 +67,11 @@ export class ProfilePage implements OnInit {
     if (id == "me") {
       this.userId = this.appService.user.id;
 
-      if(!this.appService.isFcmTokenSaved && this.appService.fcmToken != undefined) {
+      if (!this.appService.isFcmTokenSaved && this.appService.fcmToken != undefined) {
         this.appService.isFcmTokenSaved = true;
         const userModel = new UserModel();
         userModel.fcmToken = this.appService.fcmToken;
-        this.profileApiService.update(userModel).subscribe(v=>{})
+        this.profileApiService.update(userModel).subscribe(v => { })
       }
     } else {
       this.userId = parseInt(id);
@@ -126,7 +126,7 @@ export class ProfilePage implements OnInit {
       }
     });
 
-    
+
     this.zone.run(() => {
       this.unreadMessageCount = this.chatService.getUnreadMessageCount();
     })
@@ -191,17 +191,24 @@ export class ProfilePage implements OnInit {
   goMessage() {
     this.router.navigate(["app", "chat", 0]);
   }
+
   sendMessage() {
-    this.chatApiService
-      .getconversation(this.userId)
-      .subscribe((v) => {
-        this.zone.run(() => {
-          if (this.chatService.conversations.find((x) => x.id == v.id) == null) {
-            this.chatService.conversations.push(v);
-          }
-          this.router.navigate(["app", "chat", v.id]);
-        });
-      });
+    this.appService.toggleLoader(true)
+      .then(
+        v => {
+          this.chatApiService
+            .getconversation(this.userId)
+            .subscribe((v) => {
+              this.zone.run(() => {
+                this.appService.toggleLoader(false);
+                if (this.chatService.conversations.find((x) => x.id == v.id) == null) {
+                  this.chatService.conversations.push(v);
+                }
+                this.router.navigate(["app", "chat", v.id]);
+              });
+            });
+        })
+
   }
 
   onUserInfoLoad(v: SocialUserListModel) {
@@ -300,7 +307,6 @@ export class ProfilePage implements OnInit {
 
   openActivityEdit(activity: ActivityListModel) {
     if (activity.createdBy.id != this.appService.user.id) return;
-    debugger;
 
     this.router.navigate(["/app/activity/create"], {
       queryParams: {
