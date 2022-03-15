@@ -28,15 +28,15 @@
           <ion-menu-toggle
             menu="chat-menu"
             auto-hide="false"
-            *ngFor="let room of chatService.rooms"
-            (click)="changeRoom(room)"
+            *ngFor="let conversation of chatService.conversations"
+            (click)="changeConversation(conversation)"
           >
-            <ion-item button [class.active]="this.currentRoom?.id == room.id">
+            <ion-item button [class.active]="this.currentConversation?.id == conversation.id">
               <ion-avatar slot="start">
-                <img [src]="room.avatar" />
+                <img [src]="conversation.avatar" />
               </ion-avatar>
-              <ion-label>{{room.name}}</ion-label>
-              <ion-badge slot="end" *ngIf="room.unreadMessageCount > 0">{{room.unreadMessageCount}}</ion-badge>
+              <ion-label>{{conversation.receiverName}}</ion-label>
+              <ion-badge slot="end" *ngIf="conversation.unreadMessageCount > 0">{{conversation.unreadMessageCount}}</ion-badge>
             </ion-item>
           </ion-menu-toggle>
         </ion-content>
@@ -59,14 +59,14 @@
                 ></ion-menu-button>
               </ion-buttons>
               <ion-title
-                >{{ currentRoom == null? 'Mesajlar' : currentRoom.name
+                >{{ currentConversation == null? 'Mesajlar' : currentConversation.receiverName
                 }}</ion-title
               >
               <ion-buttons slot="end">
                 <ion-button
-                  *ngIf="currentRoom"
+                  *ngIf="currentConversation"
                   fill="clear"
-                  (click)="leaveRoom()"
+                  (click)="leaveConversation()"
                 >
                   <ion-icon
                     name="trash"
@@ -78,16 +78,16 @@
           </ion-header>
           <ion-content #chatContent>
             <ion-button
-              *ngIf="currentRoomHasMoreMessages"
+              *ngIf="currentConversationHasMoreMessages"
               fill="clear"
               (click)="loadMessages()"
               >Daha fazla yükle</ion-button
             >
             <ion-list>
-              <ion-item *ngFor="let message of currentRoomMessages">
+              <ion-item *ngFor="let message of currentConversationMessages">
                 <div
                   class="message-item"
-                  [class.my]="message.fromId == currentUserId"
+                  [class.my]="message.senderId == currentUserId"
                 >
                   <div class="message-balloon">
                     <span [innerHTML]="message.content | linky"></span>

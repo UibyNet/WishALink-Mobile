@@ -1,7 +1,7 @@
 import { EventEmitter, Inject, Injectable, NgZone, Optional, Output } from "@angular/core";
 import * as signalR from '@microsoft/signalr';
 import * as moment from "moment";
-import { ChatApiService, MessageModel, RoomListModel, WISH_API_URL } from "./api-wishalink.service";
+import { ChatApiService, ConversationModel, MessageModel, WISH_API_URL } from "./api-wishalink.service";
 import { AppService } from "./app.service";
 
 @Injectable({
@@ -9,15 +9,17 @@ import { AppService } from "./app.service";
 })
 export class ChatService {
 
-    @Output() onRoomsChanged = new EventEmitter<any>();
+    @Output() onConversationsChanged = new EventEmitter<any>();
     @Output() onNewMessage = new EventEmitter<any>();
+    @Output() onMessagesRead = new EventEmitter<any>();
 
     baseUrl: string;
     connection: signalR.HubConnection;
     isInitialized: boolean = false;
     connectionId: string;
-    rooms: RoomListModel[] = [];
-    roomMessages:  { [id: number] : MessageModel[] } = {};
+    conversations: ConversationModel[] = [];
+    conversationMessages: { [id: number]: MessageModel[] } = {};
+    isConversationsLoading: boolean;
 
     constructor(
         private zone: NgZone,
@@ -55,62 +57,81 @@ export class ChatService {
         });
     }
 
-    
+
 
     private setClientMethods() {
         this.connection.on("setConnectionId", (connectionId: string) => {
             this.connectionId = connectionId;
 
-            this.loadRooms();
+            this.loadConversations();
         })
 
-        this.connection.on("newRoom", (connectionId: string) => {
-            this.loadRooms();
+        this.connection.on("newConversation", (connectionId: string) => {
+            this.loadConversations();
         })
 
         this.connection.on("newMessage", (message: MessageModel) => {
-            this.addRoomMessage(message);
-            
-            this.zone.run(()=>{
+            this.addConversationMessage(message);
+
+            const conversation = this.conversations.find(x => x.id == message.conversationId);
+
+            if(conversation == undefined) {
+                this.loadConversations();
+            }
+            else {
+                if(message.receiverId == this.appService.user.id) {
+                    conversation.unreadMessageCount++;
+                }
+                conversation.totalMessageCount++;
+            }
+
+            this.zone.run(() => {
                 this.onNewMessage.emit();
             })
         })
 
-        
+
     }
 
-    addRoomMessage(message: MessageModel) {
-        if(this.roomMessages[message.roomId] == undefined) {
-            this.roomMessages[message.roomId] = [];
+    addConversationMessage(message: MessageModel) {
+        if (this.conversationMessages[message.conversationId] == undefined) {
+            this.conversationMessages[message.conversationId] = [];
         }
 
-        if(this.roomMessages[message.roomId].find(x => x.id == message.id) != null)
-        {
+        if (this.conversationMessages[message.conversationId].find(x => x.id == message.id) != null) {
             return;
         }
 
-        this.roomMessages[message.roomId].push(message);
-        this.roomMessages[message.roomId] = 
-            this.roomMessages[message.roomId]
+        this.conversationMessages[message.conversationId].push(message);
+        this.conversationMessages[message.conversationId] =
+            this.conversationMessages[message.conversationId]
                 .sort((a, b) => a.id - b.id)
 
     }
 
     getUnreadMessageCount() {
-        return this.rooms.map(a => (a.unreadMessageCount ?? 0)).reduce((a, b) => a + b, 0);
+        return this.conversations.map(a => (a.unreadMessageCount ?? 0)).reduce((a, b) => a + b, 0);
     }
-    
-    private loadRooms() {
-        this.chatApiService.getrooms(this.connectionId)
+
+    private loadConversations() {
+        if(this.isConversationsLoading) return;
+
+        this.isConversationsLoading = true;
+        this.chatApiService.conversations()
             .subscribe(
                 v => {
-                    this.zone.run(()=>{
-                        this.rooms = v;
-                        this.onRoomsChanged.emit();
+                    this.isConversationsLoading = false;
+
+                    this.zone.run(() => {
+                        this.conversations = v;
+                        this.onConversationsChanged.emit();
                     })
-                    
+
                 },
-                e => console.log(e)
+                e => {
+                    this.isConversationsLoading = false;
+                    console.log(e)
+                }
             )
     }
 }

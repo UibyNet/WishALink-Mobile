@@ -109,7 +109,7 @@ export function createTranslateLoader(http: HttpClient) {
         { provide: KPAY_FIXEDQR_API_URL, useValue: "https://api.kpay.com.tr/FixedQR/V1" },
         { provide: KPAY_FIXEDQRPAYMENT_API_URL, useValue: "https://api.kpay.com.tr/FixedQRPayment/V1" },
         { provide: WISH_API_URL, useValue: "https://panel.wishalink.com" },
-        //{ provide: WISH_API_URL, useValue: "https://localhost:44301" },
+        //{ provide: WISH_API_URL, useValue: "http://192.168.253.61:5000" },
     ],
     bootstrap: [AppComponent],
 })

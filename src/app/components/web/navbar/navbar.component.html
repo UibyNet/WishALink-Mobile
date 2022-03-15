@@ -97,6 +97,9 @@
             slot="icon-only"
             name="chatbubble-outline"
           ></ion-icon>
+          <ion-badge *ngIf="unreadMessageCount > 0">{{
+            unreadMessageCount
+          }}</ion-badge>
         </ion-button>
         <ion-button routerLink="/app/settings" fill="clear" class="social-btn">
           <ion-icon

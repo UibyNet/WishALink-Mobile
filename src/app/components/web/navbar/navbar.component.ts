@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, NgZone, OnInit, ViewChild } from "@angular/core";
 import { AppService } from "src/app/services/app.service";
 import { IonSelect, ModalController } from "@ionic/angular";
 import { NotificationComponent } from "src/app/components/notification/notification.component";
 import { NavigationExtras, Router } from "@angular/router";
+import { ChatService } from "src/app/services/chat.service";
 
 @Component({
   selector: "app-navbar",
@@ -14,7 +15,10 @@ export class NavbarComponent implements OnInit {
   currentLang: string;
 
   @ViewChild("langSelector", { static: false }) langSelect: IonSelect;
+  unreadMessageCount: number;
   constructor(
+    public zone: NgZone,
+    public chatService: ChatService,
     public appService: AppService,
     private modalController: ModalController,
     private router: Router
@@ -28,7 +32,27 @@ export class NavbarComponent implements OnInit {
   }
   ngOnInit() {
     this.canUser();
-    console.log("user " + this.boolUser);
+
+    this.zone.run(() => {
+      this.unreadMessageCount = this.chatService.getUnreadMessageCount();
+    })
+    this.chatService.onNewMessage.subscribe(v => {
+      this.zone.run(() => {
+        this.unreadMessageCount = this.chatService.getUnreadMessageCount();
+      })
+    });
+
+    this.chatService.onConversationsChanged.subscribe(v => {
+      this.zone.run(() => {
+        this.unreadMessageCount = this.chatService.getUnreadMessageCount();
+      })
+    });
+
+    this.chatService.onMessagesRead.subscribe(v => {
+      this.zone.run(() => {
+        this.unreadMessageCount = this.chatService.getUnreadMessageCount();
+      })
+    });
   }
   public canUser() {
     const currentUser = this.appService.user;

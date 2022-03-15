@@ -10,8 +10,8 @@ import { NavController } from "@ionic/angular";
 import * as moment from "moment";
 import {
   ChatApiService,
-  MessageModel,
-  RoomListModel,
+  ConversationModel,
+  MessageModel
 } from "src/app/services/api-wishalink.service";
 import { AppService } from "src/app/services/app.service";
 import { ChatService } from "src/app/services/chat.service";
@@ -25,9 +25,9 @@ export class ChatPage implements OnInit {
   @ViewChild("chatContent", { static: false }) private chatContent: any;
   @ViewChild("chatMenu", { static: false }) private chatMenu: any;
 
-  currentRoom: RoomListModel;
-  currentRoomMessages: MessageModel[];
-  currentRoomHasMoreMessages: boolean = false;
+  currentConversation: ConversationModel;
+  currentConversationMessages: MessageModel[];
+  currentConversationHasMoreMessages: boolean = false;
 
   newMessage: string = "";
   isSending: boolean;
@@ -52,33 +52,35 @@ export class ChatPage implements OnInit {
 
     this.currentUserId = this.appService.user.id;
 
-    const routedRoomId = parseInt(this.route.snapshot.params.id);
+    const routedConversationId = parseInt(this.route.snapshot.params.id);
 
-    if (routedRoomId > 0) {
-      this.loadRoom(routedRoomId);
+    if (routedConversationId > 0) {
+      this.loadConversation(routedConversationId);
     } else {
       this.chatMenu.open();
     }
 
     this.location.onUrlChange((u, s) => {
-      var roomId = parseInt(u.replace("/app/chat/", ""));
-      this.loadRoom(roomId);
+      var conversationId = parseInt(u.replace("/app/chat/", ""));
+      this.loadConversation(conversationId);
     });
 
-    this.chatService.onRoomsChanged.subscribe(() => {
-      if (this.currentRoom == null) {
-        this.loadRoom(routedRoomId);
+    this.chatService.onConversationsChanged.subscribe(() => {
+      if (this.currentConversation == null) {
+        this.loadConversation(routedConversationId);
       }
     });
 
     this.chatService.onNewMessage.subscribe(() => {
-      this.currentRoomMessages =
-        this.chatService.roomMessages[this.currentRoom.id];
-      setTimeout(() => {
-        this.zone.run(() => {
-          this.chatContent.scrollToBottom();
-        });
-      }, 200);
+      if (this.currentConversationMessages != null) {
+        this.currentConversationMessages = this.chatService.conversationMessages[this.currentConversation.id];
+        setTimeout(() => {
+          this.zone.run(() => {
+            this.markMessagesAsRead();
+            this.chatContent.scrollToBottom();
+          });
+        }, 200);
+      }
     });
   }
 
@@ -92,39 +94,30 @@ export class ChatPage implements OnInit {
     this.navController.back();
   }
 
-  changeRoom(room: RoomListModel) {
+  changeConversation(conversation: ConversationModel) {
     if (this.isSending) return;
     if (this.isLoading) return;
 
-    this.location.replaceState("/app/chat/" + room.id);
+    this.location.replaceState("/app/chat/" + conversation.id);
   }
 
-  loadRoom(roomId: number) {
-    if (this.currentRoom?.id === roomId) return;
-
-
-
+  loadConversation(conversationId: number) {
+    if (this.currentConversation?.id === conversationId) return;
 
     this.zone.run(() => {
-      this.resetRoom();
+      this.resetConversation();
 
-      this.currentRoom = this.chatService.rooms.find((x) => x.id == roomId);
+      this.currentConversation = this.chatService.conversations.find((x) => x.id == conversationId);
 
-      if (this.currentRoom != undefined && this.currentRoom.unreadMessageCount > 0) {
-        this.chatApiService.markmessagesasread(this.currentRoom.id)
-          .subscribe(
-            e => console.log('Mesajlar okundu isaretlendi.')
-          )
-        this.currentRoom.unreadMessageCount = 0;
-      }
+      this.markMessagesAsRead();
 
-      if (this.currentRoom != null) {
-        this.currentRoomMessages =
-          this.chatService.roomMessages[this.currentRoom.id];
+      if (this.currentConversation != null) {
+        this.currentConversationMessages =
+          this.chatService.conversationMessages[this.currentConversation.id];
 
         if (
-          this.currentRoomMessages == null ||
-          this.currentRoomMessages.length == 0
+          this.currentConversationMessages == null ||
+          this.currentConversationMessages.length == 0
         ) {
           this.loadMessages();
         }
@@ -138,18 +131,32 @@ export class ChatPage implements OnInit {
     });
   }
 
-  leaveRoom() {
-    const roomToLeaveId = this.currentRoom.id;
+  markMessagesAsRead() {
+    if (this.currentConversation != undefined && this.currentConversation.unreadMessageCount > 0) {
+      this.chatApiService.markmessagesasread(this.currentConversation.id)
+        .subscribe(
+          v => {
+            this.chatService.onMessagesRead.emit();
+            console.log('Mesajlar okundu isaretlendi.')
+          }
+        )
+      this.currentConversation.unreadMessageCount = 0;
+    }
+  }
+
+  leaveConversation() {
+    const currentConversationId = this.currentConversation.id;
 
     this.chatApiService
-      .leaveroom(roomToLeaveId, this.chatService.connectionId)
+      .deleteconversation(currentConversationId)
       .subscribe((v) => {
         this.location.replaceState("/app/chat/0");
-        this.resetRoom();
+        this.resetConversation();
 
         this.zone.run(() => {
-          this.chatService.rooms = this.chatService.rooms.filter(
-            (x) => x.id != roomToLeaveId
+          this.chatService.conversationMessages[currentConversationId] = [];
+          this.chatService.conversations = this.chatService.conversations.filter(
+            (x) => x.id != currentConversationId
           );
         });
 
@@ -159,12 +166,12 @@ export class ChatPage implements OnInit {
       });
   }
 
-  resetRoom() {
+  resetConversation() {
     this.zone.run(() => {
       this.newMessage = "";
-      this.currentRoomHasMoreMessages = false;
-      this.currentRoomMessages = null;
-      this.currentRoom = null;
+      this.currentConversationHasMoreMessages = false;
+      this.currentConversationMessages = null;
+      this.currentConversation = null;
       this.focusInput();
     });
   }
@@ -184,14 +191,21 @@ export class ChatPage implements OnInit {
     this.isSending = true;
 
     var messageModel = new MessageModel();
-    messageModel.fromId = this.appService.user.id;
-    messageModel.roomId = this.currentRoom.id;
+    messageModel.senderId = this.appService.user.id;
+    messageModel.receiverId = this.currentConversation.receiverId;
+    messageModel.conversationId = this.currentConversation.id;
     messageModel.content = this.newMessage;
     this.chatApiService.createmessage(messageModel).subscribe((v) => {
       this.zone.run(() => {
         this.newMessage = "";
         this.isSending = false;
 
+        if (
+          this.currentConversationMessages == undefined ||
+          this.currentConversationMessages.length == 0
+        ) {
+          this.loadMessages();
+        }
         setTimeout(() => {
           this.zone.run(() => {
             this.chatContent.scrollToBottom();
@@ -209,17 +223,17 @@ export class ChatPage implements OnInit {
     let minMessageId = 0;
 
     if (
-      this.currentRoomMessages != undefined &&
-      this.currentRoomMessages.length > 0
+      this.currentConversationMessages != undefined &&
+      this.currentConversationMessages.length > 0
     ) {
-      minMessageId = this.currentRoomMessages
+      minMessageId = this.currentConversationMessages
         .map((x) => x.id)
         .sort((a, b) => a - b)[0];
     }
 
     this.isLoading = true;
     this.chatApiService
-      .getmessages(this.currentRoom.id, minMessageId)
+      .getmessages(this.currentConversation.id, minMessageId)
       .subscribe((v) => {
         this.zone.run(() => {
           this.isLoading = false;
@@ -231,14 +245,14 @@ export class ChatPage implements OnInit {
           ) {
             for (let i = 0; i < v.messages.length; i++) {
               const message = v.messages[i];
-              this.chatService.addRoomMessage(message);
+              this.chatService.addConversationMessage(message);
             }
           }
 
-          this.currentRoomMessages = this.chatService.roomMessages[v.id];
-          //   console.log("halil ", this.currentRoomMessages);
+          this.currentConversationMessages = this.chatService.conversationMessages[v.id];
+          //   console.log("halil ", this.currentConversationMessages);
 
-          //   this.currentRoomMessages.forEach((element) => {
+          //   this.currentConversationMessages.forEach((element) => {
           //     var urlCheck =
           //       /(([a-zA-Z0-9]+:\/\/)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\.[A-Za-z]{2,4})(:[0-9]+)?(\/.*)?)/;
           //     let b = element.content.replace(urlCheck, "<a>$1</a>");
@@ -249,11 +263,11 @@ export class ChatPage implements OnInit {
           //   var urlRE = new RegExp(
           //     "([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+"
           //   );
-          //   this.currentRoomMessages.forEach((element) => {
+          //   this.currentConversationMessages.forEach((element) => {
           //     let a = element.content.match(urlRE);
           //     console.log("ss ", a);
           //   });
-          this.currentRoomHasMoreMessages = v.hasMore;
+          this.currentConversationHasMoreMessages = v.hasMore;
           setTimeout(() => {
             this.zone.run(() => {
               this.chatContent.scrollToBottom();

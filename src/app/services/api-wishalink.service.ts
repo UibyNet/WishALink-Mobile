@@ -1478,15 +1478,10 @@ export class ChatApiService {
     }
 
     /**
-     * @param id (optional) 
      * @return Success
      */
-    getmessage(id: number | undefined): Observable<MessageModel> {
-        let url_ = this.baseUrl + "/api/chat/getmessage?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+    conversations(): Observable<ConversationModel[]> {
+        let url_ = this.baseUrl + "/api/chat/conversations";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1498,20 +1493,20 @@ export class ChatApiService {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetmessage(response_);
+            return this.processConversations(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetmessage(response_ as any);
+                    return this.processConversations(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<MessageModel>;
+                    return _observableThrow(e) as any as Observable<ConversationModel[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<MessageModel>;
+                return _observableThrow(response_) as any as Observable<ConversationModel[]>;
         }));
     }
 
-    protected processGetmessage(response: HttpResponseBase): Observable<MessageModel> {
+    protected processConversations(response: HttpResponseBase): Observable<ConversationModel[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1522,35 +1517,42 @@ export class ChatApiService {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = MessageModel.fromJS(resultData200);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ConversationModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
             return _observableOf(result200);
             }));
-        } else if (status === 404) {
+        } else if (status === 400) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = ProblemDetails.fromJS(resultData400);
+            return throwException("Bad Request", status, _responseText, _headers, result400);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<MessageModel>(null as any);
+        return _observableOf<ConversationModel[]>(null as any);
     }
 
     /**
-     * @param roomId (optional) 
+     * @param conversationId (optional) 
      * @param minId (optional) 
      * @return Success
      */
-    getmessages(roomId: number | undefined, minId: number | undefined): Observable<RoomMessagesModel> {
+    getmessages(conversationId: number | undefined, minId: number | undefined): Observable<ConversationMessagesModel> {
         let url_ = this.baseUrl + "/api/chat/getmessages?";
-        if (roomId === null)
-            throw new Error("The parameter 'roomId' cannot be null.");
-        else if (roomId !== undefined)
-            url_ += "roomId=" + encodeURIComponent("" + roomId) + "&";
+        if (conversationId === null)
+            throw new Error("The parameter 'conversationId' cannot be null.");
+        else if (conversationId !== undefined)
+            url_ += "conversationId=" + encodeURIComponent("" + conversationId) + "&";
         if (minId === null)
             throw new Error("The parameter 'minId' cannot be null.");
         else if (minId !== undefined)
@@ -1572,14 +1574,14 @@ export class ChatApiService {
                 try {
                     return this.processGetmessages(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<RoomMessagesModel>;
+                    return _observableThrow(e) as any as Observable<ConversationMessagesModel>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<RoomMessagesModel>;
+                return _observableThrow(response_) as any as Observable<ConversationMessagesModel>;
         }));
     }
 
-    protected processGetmessages(response: HttpResponseBase): Observable<RoomMessagesModel> {
+    protected processGetmessages(response: HttpResponseBase): Observable<ConversationMessagesModel> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1590,7 +1592,7 @@ export class ChatApiService {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = RoomMessagesModel.fromJS(resultData200);
+            result200 = ConversationMessagesModel.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -1605,19 +1607,19 @@ export class ChatApiService {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<RoomMessagesModel>(null as any);
+        return _observableOf<ConversationMessagesModel>(null as any);
     }
 
     /**
-     * @param roomId (optional) 
+     * @param conversationId (optional) 
      * @return Success
      */
-    markmessagesasread(roomId: number | undefined): Observable<void> {
+    markmessagesasread(conversationId: number | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/chat/markmessagesasread?";
-        if (roomId === null)
-            throw new Error("The parameter 'roomId' cannot be null.");
-        else if (roomId !== undefined)
-            url_ += "roomId=" + encodeURIComponent("" + roomId) + "&";
+        if (conversationId === null)
+            throw new Error("The parameter 'conversationId' cannot be null.");
+        else if (conversationId !== undefined)
+            url_ += "conversationId=" + encodeURIComponent("" + conversationId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1790,362 +1792,15 @@ export class ChatApiService {
     }
 
     /**
-     * @param connectionId (optional) 
-     * @return Success
-     */
-    getrooms(connectionId: string | undefined): Observable<RoomListModel[]> {
-        let url_ = this.baseUrl + "/api/chat/getrooms?";
-        if (connectionId === null)
-            throw new Error("The parameter 'connectionId' cannot be null.");
-        else if (connectionId !== undefined)
-            url_ += "connectionId=" + encodeURIComponent("" + connectionId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetrooms(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetrooms(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<RoomListModel[]>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<RoomListModel[]>;
-        }));
-    }
-
-    protected processGetrooms(response: HttpResponseBase): Observable<RoomListModel[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(RoomListModel.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<RoomListModel[]>(null as any);
-    }
-
-    /**
      * @param id (optional) 
-     * @param connectionId (optional) 
      * @return Success
      */
-    getroom(id: number | undefined, connectionId: string | undefined): Observable<RoomListModel> {
-        let url_ = this.baseUrl + "/api/chat/getroom?";
+    deleteconversation(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/chat/deleteconversation?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
         else if (id !== undefined)
             url_ += "id=" + encodeURIComponent("" + id) + "&";
-        if (connectionId === null)
-            throw new Error("The parameter 'connectionId' cannot be null.");
-        else if (connectionId !== undefined)
-            url_ += "connectionId=" + encodeURIComponent("" + connectionId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetroom(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetroom(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<RoomListModel>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<RoomListModel>;
-        }));
-    }
-
-    protected processGetroom(response: HttpResponseBase): Observable<RoomListModel> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = RoomListModel.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<RoomListModel>(null as any);
-    }
-
-    /**
-     * @param participantId (optional) 
-     * @param connectionId (optional) 
-     * @return Success
-     */
-    getorcreateroom(participantId: number | undefined, connectionId: string | undefined): Observable<RoomListModel> {
-        let url_ = this.baseUrl + "/api/chat/getorcreateroom?";
-        if (participantId === null)
-            throw new Error("The parameter 'participantId' cannot be null.");
-        else if (participantId !== undefined)
-            url_ += "participantId=" + encodeURIComponent("" + participantId) + "&";
-        if (connectionId === null)
-            throw new Error("The parameter 'connectionId' cannot be null.");
-        else if (connectionId !== undefined)
-            url_ += "connectionId=" + encodeURIComponent("" + connectionId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetorcreateroom(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetorcreateroom(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<RoomListModel>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<RoomListModel>;
-        }));
-    }
-
-    protected processGetorcreateroom(response: HttpResponseBase): Observable<RoomListModel> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = RoomListModel.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<RoomListModel>(null as any);
-    }
-
-    /**
-     * @param connectionId (optional) 
-     * @param body (optional) 
-     * @return Success
-     */
-    createroom(connectionId: string | undefined, body: RoomEditModel | undefined): Observable<RoomListModel> {
-        let url_ = this.baseUrl + "/api/chat/createroom?";
-        if (connectionId === null)
-            throw new Error("The parameter 'connectionId' cannot be null.");
-        else if (connectionId !== undefined)
-            url_ += "connectionId=" + encodeURIComponent("" + connectionId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateroom(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateroom(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<RoomListModel>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<RoomListModel>;
-        }));
-    }
-
-    protected processCreateroom(response: HttpResponseBase): Observable<RoomListModel> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = RoomListModel.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<RoomListModel>(null as any);
-    }
-
-    /**
-     * @param id (optional) 
-     * @param body (optional) 
-     * @return Success
-     */
-    editroom(id: number | undefined, body: RoomEditModel | undefined): Observable<RoomListModel> {
-        let url_ = this.baseUrl + "/api/chat/editroom?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processEditroom(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processEditroom(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<RoomListModel>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<RoomListModel>;
-        }));
-    }
-
-    protected processEditroom(response: HttpResponseBase): Observable<RoomListModel> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = RoomListModel.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status === 404) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result404: any = null;
-            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result404 = ProblemDetails.fromJS(resultData404);
-            return throwException("Not Found", status, _responseText, _headers, result404);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<RoomListModel>(null as any);
-    }
-
-    /**
-     * @param id (optional) 
-     * @param connectionId (optional) 
-     * @return Success
-     */
-    leaveroom(id: number | undefined, connectionId: string | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/chat/leaveroom?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
-        if (connectionId === null)
-            throw new Error("The parameter 'connectionId' cannot be null.");
-        else if (connectionId !== undefined)
-            url_ += "connectionId=" + encodeURIComponent("" + connectionId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2156,11 +1811,11 @@ export class ChatApiService {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processLeaveroom(response_);
+            return this.processDeleteconversation(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processLeaveroom(response_ as any);
+                    return this.processDeleteconversation(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<void>;
                 }
@@ -2169,7 +1824,7 @@ export class ChatApiService {
         }));
     }
 
-    protected processLeaveroom(response: HttpResponseBase): Observable<void> {
+    protected processDeleteconversation(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2193,6 +1848,69 @@ export class ChatApiService {
             }));
         }
         return _observableOf<void>(null as any);
+    }
+
+    /**
+     * @param receiverId (optional) 
+     * @return Success
+     */
+    getconversation(receiverId: number | undefined): Observable<ConversationModel> {
+        let url_ = this.baseUrl + "/api/chat/getconversation?";
+        if (receiverId === null)
+            throw new Error("The parameter 'receiverId' cannot be null.");
+        else if (receiverId !== undefined)
+            url_ += "receiverId=" + encodeURIComponent("" + receiverId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetconversation(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetconversation(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ConversationModel>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ConversationModel>;
+        }));
+    }
+
+    protected processGetconversation(response: HttpResponseBase): Observable<ConversationModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ConversationModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status === 404) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result404: any = null;
+            let resultData404 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result404 = ProblemDetails.fromJS(resultData404);
+            return throwException("Not Found", status, _responseText, _headers, result404);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ConversationModel>(null as any);
     }
 }
 
@@ -5312,6 +5030,118 @@ export interface IContact {
     message?: string | undefined;
 }
 
+export class ConversationMessagesModel implements IConversationMessagesModel {
+    id?: number;
+    hasMore?: boolean;
+    messages?: MessageModel[] | undefined;
+
+    constructor(data?: IConversationMessagesModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.hasMore = _data["HasMore"];
+            if (Array.isArray(_data["Messages"])) {
+                this.messages = [] as any;
+                for (let item of _data["Messages"])
+                    this.messages!.push(MessageModel.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ConversationMessagesModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversationMessagesModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["HasMore"] = this.hasMore;
+        if (Array.isArray(this.messages)) {
+            data["Messages"] = [];
+            for (let item of this.messages)
+                data["Messages"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IConversationMessagesModel {
+    id?: number;
+    hasMore?: boolean;
+    messages?: MessageModel[] | undefined;
+}
+
+export class ConversationModel implements IConversationModel {
+    id?: number;
+    receiverName?: string | undefined;
+    receiverId?: number;
+    totalMessageCount?: number;
+    unreadMessageCount?: number;
+    lastMessageDate?: string | undefined;
+    avatar?: string | undefined;
+
+    constructor(data?: IConversationModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["Id"];
+            this.receiverName = _data["ReceiverName"];
+            this.receiverId = _data["ReceiverId"];
+            this.totalMessageCount = _data["TotalMessageCount"];
+            this.unreadMessageCount = _data["UnreadMessageCount"];
+            this.lastMessageDate = _data["LastMessageDate"];
+            this.avatar = _data["Avatar"];
+        }
+    }
+
+    static fromJS(data: any): ConversationModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ConversationModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["Id"] = this.id;
+        data["ReceiverName"] = this.receiverName;
+        data["ReceiverId"] = this.receiverId;
+        data["TotalMessageCount"] = this.totalMessageCount;
+        data["UnreadMessageCount"] = this.unreadMessageCount;
+        data["LastMessageDate"] = this.lastMessageDate;
+        data["Avatar"] = this.avatar;
+        return data;
+    }
+}
+
+export interface IConversationModel {
+    id?: number;
+    receiverName?: string | undefined;
+    receiverId?: number;
+    totalMessageCount?: number;
+    unreadMessageCount?: number;
+    lastMessageDate?: string | undefined;
+    avatar?: string | undefined;
+}
+
 export class Country implements ICountry {
     id?: number;
     iso2!: string;
@@ -5660,10 +5490,11 @@ export enum MediaType {
 
 export class MessageModel implements IMessageModel {
     id?: number;
+    conversationId?: number;
     content?: string | undefined;
     createdOn?: string | undefined;
-    fromId?: number;
-    roomId?: number;
+    senderId?: number;
+    receiverId?: number;
     isRead?: boolean;
 
     constructor(data?: IMessageModel) {
@@ -5678,10 +5509,11 @@ export class MessageModel implements IMessageModel {
     init(_data?: any) {
         if (_data) {
             this.id = _data["Id"];
+            this.conversationId = _data["ConversationId"];
             this.content = _data["Content"];
             this.createdOn = _data["CreatedOn"];
-            this.fromId = _data["FromId"];
-            this.roomId = _data["RoomId"];
+            this.senderId = _data["SenderId"];
+            this.receiverId = _data["ReceiverId"];
             this.isRead = _data["IsRead"];
         }
     }
@@ -5696,10 +5528,11 @@ export class MessageModel implements IMessageModel {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.id;
+        data["ConversationId"] = this.conversationId;
         data["Content"] = this.content;
         data["CreatedOn"] = this.createdOn;
-        data["FromId"] = this.fromId;
-        data["RoomId"] = this.roomId;
+        data["SenderId"] = this.senderId;
+        data["ReceiverId"] = this.receiverId;
         data["IsRead"] = this.isRead;
         return data;
     }
@@ -5707,10 +5540,11 @@ export class MessageModel implements IMessageModel {
 
 export interface IMessageModel {
     id?: number;
+    conversationId?: number;
     content?: string | undefined;
     createdOn?: string | undefined;
-    fromId?: number;
-    roomId?: number;
+    senderId?: number;
+    receiverId?: number;
     isRead?: boolean;
 }
 
@@ -6749,174 +6583,6 @@ export interface IRole {
     description?: string | undefined;
     isDeleted?: boolean;
     userRoles?: UserRole[] | undefined;
-}
-
-export class RoomEditModel implements IRoomEditModel {
-    id?: number;
-    name!: string;
-    avatarId?: number | undefined;
-    participantIds?: number[] | undefined;
-
-    constructor(data?: IRoomEditModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.name = _data["Name"];
-            this.avatarId = _data["AvatarId"];
-            if (Array.isArray(_data["ParticipantIds"])) {
-                this.participantIds = [] as any;
-                for (let item of _data["ParticipantIds"])
-                    this.participantIds!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): RoomEditModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new RoomEditModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["Name"] = this.name;
-        data["AvatarId"] = this.avatarId;
-        if (Array.isArray(this.participantIds)) {
-            data["ParticipantIds"] = [];
-            for (let item of this.participantIds)
-                data["ParticipantIds"].push(item);
-        }
-        return data;
-    }
-}
-
-export interface IRoomEditModel {
-    id?: number;
-    name: string;
-    avatarId?: number | undefined;
-    participantIds?: number[] | undefined;
-}
-
-export class RoomListModel implements IRoomListModel {
-    id?: number;
-    name?: string | undefined;
-    readonly avatar?: string | undefined;
-    unreadMessageCount?: number | undefined;
-    participants?: SocialUserListModel[] | undefined;
-
-    constructor(data?: IRoomListModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.name = _data["Name"];
-            (<any>this).avatar = _data["Avatar"];
-            this.unreadMessageCount = _data["UnreadMessageCount"];
-            if (Array.isArray(_data["Participants"])) {
-                this.participants = [] as any;
-                for (let item of _data["Participants"])
-                    this.participants!.push(SocialUserListModel.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): RoomListModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new RoomListModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["Name"] = this.name;
-        data["Avatar"] = this.avatar;
-        data["UnreadMessageCount"] = this.unreadMessageCount;
-        if (Array.isArray(this.participants)) {
-            data["Participants"] = [];
-            for (let item of this.participants)
-                data["Participants"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IRoomListModel {
-    id?: number;
-    name?: string | undefined;
-    avatar?: string | undefined;
-    unreadMessageCount?: number | undefined;
-    participants?: SocialUserListModel[] | undefined;
-}
-
-export class RoomMessagesModel implements IRoomMessagesModel {
-    id?: number;
-    hasMore?: boolean;
-    messages?: MessageModel[] | undefined;
-
-    constructor(data?: IRoomMessagesModel) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["Id"];
-            this.hasMore = _data["HasMore"];
-            if (Array.isArray(_data["Messages"])) {
-                this.messages = [] as any;
-                for (let item of _data["Messages"])
-                    this.messages!.push(MessageModel.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): RoomMessagesModel {
-        data = typeof data === 'object' ? data : {};
-        let result = new RoomMessagesModel();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.id;
-        data["HasMore"] = this.hasMore;
-        if (Array.isArray(this.messages)) {
-            data["Messages"] = [];
-            for (let item of this.messages)
-                data["Messages"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IRoomMessagesModel {
-    id?: number;
-    hasMore?: boolean;
-    messages?: MessageModel[] | undefined;
 }
 
 export class Setting implements ISetting {

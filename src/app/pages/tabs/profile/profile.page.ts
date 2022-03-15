@@ -19,6 +19,7 @@ import {
   ProfileApiService,
   SocialApiService,
   SocialUserListModel,
+  UserModel,
 } from "../../../services/api-wishalink.service";
 import { AppService } from "../../../services/app.service";
 
@@ -43,10 +44,7 @@ export class ProfilePage implements OnInit {
   selectedSegment: string = "categories";
   profilePictureUrl: string;
   categoryColSize: number = 4;
-
-  get unreadMessageCount () {
-    return this.chatService.getUnreadMessageCount();
-  }
+  unreadMessageCount: number = 0;
 
   constructor(
     private zone: NgZone,
@@ -62,13 +60,19 @@ export class ProfilePage implements OnInit {
     private navController: NavController,
     private modalController: ModalController,
     private actionSheetController: ActionSheetController
-  ) {}
+  ) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get("id");
     if (id == "me") {
-      console.log('girdi')
       this.userId = this.appService.user.id;
+
+      if(!this.appService.isFcmTokenSaved && this.appService.fcmToken != undefined) {
+        this.appService.isFcmTokenSaved = true;
+        const userModel = new UserModel();
+        userModel.fcmToken = this.appService.fcmToken;
+        this.profileApiService.update(userModel).subscribe(v=>{})
+      }
     } else {
       this.userId = parseInt(id);
     }
@@ -81,7 +85,6 @@ export class ProfilePage implements OnInit {
       this.profilePictureUrl = this.appService.userInfo.profilePictureUrl;
 
       this.currentUser = this.appService.userInfo;
-      console.log("currentUser");
 
       if (this.appService.userCategories) {
         this.onUserCategoriesLoad(this.appService.userCategories);
@@ -91,7 +94,6 @@ export class ProfilePage implements OnInit {
         this.onUserActivitiesLoad(this.appService.userActivities);
       }
     }
-    console.log(this.userId);
     this.ionViewDidEnter();
     this.onWindowResize(null);
   }
@@ -105,7 +107,6 @@ export class ProfilePage implements OnInit {
       } else if (window.innerWidth > 768) {
         this.categoryColSize = 4;
       }
-      console.log(this.categoryColSize);
     });
   }
 
@@ -123,6 +124,28 @@ export class ProfilePage implements OnInit {
             e.url.indexOf("activities") > -1 ? "activities" : "categories";
         });
       }
+    });
+
+    
+    this.zone.run(() => {
+      this.unreadMessageCount = this.chatService.getUnreadMessageCount();
+    })
+    this.chatService.onNewMessage.subscribe(v => {
+      this.zone.run(() => {
+        this.unreadMessageCount = this.chatService.getUnreadMessageCount();
+      })
+    });
+
+    this.chatService.onConversationsChanged.subscribe(v => {
+      this.zone.run(() => {
+        this.unreadMessageCount = this.chatService.getUnreadMessageCount();
+      })
+    });
+
+    this.chatService.onMessagesRead.subscribe(v => {
+      this.zone.run(() => {
+        this.unreadMessageCount = this.chatService.getUnreadMessageCount();
+      })
     });
 
     this.getUser(false);
@@ -170,11 +193,11 @@ export class ProfilePage implements OnInit {
   }
   sendMessage() {
     this.chatApiService
-      .getorcreateroom(this.userId, this.chatService.connectionId)
+      .getconversation(this.userId)
       .subscribe((v) => {
         this.zone.run(() => {
-          if (this.chatService.rooms.find((x) => x.id == v.id) == null) {
-            this.chatService.rooms.push(v);
+          if (this.chatService.conversations.find((x) => x.id == v.id) == null) {
+            this.chatService.conversations.push(v);
           }
           this.router.navigate(["app", "chat", v.id]);
         });
@@ -241,7 +264,6 @@ export class ProfilePage implements OnInit {
   onUserCategoriesLoad(v: CategoryListModel[]) {
     this.zone.run(() => {
       this.categories = v;
-      console.log("user Cat", this.categories);
       if (this.isMe) {
         this.appService.userCategories = v;
       }
