@@ -2,10 +2,7 @@
   <div class="container">
     <div class="hero" style="background-image: url(../../../assets/landing/hero.png)">
       <div class="hero-inner">
-        <h2>
-          Doğru ve ihtiyaca yönelik hediyeler seçebilmek için <br />
-          Wish a Link’e üye olun.
-        </h2>
+        <h2 [innerHTML]="'Landing.Hero' | translate"></h2>
       </div>
     </div>
   </div>
@@ -15,15 +12,8 @@
         <ion-row>
           <ion-col class="d-flex ion-align-items-center" size="12" size-lg="7">
             <div>
-              <h2>
-                İstediğiniz konu üzerine listeler oluşturarak tercihlerinize
-                göre hediye seçimlerinde bulunabilir, özel günlerinizde
-                ihtiyacınıza göre hediyeler alabilir ve verebilirsiniz.
-              </h2>
-              <p>
-                Sadece kendiniz için değil evcil hayvanınız için de listeler
-                oluşturabilirsiniz.
-              </p>
+              <h2 [innerHTML]="'Landing.WhatTitle' | translate"></h2>
+              <p [innerHTML]="'Landing.WhatDescription' | translate"></p>
             </div>
           </ion-col>
           <ion-col class="d-flex ion-align-items-center" size="12" size-lg="5" class="ion-text-center">
@@ -45,17 +35,14 @@
           <ion-col class="mobile-col d-flex right" size="12" size-lg="7">
             <div>
               <div>
-                <h2>
-                  Doğru ve ihtiyaca yönelik hediyeler seçebilmek için
-                  <span>WİSH A LINK</span>’e hoşgeldiniz!
-                </h2>
-                <p>İstek listenizi oluşturun ve paylaşın.</p>
+                <h2 [innerHTML]="'Landing.MobileTitle' | translate"></h2>
+                <p [innerHTML]="'Landing.MobileDescription' | translate"></p>
               </div>
               <div>
-                <a href="#app-store">
+                <a href="https://apps.apple.com/tr/app/wish-a-link/id1590155127" target="_blank">
                   <img style="max-width: 33%" src="../../../assets/landing/app-store.png" alt="" />
                 </a>
-                <a href="#google-play">
+                <a href="https://play.google.com/store/apps/details?id=com.wishalink" target="_blank">
                   <img style="max-width: 33%" src="../../../assets/landing/google-play.png" alt="" />
                 </a>
               </div>
@@ -68,38 +55,32 @@
 
   <section class="features">
     <div class="container">
-      <h2>Wish a Link’i sevmek için birçok yararlı özellik</h2>
+      <h2 [innerHTML]="'Landing.FeaturesTitle' | translate"></h2>
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-center">
           <ion-col size="6" size-md="4" class="feature-item">
             <div class="icon">
               <img src="../../../assets/landing/icon-bell.svg" alt="Hatırlatmalar" />
             </div>
-            <div class="text">
-              Doğum günü ve özel gün için hatırlatmalar alınız
-            </div>
+            <div class="text" [innerHTML]="'Landing.Feature1' | translate"></div>
           </ion-col>
           <ion-col size="6" size-md="4" class="feature-item">
             <div class="icon">
               <img src="../../../assets/landing/icon-gift.svg" alt="Fikirler" />
             </div>
-            <div class="text">
-              Kendiniz ve evcil hayvanınız için hediye fikirleri kaydediniz
-            </div>
+            <div class="text" [innerHTML]="'Landing.Feature2' | translate"></div>
           </ion-col>
           <ion-col size="6" size-md="4" class="feature-item">
             <div class="icon">
               <img src="../../../assets/landing/icon-comment.svg" alt="Yorumlar" />
             </div>
-            <div class="text">Kullandığınız ürünler hakkında yorum yapınız</div>
+            <div class="text" [innerHTML]="'Landing.Feature3' | translate"></div>
           </ion-col>
           <ion-col size="6" size-md="4" class="feature-item">
             <div class="icon">
               <img src="../../../assets/landing/icon-user-plus.svg" alt="Arkadaşlar" />
             </div>
-            <div class="text">
-              Arkdaşlarınızı takip ederek hediye almayı kolaylaştırınız
-            </div>
+            <div class="text" [innerHTML]="'Landing.Feature4' | translate"></div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -113,17 +94,17 @@
       <div class="img-container">
         <img src="../../../assets/landing/bottom-gifts.jpg" alt="Wish A Link" />
         <div class="tags">
-          <span>Doğum Günü</span>
+          <span>{{ "Landing.BottomItem1" | translate }}</span>
           <img class="seperator" src="../../../assets/landing/icon-arrow-right.svg" alt="" />
-          <span>Düğün</span>
+          <span>{{ "Landing.BottomItem2" | translate }}</span>
           <img class="seperator" src="../../../assets/landing/icon-arrow-right.svg" alt="" />
-          <span>Sevgililer Günü</span>
+          <span>{{ "Landing.BottomItem3" | translate }}</span>
           <img class="seperator" src="../../../assets/landing/icon-arrow-right.svg" alt="" />
-          <span>Yılbaşı</span>
+          <span>{{ "Landing.BottomItem4" | translate }}</span>
           <img class="seperator" src="../../../assets/landing/icon-arrow-right.svg" alt="" />
-          <span>Evlilik Yıl Dönümü</span>
+          <span>{{ "Landing.BottomItem5" | translate }}</span>
           <img class="seperator" src="../../../assets/landing/icon-arrow-right.svg" alt="" />
-          <span>Baby Shower</span>
+          <span>{{ "Landing.BottomItem6" | translate }}</span>
         </div>
       </div>
     </div>

@@ -139,9 +139,32 @@
   "WelcomeRegisterInfo": "You can register from the app.",
   "WelcomeApproveContract": "By using our mobile app, you agree to our Terms of Use and Privacy Policy.",
   "ContactUs": "Contact Us",
+  "FooterContactUs": "Contact Us",
+  "PrivacyPolicy": "Privacy Policy",
   "Send": "Send",
   "TextMessage": "Your message...",
   "Share": "Share",
   "MessageSendSuccess": "Your message has been sent...",
-  "JoinWishALink": "Join Wish A Link!"
+  "JoinWishALink": "Join Wish A Link!",
+  "Copyright": "All rights reserved.",
+  "Chat": "Sohbet",
+  "WriteMessage": "Write a message",
+  "Landing": {
+    "Hero" : "Become a member of Wish a Link to be able to choose the right and needed gifts.",
+    "WhatTitle" : "You can choose gifts according to your preferences by creating lists on the subject you want, and you can receive and give gifts according to your needs on your special days.",
+    "WhatDescription": "You can create lists not only for yourself but also for your pet.",
+    "MobileTitle": "Welcome to <span>WISH A LINK</span> so you can choose the right and tailored gifts!",
+    "MobileDescription": "Create and share your wish list.",
+    "FeaturesTitle": "Many useful features to love Wish a Link",
+    "Feature1": "Get reminders for birthdays and special days",
+    "Feature2": "Save gift ideas for yourself and your pet",
+    "Feature3": "Comment on the products you use",
+    "Feature4": "Make it easier to buy gifts by following your friends",
+    "BottomItem1": "Birthday",
+    "BottomItem2": "Wedding",
+    "BottomItem3": "Valentine's Day",
+    "BottomItem4": "Christmas",
+    "BottomItem5": "Wedding Anniversary",
+    "BottomItem6": "Baby Shower"
+  }
 }

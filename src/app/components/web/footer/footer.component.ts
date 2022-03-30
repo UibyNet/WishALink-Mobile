@@ -30,4 +30,16 @@ export class FooterComponent implements OnInit {
 
     return await modal.present();
   }
+
+  openSocial(site: string) {
+    let link = '';
+    if(site == 'facebook') {
+      link = 'https://www.facebook.com/profile.php?id=100077784110802'; 
+    }
+    else if(site == 'instagram') {
+      link = 'https://www.instagram.com/wishalink/'; 
+    }
+
+    window.open(link, '_blank');
+  }
 }

@@ -21,7 +21,7 @@
       >
         <ion-header>
           <ion-toolbar>
-            <ion-title>Sohbet</ion-title>
+            <ion-title>{{"Chat" | translate}}</ion-title>
           </ion-toolbar>
         </ion-header>
         <ion-content>
@@ -104,7 +104,7 @@
                 [(ngModel)]="newMessage"
                 (keyup.enter)="sendMessage()"
                 [disabled]="isSending"
-                placeholder="Bir mesaj yazın"
+                [placeholder]="'WriteMessage' | translate"
                 maxlength="127"
               ></ion-input>
               <ion-button

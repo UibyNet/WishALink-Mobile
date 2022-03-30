@@ -6,13 +6,15 @@ import {
     AfterViewInit,
     Input,
     Inject,
+    NgZone,
 } from "@angular/core";
-import {Router} from "@angular/router";
-import {AppService} from "src/app/services/app.service";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {IonSlides, ModalController, NavParams} from "@ionic/angular";
-import {CardCreateDTO, CardDTO, KpayBackendCardApiService} from "src/app/services/api-kpay-backend.service";
+import { Router } from "@angular/router";
+import { AppService } from "src/app/services/app.service";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { IonSlides, ModalController, NavParams } from "@ionic/angular";
+import { CardCreateDTO, CardDTO, KpayBackendCardApiService } from "src/app/services/api-kpay-backend.service";
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { Keyboard } from '@capacitor/keyboard';
 
 declare var Payment: any;
 declare var Card: any;
@@ -25,16 +27,18 @@ declare var Card: any;
 export class CardEditPage implements OnInit, AfterViewInit {
     @Input() isModal: string;
 
-    @ViewChild("cardSlides", {static: true})
+    @ViewChild("cardSlides", { static: true })
     slides: IonSlides;
 
-    @ViewChild("content", {static: true})
+    @ViewChild("content", { static: true })
     private content: any;
 
-    @ViewChild("inputNumber", {static: false}) ionInputNumber: any;
-    @ViewChild("inputName", {static: false}) ionInputName: any;
-    @ViewChild("inputCvc", {static: false}) ionInputCvc: any;
-    @ViewChild("inputAlias", {static: false}) ionInputAlias: any;
+    @ViewChild("inputNumber", { static: false }) ionInputNumber: any;
+    @ViewChild("inputName", { static: false }) ionInputName: any;
+    @ViewChild("inputCvc", { static: false }) ionInputCvc: any;
+    @ViewChild("inputAlias", { static: false }) ionInputAlias: any;
+
+    isKeyboardOpen: boolean = false;
 
     expirationMonth: string;
     expirationYear: string;
@@ -68,6 +72,7 @@ export class CardEditPage implements OnInit, AfterViewInit {
     curCardDate: string;
 
     constructor(
+        private zone: NgZone,
         public formBuilder: FormBuilder,
         private router: Router,
         private appService: AppService,
@@ -93,6 +98,17 @@ export class CardEditPage implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.initForm();
+
+        Keyboard.addListener('keyboardWillShow', info => {
+            this.zone.run(() => {
+                this.isKeyboardOpen = true;
+            })
+        });
+        Keyboard.addListener('keyboardDidHide', () => {
+            this.zone.run(() => {
+                this.isKeyboardOpen = false;
+            })
+        });
     }
 
     ngAfterViewInit() {
@@ -181,7 +197,7 @@ export class CardEditPage implements OnInit, AfterViewInit {
     }
 
     dismissModal(value: boolean = false) {
-        this.modalController.dismiss({result: value});
+        this.modalController.dismiss({ result: value });
     }
 
     save() {

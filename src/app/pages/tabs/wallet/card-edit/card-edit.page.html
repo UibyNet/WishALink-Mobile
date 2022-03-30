@@ -61,7 +61,7 @@
                                 {{'character' | translate}})</p>
                         </div>
                         <ion-datetime cancelText="İptal" doneText="Tamam" displayFormat="MM/YYYY" [min]="minCardDate"
-                                      [max]="maxCardDate" [value]="curCardDate" (ionChange)="onDateChange($event)">
+                                      [max]="maxCardDate" [value]="curCardDate" (ionChange)="onDateChange($event)" presentation="date">
                         </ion-datetime>
                         <input hidden type="tel" name="expiry" formControlName="expiry" [placeholder]="placeholders.expiry"
                                (focus)="onFocus($event)" (input)="onChange('expiry', $event)" card-expiry/>
@@ -97,10 +97,7 @@
                 </ion-slide>
             </ion-slides>
 
-            <ion-button [color]="currentSlideIndex == 5 ? 'success' : 'primary'" size="block" [disabled]="isNextDisabled"
-                        (click)="nextStep()">
-                {{ currentSlideIndex == 5 ? ('Save' | translate) : ('NextStep' | translate)}}
-            </ion-button>
+            
 
         </form>
         <!--
@@ -114,3 +111,10 @@
         -->
     </div>
 </ion-content>
+
+<ion-footer [style]="'padding-bottom: ' + (isKeyboardOpen ? 16 : 100) + 'px; padding-right: 16px; padding-left: 16px;'">
+    <ion-button [color]="currentSlideIndex == 5 ? 'success' : 'primary'" size="block" [disabled]="isNextDisabled"
+                (click)="nextStep()">
+        {{ currentSlideIndex == 5 ? ('Save' | translate) : ('NextStep' | translate)}}
+    </ion-button>
+</ion-footer>

@@ -33,7 +33,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: "change-phone-numbfer",
+    path: "change-phone-number",
     loadChildren: () =>
       import(
         "./pages/auth/change-phone-number/change-phone-number.module"

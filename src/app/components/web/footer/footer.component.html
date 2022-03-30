@@ -5,14 +5,14 @@
       size-lg="6"
       class="d-flex ion-align-items-center ion-justify-content-start"
     >
-      <ion-button class="social-btn">
+      <ion-button class="social-btn" (click)="openSocial('facebook')">
         <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
       </ion-button>
-      <ion-button class="social-btn">
+      <ion-button class="social-btn" (click)="openSocial('instagram')">
         <ion-icon slot="icon-only" name="logo-instagram"></ion-icon>
       </ion-button>
       <div class="copyright">
-        <p>© {{ currentYear }} Wish a Link., All Rights Reserved</p>
+        <p>© {{ currentYear }} Wish a Link., {{"Copyright" | translate}}</p>
       </div>
     </ion-col>
     <ion-col
@@ -20,8 +20,8 @@
       size-lg="6"
       class="d-flex ion-align-items-center ion-justify-content-end"
     >
-      <a class="clickable" (click)="st()">Bizimle İletişime Geçin</a>
-      <a class="clickable" (click)="privacyModal()">Gizlilik Politikası</a>
+      <a class="clickable" (click)="st()">{{"FooterContactUs" | translate}}</a>
+      <a class="clickable" (click)="privacyModal()">{{"PrivacyPolicy" | translate}}</a>
     </ion-col>
   </ion-row>
 </ion-grid>

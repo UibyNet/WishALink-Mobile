@@ -8,8 +8,8 @@ interface ExtendedCapacitorConfig extends CapacitorConfig {
 const config: ExtendedCapacitorConfig = {
   appId: 'com.wishalink',
   appName: 'Wish A Link',
-  versionName: "1.4.4",
-  versionCode: 10404,
+  versionName: "1.4.5",
+  versionCode: 10405,
   webDir: 'www',
   bundledWebRuntime: false,
   plugins: {

@@ -139,9 +139,32 @@
   "WelcomeRegisterInfo": "Uygulamadan kayıt olabilirsiniz.",
   "WelcomeApproveContract": "Mobil uygulamamızı kullanarak, Kullanım Koşullarımızı ve Gizlilik Politikamızı kabul etmiş olursunuz.",
   "ContactUs": "Bize Yazın",
+  "FooterContactUs": "Bizimle İletişime Geçin",
+  "PrivacyPolicy": "Gizlilik Politikası",
   "Send": "Gönder",
   "TextMessage": "Mesajınız...",
   "Share": "Paylaş",
   "MessageSendSuccess": "Mesajınız gönderildi...",
-  "JoinWishALink": "Wish A Link'e katıl!"
+  "JoinWishALink": "Wish A Link'e katıl!",
+  "Copyright": "Her hakkı saklıdır.",
+  "Chat": "Sohbet",
+  "WriteMessage": "Bir mesaj yazın",
+  "Landing": {
+    "Hero" : "Doğru ve ihtiyaca yönelik hediyeler seçebilmek için <br />Wish a Link’e üye olun.",
+    "WhatTitle" : "İstediğiniz konu üzerine listeler oluşturarak tercihlerinize göre hediye seçimlerinde bulunabilir, özel günlerinizde ihtiyacınıza göre hediyeler alabilir ve verebilirsiniz.",
+    "WhatDescription": "Sadece kendiniz için değil evcil hayvanınız için de listeler oluşturabilirsiniz.",
+    "MobileTitle": "Doğru ve ihtiyaca yönelik hediyeler seçebilmek için <span>WİSH A LINK</span>’e hoşgeldiniz!",
+    "MobileDescription": "İstek listenizi oluşturun ve paylaşın.",
+    "FeaturesTitle": "Wish a Link’i sevmek için birçok yararlı özellik",
+    "Feature1": "Doğum günü ve özel gün için hatırlatmalar alınız",
+    "Feature2": "Kendiniz ve evcil hayvanınız için hediye fikirleri kaydediniz",
+    "Feature3": "Kullandığınız ürünler hakkında yorum yapınız",
+    "Feature4": "Arkdaşlarınızı takip ederek hediye almayı kolaylaştırınız",
+    "BottomItem1": "Doğum Günü",
+    "BottomItem2": "Düğün",
+    "BottomItem3": "Sevgililer Günü",
+    "BottomItem4": "Yılbaşı",
+    "BottomItem5": "Evlilik Yıl Dönümü",
+    "BottomItem6": "Baby Shower"
+  }
 }
