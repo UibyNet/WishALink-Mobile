@@ -4,6 +4,8 @@ import {AlertController, NavController} from "@ionic/angular";
 import {
     ActivityApiService,
     ActivityListModel,
+    AllowedsiteApiService,
+    AllowedSiteModel,
     CommonApiService,
     MetaInfoModel,
     PostApiService,
@@ -39,12 +41,15 @@ export class AddProductPage implements OnInit {
     postImage: string;
     postImageBlob: Blob;
     urlInitial: string;
+    notSupportedSite: boolean = false;
+    notSupportedSiteRequestSend: boolean = false;
 
     constructor(
         public appService: AppService,
         private route: ActivatedRoute,
         private postApiService: PostApiService,
         private activityApiService: ActivityApiService,
+        private allowedsiteApiService: AllowedsiteApiService,
         private commonApiService: CommonApiService,
         private navController: NavController,
         private alertController: AlertController,
@@ -161,7 +166,7 @@ export class AddProductPage implements OnInit {
         if (this.url != undefined && this.url.length > 3 && this.urlInitial != this.url) {
             this.postApiService.fetch(this.url).subscribe(
                 (v) => this.onFetch(v),
-                (e) => this.onError(e)
+                (e) => this.onFetchError(e)
             );
         }
     }
@@ -205,12 +210,21 @@ export class AddProductPage implements OnInit {
     }
 
     onFetch(v: MetaInfoModel): void {
+        this.notSupportedSite = false;
         if (v.mediaId > 0) {
             this.mediaUrl = v.mediaUrl;
             this.mediaId = v.mediaId;
             this.postImage = null;
             this.postImageBlob = null;
         }
+    }
+
+    onFetchError(v: any) {
+        this.zone.run(() => {
+            this.appService.toggleLoader(false);
+            this.isLoading = false;
+            this.notSupportedSite = true;
+        });
     }
 
     onError(e: any): void {
@@ -283,5 +297,20 @@ export class AddProductPage implements OnInit {
                 },
                 (e) => this.appService.showErrorAlert(e)
             );
+    }
+
+    addToAllowedSites() {
+        const allowedSite = new AllowedSiteModel();
+        allowedSite.name = this.url;
+        allowedSite.pattern = this.url;
+        this.allowedsiteApiService.create(allowedSite)
+            .subscribe(
+                v => {
+                    this.zone.run(() => {
+                        this.notSupportedSiteRequestSend = true;
+                    });
+                },
+                e => this.onError(e)
+            )
     }
 }

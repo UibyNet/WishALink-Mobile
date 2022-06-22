@@ -125,22 +125,55 @@
   }
 
   .card {
-    height: 0;
+    //height: 0;
     width: 100%;
     padding-bottom: 100%;
     border: 1px solid var(--ion-color-light-shade);
     border-radius: 8px;
     overflow: hidden;
     margin: 0 auto 4px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
+    position: relative;
+
+    .card-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      gap: 1px;
+
+      div {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .card-left {
+        flex-grow: 6;
+        background-color: blue;
+      }
+  
+      .card-right {
+        flex-grow: 6;
+        background-color: orange;
+        display: flex;
+        flex-direction: column;
+  
+        div {
+          flex-grow: 1;
+        }
+      }
+    }
+
+  
   }
 
   .new-category {
     .card {
       border: 1px dashed var(--ion-color-light-shade);
       position: relative;
+
       ion-icon {
         position: absolute;
         top: 50%;
@@ -169,6 +202,7 @@
     color: #b7b7b7;
   }
 }
+
 .info-text {
   color: #b7b7b7;
   font-weight: 400;
@@ -189,6 +223,7 @@
     border-bottom: 1px solid var(--ion-color-light-shade);
   }
 }
+
 .badge-container {
   border-radius: 2em;
   height: 24px;
@@ -204,6 +239,7 @@
     border: 1px solid #1e90ff;
   }
 }
+
 .content {
   padding-bottom: 100vh;
 }

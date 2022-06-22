@@ -23,6 +23,12 @@
                                placeholder="{{'ProductUrl' | translate}}"></ion-input>
                     <span class="required-star">{{url === '' ? '*' : ''}} </span>
                 </div>
+                <div  class="ion-margin-bottom is-relative d-flex ion-align-items-center" *ngIf="notSupportedSite">
+                    <div style="margin-right: 10px;">Bu link desteklenmiyor. </div>
+                    <ion-button size="small" *ngIf="!notSupportedSiteRequestSend" (click)="addToAllowedSites()" >Siteyi Ekle</ion-button>
+                    <ion-button size="small" color="success" *ngIf="notSupportedSiteRequestSend">Talebiniz iletildi</ion-button>
+                </div>
+
                 <ion-button (click)="selectImage()" fill="outline" class="image-container ion-margin-bottom">
                     <div *ngIf="postImage == null && (mediaUrl == null || mediaUrl.length == 0)" class="select-image">
                         <div>

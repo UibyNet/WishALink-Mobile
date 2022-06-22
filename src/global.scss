@@ -114,3 +114,7 @@ ion-input {
 ion-content {
   --padding-bottom: 0 !important;
 }
+
+ion-checkbox[readonly] {
+  pointer-events: none;
+}

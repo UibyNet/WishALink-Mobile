@@ -112,6 +112,28 @@
             <ion-row>
                 <ion-col>
                     <ion-list class="mt-1">
+                        <ion-item *ngIf="isStrangerPost === false">
+                            <ion-label *ngIf="post?.isSaleable">{{('Saleable' | translate) }}</ion-label>
+                            <ion-label *ngIf="!post?.isSaleable">{{('NotSaleable' | translate) }}</ion-label>
+                            <ion-checkbox
+                                [(ngModel)]="isSaleable"
+                                (ionChange)="markAsSaleable()"
+                                color="success"
+                                slot="start"
+                            ></ion-checkbox>
+                        </ion-item>
+                        <ion-item *ngIf="isStrangerPost === true && post?.isSaleable">
+                            <ion-label *ngIf="post?.isSaleable">{{('Saleable' | translate) }}</ion-label>
+                            <ion-label *ngIf="!post?.isSaleable">{{('NotSaleable' | translate) }}</ion-label>
+                            <ion-checkbox
+                                [attr.readonly]="true"
+                                [checked]="post?.isSaleable"
+                                color="success"
+                                slot="start"
+                            ></ion-checkbox>
+                        </ion-item>
+                    </ion-list>
+                    <ion-list class="mt-1">
                         <ion-item *ngIf="isStrangerPost === false && post?.isPurchased">
                             <ion-label
                             >{{ 'Product' | translate }} {{'ReceivedBy' | translate}}
@@ -127,7 +149,7 @@
                                     slot="start"
                             ></ion-checkbox>
                         </ion-item>
-                        <ion-item *ngIf="isStrangerPost === true">
+                        <ion-item *ngIf="isStrangerPost === true && !post?.isSaleable">
                             <ion-label
                             >{{post?.isPurchased ? ('ProductReceived' | translate) :
                                 ('BoughtProduct' | translate) }}
@@ -135,7 +157,7 @@
                             <ion-checkbox
                                     [checked]="post?.isPurchased"
                                     [disabled]="!canPurchase"
-                                    (ionChange)="changeEvent($event)"
+                                    (ionChange)="markAsPurchased()"
                                     color="success"
                                     slot="start"
                             ></ion-checkbox>

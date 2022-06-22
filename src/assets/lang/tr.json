@@ -149,6 +149,8 @@
   "Copyright": "Her hakkı saklıdır.",
   "Chat": "Sohbet",
   "WriteMessage": "Bir mesaj yazın",
+  "Saleable": "Ürün stokta mevcut",
+  "NotSaleable": "Ürün stokta mevcut değil",
   "Landing": {
     "Hero" : "Doğru ve ihtiyaca yönelik hediyeler seçebilmek için <br />Wish a Link’e üye olun.",
     "WhatTitle" : "İstediğiniz konu üzerine listeler oluşturarak tercihlerinize göre hediye seçimlerinde bulunabilir, özel günlerinizde ihtiyacınıza göre hediyeler alabilir ve verebilirsiniz.",

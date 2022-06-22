@@ -19,6 +19,7 @@ export class PostPage implements OnInit {
     disabled: boolean = false
     canPurchase: boolean;
     currentUserId: number;
+    isSaleable: boolean;
 
     constructor(
         public appService: AppService,
@@ -52,14 +53,20 @@ export class PostPage implements OnInit {
         })
     }
 
-    changeEvent(data) {
-        console.log('dataa', data)
-        this.purchased()
-    }
-
-    purchased() {
+    markAsPurchased() {
         this.postApiService.markaspurchased(this.postId).subscribe(
             v => this.onCheckPurchased(v),
+            e => this.onErrorPurchased(e)
+        )
+    }
+
+    markAsSaleable() {
+
+        console.log(this.post.isSaleable, this.isSaleable)
+        if(this.post.isSaleable == this.isSaleable) return;
+
+        this.postApiService.markassaleable(this.postId).subscribe(
+            v => this.onCheckSaleable(v),
             e => this.onErrorPurchased(e)
         )
     }
@@ -75,6 +82,7 @@ export class PostPage implements OnInit {
     onPostLoad(v: PostListModel) {
         this.zone.run(() => {
             this.post = v;
+            this.isSaleable = v.isSaleable;
             this.isStrangerPost = v.createdBy?.id != this.currentUserId;
             this.canPurchase = !v.isPurchased || (v.isPurchased && v.purchasedBy.id == this.currentUserId);
         })
@@ -136,6 +144,12 @@ export class PostPage implements OnInit {
     onCheckPurchased(v: PostListModel) {
         this.zone.run(() => {
             this.post.isPurchased = v.isPurchased;
+        })
+    }
+
+    onCheckSaleable(v: PostListModel) {
+        this.zone.run(() => {
+            this.post.isSaleable = v.isSaleable;
         })
     }
 }

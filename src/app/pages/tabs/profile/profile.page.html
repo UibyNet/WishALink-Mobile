@@ -149,7 +149,15 @@
         </ion-col>
         <ion-col *ngFor="let category of categories" routerLink="/app/category/{{category.id}}" [state]="category"
           class="ion-text-center" [size]="categoryColSize">
-          <div class="card" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrl + ')'}"></div>
+          <div class="card">
+            <div class="card-inner">
+              <div class="card-left" *ngIf="category.mediaUrls.length > 0 && category.mediaUrls[0] != null" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrls[0] + ')'}"></div>
+              <div class="card-right" *ngIf="category.mediaUrls.length > 1">
+                <div *ngIf="category.mediaUrls.length > 1 && category.mediaUrls[1] != null" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrls[1] + ')'}"></div>
+                <div *ngIf="category.mediaUrls.length > 2 && category.mediaUrls[2] != null" [ngStyle]="{ 'background-image': 'url(' + category.mediaUrls[2] + ')'}"></div>
+              </div>
+            </div>
+          </div>
           <div class="product-title">{{ category.name }}</div>
           <div class="product-amount">
             {{ category.postCount }} {{ 'Product' | translate }}

@@ -149,6 +149,8 @@
   "Copyright": "All rights reserved.",
   "Chat": "Sohbet",
   "WriteMessage": "Write a message",
+  "Saleable": "The product is in stock",
+  "NotSaleable": "The product is out of stock",
   "Landing": {
     "Hero" : "Become a member of Wish a Link to be able to choose the right and needed gifts.",
     "WhatTitle" : "You can choose gifts according to your preferences by creating lists on the subject you want, and you can receive and give gifts according to your needs on your special days.",

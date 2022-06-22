@@ -16,7 +16,7 @@
 
     <div class="profile" *ngIf="appService.isMobile">
       <div class="avatar">
-        <img [src]="category == null ? '../../../../assets/svg/home/avatar.png' : category.mediaUrl" alt="" />
+        <img [src]="category == null ? '../../../../assets/svg/home/avatar.png' : category.mediaUrls" alt="" />
       </div>
       <div class="name mb-2" *ngIf="!isLoading">{{ category == null ? '' : category.name }}</div>
       <div class="name mb-2" *ngIf="isLoading"><ion-skeleton-text animated style="width: 100px"></ion-skeleton-text></div>
@@ -41,7 +41,7 @@
     <div class="">
       <div class="profile">
         <div class="avatar">
-          <img [src]="category == null ? '../../../../assets/svg/home/avatar.png' : category.mediaUrl" alt="" />
+          <img [src]="category == null ? '../../../../assets/svg/home/avatar.png' : category.mediaUrls" alt="" />
         </div>
         <div class="name mb-2">{{ category == null ? '-' : category.name }}</div>
         <div class="category-info mb-2">

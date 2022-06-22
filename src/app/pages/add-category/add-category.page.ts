@@ -60,7 +60,7 @@ export class AddCategoryPage implements OnInit {
     if (category != null) {
       this.categoryName = category.name;
       this.isHidden = category.isHidden;
-      this.catImage = category.mediaUrl;
+      this.catImage = category.mediaUrls != null && category.mediaUrls.length > 0 ? category.mediaUrls[0] : null;
     }
   }
 
@@ -71,11 +71,13 @@ export class AddCategoryPage implements OnInit {
       this.isLoading = false;
       return;
     }
+    /*
     if (this.categoryId == 0 && (this.mediaId == null || this.mediaId == 0)) {
       this.appService.showToast("Lütfen kategori görseli ekleyin.");
       this.isLoading = false;
       return;
     }
+    */
 
     const model = new CategoryEditModel();
     model.id = this.categoryId;

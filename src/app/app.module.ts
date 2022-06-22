@@ -26,7 +26,8 @@ import {
     ActivityApiService, 
     NotificationApiService, 
     CommonApiService,
-    ChatApiService
+    ChatApiService,
+    AllowedsiteApiService
 } from './services/api-wishalink.service';
 import { SharedComponentsModule } from './components/shared-components.module';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
@@ -94,6 +95,7 @@ export function createTranslateLoader(http: HttpClient) {
         ActivityApiService,
         CommonApiService,
         ChatApiService,
+        AllowedsiteApiService,
 
         KpayBackendCardApiService,
         KpayBackendMemberApiService,
@@ -109,7 +111,7 @@ export function createTranslateLoader(http: HttpClient) {
         { provide: KPAY_FIXEDQR_API_URL, useValue: "https://api.kpay.com.tr/FixedQR/V1" },
         { provide: KPAY_FIXEDQRPAYMENT_API_URL, useValue: "https://api.kpay.com.tr/FixedQRPayment/V1" },
         { provide: WISH_API_URL, useValue: "https://panel.wishalink.com" },
-        //{ provide: WISH_API_URL, useValue: "http://192.168.253.61:5000" },
+        //{ provide: WISH_API_URL, useValue: "https://localhost:44302" },
     ],
     bootstrap: [AppComponent],
 })
