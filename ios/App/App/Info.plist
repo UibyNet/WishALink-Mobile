@@ -30,15 +30,15 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Wish a Link'i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
+	<string>Ürün görselleri paylaşabilmek için kameranıza erişim izni gerekmektedir.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Wish a Link rehberinizdeki arkadaşlarınıza kolayca davet gönderebilmeniz için rehberinize erişmek istiyor.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Wish a Link konumunuza erişmek istiyor</string>
+	<string>Konum bazlı paylaşımlar yapabilmek için konum erişimine izin gerekmektedir.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Wish a Link'i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
+	<string>Ürün görselleri paylaşabilmek için fotoğraf galerinize erişim izni gerekmektedir.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Wish a Link'i kullanmak için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
+	<string>Ürün görselleri paylaşabilmek için kamera ve fotoğraf galerinize erişime izni gerekmektedir.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
